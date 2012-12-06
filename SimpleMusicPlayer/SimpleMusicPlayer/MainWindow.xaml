@@ -40,15 +40,16 @@
     </Grid.RowDefinitions>
 
     <Views:PlayControlView Grid.Row="0"
-                           HorizontalAlignment="Center" />
+                           HorizontalAlignment="Center"
+                           DataContext="{Binding PlayControlViewModel, Mode=OneWay}" />
 
     <Controls:MetroContentControl Grid.Row="1">
       <TabControl>
         <TabItem Header="_Playlists">
-          <Views:PlaylistsView />
+          <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}" />
         </TabItem>
         <TabItem Header="_Medialib">
-          <Views:MedialibView />
+          <Views:MedialibView DataContext="{Binding MedialibViewModel, Mode=OneWay}" />
         </TabItem>
       </TabControl>
     </Controls:MetroContentControl>

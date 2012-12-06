@@ -61,7 +61,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Base\DelegateCommand.cs" />
+    <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MedialibViewModel.cs" />
+    <Compile Include="ViewModels\PlayControlViewModel.cs" />
+    <Compile Include="ViewModels\PlaylistsViewModel.cs" />
     <Compile Include="Views\MedialibView.xaml.cs">
       <DependentUpon>MedialibView.xaml</DependentUpon>
     </Compile>

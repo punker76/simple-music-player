@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer
 {
@@ -8,6 +9,9 @@ namespace SimpleMusicPlayer
   public partial class MainWindow : MetroWindow
   {
     public MainWindow() {
+      var vm = new MainWindowViewModel(this.Dispatcher);
+      this.DataContext = vm;
+
       this.InitializeComponent();
     }
   }
