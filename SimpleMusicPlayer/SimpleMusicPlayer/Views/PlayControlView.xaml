@@ -25,58 +25,102 @@
 
   <Grid>
 
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition Width="Auto" />
-    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
 
-    <!-- prev -->
-    <Button Grid.Column="0"
-            VerticalAlignment="Center"
-            Style="{DynamicResource MetroCircleButtonStyle}"
-            Height="45"
-            Width="45">
-      <Rectangle Width="16"
-                 Height="16">
-        <Rectangle.Fill>
-          <VisualBrush Stretch="Fill"
-                       Visual="{StaticResource appbar_fastforward}" />
-        </Rectangle.Fill>
-        <Rectangle.LayoutTransform>
-          <ScaleTransform ScaleX="-1" />
-        </Rectangle.LayoutTransform>
-      </Rectangle>
-    </Button>
-    <!-- play -->
-    <Button Grid.Column="1"
-            VerticalAlignment="Center"
-            Style="{DynamicResource MetroCircleButtonStyle}"
-            Height="55"
-            Width="55">
-      <Rectangle Width="16"
-                 Margin="3,0,0,0"
-                 Height="16">
-        <Rectangle.Fill>
-          <VisualBrush Stretch="Fill"
-                       Visual="{StaticResource appbar_play}" />
-        </Rectangle.Fill>
-      </Rectangle>
-    </Button>
-    <!-- next -->
-    <Button Grid.Column="2"
-            VerticalAlignment="Center"
-            Style="{DynamicResource MetroCircleButtonStyle}"
-            Height="45"
-            Width="45">
-      <Rectangle Width="16"
-                 Height="16">
-        <Rectangle.Fill>
-          <VisualBrush Stretch="Fill"
-                       Visual="{StaticResource appbar_fastforward}" />
-        </Rectangle.Fill>
-      </Rectangle>
-    </Button>
+    <Grid Grid.Row="0"
+          HorizontalAlignment="Stretch">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="100" />
+      </Grid.ColumnDefinitions>
+
+      <!-- volume -->
+      <Slider Grid.Column="0"
+              Margin="10,2,10,2"
+              Orientation="Horizontal" />
+
+      <!-- prev -->
+      <Button Grid.Column="1"
+              VerticalAlignment="Center"
+              Style="{DynamicResource MetroCircleButtonStyle}"
+              Height="45"
+              Width="45">
+        <Rectangle Width="16"
+                   Height="16">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_fastforward}" />
+          </Rectangle.Fill>
+          <Rectangle.LayoutTransform>
+            <ScaleTransform ScaleX="-1" />
+          </Rectangle.LayoutTransform>
+        </Rectangle>
+      </Button>
+
+      <!-- play -->
+      <Button Grid.Column="2"
+              VerticalAlignment="Center"
+              Style="{DynamicResource MetroCircleButtonStyle}"
+              Height="55"
+              Width="55">
+        <Rectangle Width="16"
+                   Margin="3,0,0,0"
+                   Height="16">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_play}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+
+      <!-- next -->
+      <Button Grid.Column="3"
+              VerticalAlignment="Center"
+              Style="{DynamicResource MetroCircleButtonStyle}"
+              Height="45"
+              Width="45">
+        <Rectangle Width="16"
+                   Height="16">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_fastforward}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+    </Grid>
+
+    <Grid Grid.Row="1"
+          HorizontalAlignment="Center">
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <TextBlock Grid.Column="0"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Center"
+                 Text="0:00" />
+      <!-- position -->
+      <Slider Grid.Column="1"
+              VerticalAlignment="Center"
+              Width="250"
+              Margin="10,2,10,2"
+              Orientation="Horizontal" />
+      <TextBlock Grid.Column="2"
+                 HorizontalAlignment="Left"
+                 VerticalAlignment="Center"
+                 Text="-0:00" />
+
+    </Grid>
 
   </Grid>
 </UserControl>
