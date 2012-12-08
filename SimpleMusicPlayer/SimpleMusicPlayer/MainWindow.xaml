@@ -6,6 +6,9 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
                       xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
+                      xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark"
+                      xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
+                      xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       Title="Simple Music Player"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="True"
@@ -37,6 +40,7 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
     <Views:PlayControlView Grid.Row="0"
@@ -46,13 +50,46 @@
     <Controls:MetroContentControl Grid.Row="1">
       <TabControl>
         <TabItem Header="_Playlists">
-          <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}" />
+          <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
+                               Margin="5" />
         </TabItem>
         <TabItem Header="_Medialib">
-          <Views:MedialibView DataContext="{Binding MedialibViewModel, Mode=OneWay}" />
+          <Views:MedialibView DataContext="{Binding MedialibViewModel, Mode=OneWay}"
+                              Margin="5" />
         </TabItem>
       </TabControl>
     </Controls:MetroContentControl>
+
+    <StackPanel Grid.Row="2"
+                DataContext="{x:Static Common:FileSearchWorker.Instance}"
+                Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
+                Orientation="Horizontal">
+      <WPFSpark:SprocketControl VerticalAlignment="Center"
+                                Width="25"
+                                Height="25"
+                                TickWidth="2"
+                                TickColor="{StaticResource AccentColor}"
+                                IsIndeterminate="True" />
+      <TextBlock VerticalAlignment="Center"
+                 Text="Loading Files..." />
+      <Grid>
+        <Grid.Resources>
+          <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+              <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colours.xaml" />
+              <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+          </ResourceDictionary>
+        </Grid.Resources>
+        <Button VerticalAlignment="Center"
+                Margin="5,0,0,0"
+                Content="Cancel"
+                Style="{StaticResource LinkButton}"
+                Command="{Binding StopSearchCmd, Mode=OneWay}">
+
+        </Button>
+      </Grid>
+    </StackPanel>
 
   </Grid>
 </Controls:MetroWindow>

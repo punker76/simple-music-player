@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
 {
@@ -20,7 +10,27 @@ namespace SimpleMusicPlayer.Views
   public partial class MedialibView : UserControl
   {
     public MedialibView() {
-      InitializeComponent();
+      this.InitializeComponent();
+
+      this.AllowDrop = true;
+
+      this.DataContextChanged += (s, ea) => {
+        var vm = ea.NewValue as MedialibViewModel;
+        if (vm != null) {
+          // Override this to allow drop functionality.
+          this.PreviewDragOver += (sender, e) => e.Handled = true;
+          this.PreviewDragEnter += (sender, e) => e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) ? DragDropEffects.Copy : DragDropEffects.None;
+          this.PreviewDrop += (sender, e) => {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+              // Get data object
+              var dataObject = e.Data as DataObject;
+              if (dataObject != null && dataObject.ContainsFileDropList()) {
+                vm.HandleDropAction(dataObject.GetFileDropList());
+              }
+            }
+          };
+        }
+      };
     }
   }
 }
