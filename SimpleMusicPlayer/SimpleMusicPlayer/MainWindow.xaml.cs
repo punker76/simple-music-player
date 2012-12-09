@@ -1,4 +1,5 @@
 ﻿using MahApps.Metro.Controls;
+using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer
@@ -13,6 +14,8 @@ namespace SimpleMusicPlayer
       this.DataContext = vm;
 
       this.InitializeComponent();
+
+      this.Closed += (sender, e) => PlayerEngine.Instance.CleanUp();
     }
   }
 }

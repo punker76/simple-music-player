@@ -66,6 +66,7 @@
 
       <!-- play -->
       <Button Grid.Column="2"
+              Command="{Binding PlayCommand, Mode=OneWay}"
               VerticalAlignment="Center"
               Style="{DynamicResource MetroCircleButtonStyle}"
               Height="55"

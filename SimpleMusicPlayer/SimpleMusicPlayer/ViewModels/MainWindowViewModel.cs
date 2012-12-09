@@ -11,7 +11,7 @@ namespace SimpleMusicPlayer.ViewModels
     private MedialibViewModel medialibViewModel;
 
     public MainWindowViewModel(Dispatcher dispatcher) {
-      PlayerEngine.Instance.Configure();
+      PlayerEngine.Instance.Configure(dispatcher);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher);
       this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.PlaylistsViewModel);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);

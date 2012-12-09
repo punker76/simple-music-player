@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -22,6 +23,10 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private void Play() {
+      var file = this.playlistsViewModel.SelectedPlayListFile;
+      if (file != null) {
+        PlayerEngine.Instance.Play(file);
+      }
     }
   }
 }

@@ -2,6 +2,6 @@
 {
   public interface IMediaFile
   {
-     
+    string FullFileName { get; set; }
   }
 }

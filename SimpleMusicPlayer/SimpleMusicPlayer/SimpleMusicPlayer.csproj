@@ -78,6 +78,10 @@
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />
     <Compile Include="Common\PlayerEngine.cs" />
+    <Compile Include="FMODEx\fmod.cs" />
+    <Compile Include="FMODEx\fmod_dsp.cs" />
+    <Compile Include="FMODEx\fmod_errors.cs" />
+    <Compile Include="FMODEx\fmod_memoryinfo.cs" />
     <Compile Include="Interfaces\IMediaFile.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -152,7 +156,11 @@
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="fmodex.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
