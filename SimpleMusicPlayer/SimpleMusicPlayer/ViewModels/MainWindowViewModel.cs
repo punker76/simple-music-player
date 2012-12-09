@@ -1,5 +1,6 @@
 ﻿using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -10,8 +11,9 @@ namespace SimpleMusicPlayer.ViewModels
     private MedialibViewModel medialibViewModel;
 
     public MainWindowViewModel(Dispatcher dispatcher) {
-      this.PlayControlViewModel = new PlayControlViewModel(dispatcher);
+      PlayerEngine.Instance.Configure();
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher);
+      this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.PlaylistsViewModel);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
     }
 

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,7 +17,7 @@ namespace SimpleMusicPlayer.Common
 {
   public class FileSearchWorker : ViewModelBaseNotifyPropertyChanged
   {
-    private string[] extensions = new[] {".mp3", ".wma", ".mp4", ".wav"};
+    private readonly string[] extensions = new[] {".mp3", ".wma", ".mp4", ".wav"};
     private Task<IEnumerable<IMediaFile>> mainTask;
     private CancellationTokenSource cancelToken;
     private bool isWorking;
@@ -64,16 +66,8 @@ namespace SimpleMusicPlayer.Common
           var results = new ConcurrentQueue<IMediaFile>();
 
           // get audio files from input collection
-          var rawFiles = filesOrDirsCollection
-            .OfType<string>()
-            .Where(this.IsAudioFile)
-            .OrderBy(s => s)
-            .ToList();
-
-          foreach (var rawFile in rawFiles) {
-            if (token.IsCancellationRequested) {
-              break;
-            }
+          var rawFiles = filesOrDirsCollection.OfType<string>().Where(this.IsAudioFile).OrderBy(s => s).ToList();
+          foreach (var rawFile in rawFiles.TakeWhile(rawDir => !token.IsCancellationRequested)) {
             var mf = this.GetMediaFile(rawFile);
             if (mf != null) {
               results.Enqueue(mf);
@@ -82,20 +76,17 @@ namespace SimpleMusicPlayer.Common
 
           // handle all directories from input collection
           var directories = new List<string>();
-          foreach (var source in filesOrDirsCollection.OfType<string>().Except(rawFiles).Where(IsDirectory)) {
-            if (token.IsCancellationRequested) {
-              break;
+          foreach (var source in filesOrDirsCollection.OfType<string>().Except(rawFiles).Where(IsDirectory).TakeWhile(source => !token.IsCancellationRequested)) {
+            directories.Add(source);
+            try {
+              directories.AddRange(Directory.EnumerateDirectories(source, "*", SearchOption.AllDirectories).TakeWhile(dir => !token.IsCancellationRequested));
+            } catch (Exception e) {
+              // System.UnauthorizedAccessException
+              Console.WriteLine(e);
             }
-            directories.AddRange(Directory.EnumerateDirectories(source, "*", SearchOption.AllDirectories)
-                                   .Concat(new[] {source})
-                                   .TakeWhile(dir => !token.IsCancellationRequested));
           }
-
-          foreach (var rawDir in directories.Distinct().OrderBy(s => s)) {
-            if (token.IsCancellationRequested) {
-              break;
-            }
-            this.doFindFilesForExtensions(token, rawDir, results);
+          foreach (var rawDir in directories.Distinct().OrderBy(s => s).TakeWhile(rawDir => !token.IsCancellationRequested)) {
+            this.doFindFiles(token, rawDir, results);
           }
 
           return results;
@@ -106,44 +97,20 @@ namespace SimpleMusicPlayer.Common
       return mediaFiles;
     }
 
-    private void doFindFilesForExtensions(CancellationToken token, string dir, ConcurrentQueue<IMediaFile> results) {
-      foreach (var extension in this.extensions) {
-        if (token.IsCancellationRequested) {
-          return;
-        }
-        this.doFindFiles(token, dir, extension, results);
-      }
-      //      Parallel.ForEach(this.extensions,
-      //                       (ext, estate) => {
-      //                         if (token.IsCancellationRequested) {
-      //                           estate.Stop();
-      //                           return;
-      //                         }
-      //                         this.doFindFiles(token, dir, ext, results);
-      //                       });
-    }
-
-    private void doFindFiles(CancellationToken token, string dir, string ext, ConcurrentQueue<IMediaFile> results) {
-      foreach (var file in Directory.EnumerateFiles(dir, "*" + ext)) {
-        if (token.IsCancellationRequested) {
-          return;
-        }
-        var mf = this.GetMediaFile(file);
-        if (mf != null) {
-          results.Enqueue(mf);
+    private void doFindFiles(CancellationToken token, string dir, ConcurrentQueue<IMediaFile> results) {
+      foreach (var extension in this.extensions.TakeWhile(rawDir => !token.IsCancellationRequested)) {
+        try {
+          foreach (var file in Directory.EnumerateFiles(dir, "*" + extension).TakeWhile(rawDir => !token.IsCancellationRequested)) {
+            var mf = this.GetMediaFile(file);
+            if (mf != null) {
+              results.Enqueue(mf);
+            }
+          }
+        } catch (Exception e) {
+          // System.UnauthorizedAccessException
+          Console.WriteLine(e);
         }
       }
-      //      Parallel.ForEach(Directory.EnumerateFiles(dir, "*" + ext),
-      //                       (file, fstate) => {
-      //                         if (token.IsCancellationRequested) {
-      //                           fstate.Stop();
-      //                           return;
-      //                         }
-      //                         var mf = this.GetMediaFile(file);
-      //                         if (mf != null) {
-      //                           results.Enqueue(mf);
-      //                         }
-      //                       });
     }
 
     private IMediaFile GetMediaFile(string fileName) {

@@ -12,6 +12,7 @@ namespace SimpleMusicPlayer.ViewModels
   public class PlaylistsViewModel : ViewModelBaseNotifyPropertyChanged
   {
     private IEnumerable firstSimplePlaylistFiles;
+    private IMediaFile selectedPlayListFile;
 
     public PlaylistsViewModel(Dispatcher dispatcher) {
     }
@@ -31,6 +32,17 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.firstSimplePlaylistFiles = value;
         this.OnPropertyChanged(() => this.FirstSimplePlaylistFiles);
+      }
+    }
+
+    public IMediaFile SelectedPlayListFile {
+      get { return this.selectedPlayListFile; }
+      set {
+        if (Equals(value, this.selectedPlayListFile)) {
+          return;
+        }
+        this.selectedPlayListFile = value;
+        this.OnPropertyChanged(() => this.SelectedPlayListFile);
       }
     }
   }

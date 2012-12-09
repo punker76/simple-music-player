@@ -25,7 +25,8 @@
 
   <Grid>
 
-    <ListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}">
+    <ListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+             SelectedItem="{Binding SelectedPlayListFile}">
     </ListBox>
 
   </Grid>
