@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Windows.Threading;
 using FMOD;
+using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.Common
 {
-  public class PlayerEngine
+  public class PlayerEngine : ViewModelBaseNotifyPropertyChanged, IPlayerEngine
   {
     private FMOD.System system = null;
     private FMOD.Sound sound = null;
     private FMOD.Channel channel = null;
     private DispatcherTimer timer;
+    private float volume;
+    private TimeSpan length;
+    private TimeSpan currentPosition;
+    private TimeSpan remainingPosition;
 
     public bool Configure(Dispatcher dispatcher) {
       /*
@@ -30,6 +35,8 @@ namespace SimpleMusicPlayer.Common
 
       result = this.system.init(1, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
       this.ERRCHECK(result);
+
+      this.Volume = 1;
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
 
@@ -54,21 +61,75 @@ namespace SimpleMusicPlayer.Common
           this.ERRCHECK(result);
         }
 
-        result = this.channel.getPosition(ref ms, FMOD.TIMEUNIT.MS);
+        result = this.sound.getLength(ref lenms, FMOD.TIMEUNIT.MS);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
           this.ERRCHECK(result);
         }
 
-        result = this.sound.getLength(ref lenms, FMOD.TIMEUNIT.MS);
+        result = this.channel.getPosition(ref ms, FMOD.TIMEUNIT.MS);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
           this.ERRCHECK(result);
         }
       }
 
+      this.Length = TimeSpan.FromMilliseconds(lenms);
+      this.CurrentPosition = TimeSpan.FromMilliseconds(ms);
+      this.RemainingPosition = TimeSpan.FromMilliseconds(lenms - ms);
+
       //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
 
       if (this.system != null) {
         this.system.update();
+      }
+    }
+
+    public float Volume {
+      get { return this.volume; }
+      set {
+        if (Equals(value, this.volume)) {
+          return;
+        }
+        this.volume = value;
+
+        if (this.channel != null) {
+          var result = this.channel.setVolume(this.Volume);
+          this.ERRCHECK(result);
+        }
+
+        this.OnPropertyChanged("Volume");
+      }
+    }
+
+    public TimeSpan Length {
+      get { return this.length; }
+      private set {
+        if (Equals(value, this.length)) {
+          return;
+        }
+        this.length = value;
+        this.OnPropertyChanged("Length");
+      }
+    }
+
+    public TimeSpan CurrentPosition {
+      get { return this.currentPosition; }
+      set {
+        if (Equals(value, this.currentPosition)) {
+          return;
+        }
+        this.currentPosition = value;
+        this.OnPropertyChanged("CurrentPosition");
+      }
+    }
+
+    public TimeSpan RemainingPosition {
+      get { return this.remainingPosition; }
+      set {
+        if (Equals(value, this.remainingPosition)) {
+          return;
+        }
+        this.remainingPosition = value;
+        this.OnPropertyChanged("RemainingPosition");
       }
     }
 
@@ -80,13 +141,17 @@ namespace SimpleMusicPlayer.Common
 
       result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref this.channel);
       this.ERRCHECK(result);
+
+      if (this.channel != null) {
+        result = this.channel.setVolume(this.Volume);
+        this.ERRCHECK(result);
+      }
     }
 
     public void Pause() {
-      FMOD.RESULT result;
       bool paused = false;
       if (this.channel != null) {
-        result = this.channel.getPaused(ref paused);
+        var result = this.channel.getPaused(ref paused);
         this.ERRCHECK(result);
         result = this.channel.setPaused(!paused);
         this.ERRCHECK(result);
@@ -94,6 +159,7 @@ namespace SimpleMusicPlayer.Common
     }
 
     public void CleanUp() {
+      this.timer.Stop();
       /*
           Shut down
       */

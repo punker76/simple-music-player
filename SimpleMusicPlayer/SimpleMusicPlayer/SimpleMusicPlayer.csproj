@@ -77,6 +77,7 @@
     <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />
+    <Compile Include="Common\IPlayerEngine.cs" />
     <Compile Include="Common\PlayerEngine.cs" />
     <Compile Include="FMODEx\fmod.cs" />
     <Compile Include="FMODEx\fmod_dsp.cs" />

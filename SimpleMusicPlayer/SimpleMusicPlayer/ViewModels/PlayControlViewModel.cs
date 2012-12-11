@@ -8,12 +8,16 @@ namespace SimpleMusicPlayer.ViewModels
   public class PlayControlViewModel : ViewModelBaseNotifyPropertyChanged
   {
     private PlaylistsViewModel playlistsViewModel;
+    private ICommand playCommand;
 
     public PlayControlViewModel(Dispatcher dispatcher, PlaylistsViewModel playlistsViewModel) {
       this.playlistsViewModel = playlistsViewModel;
     }
 
-    private ICommand playCommand;
+    public PlayerEngine PlayerEngine {
+      get { return PlayerEngine.Instance; }
+    }
+
     public ICommand PlayCommand {
       get { return this.playCommand ?? (this.playCommand = new DelegateCommand(this.Play, this.CanPlay)); }
     }

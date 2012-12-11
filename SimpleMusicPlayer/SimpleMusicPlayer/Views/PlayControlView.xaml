@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
+             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -44,7 +45,10 @@
       <!-- volume -->
       <Slider Grid.Column="0"
               Margin="10,2,10,2"
-              Orientation="Horizontal" />
+              Orientation="Horizontal"
+              Minimum="0"
+              Maximum="1"
+              Value="{Binding PlayerEngine.Volume}" />
 
       <!-- prev -->
       <Button Grid.Column="1"
@@ -106,20 +110,23 @@
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
 
+      <!-- position -->
       <TextBlock Grid.Column="0"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
-                 Text="0:00" />
-      <!-- position -->
+                 Text="{Binding PlayerEngine.CurrentPosition, Mode=OneWay, FallbackValue='0:00', StringFormat='{}{0:m\\:ss}'}" />
       <Slider Grid.Column="1"
               VerticalAlignment="Center"
               Width="250"
               Margin="10,2,10,2"
-              Orientation="Horizontal" />
+              Orientation="Horizontal"
+              Minimum="0"
+              Maximum="{Binding PlayerEngine.Length.TotalMilliseconds, Mode=OneWay}"
+              Value="{Binding PlayerEngine.CurrentPosition.TotalMilliseconds, Mode=OneWay}" />
       <TextBlock Grid.Column="2"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
-                 Text="-0:00" />
+                 Text="{Binding PlayerEngine.RemainingPosition, Mode=OneWay, FallbackValue='-0:00', StringFormat='{}-{0:m\\:ss}'}" />
 
     </Grid>
 
