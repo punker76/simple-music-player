@@ -7,7 +7,7 @@ the player is in a very early beta phase!
 
 ## Use it with your own risk!
 
-![very early screenshot](https://github.com/punker76/simple-music-player/screenshots/2012-12-13_23h14_25.png)
+![very early screenshot](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-13_23h14_25.png)
 
 ## License and copyright
 
