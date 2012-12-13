@@ -33,6 +33,7 @@ namespace SimpleMusicPlayer.ViewModels
     private uint discCount;
     private TimeSpan duration;
     private string firstAlbumArtist;
+    private string firstAlbumArtistAndTitle;
     private string firstAlbumArtistSort;
     private string firstComposer;
     private string firstComposerSort;
@@ -73,6 +74,17 @@ namespace SimpleMusicPlayer.ViewModels
           mf.DiscCount = file.Tag.DiscCount;
 
           mf.FirstAlbumArtist = file.Tag.FirstAlbumArtist;
+
+          var isFirstAlbumArtistEmpty = string.IsNullOrWhiteSpace(mf.FirstAlbumArtist);
+          var isTitleEmpty = string.IsNullOrWhiteSpace(mf.Title);
+          if (!isFirstAlbumArtistEmpty && !isTitleEmpty) {
+            mf.FirstAlbumArtistAndTitle = string.Format("{0} - {1}", mf.FirstAlbumArtist, mf.Title);
+          } else if (!isFirstAlbumArtistEmpty) {
+            mf.FirstAlbumArtistAndTitle = mf.FirstAlbumArtist;
+          } else if (!isTitleEmpty) {
+            mf.FirstAlbumArtistAndTitle = mf.Title;
+          }
+
           mf.FirstAlbumArtistSort = file.Tag.FirstAlbumArtistSort;
           mf.FirstComposer = file.Tag.FirstComposer;
           mf.FirstComposerSort = file.Tag.FirstComposerSort;
@@ -93,7 +105,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string FirstPerformerSort {
+    public string FirstPerformerSort {
       get { return this.firstPerformerSort; }
       set {
         if (Equals(value, this.firstPerformerSort)) {
@@ -104,7 +116,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string FirstPerformer {
+    public string FirstPerformer {
       get { return this.firstPerformer; }
       set {
         if (Equals(value, this.firstPerformer)) {
@@ -115,7 +127,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string FirstGenre {
+    public string FirstGenre {
       get { return this.firstGenre; }
       set {
         if (Equals(value, this.firstGenre)) {
@@ -126,7 +138,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string FirstComposerSort {
+    public string FirstComposerSort {
       get { return this.firstComposerSort; }
       set {
         if (Equals(value, this.firstComposerSort)) {
@@ -137,7 +149,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string FirstComposer {
+    public string FirstComposer {
       get { return this.firstComposer; }
       set {
         if (Equals(value, this.firstComposer)) {
@@ -148,7 +160,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string FirstAlbumArtistSort {
+    public string FirstAlbumArtistSort {
       get { return this.firstAlbumArtistSort; }
       set {
         if (Equals(value, this.firstAlbumArtistSort)) {
@@ -159,7 +171,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string FirstAlbumArtist {
+    public string FirstAlbumArtist {
       get { return this.firstAlbumArtist; }
       set {
         if (Equals(value, this.firstAlbumArtist)) {
@@ -170,7 +182,18 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected TimeSpan Duration {
+    public string FirstAlbumArtistAndTitle {
+      get { return this.firstAlbumArtistAndTitle; }
+      set {
+        if (Equals(value, this.firstAlbumArtistAndTitle)) {
+          return;
+        }
+        this.firstAlbumArtistAndTitle = value;
+        this.OnPropertyChanged(() => this.FirstAlbumArtistAndTitle);
+      }
+    }
+
+    public TimeSpan Duration {
       get { return this.duration; }
       set {
         if (Equals(value, this.duration)) {
@@ -181,7 +204,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected uint DiscCount {
+    public uint DiscCount {
       get { return this.discCount; }
       set {
         if (Equals(value, this.discCount)) {
@@ -192,7 +215,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected uint Disc {
+    public uint Disc {
       get { return this.disc; }
       set {
         if (Equals(value, this.disc)) {
@@ -203,7 +226,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected uint TrackCount {
+    public uint TrackCount {
       get { return this.trackCount; }
       set {
         if (Equals(value, this.trackCount)) {
@@ -214,7 +237,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected uint Track {
+    public uint Track {
       get { return this.track; }
       set {
         if (Equals(value, this.track)) {
@@ -225,7 +248,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected uint Year {
+    public uint Year {
       get { return this.year; }
       set {
         if (Equals(value, this.year)) {
@@ -236,7 +259,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected uint BPM {
+    public uint BPM {
       get { return this.bpm; }
       set {
         if (Equals(value, this.bpm)) {
@@ -247,7 +270,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string[] Genres {
+    public string[] Genres {
       get { return this.genres; }
       set {
         if (Equals(value, this.genres)) {
@@ -258,7 +281,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string Copyright {
+    public string Copyright {
       get { return this.copyright; }
       set {
         if (Equals(value, this.copyright)) {
@@ -269,7 +292,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string Comment {
+    public string Comment {
       get { return this.comment; }
       set {
         if (Equals(value, this.comment)) {
@@ -280,7 +303,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string AlbumSort {
+    public string AlbumSort {
       get { return this.albumSort; }
       set {
         if (Equals(value, this.albumSort)) {
@@ -291,7 +314,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string Album {
+    public string Album {
       get { return this.album; }
       set {
         if (Equals(value, this.album)) {
@@ -302,7 +325,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string Conductor {
+    public string Conductor {
       get { return this.conductor; }
       set {
         if (Equals(value, this.conductor)) {
@@ -313,7 +336,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string[] ComposersSort {
+    public string[] ComposersSort {
       get { return this.composersSort; }
       set {
         if (Equals(value, this.composersSort)) {
@@ -324,7 +347,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string[] Composers {
+    public string[] Composers {
       get { return this.composers; }
       set {
         if (Equals(value, this.composers)) {
@@ -335,7 +358,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string[] PerformersSort {
+    public string[] PerformersSort {
       get { return this.performersSort; }
       set {
         if (Equals(value, this.performersSort)) {
@@ -346,7 +369,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string[] Performers {
+    public string[] Performers {
       get { return this.performers; }
       set {
         if (Equals(value, this.performers)) {
@@ -357,7 +380,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string[] AlbumArtistsSort {
+    public string[] AlbumArtistsSort {
       get { return this.albumArtistsSort; }
       set {
         if (Equals(value, this.albumArtistsSort)) {
@@ -368,7 +391,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string[] AlbumArtists {
+    public string[] AlbumArtists {
       get { return this.albumArtists; }
       set {
         if (Equals(value, this.albumArtists)) {
@@ -379,7 +402,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string TitleSort {
+    public string TitleSort {
       get { return this.titleSort; }
       set {
         if (Equals(value, this.titleSort)) {
@@ -390,7 +413,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string Title {
+    public string Title {
       get { return this.title; }
       set {
         if (Equals(value, this.title)) {
@@ -401,7 +424,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    protected string Grouping {
+    public string Grouping {
       get { return this.grouping; }
       set {
         if (Equals(value, this.grouping)) {

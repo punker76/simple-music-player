@@ -26,7 +26,32 @@
   <Grid>
 
     <ListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-             SelectedItem="{Binding SelectedPlayListFile}">
+             SelectedItem="{Binding SelectedPlayListFile}"
+             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+             HorizontalContentAlignment="Stretch">
+      <ListBox.ItemTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:MediaFileViewModel}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Margin="2"
+                       Text="{Binding Track, StringFormat='{}{0}.'}" />
+            <TextBlock Grid.Column="1"
+                       Margin="0,2,2,0"
+                       TextTrimming="CharacterEllipsis"
+                       Text="{Binding FirstAlbumArtistAndTitle}" />
+            <TextBlock Grid.Column="2"
+                       Margin="0,2,5,2"
+                       Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" />
+
+          </Grid>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
     </ListBox>
 
   </Grid>
