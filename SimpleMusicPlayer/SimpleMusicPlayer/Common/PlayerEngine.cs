@@ -46,7 +46,6 @@ namespace SimpleMusicPlayer.Common
     private void PlayTimerCallback(object sender, EventArgs e) {
       FMOD.RESULT result;
       uint ms = 0;
-      uint lenms = 0;
       bool playing = false;
       bool paused = false;
 
@@ -61,20 +60,14 @@ namespace SimpleMusicPlayer.Common
           this.ERRCHECK(result);
         }
 
-        result = this.sound.getLength(ref lenms, FMOD.TIMEUNIT.MS);
-        if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
-          this.ERRCHECK(result);
-        }
-
         result = this.channel.getPosition(ref ms, FMOD.TIMEUNIT.MS);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
           this.ERRCHECK(result);
         }
       }
 
-      this.Length = TimeSpan.FromMilliseconds(lenms);
       this.CurrentPosition = TimeSpan.FromMilliseconds(ms);
-      this.RemainingPosition = TimeSpan.FromMilliseconds(lenms - ms);
+      this.RemainingPosition = TimeSpan.FromMilliseconds(Length.TotalMilliseconds - ms);
 
       //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
 
@@ -138,6 +131,11 @@ namespace SimpleMusicPlayer.Common
 
       var result = this.system.createSound(file.FullFileName, (FMOD.MODE._2D | FMOD.MODE.HARDWARE | FMOD.MODE.CREATESTREAM), ref this.sound);
       this.ERRCHECK(result);
+
+      uint lenms = 0;
+      result = this.sound.getLength(ref lenms, FMOD.TIMEUNIT.MS);
+      this.ERRCHECK(result);
+      this.Length = TimeSpan.FromMilliseconds(lenms);
 
       result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref this.channel);
       this.ERRCHECK(result);
