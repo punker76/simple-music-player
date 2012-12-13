@@ -1,4 +1,5 @@
-﻿using System.Windows.Threading;
+﻿using System.Windows.Input;
+using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 
@@ -9,6 +10,7 @@ namespace SimpleMusicPlayer.ViewModels
     private PlayControlViewModel playControlViewModel;
     private PlaylistsViewModel playlistsViewModel;
     private MedialibViewModel medialibViewModel;
+    private ICommand showOnGitHubCmd;
 
     public MainWindowViewModel(Dispatcher dispatcher) {
       PlayerEngine.Instance.Configure(dispatcher);
@@ -48,6 +50,14 @@ namespace SimpleMusicPlayer.ViewModels
         this.medialibViewModel = value;
         this.OnPropertyChanged(() => this.MedialibViewModel);
       }
+    }
+
+    public ICommand ShowOnGitHubCmd {
+      get { return this.showOnGitHubCmd ?? (this.showOnGitHubCmd = new DelegateCommand(this.ShowOnGitHub, () => true)); }
+    }
+
+    private void ShowOnGitHub() {
+      System.Diagnostics.Process.Start("https://github.com/punker76/simple-music-player");
     }
   }
 }

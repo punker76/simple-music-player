@@ -29,11 +29,27 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Controls:MetroWindow.Resources>
+
+  <Controls:MetroWindow.WindowCommands>
+    <Controls:WindowCommands>
+      <Button ToolTip="Simple Music Player on GitHub"
+              Command="{Binding ShowOnGitHubCmd}">
+        <Rectangle Width="20"
+                   Height="20">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_github}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+    </Controls:WindowCommands>
+  </Controls:MetroWindow.WindowCommands>
 
   <Grid>
 
