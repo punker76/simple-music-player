@@ -14,8 +14,7 @@ namespace SimpleMusicPlayer.Common
     private DispatcherTimer timer;
     private float volume;
     private TimeSpan length;
-    private TimeSpan currentPosition;
-    private TimeSpan remainingPosition;
+    private double currentPositionMs;
 
     public bool Configure(Dispatcher dispatcher) {
       /*
@@ -66,8 +65,10 @@ namespace SimpleMusicPlayer.Common
         }
       }
 
-      this.CurrentPosition = TimeSpan.FromMilliseconds(ms);
-      this.RemainingPosition = TimeSpan.FromMilliseconds(Length.TotalMilliseconds - ms);
+      if (!this.DontUpdatePosition) {
+        this.currentPositionMs = ms;
+        this.OnPropertyChanged("CurrentPositionMs");
+      }
 
       //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
 
@@ -104,25 +105,24 @@ namespace SimpleMusicPlayer.Common
       }
     }
 
-    public TimeSpan CurrentPosition {
-      get { return this.currentPosition; }
-      set {
-        if (Equals(value, this.currentPosition)) {
-          return;
-        }
-        this.currentPosition = value;
-        this.OnPropertyChanged("CurrentPosition");
-      }
-    }
+    public bool DontUpdatePosition { get; set; }
 
-    public TimeSpan RemainingPosition {
-      get { return this.remainingPosition; }
+    public double CurrentPositionMs {
+      get { return this.currentPositionMs; }
       set {
-        if (Equals(value, this.remainingPosition)) {
+        if (Equals(value, this.currentPositionMs)) {
           return;
         }
-        this.remainingPosition = value;
-        this.OnPropertyChanged("RemainingPosition");
+        this.currentPositionMs = value;
+
+        if (this.channel != null) {
+          var result = this.channel.setPosition(Convert.ToUInt32(value), FMOD.TIMEUNIT.MS);
+          if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
+            this.ERRCHECK(result);
+          }
+        }
+
+        this.OnPropertyChanged("CurrentPositionMs");
       }
     }
 

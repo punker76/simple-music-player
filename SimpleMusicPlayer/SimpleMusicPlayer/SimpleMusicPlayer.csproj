@@ -85,6 +85,8 @@
     <Compile Include="FMODEx\fmod_memoryinfo.cs" />
     <Compile Include="Interfaces\IMediaFile.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\SliderPositionValueToTextConverter.cs" />
+    <Compile Include="ValueConverters\SliderRemainingPositionValueToTextConverter.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MediaFileViewModel.cs" />
     <Compile Include="ViewModels\MedialibViewModel.cs" />

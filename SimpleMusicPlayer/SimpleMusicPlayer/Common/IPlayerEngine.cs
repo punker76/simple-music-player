@@ -10,7 +10,6 @@ namespace SimpleMusicPlayer.Common
 
     float Volume { get; set; }
     TimeSpan Length { get; }
-    TimeSpan CurrentPosition { get; set; }
-    TimeSpan RemainingPosition { get; set; }
+    double CurrentPositionMs { get; set; }
   }
 }

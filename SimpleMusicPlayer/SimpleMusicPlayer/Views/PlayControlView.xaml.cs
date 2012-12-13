@@ -1,16 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
 {
@@ -20,7 +11,25 @@ namespace SimpleMusicPlayer.Views
   public partial class PlayControlView : UserControl
   {
     public PlayControlView() {
-      InitializeComponent();
+      this.InitializeComponent();
+    }
+
+    private void PositionSlider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e) {
+      var vm = this.DataContext as PlayControlViewModel;
+      if (vm != null) {
+        vm.PlayerEngine.DontUpdatePosition = true;
+      }
+    }
+
+    private void PositionSlider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e) {
+      var vm = this.DataContext as PlayControlViewModel;
+      if (vm != null) {
+        BindingExpression be = ((Slider)sender).GetBindingExpression(RangeBase.ValueProperty);
+        if (be != null) {
+          be.UpdateSource();
+        }
+        vm.PlayerEngine.DontUpdatePosition = false;
+      }
     }
   }
 }
