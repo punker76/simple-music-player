@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
@@ -44,6 +45,26 @@ namespace SimpleMusicPlayer.ViewModels
         this.selectedPlayListFile = value;
         this.OnPropertyChanged(() => this.SelectedPlayListFile);
       }
+    }
+
+    public IMediaFile GetPrevPlayListFile() {
+      var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (fileCollView != null) {
+        if (fileCollView.MoveCurrentToPrevious() || fileCollView.MoveCurrentToLast()) {
+          return fileCollView.CurrentItem as IMediaFile;
+        }
+      }
+      return null;
+    }
+
+    public IMediaFile GetNextPlayListFile() {
+      var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (fileCollView != null) {
+        if (fileCollView.MoveCurrentToNext() || fileCollView.MoveCurrentToFirst()) {
+          return fileCollView.CurrentItem as IMediaFile;
+        }
+      }
+      return null;
     }
   }
 }

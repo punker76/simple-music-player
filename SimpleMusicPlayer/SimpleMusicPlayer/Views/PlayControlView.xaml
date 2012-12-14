@@ -58,6 +58,7 @@
 
       <!-- prev -->
       <Button Grid.Column="1"
+              Command="{Binding PlayPrevCommand, Mode=OneWay}"
               VerticalAlignment="Center"
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
@@ -93,6 +94,7 @@
 
       <!-- next -->
       <Button Grid.Column="3"
+              Command="{Binding PlayNextCommand, Mode=OneWay}"
               VerticalAlignment="Center"
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"

@@ -28,6 +28,7 @@
 
     <ListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
              SelectedItem="{Binding SelectedPlayListFile}"
+             IsSynchronizedWithCurrentItem="True"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              HorizontalContentAlignment="Stretch">
       <ListBox.ItemTemplate>
