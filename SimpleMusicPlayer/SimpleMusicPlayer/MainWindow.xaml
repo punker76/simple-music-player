@@ -87,7 +87,7 @@
                                 TickColor="{StaticResource AccentColor}"
                                 IsIndeterminate="True" />
       <TextBlock VerticalAlignment="Center"
-                 Text="Loading Files..." />
+                 Text="Search for Files..." />
       <Grid>
         <Grid.Resources>
           <ResourceDictionary>
