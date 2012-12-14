@@ -17,6 +17,7 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
@@ -51,12 +52,14 @@
               Orientation="Horizontal"
               Minimum="0"
               Maximum="1"
+              SmallChange="0.1"
+              LargeChange="0.25"
               Value="{Binding PlayerEngine.Volume}" />
 
       <!-- prev -->
       <Button Grid.Column="1"
               VerticalAlignment="Center"
-              Style="{DynamicResource MetroCircleButtonStyle}"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
               Width="45">
         <Rectangle Width="16"
@@ -75,7 +78,7 @@
       <Button Grid.Column="2"
               Command="{Binding PlayCommand, Mode=OneWay}"
               VerticalAlignment="Center"
-              Style="{DynamicResource MetroCircleButtonStyle}"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="55"
               Width="55">
         <Rectangle Width="16"
@@ -91,7 +94,7 @@
       <!-- next -->
       <Button Grid.Column="3"
               VerticalAlignment="Center"
-              Style="{DynamicResource MetroCircleButtonStyle}"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
               Width="45">
         <Rectangle Width="16"
