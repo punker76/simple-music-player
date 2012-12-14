@@ -1,6 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
 
@@ -40,6 +40,7 @@ namespace SimpleMusicPlayer.ViewModels
     private string firstGenre;
     private string firstPerformer;
     private string firstPerformerSort;
+    private int playListIndex;
 
     public MediaFileViewModel(string fileName) {
       this.FullFileName = fileName;
@@ -456,6 +457,20 @@ namespace SimpleMusicPlayer.ViewModels
         this.OnPropertyChanged(() => this.FileName);
       }
     }
+
+    public int PlayListIndex {
+      get { return this.playListIndex; }
+      set {
+        if (Equals(value, this.playListIndex)) {
+          return;
+        }
+        this.playListIndex = value;
+        this.OnPropertyChanged(() => this.PlayListIndex);
+      }
+    }
+
+    [Browsable(false)]
+    public object PlayList { get; set; }
 
     public override string ToString() {
       return string.Format("{0} {1} - {2} {3:m\\:ss}", this.Track, this.FirstAlbumArtist, this.Title, this.Duration);

@@ -41,7 +41,7 @@
 
             <TextBlock Grid.Column="0"
                        Margin="2"
-                       Text="{Binding Track, StringFormat='{}{0}.'}" />
+                       Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />
             <TextBlock Grid.Column="1"
                        Margin="0,2,2,0"
                        TextTrimming="CharacterEllipsis"

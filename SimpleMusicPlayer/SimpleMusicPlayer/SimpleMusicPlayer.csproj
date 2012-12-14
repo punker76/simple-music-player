@@ -75,10 +75,12 @@
     </ApplicationDefinition>
     <Compile Include="Base\DelegateCommand.cs" />
     <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
+    <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />
     <Compile Include="Common\IPlayerEngine.cs" />
     <Compile Include="Common\PlayerEngine.cs" />
+    <Compile Include="Common\PlayListObservableCollection.cs" />
     <Compile Include="FMODEx\fmod.cs" />
     <Compile Include="FMODEx\fmod_dsp.cs" />
     <Compile Include="FMODEx\fmod_errors.cs" />
