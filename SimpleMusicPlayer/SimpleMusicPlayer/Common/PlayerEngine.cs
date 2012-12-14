@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Windows.Threading;
 using FMOD;
 using SimpleMusicPlayer.Base;
@@ -35,11 +36,25 @@ namespace SimpleMusicPlayer.Common
       result = this.system.init(1, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
       this.ERRCHECK(result);
 
+      result = this.system.attachFileSystem(this.myopen, this.myclose, null, null);
+      this.ERRCHECK(result);
+
       this.Volume = 1;
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
 
       return true;
+    }
+
+    private FMOD.FILE_OPENCALLBACK myopen = new FMOD.FILE_OPENCALLBACK(OPENCALLBACK);
+    private FMOD.FILE_CLOSECALLBACK myclose = new FMOD.FILE_CLOSECALLBACK(CLOSECALLBACK);
+
+    private static FMOD.RESULT OPENCALLBACK([MarshalAs(UnmanagedType.LPWStr)] string name, int unicode, ref uint filesize, ref IntPtr handle, ref IntPtr userdata) {
+      return FMOD.RESULT.OK;
+    }
+
+    private static FMOD.RESULT CLOSECALLBACK(IntPtr handle, IntPtr userdata) {
+      return FMOD.RESULT.OK;
     }
 
     private void PlayTimerCallback(object sender, EventArgs e) {
@@ -141,9 +156,25 @@ namespace SimpleMusicPlayer.Common
       this.ERRCHECK(result);
 
       if (this.channel != null) {
+        this.channel.setCallback(this.channelEndCallback);
+
         result = this.channel.setVolume(this.Volume);
         this.ERRCHECK(result);
       }
+    }
+
+    public Action PlayNextFileAction { get; set; }
+
+    private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
+
+    private static RESULT ChannelEndCallback(IntPtr channelraw, CHANNEL_CALLBACKTYPE type, IntPtr commanddata1, IntPtr commanddata2) {
+      if (type == CHANNEL_CALLBACKTYPE.END) {
+        var action = PlayerEngine.Instance.PlayNextFileAction;
+        if (action != null) {
+          action();
+        }
+      }
+      return FMOD.RESULT.OK;
     }
 
     public void Pause() {
@@ -166,6 +197,9 @@ namespace SimpleMusicPlayer.Common
     }
 
     private void CleanUpSound(FMOD.Sound fmodSound) {
+      if (this.channel != null) {
+        this.channel.setCallback(null);
+      }
       if (fmodSound != null) {
         var result = fmodSound.release();
         this.ERRCHECK(result);

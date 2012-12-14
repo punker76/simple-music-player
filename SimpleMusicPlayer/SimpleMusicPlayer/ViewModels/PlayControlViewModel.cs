@@ -16,6 +16,11 @@ namespace SimpleMusicPlayer.ViewModels
 
     public PlayControlViewModel(Dispatcher dispatcher, PlaylistsViewModel playlistsViewModel) {
       this.playlistsViewModel = playlistsViewModel;
+      this.PlayerEngine.PlayNextFileAction = () => {
+        if (this.CanPlayNext()) {
+          this.PlayNext();
+        }
+      };
     }
 
     public PlayerEngine PlayerEngine {
