@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Threading;
 using FMOD;
 using SimpleMusicPlayer.Base;
@@ -169,10 +171,13 @@ namespace SimpleMusicPlayer.Common
 
     private static RESULT ChannelEndCallback(IntPtr channelraw, CHANNEL_CALLBACKTYPE type, IntPtr commanddata1, IntPtr commanddata2) {
       if (type == CHANNEL_CALLBACKTYPE.END) {
-        var action = PlayerEngine.Instance.PlayNextFileAction;
-        if (action != null) {
-          action();
-        }
+        // this must be thread safe
+        var uiTask = Task.Factory.StartNew(() => {
+          var action = PlayerEngine.Instance.PlayNextFileAction;
+          if (action != null) {
+            action();
+          }
+        }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
       }
       return FMOD.RESULT.OK;
     }
