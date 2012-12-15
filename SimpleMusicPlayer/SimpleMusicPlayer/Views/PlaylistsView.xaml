@@ -46,7 +46,7 @@
             <TextBlock Grid.Column="1"
                        Margin="0,2,2,0"
                        TextTrimming="CharacterEllipsis"
-                       Text="{Binding FirstAlbumArtistAndTitle}" />
+                       Text="{Binding FirstPerformerAndTitle}" />
             <TextBlock Grid.Column="2"
                        Margin="0,2,5,2"
                        Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" />

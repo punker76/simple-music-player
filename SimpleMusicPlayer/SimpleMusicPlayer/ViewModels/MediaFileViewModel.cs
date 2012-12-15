@@ -33,7 +33,7 @@ namespace SimpleMusicPlayer.ViewModels
     private uint discCount;
     private TimeSpan duration;
     private string firstAlbumArtist;
-    private string firstAlbumArtistAndTitle;
+    private string firstPerformerAndTitle;
     private string firstAlbumArtistSort;
     private string firstComposer;
     private string firstComposerSort;
@@ -75,23 +75,22 @@ namespace SimpleMusicPlayer.ViewModels
           mf.DiscCount = file.Tag.DiscCount;
 
           mf.FirstAlbumArtist = file.Tag.FirstAlbumArtist;
-
-          var isFirstAlbumArtistEmpty = string.IsNullOrWhiteSpace(mf.FirstAlbumArtist);
-          var isTitleEmpty = string.IsNullOrWhiteSpace(mf.Title);
-          if (!isFirstAlbumArtistEmpty && !isTitleEmpty) {
-            mf.FirstAlbumArtistAndTitle = string.Format("{0} - {1}", mf.FirstAlbumArtist, mf.Title);
-          } else if (!isFirstAlbumArtistEmpty) {
-            mf.FirstAlbumArtistAndTitle = mf.FirstAlbumArtist;
-          } else if (!isTitleEmpty) {
-            mf.FirstAlbumArtistAndTitle = mf.Title;
-          }
-
           mf.FirstAlbumArtistSort = file.Tag.FirstAlbumArtistSort;
           mf.FirstComposer = file.Tag.FirstComposer;
           mf.FirstComposerSort = file.Tag.FirstComposerSort;
           mf.FirstGenre = file.Tag.FirstGenre;
           mf.FirstPerformer = file.Tag.FirstPerformer;
           mf.FirstPerformerSort = file.Tag.FirstPerformerSort;
+
+          var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(mf.FirstPerformer);
+          var isTitleEmpty = string.IsNullOrWhiteSpace(mf.Title);
+          if (!isFirstPerformerEmpty && !isTitleEmpty) {
+            mf.FirstPerformerAndTitle = string.Format("{0} - {1}", mf.FirstPerformer, mf.Title);
+          } else if (!isFirstPerformerEmpty) {
+            mf.FirstPerformerAndTitle = mf.FirstPerformer;
+          } else if (!isTitleEmpty) {
+            mf.FirstPerformerAndTitle = mf.Title;
+          }
 
           if (file.Properties.MediaTypes != TagLib.MediaTypes.None) {
             mf.Duration = file.Properties.Duration;
@@ -183,14 +182,14 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    public string FirstAlbumArtistAndTitle {
-      get { return this.firstAlbumArtistAndTitle; }
+    public string FirstPerformerAndTitle {
+      get { return this.firstPerformerAndTitle; }
       set {
-        if (Equals(value, this.firstAlbumArtistAndTitle)) {
+        if (Equals(value, this.firstPerformerAndTitle)) {
           return;
         }
-        this.firstAlbumArtistAndTitle = value;
-        this.OnPropertyChanged(() => this.FirstAlbumArtistAndTitle);
+        this.firstPerformerAndTitle = value;
+        this.OnPropertyChanged(() => this.FirstPerformerAndTitle);
       }
     }
 
