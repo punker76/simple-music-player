@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
-             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common" xmlns:Base="clr-namespace:SimpleMusicPlayer.Base" mc:Ignorable="d"
+             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
+             xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
+             mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance ViewModels:PlaylistsViewModel}">
@@ -24,6 +26,76 @@
       </ResourceDictionary.MergedDictionaries>
 
       <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+
+      <VisualBrush x:Key="VisualBrushPlay"
+                   Stretch="Fill"
+                   Visual="{StaticResource appbar_play}" />
+      <VisualBrush x:Key="VisualBrushPause"
+                   Stretch="Fill"
+                   Visual="{StaticResource appbar_pause}" />
+
+      <DataTemplate x:Key="MediaFileViewModelDT"
+                    DataType="{x:Type ViewModels:MediaFileViewModel}">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <Grid Grid.Column="0"
+                Opacity="0.75">
+            <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
+              <Ellipse Margin="0,0,2,0"
+                       Stroke="{DynamicResource TextBrush}"
+                       StrokeThickness="1"
+                       Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
+                       VerticalAlignment="Stretch" />
+              <Rectangle Margin="1,0,0,0"
+                         Width="8"
+                         Height="8"
+                         VerticalAlignment="Center"
+                         Fill="{StaticResource VisualBrushPlay}">
+<!--                <Rectangle.Fill>-->
+<!--                  <VisualBrush Stretch="Fill"-->
+<!--                               Visual="{StaticResource appbar_play}" />-->
+<!--                </Rectangle.Fill>-->
+              </Rectangle>
+            </Grid>
+            <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
+              <Ellipse Margin="0,0,2,0"
+                       Stroke="{DynamicResource TextBrush}"
+                       StrokeThickness="1"
+                       Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
+                       VerticalAlignment="Stretch" />
+              <Rectangle Margin="-1,0,0,0"
+                         Width="8"
+                         Height="8"
+                         VerticalAlignment="Center"
+                         Fill="{StaticResource VisualBrushPause}">
+<!--                <Rectangle.Fill>-->
+<!--                  <VisualBrush Stretch="Fill"-->
+<!--                               Visual="{StaticResource appbar_pause}" />-->
+<!--                </Rectangle.Fill>-->
+              </Rectangle>
+            </Grid>
+          </Grid>
+
+          <TextBlock Grid.Column="1"
+                     Margin="2"
+                     Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />
+          <TextBlock Grid.Column="2"
+                     Margin="0,2,2,0"
+                     TextTrimming="CharacterEllipsis"
+                     Text="{Binding FirstPerformerAndTitle}" />
+          <TextBlock Grid.Column="3"
+                     Margin="0,2,5,2"
+                     Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" />
+
+        </Grid>
+      </DataTemplate>
+
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -35,67 +107,8 @@
              Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
              Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-             HorizontalContentAlignment="Stretch">
-      <ListBox.ItemTemplate>
-        <DataTemplate DataType="{x:Type ViewModels:MediaFileViewModel}">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0" Opacity="0.75">
-              <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
-                <Ellipse Margin="0,0,2,0"
-                         Stroke="{DynamicResource TextBrush}"
-                         StrokeThickness="1"
-                         Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
-                         VerticalAlignment="Stretch" />
-                <Rectangle Margin="1,0,0,0"
-                           Width="8"
-                           Height="8"
-                           VerticalAlignment="Center">
-                  <Rectangle.Fill>
-                    <VisualBrush Stretch="Fill"
-                                 Visual="{StaticResource appbar_play}" />
-                  </Rectangle.Fill>
-                </Rectangle>
-              </Grid>
-              <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
-                <Ellipse Margin="0,0,2,0"
-                         Stroke="{DynamicResource TextBrush}"
-                         StrokeThickness="1"
-                         Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
-                         VerticalAlignment="Stretch" />
-                <Rectangle Margin="-1,0,0,0"
-                           Width="8"
-                           Height="8"
-                           VerticalAlignment="Center">
-                  <Rectangle.Fill>
-                    <VisualBrush Stretch="Fill"
-                                 Visual="{StaticResource appbar_pause}" />
-                  </Rectangle.Fill>
-                </Rectangle>
-              </Grid>
-            </Grid>
-
-            <TextBlock Grid.Column="1"
-                       Margin="2"
-                       Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />
-            <TextBlock Grid.Column="2"
-                       Margin="0,2,2,0"
-                       TextTrimming="CharacterEllipsis"
-                       Text="{Binding FirstPerformerAndTitle}" />
-            <TextBlock Grid.Column="3"
-                       Margin="0,2,5,2"
-                       Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" />
-
-          </Grid>
-        </DataTemplate>
-      </ListBox.ItemTemplate>
-    </ListBox>
+             HorizontalContentAlignment="Stretch"
+             ItemTemplate="{StaticResource MediaFileViewModelDT}" />
 
   </Grid>
 </UserControl>
