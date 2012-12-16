@@ -7,6 +7,9 @@ namespace SimpleMusicPlayer.Common
   {
     void Play(IMediaFile file);
     void Pause();
+    void Stop();
+
+    PlayerState State { get; }
 
     float Volume { get; set; }
     TimeSpan Length { get; }

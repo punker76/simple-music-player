@@ -2,9 +2,8 @@
 {
   public enum PlayerState
   {
-    None,
+    Stop,
     Play,
-    Pause,
-    Stop
+    Pause
   }
 }

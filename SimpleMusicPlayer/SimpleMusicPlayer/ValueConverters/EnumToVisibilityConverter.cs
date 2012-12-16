@@ -7,13 +7,21 @@ namespace SimpleMusicPlayer.ValueConverters
 {
   public class EnumToVisibilityConverter : IValueConverter
   {
+    public EnumToVisibilityConverter() {
+      this.TrueValue = Visibility.Visible;
+      this.FalseValue = Visibility.Hidden;
+    }
+
+    public Visibility TrueValue { get; set; }
+    public Visibility FalseValue { get; set; }
+
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
       if (parameter != null) {
         if (value == null) {
-          return Visibility.Hidden;
+          return this.FalseValue;
         } else {
           var equals = Equals(value, parameter);
-          return equals ? Visibility.Visible : Visibility.Hidden;
+          return equals ? this.TrueValue : this.FalseValue;
         }
       }
       return Binding.DoNothing;

@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
-             xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters" xmlns:Common="clr-namespace:SimpleMusicPlayer.Common" mc:Ignorable="d"
+             xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
+             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
+             mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance ViewModels:PlaylistsViewModel}">
@@ -43,24 +45,41 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0"
-                  Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
-              <Ellipse x:Name="ellipse"
-                       Margin="0,0,2,1"
-                       Stroke="{DynamicResource TextBrush}"
-                       StrokeThickness="1"
-                       Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
-                       VerticalAlignment="Stretch" />
-              <Rectangle Margin="1,0,0,0"
-                         Width="7"
-                         Height="7"
-                         VerticalAlignment="Stretch">
-                <Rectangle.Fill>
-                  <VisualBrush Stretch="Fill"
-                               Visual="{StaticResource appbar_play}" />
-                </Rectangle.Fill>
-              </Rectangle>
+            <Grid Grid.Column="0">
+              <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
+                <Ellipse Margin="0,0,2,1"
+                         Stroke="{DynamicResource TextBrush}"
+                         StrokeThickness="1"
+                         Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
+                         VerticalAlignment="Stretch" />
+                <Rectangle Margin="1,0,0,0"
+                           Width="7"
+                           Height="7"
+                           VerticalAlignment="Stretch">
+                  <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill"
+                                 Visual="{StaticResource appbar_play}" />
+                  </Rectangle.Fill>
+                </Rectangle>
+              </Grid>
+              <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
+                <Ellipse Margin="0,0,2,1"
+                         Stroke="{DynamicResource TextBrush}"
+                         StrokeThickness="1"
+                         Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
+                         VerticalAlignment="Stretch" />
+                <Rectangle Margin="-1,0,0,0"
+                           Width="7"
+                           Height="7"
+                           VerticalAlignment="Stretch">
+                  <Rectangle.Fill>
+                    <VisualBrush Stretch="Fill"
+                                 Visual="{StaticResource appbar_pause}" />
+                  </Rectangle.Fill>
+                </Rectangle>
+              </Grid>
             </Grid>
+
             <TextBlock Grid.Column="1"
                        Margin="2"
                        Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />

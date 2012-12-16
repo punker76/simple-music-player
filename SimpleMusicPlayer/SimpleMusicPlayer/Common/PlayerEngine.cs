@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
@@ -25,6 +24,7 @@ namespace SimpleMusicPlayer.Common
     private float volume;
     private TimeSpan length;
     private double currentPositionMs;
+    private PlayerState state;
 
     public bool Configure(Dispatcher dispatcher) {
       /*
@@ -45,25 +45,12 @@ namespace SimpleMusicPlayer.Common
       result = this.system.init(1, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
       this.ERRCHECK(result);
 
-      result = this.system.attachFileSystem(this.myopen, this.myclose, null, null);
-      this.ERRCHECK(result);
-
       this.Volume = 1;
+      this.State = PlayerState.Stop;
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
 
       return true;
-    }
-
-    private FMOD.FILE_OPENCALLBACK myopen = new FMOD.FILE_OPENCALLBACK(OPENCALLBACK);
-    private FMOD.FILE_CLOSECALLBACK myclose = new FMOD.FILE_CLOSECALLBACK(CLOSECALLBACK);
-
-    private static FMOD.RESULT OPENCALLBACK([MarshalAs(UnmanagedType.LPWStr)] string name, int unicode, ref uint filesize, ref IntPtr handle, ref IntPtr userdata) {
-      return FMOD.RESULT.OK;
-    }
-
-    private static FMOD.RESULT CLOSECALLBACK(IntPtr handle, IntPtr userdata) {
-      return FMOD.RESULT.OK;
     }
 
     private void PlayTimerCallback(object sender, EventArgs e) {
@@ -150,8 +137,19 @@ namespace SimpleMusicPlayer.Common
       }
     }
 
+    public PlayerState State {
+      get { return this.state; }
+      set {
+        if (Equals(value, this.state)) {
+          return;
+        }
+        this.state = value;
+        this.OnPropertyChanged("State");
+      }
+    }
+
     public void Play(IMediaFile file) {
-      this.CleanUpSound(this.sound);
+      this.CleanUpSound(ref this.sound);
 
       var result = this.system.createSound(file.FullFileName, (FMOD.MODE._2D | FMOD.MODE.HARDWARE | FMOD.MODE.CREATESTREAM), ref this.sound);
       this.ERRCHECK(result);
@@ -165,8 +163,10 @@ namespace SimpleMusicPlayer.Common
       result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref channel);
       this.ERRCHECK(result);
 
+      this.State = PlayerState.Play;
+      file.State = PlayerState.Play;
+
       if (channel != null) {
-        file.State = PlayerState.Play;
         this.channelInfo = new ChannelInfo() {Channel = channel, File = file};
         result = this.channelInfo.Channel.setCallback(this.channelEndCallback);
         this.ERRCHECK(result);
@@ -198,10 +198,18 @@ namespace SimpleMusicPlayer.Common
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         var result = this.channelInfo.Channel.getPaused(ref paused);
         this.ERRCHECK(result);
-        this.channelInfo.File.State = paused ? PlayerState.Pause : PlayerState.Play;
-        result = this.channelInfo.Channel.setPaused(!paused);
+
+        var newPaused = !paused;
+        result = this.channelInfo.Channel.setPaused(newPaused);
         this.ERRCHECK(result);
+
+        this.channelInfo.File.State = newPaused ? PlayerState.Pause : PlayerState.Play;
+        this.State = newPaused ? PlayerState.Pause : PlayerState.Play;
       }
+    }
+
+    public void Stop() {
+      this.CleanUpSound(ref this.sound);
     }
 
     public void CleanUp() {
@@ -209,11 +217,13 @@ namespace SimpleMusicPlayer.Common
       /*
           Shut down
       */
-      this.CleanUpSound(this.sound);
-      this.CleanUpSystem(this.system);
+      this.CleanUpSound(ref this.sound);
+      this.CleanUpSystem(ref this.system);
     }
 
-    private void CleanUpSound(FMOD.Sound fmodSound) {
+    private void CleanUpSound(ref FMOD.Sound fmodSound) {
+      this.State = PlayerState.Stop;
+      
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         this.channelInfo.File.State = PlayerState.Stop;
         this.channelInfo.Channel.setCallback(null);
@@ -221,18 +231,21 @@ namespace SimpleMusicPlayer.Common
         this.channelInfo.File = null;
         this.channelInfo = null;
       }
+      
       if (fmodSound != null) {
         var result = fmodSound.release();
         this.ERRCHECK(result);
+        fmodSound = null;
       }
     }
 
-    private void CleanUpSystem(FMOD.System fmodSystem) {
+    private void CleanUpSystem(ref FMOD.System fmodSystem) {
       if (fmodSystem != null) {
         var result = fmodSystem.close();
         this.ERRCHECK(result);
         result = fmodSystem.release();
         this.ERRCHECK(result);
+        fmodSystem = null;
       }
     }
 

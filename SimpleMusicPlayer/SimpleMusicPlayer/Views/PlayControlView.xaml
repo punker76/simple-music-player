@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
+             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -19,12 +20,15 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <ValueConverters:SliderPositionValueToTextConverter x:Key="SliderPositionValueToTextConverter" />
       <ValueConverters:SliderRemainingPositionValueToTextConverter x:Key="SliderRemainingPositionValueToTextConverter" />
+      <ValueConverters:PlayerStatePlayToVisibilityConverter x:Key="PlayerStatePlayToVisibilityConverter" />
+      <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -40,6 +44,7 @@
           HorizontalAlignment="Stretch">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
@@ -63,8 +68,8 @@
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
               Width="45">
-        <Rectangle Width="16"
-                   Height="16">
+        <Rectangle Width="12"
+                   Height="12">
           <Rectangle.Fill>
             <VisualBrush Stretch="Fill"
                          Visual="{StaticResource appbar_fastforward}" />
@@ -75,32 +80,64 @@
         </Rectangle>
       </Button>
 
-      <!-- play -->
-      <Button Grid.Column="2"
-              Command="{Binding PlayCommand, Mode=OneWay}"
+      <!-- play/pause -->
+      <Grid Grid.Column="2">
+        <Button Command="{Binding PlayCommand, Mode=OneWay}"
+                Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStatePlayToVisibilityConverter}}"
+                VerticalAlignment="Center"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="55"
+                Width="55">
+          <Rectangle Width="16"
+                     Margin="3,0,0,0"
+                     Height="16">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_play}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+        <Button Command="{Binding PauseCommand, Mode=OneWay}"
+                Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
+                VerticalAlignment="Center"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="55"
+                Width="55">
+          <Rectangle Width="16"
+                     Height="16">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_pause}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+      </Grid>
+
+      <!-- stop -->
+      <Button Grid.Column="3"
+              Command="{Binding StopCommand, Mode=OneWay}"
               VerticalAlignment="Center"
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-              Height="55"
-              Width="55">
-        <Rectangle Width="16"
-                   Margin="3,0,0,0"
-                   Height="16">
+              Height="45"
+              Width="45">
+        <Rectangle Width="12"
+                   Height="12">
           <Rectangle.Fill>
             <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_play}" />
+                         Visual="{StaticResource appbar_control_stop}" />
           </Rectangle.Fill>
         </Rectangle>
       </Button>
 
       <!-- next -->
-      <Button Grid.Column="3"
+      <Button Grid.Column="4"
               Command="{Binding PlayNextCommand, Mode=OneWay}"
               VerticalAlignment="Center"
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
               Width="45">
-        <Rectangle Width="16"
-                   Height="16">
+        <Rectangle Width="12"
+                   Height="12">
           <Rectangle.Fill>
             <VisualBrush Stretch="Fill"
                          Visual="{StaticResource appbar_fastforward}" />

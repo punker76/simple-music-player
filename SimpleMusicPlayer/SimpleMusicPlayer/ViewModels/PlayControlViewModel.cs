@@ -11,6 +11,8 @@ namespace SimpleMusicPlayer.ViewModels
   {
     private PlaylistsViewModel playlistsViewModel;
     private ICommand playCommand;
+    private ICommand pauseCommand;
+    private ICommand stopCommand;
     private ICommand playPrevCommand;
     private ICommand playNextCommand;
 
@@ -32,14 +34,47 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private bool CanPlay() {
-      return this.playlistsViewModel.FirstSimplePlaylistFiles != null && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+      return this.playlistsViewModel.FirstSimplePlaylistFiles != null
+             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+      //&& (this.PlayerEngine.State == PlayerState.Pause || this.PlayerEngine.State == PlayerState.Stop);
     }
 
     private void Play() {
-      var file = this.playlistsViewModel.SelectedPlayListFile;
-      if (file != null) {
-        PlayerEngine.Instance.Play(file);
+      if (this.PlayerEngine.State == PlayerState.Pause) {
+        this.PlayerEngine.Pause();
+      } else {
+        var file = this.playlistsViewModel.SelectedPlayListFile;
+        if (file != null) {
+          this.PlayerEngine.Play(file);
+        }
       }
+    }
+
+    public ICommand PauseCommand {
+      get { return this.pauseCommand ?? (this.pauseCommand = new DelegateCommand(this.Pause, this.CanPause)); }
+    }
+
+    private bool CanPause() {
+      return this.playlistsViewModel.FirstSimplePlaylistFiles != null
+             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+      //&& this.PlayerEngine.State == PlayerState.Play;
+    }
+
+    private void Pause() {
+      this.PlayerEngine.Pause();
+    }
+
+    public ICommand StopCommand {
+      get { return this.stopCommand ?? (this.stopCommand = new DelegateCommand(this.Stop, this.CanStop)); }
+    }
+
+    private bool CanStop() {
+      return this.playlistsViewModel.FirstSimplePlaylistFiles != null
+             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+    }
+
+    private void Stop() {
+      this.PlayerEngine.Stop();
     }
 
     public ICommand PlayPrevCommand {
@@ -47,13 +82,14 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private bool CanPlayPrev() {
-      return this.playlistsViewModel.FirstSimplePlaylistFiles != null && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+      return this.playlistsViewModel.FirstSimplePlaylistFiles != null
+             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
     }
 
     private void PlayPrev() {
       var file = this.playlistsViewModel.GetPrevPlayListFile();
       if (file != null) {
-        PlayerEngine.Instance.Play(file);
+        this.PlayerEngine.Play(file);
       }
     }
 
@@ -62,13 +98,14 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private bool CanPlayNext() {
-      return this.playlistsViewModel.FirstSimplePlaylistFiles != null && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+      return this.playlistsViewModel.FirstSimplePlaylistFiles != null
+             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
     }
 
     private void PlayNext() {
       var file = this.playlistsViewModel.GetNextPlayListFile();
       if (file != null) {
-        PlayerEngine.Instance.Play(file);
+        this.PlayerEngine.Play(file);
       }
     }
   }
