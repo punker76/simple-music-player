@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
-             mc:Ignorable="d"
+             xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters" xmlns:Common="clr-namespace:SimpleMusicPlayer.Common" mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance ViewModels:PlaylistsViewModel}">
@@ -21,6 +21,8 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
       </ResourceDictionary.MergedDictionaries>
+
+      <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -36,18 +38,37 @@
           <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0"
+            <Grid Grid.Column="0"
+                  Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
+              <Ellipse x:Name="ellipse"
+                       Margin="0,0,2,1"
+                       Stroke="{DynamicResource TextBrush}"
+                       StrokeThickness="1"
+                       Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
+                       VerticalAlignment="Stretch" />
+              <Rectangle Margin="1,0,0,0"
+                         Width="7"
+                         Height="7"
+                         VerticalAlignment="Stretch">
+                <Rectangle.Fill>
+                  <VisualBrush Stretch="Fill"
+                               Visual="{StaticResource appbar_play}" />
+                </Rectangle.Fill>
+              </Rectangle>
+            </Grid>
+            <TextBlock Grid.Column="1"
                        Margin="2"
                        Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />
-            <TextBlock Grid.Column="1"
+            <TextBlock Grid.Column="2"
                        Margin="0,2,2,0"
                        TextTrimming="CharacterEllipsis"
                        Text="{Binding FirstPerformerAndTitle}" />
-            <TextBlock Grid.Column="2"
+            <TextBlock Grid.Column="3"
                        Margin="0,2,5,2"
                        Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" />
 

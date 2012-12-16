@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
@@ -41,6 +42,7 @@ namespace SimpleMusicPlayer.ViewModels
     private string firstPerformer;
     private string firstPerformerSort;
     private int playListIndex;
+    private PlayerState state;
 
     public MediaFileViewModel(string fileName) {
       this.FullFileName = fileName;
@@ -454,6 +456,17 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.fileName = value;
         this.OnPropertyChanged(() => this.FileName);
+      }
+    }
+
+    public PlayerState State {
+      get { return this.state; }
+      set {
+        if (Equals(value, this.state)) {
+          return;
+        }
+        this.state = value;
+        this.OnPropertyChanged(() => this.State);
       }
     }
 

@@ -11,9 +11,16 @@ namespace SimpleMusicPlayer.Common
 {
   public class PlayerEngine : ViewModelBaseNotifyPropertyChanged, IPlayerEngine
   {
+    private class ChannelInfo
+    {
+      public FMOD.Channel Channel { get; set; }
+      public IMediaFile File { get; set; }
+    }
+
     private FMOD.System system = null;
     private FMOD.Sound sound = null;
-    private FMOD.Channel channel = null;
+    //private FMOD.Channel channel = null;
+    private ChannelInfo channelInfo = null;
     private DispatcherTimer timer;
     private float volume;
     private TimeSpan length;
@@ -65,18 +72,18 @@ namespace SimpleMusicPlayer.Common
       bool playing = false;
       bool paused = false;
 
-      if (this.channel != null) {
-        result = this.channel.isPlaying(ref playing);
+      if (this.channelInfo != null && this.channelInfo.Channel != null) {
+        result = this.channelInfo.Channel.isPlaying(ref playing);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
           this.ERRCHECK(result);
         }
 
-        result = this.channel.getPaused(ref paused);
+        result = this.channelInfo.Channel.getPaused(ref paused);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
           this.ERRCHECK(result);
         }
 
-        result = this.channel.getPosition(ref ms, FMOD.TIMEUNIT.MS);
+        result = this.channelInfo.Channel.getPosition(ref ms, FMOD.TIMEUNIT.MS);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
           this.ERRCHECK(result);
         }
@@ -102,8 +109,8 @@ namespace SimpleMusicPlayer.Common
         }
         this.volume = value;
 
-        if (this.channel != null) {
-          var result = this.channel.setVolume(this.Volume);
+        if (this.channelInfo != null && this.channelInfo.Channel != null) {
+          var result = this.channelInfo.Channel.setVolume(this.Volume);
           this.ERRCHECK(result);
         }
 
@@ -132,8 +139,8 @@ namespace SimpleMusicPlayer.Common
         }
         this.currentPositionMs = value;
 
-        if (this.channel != null) {
-          var result = this.channel.setPosition(Convert.ToUInt32(value), FMOD.TIMEUNIT.MS);
+        if (this.channelInfo != null && this.channelInfo.Channel != null) {
+          var result = this.channelInfo.Channel.setPosition(Convert.ToUInt32(value), FMOD.TIMEUNIT.MS);
           if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
             this.ERRCHECK(result);
           }
@@ -154,13 +161,17 @@ namespace SimpleMusicPlayer.Common
       this.ERRCHECK(result);
       this.Length = TimeSpan.FromMilliseconds(lenms);
 
-      result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref this.channel);
+      FMOD.Channel channel = null;
+      result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref channel);
       this.ERRCHECK(result);
 
-      if (this.channel != null) {
-        this.channel.setCallback(this.channelEndCallback);
+      if (channel != null) {
+        file.State = PlayerState.Play;
+        this.channelInfo = new ChannelInfo() {Channel = channel, File = file};
+        result = this.channelInfo.Channel.setCallback(this.channelEndCallback);
+        this.ERRCHECK(result);
 
-        result = this.channel.setVolume(this.Volume);
+        result = this.channelInfo.Channel.setVolume(this.Volume);
         this.ERRCHECK(result);
       }
     }
@@ -184,10 +195,11 @@ namespace SimpleMusicPlayer.Common
 
     public void Pause() {
       bool paused = false;
-      if (this.channel != null) {
-        var result = this.channel.getPaused(ref paused);
+      if (this.channelInfo != null && this.channelInfo.Channel != null) {
+        var result = this.channelInfo.Channel.getPaused(ref paused);
         this.ERRCHECK(result);
-        result = this.channel.setPaused(!paused);
+        this.channelInfo.File.State = paused ? PlayerState.Pause : PlayerState.Play;
+        result = this.channelInfo.Channel.setPaused(!paused);
         this.ERRCHECK(result);
       }
     }
@@ -202,8 +214,12 @@ namespace SimpleMusicPlayer.Common
     }
 
     private void CleanUpSound(FMOD.Sound fmodSound) {
-      if (this.channel != null) {
-        this.channel.setCallback(null);
+      if (this.channelInfo != null && this.channelInfo.Channel != null) {
+        this.channelInfo.File.State = PlayerState.Stop;
+        this.channelInfo.Channel.setCallback(null);
+        this.channelInfo.Channel = null;
+        this.channelInfo.File = null;
+        this.channelInfo = null;
       }
       if (fmodSound != null) {
         var result = fmodSound.release();
@@ -224,6 +240,7 @@ namespace SimpleMusicPlayer.Common
       if (result != FMOD.RESULT.OK) {
         this.timer.Stop();
         //MessageBox.Show("FMOD error! " + result + " - " + FMOD.Error.String(result));
+        // todo : show error info dialog
         Environment.Exit(-1);
       }
     }
