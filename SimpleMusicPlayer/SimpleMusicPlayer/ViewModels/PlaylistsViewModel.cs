@@ -23,6 +23,7 @@ namespace SimpleMusicPlayer.ViewModels
     public async void HandleDropActionAsync(StringCollection fileOrDirDropList) {
       if (FileSearchWorker.Instance.CanStartSearch()) {
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
+        PlayerEngine.Stop();
         this.FirstSimplePlaylistFiles = CollectionViewSource.GetDefaultView(new PlayListObservableCollection(files));
       }
     }
