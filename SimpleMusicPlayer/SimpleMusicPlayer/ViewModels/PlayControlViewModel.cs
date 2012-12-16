@@ -43,7 +43,7 @@ namespace SimpleMusicPlayer.ViewModels
       if (this.PlayerEngine.State == PlayerState.Pause) {
         this.PlayerEngine.Pause();
       } else {
-        var file = this.playlistsViewModel.SelectedPlayListFile;
+        var file = this.playlistsViewModel.GetCurrentPlayListFile();
         if (file != null) {
           this.PlayerEngine.Play(file);
         }

@@ -47,6 +47,18 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+    public IMediaFile GetCurrentPlayListFile() {
+      var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (fileCollView != null) {
+        var currentFile = fileCollView.CurrentItem;
+        if (currentFile == null && fileCollView.MoveCurrentToFirst()) {
+          return fileCollView.CurrentItem as IMediaFile;
+        }
+        return currentFile as IMediaFile;
+      }
+      return null;
+    }
+
     public IMediaFile GetPrevPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {

@@ -30,9 +30,9 @@
 
   <Grid>
 
+    <!--    IsSynchronizedWithCurrentItem="True"-->
     <ListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
              SelectedItem="{Binding SelectedPlayListFile}"
-             IsSynchronizedWithCurrentItem="True"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              HorizontalContentAlignment="Stretch">
       <ListBox.ItemTemplate>
@@ -45,17 +45,17 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0">
+            <Grid Grid.Column="0" Opacity="0.75">
               <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
-                <Ellipse Margin="0,0,2,1"
+                <Ellipse Margin="0,0,2,0"
                          Stroke="{DynamicResource TextBrush}"
                          StrokeThickness="1"
                          Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
                          VerticalAlignment="Stretch" />
                 <Rectangle Margin="1,0,0,0"
-                           Width="7"
-                           Height="7"
-                           VerticalAlignment="Stretch">
+                           Width="8"
+                           Height="8"
+                           VerticalAlignment="Center">
                   <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
                                  Visual="{StaticResource appbar_play}" />
@@ -63,15 +63,15 @@
                 </Rectangle>
               </Grid>
               <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
-                <Ellipse Margin="0,0,2,1"
+                <Ellipse Margin="0,0,2,0"
                          Stroke="{DynamicResource TextBrush}"
                          StrokeThickness="1"
                          Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
                          VerticalAlignment="Stretch" />
                 <Rectangle Margin="-1,0,0,0"
-                           Width="7"
-                           Height="7"
-                           VerticalAlignment="Stretch">
+                           Width="8"
+                           Height="8"
+                           VerticalAlignment="Center">
                   <Rectangle.Fill>
                     <VisualBrush Stretch="Fill"
                                  Visual="{StaticResource appbar_pause}" />
