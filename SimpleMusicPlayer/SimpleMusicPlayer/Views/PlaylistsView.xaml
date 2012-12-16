@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
-             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
-             mc:Ignorable="d"
+             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common" xmlns:Base="clr-namespace:SimpleMusicPlayer.Base" mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance ViewModels:PlaylistsViewModel}">
@@ -33,6 +32,8 @@
     <!--    IsSynchronizedWithCurrentItem="True"-->
     <ListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
              SelectedItem="{Binding SelectedPlayListFile}"
+             Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+             Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
              HorizontalContentAlignment="Stretch">
       <ListBox.ItemTemplate>

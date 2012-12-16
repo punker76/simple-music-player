@@ -1,8 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
+using System.Windows.Input;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
@@ -14,6 +15,7 @@ namespace SimpleMusicPlayer.ViewModels
   {
     private IEnumerable firstSimplePlaylistFiles;
     private IMediaFile selectedPlayListFile;
+    private ICommand playCommand;
 
     public PlaylistsViewModel(Dispatcher dispatcher) {
     }
@@ -23,6 +25,10 @@ namespace SimpleMusicPlayer.ViewModels
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
         this.FirstSimplePlaylistFiles = CollectionViewSource.GetDefaultView(new PlayListObservableCollection(files));
       }
+    }
+
+    public PlayerEngine PlayerEngine {
+      get { return PlayerEngine.Instance; }
     }
 
     public IEnumerable FirstSimplePlaylistFiles {
@@ -47,16 +53,41 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+    public ICommand PlayCommand {
+      get { return this.playCommand ?? (this.playCommand = new DelegateCommand(this.Play, this.CanPlay)); }
+    }
+
+    private bool CanPlay() {
+      return this.FirstSimplePlaylistFiles != null
+             && this.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+      //&& (this.PlayerEngine.State == PlayerState.Pause || this.PlayerEngine.State == PlayerState.Stop);
+    }
+
+    private void Play() {
+      var file = this.GetCurrentPlayListFile();
+      if (file != null && this.SetCurrentPlayListFile(file)) {
+        this.PlayerEngine.Play(file);
+      }
+    }
+
     public IMediaFile GetCurrentPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        var currentFile = fileCollView.CurrentItem;
+        var currentFile = this.SelectedPlayListFile ?? fileCollView.CurrentItem;
         if (currentFile == null && fileCollView.MoveCurrentToFirst()) {
           return fileCollView.CurrentItem as IMediaFile;
         }
         return currentFile as IMediaFile;
       }
       return null;
+    }
+
+    private bool SetCurrentPlayListFile(IMediaFile file) {
+      var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (fileCollView != null) {
+        return fileCollView.MoveCurrentTo(file);
+      }
+      return false;
     }
 
     public IMediaFile GetPrevPlayListFile() {
