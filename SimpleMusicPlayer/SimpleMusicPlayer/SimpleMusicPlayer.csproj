@@ -34,21 +34,26 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AsyncCtpLibrary">
       <HintPath>..\libs\AsyncCTP\AsyncCtpLibrary.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.10.0.0\lib\net40\MahApps.Metro.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFSpark.1.1\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\WPFSpark.1.1\lib\net40\System.Windows.Interactivity.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -60,12 +65,14 @@
     </Reference>
     <Reference Include="taglib-sharp">
       <HintPath>..\libs\taglib-sharp\taglib-sharp.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="WPFSpark">
       <HintPath>..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -178,9 +185,30 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fmodex.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="..\libs\AsyncCTP\AsyncCtpLibrary.dll">
+      <Link>DllsAsResource\AsyncCtpLibrary.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\libs\taglib-sharp\taglib-sharp.dll">
+      <Link>DllsAsResource\taglib-sharp.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.0.10.0.0\lib\net40\MahApps.Metro.dll">
+      <Link>DllsAsResource\MahApps.Metro.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.0.10.0.0\lib\net40\System.Windows.Interactivity.dll">
+      <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\WPFSpark.1.1\lib\net40\Microsoft.Expression.Interactions.dll">
+      <Link>DllsAsResource\Microsoft.Expression.Interactions.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll">
+      <Link>DllsAsResource\WPFSpark.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\libs\AsyncCTP\AsyncCtpLibrary.xml">
+      <Link>DllsAsResource\AsyncCtpLibrary.xml</Link>
+    </EmbeddedResource>
+    <None Include="fmodex.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
