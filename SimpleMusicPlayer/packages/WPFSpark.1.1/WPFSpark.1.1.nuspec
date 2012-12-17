@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>WPFSpark</id>
+    <version>1.1</version>
+    <authors>Ratish Philip</authors>
+    <owners>Ratish Philip</owners>
+    <licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>http://wpfspark.codeplex.com/</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>WPFSpark is a library of rich user controls which can be used to enrich your application's UI.
+		The library contains the following controls - SprocketControl, ToggleSwitch, FluidWrapPanel, SparkWindow, FluidPivotPanel, FluidProgressBar and FluidStatusBar.</description>
+  </metadata>
+</package>
