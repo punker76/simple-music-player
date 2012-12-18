@@ -8,6 +8,7 @@ namespace SimpleMusicPlayer.ViewModels
   public class MainWindowViewModel : ViewModelBaseNotifyPropertyChanged
   {
     private PlayControlViewModel playControlViewModel;
+    private PlayInfoViewModel playInfoViewModel;
     private PlaylistsViewModel playlistsViewModel;
     private MedialibViewModel medialibViewModel;
     private ICommand showOnGitHubCmd;
@@ -16,6 +17,7 @@ namespace SimpleMusicPlayer.ViewModels
       PlayerEngine.Instance.Configure(dispatcher);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher);
       this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.PlaylistsViewModel);
+      this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
     }
 
@@ -27,6 +29,17 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.playControlViewModel = value;
         this.OnPropertyChanged(() => this.PlayControlViewModel);
+      }
+    }
+
+    public PlayInfoViewModel PlayInfoViewModel {
+      get { return this.playInfoViewModel; }
+      set {
+        if (Equals(value, this.playInfoViewModel)) {
+          return;
+        }
+        this.playInfoViewModel = value;
+        this.OnPropertyChanged(() => this.PlayInfoViewModel);
       }
     }
 

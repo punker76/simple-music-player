@@ -104,12 +104,16 @@
     <Compile Include="ViewModels\MediaFileViewModel.cs" />
     <Compile Include="ViewModels\MedialibViewModel.cs" />
     <Compile Include="ViewModels\PlayControlViewModel.cs" />
+    <Compile Include="ViewModels\PlayInfoViewModel.cs" />
     <Compile Include="ViewModels\PlaylistsViewModel.cs" />
     <Compile Include="Views\MedialibView.xaml.cs">
       <DependentUpon>MedialibView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlayControlView.xaml.cs">
       <DependentUpon>PlayControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PlayInfoView.xaml.cs">
+      <DependentUpon>PlayInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlaylistsView.xaml.cs">
       <DependentUpon>PlaylistsView.xaml</DependentUpon>
@@ -147,6 +151,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlayControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlayInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
