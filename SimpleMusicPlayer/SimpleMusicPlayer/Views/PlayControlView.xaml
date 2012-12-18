@@ -34,32 +34,19 @@
 
   <Grid>
 
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
+    <Grid HorizontalAlignment="Center">
 
-    <Grid Grid.Row="0"
-          HorizontalAlignment="Stretch">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="100" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="100" />
       </Grid.ColumnDefinitions>
-
-      <!-- volume -->
-      <Slider Grid.Column="0"
-              Margin="10,2,10,2"
-              Orientation="Horizontal"
-              Minimum="0"
-              Maximum="1"
-              SmallChange="0.1"
-              LargeChange="0.25"
-              Value="{Binding PlayerEngine.Volume}" />
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
 
       <!-- prev -->
       <Button Grid.Column="1"
@@ -86,8 +73,8 @@
                 Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStatePlayToVisibilityConverter}}"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="55"
-                Width="55">
+                Height="60"
+                Width="60">
           <Rectangle Width="16"
                      Margin="3,0,0,0"
                      Height="16">
@@ -101,8 +88,8 @@
                 Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="55"
-                Width="55">
+                Height="60"
+                Width="60">
           <Rectangle Width="16"
                      Height="16">
             <Rectangle.Fill>
@@ -113,81 +100,181 @@
         </Button>
       </Grid>
 
-      <!-- stop -->
-      <Button Grid.Column="3"
-              Command="{Binding StopCommand, Mode=OneWay}"
-              VerticalAlignment="Center"
-              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-              Height="45"
-              Width="45">
-        <Rectangle Width="12"
-                   Height="12">
-          <Rectangle.Fill>
-            <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_control_stop}" />
-          </Rectangle.Fill>
-        </Rectangle>
-      </Button>
+      <Grid Grid.Column="3"
+            VerticalAlignment="Center">
 
-      <!-- next -->
-      <Button Grid.Column="4"
-              Command="{Binding PlayNextCommand, Mode=OneWay}"
-              VerticalAlignment="Center"
-              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-              Height="45"
-              Width="45">
-        <Rectangle Width="12"
-                   Height="12">
-          <Rectangle.Fill>
-            <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_fastforward}" />
-          </Rectangle.Fill>
-        </Rectangle>
-      </Button>
-    </Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
 
-    <Grid Grid.Row="1"
-          HorizontalAlignment="Center">
+        <!-- stop -->
+        <Button Grid.Column="0"
+                Command="{Binding StopCommand, Mode=OneWay}"
+                VerticalAlignment="Center"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="45"
+                Width="45">
+          <Rectangle Width="12"
+                     Height="12">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_control_stop}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
 
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
+        <!-- next -->
+        <Button Grid.Column="1"
+                Command="{Binding PlayNextCommand, Mode=OneWay}"
+                VerticalAlignment="Center"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="45"
+                Width="45">
+          <Rectangle Width="12"
+                     Height="12">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_fastforward}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
 
-      <!-- position -->
-      <TextBlock Grid.Column="0"
-                 HorizontalAlignment="Right"
-                 VerticalAlignment="Center"
-                 Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
-      <Slider Grid.Column="1"
-              x:Name="positionSlider"
-              VerticalAlignment="Center"
-              Width="250"
-              Margin="10,2,10,2"
-              Orientation="Horizontal"
-              Minimum="0"
-              Thumb.DragStarted="PositionSlider_DragStarted"
-              Thumb.DragCompleted="PositionSlider_DragCompleted"
-              Maximum="{Binding PlayerEngine.Length.TotalMilliseconds, Mode=OneWay}"
-              Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
-      <TextBlock Grid.Column="2"
-                 HorizontalAlignment="Left"
-                 VerticalAlignment="Center">
-        <TextBlock.Text>
-          <MultiBinding FallbackValue="-0:00"
-                        Converter="{StaticResource SliderRemainingPositionValueToTextConverter}">
-            <Binding ElementName="positionSlider"
-                     Path="Value"
-                     Mode="OneWay" />
-            <Binding ElementName="positionSlider"
-                     Path="Maximum"
-                     Mode="OneWay" />
-          </MultiBinding>
-        </TextBlock.Text>
-      </TextBlock>
+        <!-- shuffle -->
+        <Button Grid.Column="2"
+                Command="{Binding ShuffleCommand, Mode=OneWay}"
+                VerticalAlignment="Bottom"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="35"
+                Width="35">
+          <!--            <Rectangle.Resources>-->
+          <!--              <SolidColorBrush x:Key="BlackBrush"-->
+          <!--                               Color="Red" />-->
+          <!---->
+<!--            </Rectangle.Resources>-->
+          <Rectangle Width="10"
+                     Height="10">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_shuffle}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+
+        <!-- repeat -->
+        <Button Grid.Column="3"
+                Command="{Binding RepeatCommand, Mode=OneWay}"
+                VerticalAlignment="Bottom"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="35"
+                Width="35">
+          <Rectangle Width="10"
+                     Height="10">
+            <!--            <Rectangle.Resources>-->
+            <!--              <SolidColorBrush x:Key="BlackBrush"-->
+            <!--                               Color="Red" />-->
+            <!---->
+<!--            </Rectangle.Resources>-->
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_repeat}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+      </Grid>
+
+      <Grid Grid.Column="0"
+            Grid.ColumnSpan="5"
+            Grid.Row="1"
+            HorizontalAlignment="Center">
+
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <!-- position -->
+        <Grid Grid.Column="0"
+              HorizontalAlignment="Center">
+
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <!-- position -->
+          <TextBlock Grid.Column="0"
+                     HorizontalAlignment="Right"
+                     VerticalAlignment="Center"
+                     Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
+          <Slider Grid.Column="1"
+                  x:Name="positionSlider"
+                  VerticalAlignment="Center"
+                  Width="150"
+                  Margin="5,2,5,2"
+                  Orientation="Horizontal"
+                  Minimum="0"
+                  Thumb.DragStarted="PositionSlider_DragStarted"
+                  Thumb.DragCompleted="PositionSlider_DragCompleted"
+                  Maximum="{Binding PlayerEngine.Length.TotalMilliseconds, Mode=OneWay}"
+                  Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
+          <TextBlock Grid.Column="2"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Center">
+            <TextBlock.Text>
+              <MultiBinding FallbackValue="-0:00"
+                            Converter="{StaticResource SliderRemainingPositionValueToTextConverter}">
+                <Binding ElementName="positionSlider"
+                                Path="Value"
+                                Mode="OneWay" />
+                <Binding ElementName="positionSlider"
+                                Path="Maximum"
+                                Mode="OneWay" />
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+
+        </Grid>
+
+        <!-- volume -->
+        <Grid Grid.Column="1"
+              Margin="20,0,0,0"
+              HorizontalAlignment="Center">
+
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <Rectangle Grid.Column="0"
+                     Margin="2"
+                     Width="15"
+                     Height="15"
+                     VerticalAlignment="Center">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_sound_3}" />
+            </Rectangle.Fill>
+          </Rectangle>
+
+          <Slider Grid.Column="1"
+                  Margin="5,2,5,2"
+                  Orientation="Horizontal"
+                  Width="80"
+                  Minimum="0"
+                  Maximum="1"
+                  SmallChange="0.1"
+                  LargeChange="0.25"
+                  Value="{Binding PlayerEngine.Volume}" />
+        </Grid>
+
+      </Grid>
 
     </Grid>
 
   </Grid>
+
 </UserControl>
