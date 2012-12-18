@@ -18,13 +18,14 @@ namespace SimpleMusicPlayer.Common
 
     private FMOD.System system = null;
     private FMOD.Sound sound = null;
-    //private FMOD.Channel channel = null;
     private ChannelInfo channelInfo = null;
     private DispatcherTimer timer;
     private float volume;
     private TimeSpan length;
     private double currentPositionMs;
     private PlayerState state;
+    private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
+    private bool initializied;
 
     public bool Configure(Dispatcher dispatcher) {
       /*
@@ -50,7 +51,8 @@ namespace SimpleMusicPlayer.Common
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
 
-      return true;
+      this.Initializied = true;
+      return this.Initializied;
     }
 
     private void PlayTimerCallback(object sender, EventArgs e) {
@@ -85,6 +87,17 @@ namespace SimpleMusicPlayer.Common
 
       if (this.system != null) {
         this.system.update();
+      }
+    }
+
+    public bool Initializied {
+      get { return this.initializied; }
+      private set {
+        if (Equals(value, this.initializied)) {
+          return;
+        }
+        this.initializied = value;
+        this.OnPropertyChanged(() => this.Initializied);
       }
     }
 
@@ -178,8 +191,6 @@ namespace SimpleMusicPlayer.Common
 
     public Action PlayNextFileAction { get; set; }
 
-    private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
-
     private static RESULT ChannelEndCallback(IntPtr channelraw, CHANNEL_CALLBACKTYPE type, IntPtr commanddata1, IntPtr commanddata2) {
       if (type == CHANNEL_CALLBACKTYPE.END) {
         // this must be thread safe
@@ -223,7 +234,7 @@ namespace SimpleMusicPlayer.Common
 
     private void CleanUpSound(ref FMOD.Sound fmodSound) {
       this.State = PlayerState.Stop;
-      
+
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         this.channelInfo.File.State = PlayerState.Stop;
         this.channelInfo.Channel.setCallback(null);
@@ -231,7 +242,7 @@ namespace SimpleMusicPlayer.Common
         this.channelInfo.File = null;
         this.channelInfo = null;
       }
-      
+
       if (fmodSound != null) {
         var result = fmodSound.release();
         this.ERRCHECK(result);

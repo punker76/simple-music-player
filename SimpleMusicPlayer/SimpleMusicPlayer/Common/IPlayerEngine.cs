@@ -5,6 +5,8 @@ namespace SimpleMusicPlayer.Common
 {
   public interface IPlayerEngine
   {
+    bool Initializied { get; }
+
     void Play(IMediaFile file);
     void Pause();
     void Stop();
