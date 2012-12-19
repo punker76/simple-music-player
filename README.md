@@ -7,10 +7,22 @@ the player is in a very early beta phase!
 
 ## Use it with your own risk!
 
+donwload actual version
+=======================
+download [here](https://github.com/punker76/simple-music-player/tree/master/dist)
+
 screen shot
 ===========
 
-![very early screenshot 01](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-16_17h14_57.png)  
+![very early screenshot 05](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_21h55_18.png)  
+
+![very early screenshot 04](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_21h54_53.png)  
+
+![very early screenshot 03](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_14h48_05.png)  
+
+![very early screenshot 02](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-16_17h14_57.png)  
+
+![very early screenshot 01](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-13_23h14_25.png)  
 
 ## License and copyright
 
