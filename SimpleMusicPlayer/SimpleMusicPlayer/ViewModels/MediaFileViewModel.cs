@@ -1,9 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using System.Windows.Media.Imaging;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
+using TagLib;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -35,6 +38,7 @@ namespace SimpleMusicPlayer.ViewModels
     private TimeSpan duration;
     private string firstAlbumArtist;
     private string firstPerformerAndTitle;
+    private string albumAndFirstPerformer;
     private string firstAlbumArtistSort;
     private string firstComposer;
     private string firstComposerSort;
@@ -94,6 +98,15 @@ namespace SimpleMusicPlayer.ViewModels
             mf.FirstPerformerAndTitle = mf.Title;
           }
 
+          var isAlbumEmpty = string.IsNullOrWhiteSpace(mf.Album);
+          if (!isAlbumEmpty && !isFirstPerformerEmpty) {
+            mf.AlbumAndFirstPerformer = string.Format("{0} - {1}", mf.Album, mf.FirstPerformer);
+          } else if (!isAlbumEmpty) {
+            mf.AlbumAndFirstPerformer = mf.Album;
+          } else if (!isFirstPerformerEmpty) {
+            mf.AlbumAndFirstPerformer = mf.FirstPerformer;
+          }
+
           if (file.Properties.MediaTypes != TagLib.MediaTypes.None) {
             mf.Duration = file.Properties.Duration;
           }
@@ -101,8 +114,7 @@ namespace SimpleMusicPlayer.ViewModels
           return mf;
         }
       } catch (Exception e) {
-        var em = e.Message;
-        Console.WriteLine("Fail to parse file: {0}, {1}", fileName, e.ToString());
+        Console.WriteLine("Fail to parse file: {0}, {1}", fileName, e);
         return null;
       }
     }
@@ -192,6 +204,17 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.firstPerformerAndTitle = value;
         this.OnPropertyChanged(() => this.FirstPerformerAndTitle);
+      }
+    }
+
+    public string AlbumAndFirstPerformer {
+      get { return this.albumAndFirstPerformer; }
+      set {
+        if (Equals(value, this.albumAndFirstPerformer)) {
+          return;
+        }
+        this.albumAndFirstPerformer = value;
+        this.OnPropertyChanged(() => this.AlbumAndFirstPerformer);
       }
     }
 
@@ -467,6 +490,35 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.state = value;
         this.OnPropertyChanged(() => this.State);
+      }
+    }
+
+    public BitmapImage Cover {
+      get {
+        try {
+          if (string.IsNullOrWhiteSpace(this.FullFileName) || !System.IO.File.Exists(this.FullFileName)) {
+            return null;
+          }
+          using (TagLib.File file = TagLib.File.Create(this.FullFileName)) {
+            var pictures = file.Tag.Pictures;
+            if (pictures != null) {
+              var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover);
+              if (pic != null) {
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CreateOptions = BitmapCreateOptions.DelayCreation;
+                bi.CacheOption = BitmapCacheOption.OnDemand;
+                bi.StreamSource = new MemoryStream(pic.Data.Data);
+                bi.EndInit();
+                bi.Freeze();
+                return bi;
+              }
+            }
+          }
+        } catch (Exception e) {
+          Console.WriteLine("Fail to load cover: {0}, {1}", this.FullFileName, e);
+        }
+        return null;
       }
     }
 

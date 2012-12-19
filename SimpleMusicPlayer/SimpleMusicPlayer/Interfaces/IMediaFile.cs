@@ -1,4 +1,5 @@
-﻿using SimpleMusicPlayer.Common;
+﻿using System.Windows.Media.Imaging;
+using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.Interfaces
 {
@@ -9,5 +10,10 @@ namespace SimpleMusicPlayer.Interfaces
     object PlayList { get; set; }
 
     PlayerState State { get; set; }
+
+    string Title { get; set; }
+    BitmapImage Cover { get; }
+    string Album { get; set; }
+    string FirstPerformer { get; set; }
   }
 }

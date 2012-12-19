@@ -26,6 +26,7 @@ namespace SimpleMusicPlayer.Common
     private PlayerState state;
     private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
     private bool initializied;
+    private IMediaFile currentMediaFile;
 
     public bool Configure(Dispatcher dispatcher) {
       /*
@@ -161,8 +162,21 @@ namespace SimpleMusicPlayer.Common
       }
     }
 
+    public IMediaFile CurrentMediaFile {
+      get { return this.currentMediaFile; }
+      set {
+        if (Equals(value, this.currentMediaFile)) {
+          return;
+        }
+        this.currentMediaFile = value;
+        this.OnPropertyChanged("CurrentMediaFile");
+      }
+    }
+
     public void Play(IMediaFile file) {
       this.CleanUpSound(ref this.sound);
+
+      this.CurrentMediaFile = file;
 
       var result = this.system.createSound(file.FullFileName, (FMOD.MODE._2D | FMOD.MODE.HARDWARE | FMOD.MODE.CREATESTREAM), ref this.sound);
       this.ERRCHECK(result);
@@ -234,6 +248,7 @@ namespace SimpleMusicPlayer.Common
 
     private void CleanUpSound(ref FMOD.Sound fmodSound) {
       this.State = PlayerState.Stop;
+      this.CurrentMediaFile = null;
 
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         this.channelInfo.File.State = PlayerState.Stop;

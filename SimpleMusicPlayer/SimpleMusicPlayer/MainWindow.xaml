@@ -60,9 +60,20 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <Views:PlayControlView Grid.Row="0"
-                           HorizontalAlignment="Center"
-                           DataContext="{Binding PlayControlViewModel, Mode=OneWay}" />
+    <Grid Grid.Row="0"
+          HorizontalAlignment="Center">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Views:PlayInfoView Grid.Row="0"
+                          HorizontalAlignment="Stretch"
+                          DataContext="{Binding PlayInfoViewModel, Mode=OneWay}" />
+      <Views:PlayControlView Grid.Row="1"
+                             HorizontalAlignment="Center"
+                             DataContext="{Binding PlayControlViewModel, Mode=OneWay}" />
+    </Grid>
 
     <Controls:MetroContentControl Grid.Row="1">
       <TabControl>

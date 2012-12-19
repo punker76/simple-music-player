@@ -207,6 +207,7 @@
 
           <!-- position -->
           <TextBlock Grid.Column="0"
+                     Margin="10,0,0,0"
                      HorizontalAlignment="Right"
                      VerticalAlignment="Center"
                      Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
@@ -263,7 +264,7 @@
           <Slider Grid.Column="1"
                   Margin="5,2,5,2"
                   Orientation="Horizontal"
-                  Width="80"
+                  Width="90"
                   Minimum="0"
                   Maximum="1"
                   SmallChange="0.1"
