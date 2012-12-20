@@ -53,6 +53,7 @@ namespace SimpleMusicPlayer.Common
       this.State = PlayerState.Stop;
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
+      this.timer.Stop();
 
       this.Initializied = true;
       return this.Initializied;
@@ -180,6 +181,8 @@ namespace SimpleMusicPlayer.Common
     public void Play(IMediaFile file) {
       this.CleanUpSound(ref this.sound);
 
+      this.timer.Start();
+
       this.CurrentMediaFile = file;
 
       var result = this.system.createSound(file.FullFileName, (FMOD.MODE._2D | FMOD.MODE.HARDWARE | FMOD.MODE.CREATESTREAM), ref this.sound);
@@ -242,10 +245,10 @@ namespace SimpleMusicPlayer.Common
     }
 
     public void CleanUp() {
-      this.timer.Stop();
       /*
           Shut down
       */
+      this.timer.Stop();
       this.CleanUpSound(ref this.sound);
       this.CleanUpSystem(ref this.system);
     }
@@ -267,6 +270,8 @@ namespace SimpleMusicPlayer.Common
         this.ERRCHECK(result);
         fmodSound = null;
       }
+
+      this.timer.Stop();
     }
 
     private void CleanUpSystem(ref FMOD.System fmodSystem) {
