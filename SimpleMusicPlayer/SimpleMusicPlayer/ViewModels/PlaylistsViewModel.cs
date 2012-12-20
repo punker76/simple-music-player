@@ -28,6 +28,7 @@ namespace SimpleMusicPlayer.ViewModels
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
         this.PlayerEngine.Stop();
         this.FirstSimplePlaylistFiles = CollectionViewSource.GetDefaultView(new PlayListObservableCollection(files));
+        ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
       }
     }
 
@@ -77,7 +78,7 @@ namespace SimpleMusicPlayer.ViewModels
     public IMediaFile GetCurrentPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        var currentFile = this.SelectedPlayListFile;// ?? fileCollView.CurrentItem;
+        var currentFile = this.smpSettings.PlayerSettings.RepeatMode ? fileCollView.CurrentItem : (this.SelectedPlayListFile ?? fileCollView.CurrentItem);
         if (currentFile == null) {
           if (this.smpSettings.PlayerSettings.ShuffleMode) {
             return this.GetRandomPlayListFile();

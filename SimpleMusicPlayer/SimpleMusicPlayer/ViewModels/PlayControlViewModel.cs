@@ -25,8 +25,14 @@ namespace SimpleMusicPlayer.ViewModels
       this.SMPSettings = settings;
 
       this.PlayerEngine.PlayNextFileAction = () => {
-        if (this.CanPlayNext()) {
-          this.PlayNext();
+        if (this.SMPSettings.PlayerSettings.RepeatMode) {
+          if (this.CanPlay()) {
+            this.Play();
+          }
+        } else {
+          if (this.CanPlayNext()) {
+            this.PlayNext();
+          }
         }
       };
     }
