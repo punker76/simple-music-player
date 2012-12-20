@@ -29,6 +29,10 @@
       <ValueConverters:SliderRemainingPositionValueToTextConverter x:Key="SliderRemainingPositionValueToTextConverter" />
       <ValueConverters:PlayerStatePlayToVisibilityConverter x:Key="PlayerStatePlayToVisibilityConverter" />
       <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+
+      <ValueConverters:ModeToColorConverter x:Key="ModeToColorConverter"
+                                            TrueColor="{StaticResource AccentColor}"
+                                            FalseColor="{StaticResource BlackColor}"/>
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -149,13 +153,12 @@
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="35"
                 Width="35">
-          <!--            <Rectangle.Resources>-->
-          <!--              <SolidColorBrush x:Key="BlackBrush"-->
-          <!--                               Color="Red" />-->
-          <!---->
-<!--            </Rectangle.Resources>-->
           <Rectangle Width="10"
                      Height="10">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="{Binding SMPSettings.PlayerSettings.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
+            </Rectangle.Resources>
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_shuffle}" />
@@ -172,11 +175,10 @@
                 Width="35">
           <Rectangle Width="10"
                      Height="10">
-            <!--            <Rectangle.Resources>-->
-            <!--              <SolidColorBrush x:Key="BlackBrush"-->
-            <!--                               Color="Red" />-->
-            <!---->
-<!--            </Rectangle.Resources>-->
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="{Binding SMPSettings.PlayerSettings.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
+            </Rectangle.Resources>
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_repeat}" />
@@ -229,11 +231,11 @@
               <MultiBinding FallbackValue="-0:00"
                             Converter="{StaticResource SliderRemainingPositionValueToTextConverter}">
                 <Binding ElementName="positionSlider"
-                                Path="Value"
-                                Mode="OneWay" />
+                         Path="Value"
+                         Mode="OneWay" />
                 <Binding ElementName="positionSlider"
-                                Path="Maximum"
-                                Mode="OneWay" />
+                         Path="Maximum"
+                         Mode="OneWay" />
               </MultiBinding>
             </TextBlock.Text>
           </TextBlock>

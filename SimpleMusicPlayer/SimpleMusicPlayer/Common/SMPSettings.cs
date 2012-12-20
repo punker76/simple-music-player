@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SimpleMusicPlayer.Base;
 
 namespace SimpleMusicPlayer.Common
 {
@@ -10,7 +11,7 @@ namespace SimpleMusicPlayer.Common
     public PlayerSettings PlayerSettings { get; set; }
 
     public static SMPSettings GetEmptySettings() {
-      return new SMPSettings() { MainSettings = new MainSettings(), PlayerSettings = new PlayerSettings() };
+      return new SMPSettings() {MainSettings = new MainSettings(), PlayerSettings = new PlayerSettings()};
     }
   }
 
@@ -18,12 +19,37 @@ namespace SimpleMusicPlayer.Common
   {
   }
 
-  public class PlayerSettings
+  public class PlayerSettings : ViewModelBaseNotifyPropertyChanged
   {
+    private bool shuffleMode;
+    private bool repeatMode;
+
     public PlayerSettings() {
       this.Volume = 1;
     }
 
     public float Volume { get; set; }
+
+    public bool ShuffleMode {
+      get { return this.shuffleMode; }
+      set {
+        if (Equals(value, this.shuffleMode)) {
+          return;
+        }
+        this.shuffleMode = value;
+        this.OnPropertyChanged(() => this.ShuffleMode);
+      }
+    }
+
+    public bool RepeatMode {
+      get { return this.repeatMode; }
+      set {
+        if (Equals(value, this.repeatMode)) {
+          return;
+        }
+        this.repeatMode = value;
+        this.OnPropertyChanged(() => this.RepeatMode);
+      }
+    }
   }
 }

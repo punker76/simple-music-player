@@ -102,6 +102,7 @@
     <Compile Include="Interfaces\IMediaFile.cs" />
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\ModeToColorConverter.cs" />
     <Compile Include="ValueConverters\PlayerStatePlayToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SliderPositionValueToTextConverter.cs" />
     <Compile Include="ValueConverters\SliderRemainingPositionValueToTextConverter.cs" />

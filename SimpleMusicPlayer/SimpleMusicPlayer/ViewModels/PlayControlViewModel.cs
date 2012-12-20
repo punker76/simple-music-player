@@ -17,14 +17,29 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand playNextCommand;
     private ICommand shuffleCommand;
     private ICommand repeatCommand;
+    private SMPSettings smpSettings;
 
-    public PlayControlViewModel(Dispatcher dispatcher, PlaylistsViewModel playlistsViewModel) {
+    public PlayControlViewModel(Dispatcher dispatcher, SMPSettings settings, PlaylistsViewModel playlistsViewModel) {
       this.playlistsViewModel = playlistsViewModel;
+
+      this.SMPSettings = settings;
+
       this.PlayerEngine.PlayNextFileAction = () => {
         if (this.CanPlayNext()) {
           this.PlayNext();
         }
       };
+    }
+
+    public SMPSettings SMPSettings {
+      get { return this.smpSettings; }
+      private set {
+        if (Equals(value, this.smpSettings)) {
+          return;
+        }
+        this.smpSettings = value;
+        this.OnPropertyChanged(() => this.SMPSettings);
+      }
     }
 
     public PlayerEngine PlayerEngine {
@@ -121,11 +136,11 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private bool CanSetShuffelMode() {
-      return false;// this.PlayerEngine.Initializied;
+      return this.PlayerEngine.Initializied;
     }
 
     private void SetShuffelMode() {
-      // nothing yet
+      this.SMPSettings.PlayerSettings.ShuffleMode = !this.SMPSettings.PlayerSettings.ShuffleMode;
     }
 
     public ICommand RepeatCommand {
@@ -133,11 +148,11 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private bool CanSetRepeatMode() {
-      return false;// this.PlayerEngine.Initializied;
+      return this.PlayerEngine.Initializied;
     }
 
     private void SetRepeatMode() {
-      // nothing yet
+      this.SMPSettings.PlayerSettings.RepeatMode = !this.SMPSettings.PlayerSettings.RepeatMode;
     }
   }
 }
