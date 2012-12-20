@@ -9,7 +9,7 @@ namespace SimpleMusicPlayer.ViewModels
 {
   public class PlayControlViewModel : ViewModelBaseNotifyPropertyChanged
   {
-    private PlaylistsViewModel playlistsViewModel;
+    private readonly PlaylistsViewModel playlistsViewModel;
     private ICommand playCommand;
     private ICommand pauseCommand;
     private ICommand stopCommand;
