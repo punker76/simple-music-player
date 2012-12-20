@@ -18,7 +18,10 @@ namespace SimpleMusicPlayer
 
       this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
 
-      this.Closed += (sender, e) => PlayerEngine.Instance.CleanUp();
+      this.Closed += (sender, e) => {
+        ((MainWindowViewModel)this.DataContext).SaveSettings();
+        PlayerEngine.Instance.CleanUp();
+      };
     }
   }
 }

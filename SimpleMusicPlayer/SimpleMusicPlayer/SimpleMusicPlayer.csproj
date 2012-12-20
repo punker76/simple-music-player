@@ -49,6 +49,10 @@
       <HintPath>..\packages\WPFSpark.1.1\lib\net40\Microsoft.Expression.Interactions.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -90,6 +94,7 @@
     <Compile Include="Common\IPlayerEngine.cs" />
     <Compile Include="Common\PlayerEngine.cs" />
     <Compile Include="Common\PlayListObservableCollection.cs" />
+    <Compile Include="Common\SMPSettings.cs" />
     <Compile Include="FMODEx\fmod.cs" />
     <Compile Include="FMODEx\fmod_dsp.cs" />
     <Compile Include="FMODEx\fmod_errors.cs" />
@@ -217,6 +222,14 @@
     <None Include="fmodex.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll">
+      <Link>DllsAsResource\Newtonsoft.Json.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.xml">
+      <Link>DllsAsResource\Newtonsoft.Json.xml</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

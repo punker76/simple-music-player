@@ -27,8 +27,10 @@ namespace SimpleMusicPlayer.Common
     private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
     private bool initializied;
     private IMediaFile currentMediaFile;
+    private SMPSettings smpSettings;
 
-    public bool Configure(Dispatcher dispatcher) {
+    public bool Configure(Dispatcher dispatcher, SMPSettings settings) {
+      this.smpSettings = settings;
       /*
           Global Settings
       */
@@ -47,7 +49,7 @@ namespace SimpleMusicPlayer.Common
       result = this.system.init(1, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
       this.ERRCHECK(result);
 
-      this.Volume = 1;
+      this.Volume = this.smpSettings.PlayerSettings.Volume;
       this.State = PlayerState.Stop;
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
@@ -109,6 +111,8 @@ namespace SimpleMusicPlayer.Common
           return;
         }
         this.volume = value;
+
+        this.smpSettings.PlayerSettings.Volume = value;
 
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
           var result = this.channelInfo.Channel.setVolume(this.Volume);

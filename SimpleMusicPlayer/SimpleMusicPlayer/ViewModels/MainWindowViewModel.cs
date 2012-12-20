@@ -1,5 +1,7 @@
-﻿using System.Windows.Input;
+﻿using System.IO;
+using System.Windows.Input;
 using System.Windows.Threading;
+using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 
@@ -7,6 +9,7 @@ namespace SimpleMusicPlayer.ViewModels
 {
   public class MainWindowViewModel : ViewModelBaseNotifyPropertyChanged
   {
+    private readonly SMPSettings smpSettings;
     private PlayControlViewModel playControlViewModel;
     private PlayInfoViewModel playInfoViewModel;
     private PlaylistsViewModel playlistsViewModel;
@@ -14,11 +17,29 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand showOnGitHubCmd;
 
     public MainWindowViewModel(Dispatcher dispatcher) {
-      PlayerEngine.Instance.Configure(dispatcher);
+      this.smpSettings = this.ReadSettings();
+      PlayerEngine.Instance.Configure(dispatcher, smpSettings);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher);
       this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.PlaylistsViewModel);
       this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
+    }
+
+    private SMPSettings ReadSettings() {
+      if (File.Exists(SMPSettings.SettingsFile)) {
+        var jsonString = File.ReadAllText(SMPSettings.SettingsFile);
+        return JsonConvert.DeserializeObject<SMPSettings>(jsonString);
+      }
+      return SMPSettings.GetEmptySettings();
+    }
+
+    private void WriteSettings(SMPSettings settings) {
+      var settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
+      File.WriteAllText(SMPSettings.SettingsFile, settingsAsJson);
+    }
+
+    public void SaveSettings() {
+      this.WriteSettings(this.smpSettings);
     }
 
     public PlayControlViewModel PlayControlViewModel {
