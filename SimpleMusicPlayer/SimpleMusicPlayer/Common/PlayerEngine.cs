@@ -51,6 +51,7 @@ namespace SimpleMusicPlayer.Common
 
       this.Volume = this.smpSettings.PlayerSettings.Volume;
       this.State = PlayerState.Stop;
+      this.Length = TimeSpan.Zero;
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
       this.timer.Stop();
@@ -272,6 +273,10 @@ namespace SimpleMusicPlayer.Common
       }
 
       this.timer.Stop();
+
+      this.currentPositionMs = 0;
+      this.OnPropertyChanged("CurrentPositionMs");
+      this.Length = TimeSpan.Zero;
     }
 
     private void CleanUpSystem(ref FMOD.System fmodSystem) {
