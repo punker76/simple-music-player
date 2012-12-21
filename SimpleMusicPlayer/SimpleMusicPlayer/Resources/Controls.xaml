@@ -74,6 +74,9 @@
   </Style>
 
   <Style TargetType="Slider"
-         BasedOn="{StaticResource SimpleMPMetroSlider}" />
+         BasedOn="{StaticResource SimpleMPMetroSlider}">
+    <Setter Property="FocusVisualStyle"
+            Value="{x:Null}" />
+  </Style>
 
 </ResourceDictionary>
