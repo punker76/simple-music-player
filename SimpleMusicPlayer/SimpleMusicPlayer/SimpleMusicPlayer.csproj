@@ -89,6 +89,7 @@
     <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
+    <Compile Include="Common\CustomTransitioningContentControl.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />
     <Compile Include="Common\IPlayerEngine.cs" />
