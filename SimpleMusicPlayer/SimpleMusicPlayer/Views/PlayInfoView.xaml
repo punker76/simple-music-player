@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
+             xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -53,6 +54,8 @@
         </Grid>
       </DataTemplate>
 
+      <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
+
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -85,8 +88,19 @@
         </Rectangle>
       </Border>
 
+<!--      <Image Stretch="UniformToFill"-->
+<!--             Visibility="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay, Converter={StaticResource NullToCollapsedVisibilityConverter}}"-->
+<!--             Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />-->
       <Image Stretch="UniformToFill"
-             Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
+             Visibility="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay, Converter={StaticResource NullToCollapsedVisibilityConverter}}">
+        <Image.Source>
+          <PriorityBinding FallbackValue="{x:Null}">
+            <Binding Path="PlayerEngine.CurrentMediaFile.Cover"
+                     Mode="OneWay"
+                     IsAsync="True" />
+          </PriorityBinding>
+        </Image.Source>
+      </Image>
     </Grid>
 
     <!-- title, album, artis -->
