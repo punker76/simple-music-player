@@ -186,7 +186,11 @@ namespace SimpleMusicPlayer.Common
 
       this.CurrentMediaFile = file;
 
-      var result = this.system.createSound(file.FullFileName, (FMOD.MODE._2D | FMOD.MODE.HARDWARE | FMOD.MODE.CREATESTREAM), ref this.sound);
+      var mode = FMOD.MODE._2D | FMOD.MODE.HARDWARE | FMOD.MODE.CREATESTREAM;
+      if (file.IsVBR) {
+        mode |= FMOD.MODE.ACCURATETIME;
+      }
+      var result = this.system.createSound(file.FullFileName, mode, ref this.sound);
       this.ERRCHECK(result);
 
       uint lenms = 0;

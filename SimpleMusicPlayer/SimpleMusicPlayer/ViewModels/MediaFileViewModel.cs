@@ -36,6 +36,7 @@ namespace SimpleMusicPlayer.ViewModels
     private uint disc;
     private uint discCount;
     private TimeSpan duration;
+    private bool isVBR;
     private string firstAlbumArtist;
     private string firstPerformerAndTitle;
     private string albumAndFirstPerformer;
@@ -109,6 +110,8 @@ namespace SimpleMusicPlayer.ViewModels
 
           if (file.Properties.MediaTypes != TagLib.MediaTypes.None) {
             mf.Duration = file.Properties.Duration;
+            var codec = file.Properties.Codecs.FirstOrDefault(c => c is TagLib.Mpeg.AudioHeader);
+            mf.IsVBR = codec != null && (((TagLib.Mpeg.AudioHeader)codec).VBRIHeader.Present || ((TagLib.Mpeg.AudioHeader)codec).XingHeader.Present);
           }
 
           return mf;
@@ -226,6 +229,17 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.duration = value;
         this.OnPropertyChanged(() => this.Duration);
+      }
+    }
+
+    public bool IsVBR {
+      get { return this.isVBR; }
+      private set {
+        if (Equals(value, this.isVBR)) {
+          return;
+        }
+        this.isVBR = value;
+        this.OnPropertyChanged(() => this.IsVBR);
       }
     }
 
@@ -495,10 +509,10 @@ namespace SimpleMusicPlayer.ViewModels
 
     public BitmapImage Cover {
       get {
+        if (string.IsNullOrWhiteSpace(this.FullFileName) || !System.IO.File.Exists(this.FullFileName)) {
+          return null;
+        }
         try {
-          if (string.IsNullOrWhiteSpace(this.FullFileName) || !System.IO.File.Exists(this.FullFileName)) {
-            return null;
-          }
           using (TagLib.File file = TagLib.File.Create(this.FullFileName)) {
             var pictures = file.Tag.Pictures;
             if (pictures != null) {
