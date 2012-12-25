@@ -70,6 +70,9 @@ namespace SimpleMusicPlayer.ViewModels
           mf.ComposersSort = file.Tag.ComposersSort;
           mf.Conductor = file.Tag.Conductor;
           mf.Album = file.Tag.Album;
+          if (string.IsNullOrWhiteSpace(mf.Album)) {
+            mf.Album = "<Unknown>";
+          }
           mf.AlbumSort = file.Tag.AlbumSort;
           mf.Comment = file.Tag.Comment;
           mf.Copyright = file.Tag.Copyright;
