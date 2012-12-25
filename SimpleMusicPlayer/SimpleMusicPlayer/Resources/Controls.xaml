@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Base="clr-namespace:SimpleMusicPlayer.Base">
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
@@ -75,6 +76,12 @@
 
   <Style TargetType="Slider"
          BasedOn="{StaticResource SimpleMPMetroSlider}">
+    <Setter Property="FocusVisualStyle"
+            Value="{x:Null}" />
+  </Style>
+
+  <Style TargetType="Base:BaseListView"
+         BasedOn="{StaticResource VirtualisedListView}">
     <Setter Property="FocusVisualStyle"
             Value="{x:Null}" />
   </Style>

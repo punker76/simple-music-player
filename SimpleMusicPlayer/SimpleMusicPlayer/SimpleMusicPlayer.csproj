@@ -78,6 +78,10 @@
       <HintPath>..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.1.8.0\lib\net40\WPFToolkit.Extended.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -85,6 +89,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Base\AttachedCommandBehavior.cs" />
+    <Compile Include="Base\BaseListView.cs" />
     <Compile Include="Base\DelegateCommand.cs" />
     <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
@@ -93,6 +98,7 @@
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />
     <Compile Include="Common\IPlayerEngine.cs" />
+    <Compile Include="Common\MedialibObservableCollection.cs" />
     <Compile Include="Common\PlayerEngine.cs" />
     <Compile Include="Common\PlayListObservableCollection.cs" />
     <Compile Include="Common\SMPSettings.cs" />
@@ -237,6 +243,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\MahApps.Metro.0.10.1.7-ALPHA\lib\net40\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Extended.Wpf.Toolkit.1.8.0\lib\net40\WPFToolkit.Extended.dll">
+      <Link>DllsAsResource\WPFToolkit.Extended.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

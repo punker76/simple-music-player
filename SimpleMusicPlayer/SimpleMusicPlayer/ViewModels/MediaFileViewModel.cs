@@ -507,6 +507,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+    [Browsable(false)]
     public BitmapImage Cover {
       get {
         if (string.IsNullOrWhiteSpace(this.FullFileName) || !System.IO.File.Exists(this.FullFileName)) {
