@@ -88,19 +88,8 @@
         </Rectangle>
       </Border>
 
-<!--      <Image Stretch="UniformToFill"-->
-<!--             Visibility="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay, Converter={StaticResource NullToCollapsedVisibilityConverter}}"-->
-<!--             Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />-->
       <Image Stretch="UniformToFill"
-             Visibility="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay, Converter={StaticResource NullToCollapsedVisibilityConverter}}">
-        <Image.Source>
-          <PriorityBinding FallbackValue="{x:Null}">
-            <Binding Path="PlayerEngine.CurrentMediaFile.Cover"
-                     Mode="OneWay"
-                     IsAsync="True" />
-          </PriorityBinding>
-        </Image.Source>
-      </Image>
+             Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
     </Grid>
 
     <!-- title, album, artis -->
