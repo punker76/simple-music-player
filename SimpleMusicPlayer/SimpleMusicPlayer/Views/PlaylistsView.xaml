@@ -45,6 +45,7 @@
           </Grid.ColumnDefinitions>
 
           <Grid Grid.Column="0"
+                Margin="-1,0,0,0"
                 Opacity="0.75">
             <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
               <Ellipse Margin="0,0,2,0"
@@ -57,10 +58,6 @@
                          Height="8"
                          VerticalAlignment="Center"
                          Fill="{StaticResource VisualBrushPlay}">
-<!--                <Rectangle.Fill>-->
-<!--                  <VisualBrush Stretch="Fill"-->
-<!--                               Visual="{StaticResource appbar_play}" />-->
-<!--                </Rectangle.Fill>-->
               </Rectangle>
             </Grid>
             <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
@@ -74,10 +71,6 @@
                          Height="8"
                          VerticalAlignment="Center"
                          Fill="{StaticResource VisualBrushPause}">
-<!--                <Rectangle.Fill>-->
-<!--                  <VisualBrush Stretch="Fill"-->
-<!--                               Visual="{StaticResource appbar_pause}" />-->
-<!--                </Rectangle.Fill>-->
               </Rectangle>
             </Grid>
           </Grid>
@@ -101,7 +94,6 @@
 
   <Grid>
 
-    <!--    IsSynchronizedWithCurrentItem="True"-->
     <ListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
              SelectedItem="{Binding SelectedPlayListFile}"
              Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
