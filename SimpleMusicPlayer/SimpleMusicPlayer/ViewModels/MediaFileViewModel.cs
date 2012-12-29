@@ -39,7 +39,6 @@ namespace SimpleMusicPlayer.ViewModels
     private bool isVBR;
     private string firstAlbumArtist;
     private string firstPerformerAndTitle;
-    private string albumAndFirstPerformer;
     private string firstAlbumArtistSort;
     private string firstComposer;
     private string firstComposerSort;
@@ -59,38 +58,56 @@ namespace SimpleMusicPlayer.ViewModels
         using (TagLib.File file = TagLib.File.Create(fileName)) {
           var mf = new MediaFileViewModel(fileName);
 
-          mf.Grouping = file.Tag.Grouping;
-          mf.Title = file.Tag.Title;
-          mf.TitleSort = file.Tag.TitleSort;
-          mf.AlbumArtists = file.Tag.AlbumArtists;
-          mf.AlbumArtistsSort = file.Tag.AlbumArtistsSort;
-          mf.Performers = file.Tag.Performers;
-          mf.PerformersSort = file.Tag.PerformersSort;
-          mf.Composers = file.Tag.Composers;
-          mf.ComposersSort = file.Tag.ComposersSort;
-          mf.Conductor = file.Tag.Conductor;
+          // ALBUM -> iTunes=Album, WMP10=Album, Winamp=Album
           mf.Album = file.Tag.Album;
           if (string.IsNullOrWhiteSpace(mf.Album)) {
             mf.Album = "<Unknown>";
           }
           mf.AlbumSort = file.Tag.AlbumSort;
-          mf.Comment = file.Tag.Comment;
-          mf.Copyright = file.Tag.Copyright;
-          mf.Genres = file.Tag.Genres;
+          // ALBUMARTIST
+          mf.AlbumArtists = file.Tag.AlbumArtists;
+          mf.AlbumArtistsSort = file.Tag.AlbumArtistsSort;
+          mf.FirstAlbumArtist = file.Tag.FirstAlbumArtist;
+          mf.FirstAlbumArtistSort = file.Tag.FirstAlbumArtistSort;
+
+          // ARTIST/Performer
+          mf.Performers = file.Tag.Performers;
+          mf.PerformersSort = file.Tag.PerformersSort;
+          mf.FirstPerformer = file.Tag.FirstPerformer;
+          mf.FirstPerformerSort = file.Tag.FirstPerformerSort;
+
+          // BPM
           mf.BPM = file.Tag.BeatsPerMinute;
-          mf.Year = file.Tag.Year;
+
+          // COMMENT
+          mf.Comment = file.Tag.Comment;
+
+          // COMPOSER
+          mf.Composers = file.Tag.Composers;
+          mf.ComposersSort = file.Tag.ComposersSort;
+          mf.FirstComposer = file.Tag.FirstComposer;
+          mf.FirstComposerSort = file.Tag.FirstComposerSort;
+
+          // CONDUCTOR
+          mf.Conductor = file.Tag.Conductor;
+
+          // COPYRIGHT
+          mf.Copyright = file.Tag.Copyright;
+
+          // TITLE
+          mf.Title = file.Tag.Title;
+          mf.TitleSort = file.Tag.TitleSort;
+
+          // GENRE
+          mf.Genres = file.Tag.Genres;
+          mf.FirstGenre = file.Tag.FirstGenre;
+
           mf.Track = file.Tag.Track;
           mf.TrackCount = file.Tag.TrackCount;
           mf.Disc = file.Tag.Disc;
           mf.DiscCount = file.Tag.DiscCount;
-
-          mf.FirstAlbumArtist = file.Tag.FirstAlbumArtist;
-          mf.FirstAlbumArtistSort = file.Tag.FirstAlbumArtistSort;
-          mf.FirstComposer = file.Tag.FirstComposer;
-          mf.FirstComposerSort = file.Tag.FirstComposerSort;
-          mf.FirstGenre = file.Tag.FirstGenre;
-          mf.FirstPerformer = file.Tag.FirstPerformer;
-          mf.FirstPerformerSort = file.Tag.FirstPerformerSort;
+          mf.Year = file.Tag.Year;
+          mf.Grouping = file.Tag.Grouping;
 
           var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(mf.FirstPerformer);
           var isTitleEmpty = string.IsNullOrWhiteSpace(mf.Title);
@@ -100,15 +117,8 @@ namespace SimpleMusicPlayer.ViewModels
             mf.FirstPerformerAndTitle = mf.FirstPerformer;
           } else if (!isTitleEmpty) {
             mf.FirstPerformerAndTitle = mf.Title;
-          }
-
-          var isAlbumEmpty = string.IsNullOrWhiteSpace(mf.Album);
-          if (!isAlbumEmpty && !isFirstPerformerEmpty) {
-            mf.AlbumAndFirstPerformer = string.Format("{0} - {1}", mf.Album, mf.FirstPerformer);
-          } else if (!isAlbumEmpty) {
-            mf.AlbumAndFirstPerformer = mf.Album;
-          } else if (!isFirstPerformerEmpty) {
-            mf.AlbumAndFirstPerformer = mf.FirstPerformer;
+          } else {
+            mf.FirstPerformerAndTitle = mf.FileName;
           }
 
           if (file.Properties.MediaTypes != TagLib.MediaTypes.None) {
@@ -210,17 +220,6 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.firstPerformerAndTitle = value;
         this.OnPropertyChanged(() => this.FirstPerformerAndTitle);
-      }
-    }
-
-    public string AlbumAndFirstPerformer {
-      get { return this.albumAndFirstPerformer; }
-      set {
-        if (Equals(value, this.albumAndFirstPerformer)) {
-          return;
-        }
-        this.albumAndFirstPerformer = value;
-        this.OnPropertyChanged(() => this.AlbumAndFirstPerformer);
       }
     }
 
