@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
@@ -19,6 +20,7 @@ namespace SimpleMusicPlayer.ViewModels
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
         //this.PlayerEngine.Stop();
         this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(files));
+        //((ICollectionView)this.MediaFiles).GroupDescriptions.Add(new PropertyGroupDescription("Album"));
       }
     }
 

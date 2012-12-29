@@ -28,7 +28,37 @@
   <Grid>
 
     <Base:BaseListView DataType="{x:Type ViewModels:MediaFileViewModel}"
-                       ItemsSource="{Binding MediaFiles, Mode=OneWay}" />
+                       ItemsSource="{Binding MediaFiles, Mode=OneWay}">
+      <ListView.GroupStyle>
+        <GroupStyle>
+          <GroupStyle.ContainerStyle>
+            <Style TargetType="{x:Type GroupItem}">
+              <Setter Property="Margin"
+                      Value="0,0,0,5" />
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate TargetType="{x:Type GroupItem}">
+                    <HeaderedContentControl BorderBrush="#FFA4B97F"
+                                            BorderThickness="0,0,0,1">
+                      <HeaderedContentControl.Header>
+                        <TextBlock FontWeight="Bold"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextBrush}"
+                                   Text="{Binding Path=Name, Mode=OneWay}"
+                                   Margin="5,0,0,0" />
+                      </HeaderedContentControl.Header>
+                      <HeaderedContentControl.Content>
+                        <ItemsPresenter />
+                      </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          </GroupStyle.ContainerStyle>
+        </GroupStyle>
+      </ListView.GroupStyle>
+    </Base:BaseListView>
 
   </Grid>
 </UserControl>
