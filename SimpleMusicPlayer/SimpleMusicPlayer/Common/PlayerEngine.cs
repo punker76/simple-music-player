@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using FMOD;
 using SimpleMusicPlayer.Base;
@@ -24,6 +25,7 @@ namespace SimpleMusicPlayer.Common
     private TimeSpan length;
     private double currentPositionMs;
     private PlayerState state;
+    private Equalizer equalizer;
     private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
     private bool initializied;
     private IMediaFile currentMediaFile;
@@ -35,11 +37,13 @@ namespace SimpleMusicPlayer.Common
           Global Settings
       */
       var result = FMOD.Factory.System_Create(ref this.system);
-      this.ERRCHECK(result);
+      if (!result.ERRCHECK()) {
+        return false;
+      }
 
       uint version = 0;
       result = this.system.getVersion(ref version);
-      this.ERRCHECK(result);
+      result.ERRCHECK();
       if (version < FMOD.VERSION.number) {
         //MessageBox.Show("Error!  You are using an old version of FMOD " + version.ToString("X") + ".  This program requires " + FMOD.VERSION.number.ToString("X") + ".");
         //Application.Exit();
@@ -47,7 +51,12 @@ namespace SimpleMusicPlayer.Common
       }
 
       result = this.system.init(1, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
-      this.ERRCHECK(result);
+      if (!result.ERRCHECK()) {
+        return false;
+      }
+
+      // equalizer
+      this.Equalizer = Equalizer.GetEqualizer(this.system);
 
       this.Volume = this.smpSettings.PlayerSettings.Volume;
       this.State = PlayerState.Stop;
@@ -69,17 +78,17 @@ namespace SimpleMusicPlayer.Common
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         result = this.channelInfo.Channel.isPlaying(ref playing);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
-          this.ERRCHECK(result);
+          result.ERRCHECK();
         }
 
         result = this.channelInfo.Channel.getPaused(ref paused);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
-          this.ERRCHECK(result);
+          result.ERRCHECK();
         }
 
         result = this.channelInfo.Channel.getPosition(ref ms, FMOD.TIMEUNIT.MS);
         if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
-          this.ERRCHECK(result);
+          result.ERRCHECK();
         }
       }
 
@@ -118,7 +127,7 @@ namespace SimpleMusicPlayer.Common
 
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
           var result = this.channelInfo.Channel.setVolume(this.Volume);
-          this.ERRCHECK(result);
+          result.ERRCHECK();
         }
 
         this.OnPropertyChanged("Volume");
@@ -149,7 +158,7 @@ namespace SimpleMusicPlayer.Common
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
           var result = this.channelInfo.Channel.setPosition(Convert.ToUInt32(value), FMOD.TIMEUNIT.MS);
           if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
-            this.ERRCHECK(result);
+            result.ERRCHECK();
           }
         }
 
@@ -165,6 +174,17 @@ namespace SimpleMusicPlayer.Common
         }
         this.state = value;
         this.OnPropertyChanged("State");
+      }
+    }
+
+    public Equalizer Equalizer {
+      get { return this.equalizer; }
+      set {
+        if (Equals(value, this.equalizer)) {
+          return;
+        }
+        this.equalizer = value;
+        this.OnPropertyChanged("Equalizer");
       }
     }
 
@@ -186,21 +206,30 @@ namespace SimpleMusicPlayer.Common
 
       this.CurrentMediaFile = file;
 
-      var mode = FMOD.MODE._2D | FMOD.MODE.HARDWARE | FMOD.MODE.CREATESTREAM;
+      var mode = FMOD.MODE._2D | FMOD.MODE.CREATESTREAM;
       if (file.IsVBR) {
         mode |= FMOD.MODE.ACCURATETIME;
       }
+      if (this.Equalizer != null) {
+        mode |= MODE.SOFTWARE;
+      } else {
+        mode |= MODE.HARDWARE;
+      }
       var result = this.system.createSound(file.FullFileName, mode, ref this.sound);
-      this.ERRCHECK(result);
+      if (!result.ERRCHECK()) {
+        return;
+      }
 
       uint lenms = 0;
       result = this.sound.getLength(ref lenms, FMOD.TIMEUNIT.MS);
-      this.ERRCHECK(result);
+      result.ERRCHECK();
       this.Length = TimeSpan.FromMilliseconds(lenms);
 
       FMOD.Channel channel = null;
       result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref channel);
-      this.ERRCHECK(result);
+      if (!result.ERRCHECK()) {
+        return;
+      }
 
       this.State = PlayerState.Play;
       file.State = PlayerState.Play;
@@ -208,10 +237,10 @@ namespace SimpleMusicPlayer.Common
       if (channel != null) {
         this.channelInfo = new ChannelInfo() {Channel = channel, File = file};
         result = this.channelInfo.Channel.setCallback(this.channelEndCallback);
-        this.ERRCHECK(result);
+        result.ERRCHECK();
 
         result = this.channelInfo.Channel.setVolume(this.Volume);
-        this.ERRCHECK(result);
+        result.ERRCHECK();
       }
     }
 
@@ -220,12 +249,13 @@ namespace SimpleMusicPlayer.Common
     private static RESULT ChannelEndCallback(IntPtr channelraw, CHANNEL_CALLBACKTYPE type, IntPtr commanddata1, IntPtr commanddata2) {
       if (type == CHANNEL_CALLBACKTYPE.END) {
         // this must be thread safe
+        var currentSynchronizationContext = TaskScheduler.FromCurrentSynchronizationContext();
         var uiTask = Task.Factory.StartNew(() => {
           var action = PlayerEngine.Instance.PlayNextFileAction;
           if (action != null) {
             action();
           }
-        }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.FromCurrentSynchronizationContext());
+        }, CancellationToken.None, TaskCreationOptions.None, currentSynchronizationContext);
       }
       return FMOD.RESULT.OK;
     }
@@ -234,11 +264,11 @@ namespace SimpleMusicPlayer.Common
       bool paused = false;
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         var result = this.channelInfo.Channel.getPaused(ref paused);
-        this.ERRCHECK(result);
+        result.ERRCHECK();
 
         var newPaused = !paused;
         result = this.channelInfo.Channel.setPaused(newPaused);
-        this.ERRCHECK(result);
+        result.ERRCHECK();
 
         this.channelInfo.File.State = newPaused ? PlayerState.Pause : PlayerState.Play;
         this.State = newPaused ? PlayerState.Pause : PlayerState.Play;
@@ -255,6 +285,7 @@ namespace SimpleMusicPlayer.Common
       */
       this.timer.Stop();
       this.CleanUpSound(ref this.sound);
+      this.CleanUpEqualizer();
       this.CleanUpSystem(ref this.system);
     }
 
@@ -272,7 +303,7 @@ namespace SimpleMusicPlayer.Common
 
       if (fmodSound != null) {
         var result = fmodSound.release();
-        this.ERRCHECK(result);
+        result.ERRCHECK();
         fmodSound = null;
       }
 
@@ -283,22 +314,20 @@ namespace SimpleMusicPlayer.Common
       this.Length = TimeSpan.Zero;
     }
 
-    private void CleanUpSystem(ref FMOD.System fmodSystem) {
-      if (fmodSystem != null) {
-        var result = fmodSystem.close();
-        this.ERRCHECK(result);
-        result = fmodSystem.release();
-        this.ERRCHECK(result);
-        fmodSystem = null;
+    private void CleanUpEqualizer() {
+      if (this.Equalizer != null) {
+        this.Equalizer.CleanUp();
+        this.Equalizer = null;
       }
     }
 
-    private void ERRCHECK(FMOD.RESULT result) {
-      if (result != FMOD.RESULT.OK) {
-        this.timer.Stop();
-        //MessageBox.Show("FMOD error! " + result + " - " + FMOD.Error.String(result));
-        // todo : show error info dialog
-        Environment.Exit(-1);
+    private void CleanUpSystem(ref FMOD.System fmodSystem) {
+      if (fmodSystem != null) {
+        var result = fmodSystem.close();
+        result.ERRCHECK();
+        result = fmodSystem.release();
+        result.ERRCHECK();
+        fmodSystem = null;
       }
     }
 
@@ -314,6 +343,20 @@ namespace SimpleMusicPlayer.Common
 
     public static PlayerEngine Instance {
       get { return instance ?? (instance = new PlayerEngine()); }
+    }
+  }
+
+  public static class PlayerEngineExtensions
+  {
+    public static bool ERRCHECK(this FMOD.RESULT result) {
+      if (result != FMOD.RESULT.OK) {
+        //this.timer.Stop();
+        MessageBox.Show("FMOD error! " + result + " - " + FMOD.Error.String(result));
+        // todo : show error info dialog
+        //Environment.Exit(-1);
+        return false;
+      }
+      return true;
     }
   }
 }

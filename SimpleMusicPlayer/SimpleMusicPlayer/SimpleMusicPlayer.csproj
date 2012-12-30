@@ -96,6 +96,7 @@
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
     <Compile Include="Common\CustomTransitioningContentControl.cs" />
     <Compile Include="Common\Enums.cs" />
+    <Compile Include="Common\Equalizer.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />
     <Compile Include="Common\IPlayerEngine.cs" />
     <Compile Include="Common\MedialibObservableCollection.cs" />

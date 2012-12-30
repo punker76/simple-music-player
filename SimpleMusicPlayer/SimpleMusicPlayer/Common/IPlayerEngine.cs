@@ -13,6 +13,8 @@ namespace SimpleMusicPlayer.Common
 
     PlayerState State { get; }
 
+    Equalizer Equalizer { get; }
+
     float Volume { get; set; }
     TimeSpan Length { get; }
     double CurrentPositionMs { get; set; }
