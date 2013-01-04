@@ -92,7 +92,7 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                         <Border Background="{DynamicResource BlackBrush}"
-                                BorderThickness="0,1,0,0"
+                                BorderThickness="0,1,0,1"
                                 CornerRadius="2.5"
                                 Opacity=".55"
                                 BorderBrush="{DynamicResource ControlBackgroundBrush}" />
@@ -328,6 +328,10 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
                 <Track x:Name="PART_Track"
                         Grid.RowSpan="3"
                         Grid.Row="0"
@@ -343,12 +347,13 @@
                     <Track.Thumb>
                         <Thumb x:Name="VerticalThumb"
                                 Grid.Row="1"
-                                Width="18"
+                                Width="12"
                                 IsTabStop="True"
-                                Height="10"
+                                Height="22"
                                 Style="{StaticResource VerticalSliderThumb}" />
                     </Track.Thumb>
                 </Track>
+                <TickBar x:Name="RightTick" Fill="{TemplateBinding Foreground}" Placement="Right" Width="4" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3"/>
             </Grid>
         </Grid>
         <ControlTemplate.Triggers>
