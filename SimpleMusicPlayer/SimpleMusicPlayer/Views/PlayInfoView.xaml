@@ -53,9 +53,6 @@
                      Text="{Binding FirstPerformer}" />
         </Grid>
       </DataTemplate>
-
-      <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
-
     </ResourceDictionary>
   </UserControl.Resources>
 
