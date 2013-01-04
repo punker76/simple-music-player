@@ -14,15 +14,22 @@ namespace SimpleMusicPlayer.ViewModels
     private PlayInfoViewModel playInfoViewModel;
     private PlaylistsViewModel playlistsViewModel;
     private MedialibViewModel medialibViewModel;
+    private EqualizerViewModel equalizerViewModel;
     private ICommand showOnGitHubCmd;
+    private ICommand showEqualizerCommand;
+    private ICommand closeEqualizerCommand;
 
     public MainWindowViewModel(Dispatcher dispatcher) {
       this.smpSettings = this.ReadSettings();
-      PlayerEngine.Instance.Configure(dispatcher, this.smpSettings);
+      this.PlayerEngine.Configure(dispatcher, this.smpSettings);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
       this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel);
       this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
+    }
+
+    public PlayerEngine PlayerEngine {
+      get { return PlayerEngine.Instance; }
     }
 
     private SMPSettings ReadSettings() {
@@ -86,12 +93,48 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+    public EqualizerViewModel EqualizerViewModel {
+      get { return this.equalizerViewModel; }
+      set {
+        if (Equals(value, this.equalizerViewModel)) {
+          return;
+        }
+        this.equalizerViewModel = value;
+        this.OnPropertyChanged(() => this.EqualizerViewModel);
+      }
+    }
+
     public ICommand ShowOnGitHubCmd {
       get { return this.showOnGitHubCmd ?? (this.showOnGitHubCmd = new DelegateCommand(this.ShowOnGitHub, () => true)); }
     }
 
     private void ShowOnGitHub() {
       System.Diagnostics.Process.Start("https://github.com/punker76/simple-music-player");
+    }
+
+    public ICommand ShowEqualizerCommand {
+      get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(this.ShowEqualizer, this.CanShowEqualizer)); }
+    }
+
+    private bool CanShowEqualizer() {
+      return this.PlayerEngine.Initializied;
+    }
+
+    private void ShowEqualizer() {
+      this.EqualizerViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer);
+    }
+
+    public ICommand CloseEqualizerCommand {
+      get { return this.closeEqualizerCommand ?? (this.closeEqualizerCommand = new DelegateCommand(this.CloseEqualizer, this.CanCloseEqualizer)); }
+    }
+
+    private bool CanCloseEqualizer() {
+      return true;
+    }
+
+    private void CloseEqualizer() {
+      this.EqualizerViewModel.Equalizer = null;
+      this.EqualizerViewModel = null;
     }
   }
 }

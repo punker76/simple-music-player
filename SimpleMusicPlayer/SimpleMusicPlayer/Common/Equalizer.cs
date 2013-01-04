@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using FMOD;
 using SimpleMusicPlayer.Base;
 
@@ -42,7 +43,7 @@ namespace SimpleMusicPlayer.Common
       result.ERRCHECK();
 
       foreach (var value in EqDefaultValues) {
-        var band = EqualizerBand.GetEqualizerBand(system, value[0], value[1], value[2]);
+        var band = EqualizerBand.GetEqualizerBand(system, value[0], value[1], value[2] * 100f);
         if (band != null) {
           this.Bands.Add(band);
         }
@@ -79,9 +80,14 @@ namespace SimpleMusicPlayer.Common
     private FMOD.DSP dspEQ;
     private float gain;
 
-    private EqualizerBand(FMOD.System system, DSP dspParamEq, float gainValue) {
+    private EqualizerBand(FMOD.System system, DSP dspParamEq, float centerValue, float gainValue) {
       this.fmodSystem = system;
       this.dspEQ = dspParamEq;
+      if (centerValue >= 1000) {
+        this.BandCaption = string.Format("{0}K", (centerValue / 1000));
+      } else {
+        this.BandCaption = centerValue.ToString(CultureInfo.InvariantCulture);
+      }
       this.gain = gainValue;
     }
 
@@ -109,7 +115,8 @@ namespace SimpleMusicPlayer.Common
         return null;
       }
 
-      result = dspParamEq.setParameter((int)FMOD.DSP_PARAMEQ.GAIN, gainValue);
+      var gain = Calculate_EQ_Gain(gainValue);
+      result = dspParamEq.setParameter((int)FMOD.DSP_PARAMEQ.GAIN, gain);
       if (!result.ERRCHECK()) {
         return null;
       }
@@ -119,7 +126,7 @@ namespace SimpleMusicPlayer.Common
         return null;
       }
 
-      var band = new EqualizerBand(system, dspParamEq, gainValue);
+      var band = new EqualizerBand(system, dspParamEq, centerValue, gainValue);
       return band;
     }
 
@@ -128,6 +135,8 @@ namespace SimpleMusicPlayer.Common
       result.ERRCHECK();
       this.dspEQ = null;
     }
+
+    public string BandCaption { get; set; }
 
     /// <summary>
     /// Gain: Frequency Gain. 0.05 to 3.0. Default = 1.0
@@ -141,18 +150,37 @@ namespace SimpleMusicPlayer.Common
         this.gain = value;
 
         if (this.dspEQ != null) {
-          //          result = dspParamEq.setActive(false);
-          //          result.ERRCHECK();
-
-          var result = this.dspEQ.setParameter((int)FMOD.DSP_PARAMEQ.GAIN, value);
+          var result = this.dspEQ.setActive(false);
           result.ERRCHECK();
 
-          //          result = dspParamEq.setActive(true);
-          //          result.ERRCHECK();
+          var gain = Calculate_EQ_Gain(value);
+          result = this.dspEQ.setParameter((int)FMOD.DSP_PARAMEQ.GAIN, gain);
+          result.ERRCHECK();
+
+          result = this.dspEQ.setActive(true);
+          result.ERRCHECK();
         }
 
         this.OnPropertyChanged(() => this.Gain);
       }
+    }
+
+    private static float Calculate_EQ_Gain(float inGain) {
+      if (inGain < 5) {
+        inGain = 5;
+      }
+      var outGain = inGain / 100f;
+      return outGain;
+
+//      if (inGain > 100) {
+//        // Von 100 - 200 steigt der Wert von 1 auf 3 an
+//        var outGain = inGain * ((inGain - 100) * 0.01f);
+//        return outGain;
+//      } else {
+//        // Von 5 - 100 steigt der Wert von 0,05 - 1 an (1 ist unverändert)
+//        var outGain = inGain / 100f;
+//        return outGain;
+//      }
     }
   }
 }

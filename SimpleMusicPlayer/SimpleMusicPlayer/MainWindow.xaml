@@ -9,6 +9,8 @@
                       xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark"
                       xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
+                      xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                      xmlns:SimpleMusicPlayer="clr-namespace:SimpleMusicPlayer"
                       Title="Simple Music Player"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="True"
@@ -33,7 +35,10 @@
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
       </ResourceDictionary.MergedDictionaries>
+
+      <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
     </ResourceDictionary>
   </Controls:MetroWindow.Resources>
 
@@ -118,6 +123,119 @@
         </Button>
       </Grid>
     </StackPanel>
+
+    <Grid x:Name="equalizerView"
+          DataContext="{Binding EqualizerViewModel, Mode=OneWay}"
+          Visibility="{Binding RelativeSource={RelativeSource Self}, Path=DataContext, Converter={StaticResource NullToCollapsedVisibilityConverter}, Mode=OneWay}"
+          Grid.Row="0"
+          Grid.RowSpan="3">
+      <Grid.Background>
+        <SolidColorBrush Color="{DynamicResource Gray2}"
+                         Opacity="0.8" />
+      </Grid.Background>
+
+      <Grid VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+        <Grid.Background>
+          <SolidColorBrush Color="{DynamicResource WhiteColor}" />
+        </Grid.Background>
+        <Grid.Effect>
+          <DropShadowEffect ShadowDepth="0"
+                            Color="Black"
+                            BlurRadius="20"
+                            PresentationOptions:Freeze="true" />
+        </Grid.Effect>
+
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Height="30">
+          <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource AccentColor}" />
+          </Grid.Background>
+
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+
+          <TextBlock Grid.Column="0"
+                     Text="EQUALIZER"
+                     HorizontalAlignment="Left"
+                     TextTrimming="CharacterEllipsis"
+                     VerticalAlignment="Center"
+                     Margin="4,-1,0,0"
+                     FontSize="16"
+                     FontFamily="{DynamicResource HeaderFontFamily}"
+                     Foreground="White" />
+          <Button Grid.Column="1"
+                  Visibility="Collapsed"
+                  Width="34"
+                  MaxHeight="34"
+                  Style="{DynamicResource IronicallyNamedChromelessButtonStyle}"
+                  Foreground="White">
+            <Path Data="F1M0,0L2,0 5,3 8,0 10,0 6,4 10,8 8,8 5,5 2,8 0,8 4,4 0,0z"
+                  SnapsToDevicePixels="True"
+                  Fill="White" />
+          </Button>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="4,0,4,0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <Controls:ToggleSwitch Grid.Column="0"
+                                 Margin="0,0,0,4"
+                                 MinWidth="100"
+                                 HorizontalAlignment="Left"
+                                 OnLabel="On"
+                                 OffLabel="Off" />
+          
+          <ItemsControl Grid.Row="1"
+                        ItemsSource="{Binding Equalizer.Bands, Mode=OneWay}">
+            <ItemsControl.ItemsPanel>
+              <ItemsPanelTemplate>
+                <VirtualizingStackPanel Orientation="Horizontal" />
+              </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+              <DataTemplate DataType="{x:Type Common:EqualizerBand}">
+                <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                  </Grid.RowDefinitions>
+                  <Slider Grid.Row="0"
+                          Orientation="Vertical"
+                          Margin="4"
+                          Height="150"
+                          Minimum="0"
+                          Maximum="200"
+                          TickFrequency="1"
+                          Ticks="0,20,40,60,80,100,120,140,160,180,200"
+                          Value="{Binding Gain}" />
+                  <TextBlock Grid.Row="1"
+                             Margin="4"
+                             Text="{Binding BandCaption}" />
+                </Grid>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+          
+          <Button Grid.Row="2"
+                  HorizontalAlignment="Center"
+                  Content="_Close"
+                  Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.CloseEqualizerCommand, Mode=OneWay}" />
+        </Grid>
+
+      </Grid>
+    </Grid>
 
   </Grid>
 </Controls:MetroWindow>

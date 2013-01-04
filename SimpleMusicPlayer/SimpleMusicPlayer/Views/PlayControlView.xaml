@@ -6,6 +6,7 @@
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
+             xmlns:SimpleMusicPlayer="clr-namespace:SimpleMusicPlayer"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -32,7 +33,7 @@
 
       <ValueConverters:ModeToColorConverter x:Key="ModeToColorConverter"
                                             TrueColor="{StaticResource AccentColor}"
-                                            FalseColor="{StaticResource BlackColor}"/>
+                                            FalseColor="{StaticResource BlackColor}" />
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -112,6 +113,7 @@
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <!-- stop -->
@@ -182,6 +184,22 @@
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_repeat}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+
+        <!-- show equalizer -->
+        <Button Grid.Column="4"
+                Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.ShowEqualizerCommand, Mode=OneWay}"
+                VerticalAlignment="Bottom"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="35"
+                Width="35">
+          <Rectangle Width="10"
+                     Height="10">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_equalizer}" />
             </Rectangle.Fill>
           </Rectangle>
         </Button>
