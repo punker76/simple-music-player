@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 
 namespace SimpleMusicPlayer.Common
@@ -11,7 +12,7 @@ namespace SimpleMusicPlayer.Common
     public PlayerSettings PlayerSettings { get; set; }
 
     public static SMPSettings GetEmptySettings() {
-      return new SMPSettings() {MainSettings = new MainSettings(), PlayerSettings = new PlayerSettings()};
+      return new SMPSettings {MainSettings = new MainSettings(), PlayerSettings = new PlayerSettings()};
     }
   }
 
@@ -51,5 +52,14 @@ namespace SimpleMusicPlayer.Common
         this.OnPropertyChanged(() => this.RepeatMode);
       }
     }
+
+    public EqualizerSettings EqualizerSettings { get; set; }
+  }
+
+  public class EqualizerSettings
+  {
+    public string Name { get; set; }
+    public Dictionary<string, float> GainValues { get; set; }
+    public bool IsEnabled { get; set; }
   }
 }

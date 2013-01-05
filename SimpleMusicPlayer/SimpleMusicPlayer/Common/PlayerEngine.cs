@@ -56,7 +56,7 @@ namespace SimpleMusicPlayer.Common
       }
 
       // equalizer
-      this.Equalizer = Equalizer.GetEqualizer(this.system);
+      this.Equalizer = Equalizer.GetEqualizer(this.system, settings);
 
       this.Volume = this.smpSettings.PlayerSettings.Volume;
       this.State = PlayerState.Stop;
@@ -287,6 +287,7 @@ namespace SimpleMusicPlayer.Common
       this.CleanUpSound(ref this.sound);
       this.CleanUpEqualizer();
       this.CleanUpSystem(ref this.system);
+      this.smpSettings = null;
     }
 
     private void CleanUpSound(ref FMOD.Sound fmodSound) {

@@ -133,6 +133,9 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private void CloseEqualizer() {
+      if (this.EqualizerViewModel.Equalizer.IsEnabled) {
+        this.EqualizerViewModel.Equalizer.SaveEqualizerSettings();
+      }
       this.EqualizerViewModel.Equalizer = null;
       this.EqualizerViewModel = null;
     }
