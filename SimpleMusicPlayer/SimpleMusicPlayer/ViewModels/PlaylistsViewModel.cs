@@ -22,7 +22,7 @@ namespace SimpleMusicPlayer.ViewModels
     private IEnumerable firstSimplePlaylistFiles;
     private IMediaFile selectedPlayListFile;
     private ICommand playCommand;
-    private SMPSettings smpSettings;
+    private readonly SMPSettings smpSettings;
 
     public PlaylistsViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.smpSettings = settings;
@@ -33,16 +33,20 @@ namespace SimpleMusicPlayer.ViewModels
     public async void LoadPlayListAsync() {
       var playList = await PlayList.GetPlayListAsync();
       if (playList != null) {
-        await Task.Factory
-                  .StartNew(() => {
-                    var filesColl = new PlayListObservableCollection(playList.Files);
-                    var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
-                    return filesCollView;
-                  })
-                  .ContinueWith(task => this.FirstSimplePlaylistFiles = task.Result,
-                                CancellationToken.None,
-                                TaskContinuationOptions.LongRunning,
-                                TaskScheduler.FromCurrentSynchronizationContext());
+        var filesColl = new PlayListObservableCollection(playList.Files);
+        var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
+        this.FirstSimplePlaylistFiles = filesCollView;
+        ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
+
+        //        await Task.Factory
+        //                  .StartNew(() => {
+        //                    return filesCollView;
+        //                  })
+        //                  .ContinueWith(task => {
+        //                  },
+        //                                CancellationToken.None,
+        //                                TaskContinuationOptions.LongRunning,
+        //                                TaskScheduler.FromCurrentSynchronizationContext());
       }
     }
 
@@ -56,11 +60,11 @@ namespace SimpleMusicPlayer.ViewModels
     public async void HandleDropActionAsync(StringCollection fileOrDirDropList) {
       if (FileSearchWorker.Instance.CanStartSearch()) {
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
-        
+
         this.SavePlayListAsync(files);
 
         this.PlayerEngine.Stop();
-        
+
         var filesColl = new PlayListObservableCollection(files);
         var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
         this.FirstSimplePlaylistFiles = filesCollView;
