@@ -6,12 +6,15 @@ this is the next version of simple music player ([SimpleMP](http://jkarger.de/si
 Use it with your own risk!
 ==========================
 
-donwload actual version
-=======================
-[here](https://github.com/punker76/simple-music-player/tree/master/dist)
+download
+========
 
-screen shot
-===========
+all versions [here](https://github.com/punker76/simple-music-player/tree/master/dist)  
+
+download latest version v1.9.0.7 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.7.zip) as zip  
+
+screen shots
+============
 
 ![very early screenshot 06](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-01-05_23h26_18.png)  
 
