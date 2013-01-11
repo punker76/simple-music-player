@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
+using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
@@ -498,6 +499,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+    [JsonIgnore]
     public PlayerState State {
       get { return this.state; }
       set {
@@ -510,6 +512,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     [Browsable(false)]
+    [JsonIgnore]
     public BitmapImage Cover {
       get {
         if (string.IsNullOrWhiteSpace(this.FullFileName) || !System.IO.File.Exists(this.FullFileName)) {
@@ -539,6 +542,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+    [JsonIgnore]
     public int PlayListIndex {
       get { return this.playListIndex; }
       set {
@@ -551,6 +555,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     [Browsable(false)]
+    [JsonIgnore]
     public object PlayList { get; set; }
 
     public override string ToString() {

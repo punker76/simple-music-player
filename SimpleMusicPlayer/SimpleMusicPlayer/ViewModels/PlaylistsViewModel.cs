@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
@@ -21,13 +26,44 @@ namespace SimpleMusicPlayer.ViewModels
 
     public PlaylistsViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.smpSettings = settings;
+
+      this.LoadPlayListAsync();
+    }
+
+    public async void LoadPlayListAsync() {
+      var playList = await PlayList.GetPlayListAsync();
+      if (playList != null) {
+        await Task.Factory
+                  .StartNew(() => {
+                    var filesColl = new PlayListObservableCollection(playList.Files);
+                    var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
+                    return filesCollView;
+                  })
+                  .ContinueWith(task => this.FirstSimplePlaylistFiles = task.Result,
+                                CancellationToken.None,
+                                TaskContinuationOptions.LongRunning,
+                                TaskScheduler.FromCurrentSynchronizationContext());
+      }
+    }
+
+    public async void SavePlayListAsync(IEnumerable<IMediaFile> files) {
+      var pl = new PlayList();
+      pl.Files = files.OfType<MediaFileViewModel>().ToList();
+      var playListAsJson = await JsonConvert.SerializeObjectAsync(pl, Formatting.None);
+      await Task.Factory.StartNew(() => File.WriteAllText(PlayList.PlayListFileName, playListAsJson));
     }
 
     public async void HandleDropActionAsync(StringCollection fileOrDirDropList) {
       if (FileSearchWorker.Instance.CanStartSearch()) {
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
+        
+        this.SavePlayListAsync(files);
+
         this.PlayerEngine.Stop();
-        this.FirstSimplePlaylistFiles = CollectionViewSource.GetDefaultView(new PlayListObservableCollection(files));
+        
+        var filesColl = new PlayListObservableCollection(files);
+        var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
+        this.FirstSimplePlaylistFiles = filesCollView;
         ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
       }
     }
