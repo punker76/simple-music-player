@@ -20,7 +20,7 @@ namespace SimpleMusicPlayer.ViewModels
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
         //this.PlayerEngine.Stop();
         this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(files));
-        //((ICollectionView)this.MediaFiles).GroupDescriptions.Add(new PropertyGroupDescription("Album"));
+        ((ICollectionView)this.MediaFiles).GroupDescriptions.Add(new PropertyGroupDescription("Album"));
       }
     }
 
