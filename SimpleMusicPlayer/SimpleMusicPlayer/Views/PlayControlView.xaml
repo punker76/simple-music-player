@@ -7,6 +7,7 @@
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
              xmlns:SimpleMusicPlayer="clr-namespace:SimpleMusicPlayer"
+             xmlns:base="clr-namespace:SimpleMusicPlayer.Base"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -56,6 +57,7 @@
       <!-- prev -->
       <Button Grid.Column="1"
               Command="{Binding PlayPrevCommand, Mode=OneWay}"
+              ToolTip="Previous File (k)"
               VerticalAlignment="Center"
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
@@ -76,6 +78,7 @@
       <Grid Grid.Column="2">
         <Button Command="{Binding PlayCommand, Mode=OneWay}"
                 Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStatePlayToVisibilityConverter}}"
+                ToolTip="Play (Space)"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="60"
@@ -91,6 +94,7 @@
         </Button>
         <Button Command="{Binding PauseCommand, Mode=OneWay}"
                 Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
+                ToolTip="Pause (Space)"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="60"
@@ -119,6 +123,7 @@
         <!-- stop -->
         <Button Grid.Column="0"
                 Command="{Binding StopCommand, Mode=OneWay}"
+                ToolTip="Stop"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="45"
@@ -135,6 +140,7 @@
         <!-- next -->
         <Button Grid.Column="1"
                 Command="{Binding PlayNextCommand, Mode=OneWay}"
+                ToolTip="Next File (j)"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="45"
@@ -151,6 +157,7 @@
         <!-- shuffle -->
         <Button Grid.Column="2"
                 Command="{Binding ShuffleCommand, Mode=OneWay}"
+                ToolTip="Shuffle (s)"
                 VerticalAlignment="Bottom"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="35"
@@ -171,6 +178,7 @@
         <!-- repeat -->
         <Button Grid.Column="3"
                 Command="{Binding RepeatCommand, Mode=OneWay}"
+                ToolTip="Repeat (r)"
                 VerticalAlignment="Bottom"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="35"
@@ -191,6 +199,7 @@
         <!-- show equalizer -->
         <Button Grid.Column="4"
                 Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.ShowEqualizerCommand, Mode=OneWay}"
+                ToolTip="Equalizer (e)"
                 VerticalAlignment="Bottom"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="35"
@@ -281,15 +290,19 @@
             </Rectangle.Fill>
           </Rectangle>
 
-          <Slider Grid.Column="1"
-                  Margin="5,2,5,2"
-                  Orientation="Horizontal"
-                  Width="90"
-                  Minimum="0"
-                  Maximum="1"
-                  SmallChange="0.1"
-                  LargeChange="0.25"
-                  Value="{Binding PlayerEngine.Volume}" />
+          <base:FormattedSlider Grid.Column="1"
+                                Margin="5,2,5,2"
+                                Orientation="Horizontal"
+                                Width="90"
+                                Minimum="0"
+                                Maximum="100"
+                                SmallChange="1"
+                                LargeChange="25"
+                                AutoToolTipPlacement="TopLeft"
+                                AutoToolTipFormat="{}Volume {0}%"
+                                ThumbToolTipPlacement="Top"
+                                ThumbToolTipText="{Binding PlayerEngine.Volume, Mode=OneWay, StringFormat={}Volume {0}%}"
+                                Value="{Binding PlayerEngine.Volume}" />
         </Grid>
 
       </Grid>

@@ -124,9 +124,8 @@ namespace SimpleMusicPlayer.Common
         this.volume = value;
 
         this.smpSettings.PlayerSettings.Volume = value;
-
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
-          var result = this.channelInfo.Channel.setVolume(this.Volume);
+          var result = this.channelInfo.Channel.setVolume(value / 100f);
           result.ERRCHECK();
         }
 
@@ -239,7 +238,7 @@ namespace SimpleMusicPlayer.Common
         result = this.channelInfo.Channel.setCallback(this.channelEndCallback);
         result.ERRCHECK();
 
-        result = this.channelInfo.Channel.setVolume(this.Volume);
+        result = this.channelInfo.Channel.setVolume(this.Volume / 100f);
         result.ERRCHECK();
       }
     }
