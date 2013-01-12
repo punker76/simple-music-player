@@ -76,7 +76,7 @@
 
       <!-- play/pause -->
       <Grid Grid.Column="2">
-        <Button Command="{Binding PlayCommand, Mode=OneWay}"
+        <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
                 Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStatePlayToVisibilityConverter}}"
                 ToolTip="Play (Space)"
                 VerticalAlignment="Center"
@@ -92,7 +92,7 @@
             </Rectangle.Fill>
           </Rectangle>
         </Button>
-        <Button Command="{Binding PauseCommand, Mode=OneWay}"
+        <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
                 Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
                 ToolTip="Pause (Space)"
                 VerticalAlignment="Center"

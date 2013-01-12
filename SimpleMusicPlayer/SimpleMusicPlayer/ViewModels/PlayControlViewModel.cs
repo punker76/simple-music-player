@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
@@ -11,8 +10,7 @@ namespace SimpleMusicPlayer.ViewModels
   public class PlayControlViewModel : ViewModelBaseNotifyPropertyChanged
   {
     private readonly PlaylistsViewModel playlistsViewModel;
-    private ICommand playCommand;
-    private ICommand pauseCommand;
+    private ICommand playOrPauseCommand;
     private ICommand stopCommand;
     private ICommand playPrevCommand;
     private ICommand playNextCommand;
@@ -27,8 +25,11 @@ namespace SimpleMusicPlayer.ViewModels
 
       this.PlayerEngine.PlayNextFileAction = () => {
         if (this.SMPSettings.PlayerSettings.RepeatMode) {
-          if (this.CanPlay()) {
-            this.Play();
+          if (this.CanPlayOrPause()) {
+            var file = this.playlistsViewModel.GetCurrentPlayListFile();
+            if (file != null) {
+              this.PlayerEngine.Play(file);
+            }
           }
         } else {
           if (this.CanPlayNext()) {
@@ -53,19 +54,18 @@ namespace SimpleMusicPlayer.ViewModels
       get { return PlayerEngine.Instance; }
     }
 
-    public ICommand PlayCommand {
-      get { return this.playCommand ?? (this.playCommand = new DelegateCommand(this.Play, this.CanPlay)); }
+    public ICommand PlayOrPauseCommand {
+      get { return this.playOrPauseCommand ?? (this.playOrPauseCommand = new DelegateCommand(this.PlayOrPause, this.CanPlayOrPause)); }
     }
 
-    private bool CanPlay() {
+    private bool CanPlayOrPause() {
       return this.PlayerEngine.Initializied
              && this.playlistsViewModel.FirstSimplePlaylistFiles != null
              && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
-      //&& (this.PlayerEngine.State == PlayerState.Pause || this.PlayerEngine.State == PlayerState.Stop);
     }
 
-    private void Play() {
-      if (this.PlayerEngine.State == PlayerState.Pause) {
+    private void PlayOrPause() {
+      if (this.PlayerEngine.State == PlayerState.Pause || this.PlayerEngine.State == PlayerState.Play) {
         this.PlayerEngine.Pause();
       } else {
         var file = this.playlistsViewModel.GetCurrentPlayListFile();
@@ -73,21 +73,6 @@ namespace SimpleMusicPlayer.ViewModels
           this.PlayerEngine.Play(file);
         }
       }
-    }
-
-    public ICommand PauseCommand {
-      get { return this.pauseCommand ?? (this.pauseCommand = new DelegateCommand(this.Pause, this.CanPause)); }
-    }
-
-    private bool CanPause() {
-      return this.PlayerEngine.Initializied
-             && this.playlistsViewModel.FirstSimplePlaylistFiles != null
-             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
-      //&& this.PlayerEngine.State == PlayerState.Play;
-    }
-
-    private void Pause() {
-      this.PlayerEngine.Pause();
     }
 
     public ICommand StopCommand {

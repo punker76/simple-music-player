@@ -11,7 +11,7 @@ namespace SimpleMusicPlayer
   public partial class MainWindow : MetroWindow
   {
     public MainWindow() {
-      var vm = new MainWindowViewModel(this.Dispatcher);
+      var vm = new MainWindowViewModel(this.Dispatcher, this.InputBindings);
       this.DataContext = vm;
 
       this.InitializeComponent();

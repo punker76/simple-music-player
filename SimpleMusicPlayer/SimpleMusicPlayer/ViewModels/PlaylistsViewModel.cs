@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -105,11 +104,10 @@ namespace SimpleMusicPlayer.ViewModels
     private bool CanPlay() {
       return this.FirstSimplePlaylistFiles != null
              && this.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
-      //&& (this.PlayerEngine.State == PlayerState.Pause || this.PlayerEngine.State == PlayerState.Stop);
     }
 
     private void Play() {
-      var file = this.GetCurrentPlayListFile();
+      var file = this.SelectedPlayListFile;
       if (file != null && this.SetCurrentPlayListFile(file)) {
         this.PlayerEngine.Play(file);
       }

@@ -19,13 +19,20 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand showEqualizerCommand;
     private ICommand closeEqualizerCommand;
 
-    public MainWindowViewModel(Dispatcher dispatcher) {
+    public MainWindowViewModel(Dispatcher dispatcher, InputBindingCollection inputBindings) {
       this.smpSettings = this.ReadSettings();
       this.PlayerEngine.Configure(dispatcher, this.smpSettings);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
       this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel);
       this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
+
+      //inputBindings.Add(new KeyBinding(this.PlayControlViewModel.RepeatCommand, Key.R, ModifierKeys.None));
+      inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.RepeatCommand, Key = Key.R});
+      inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.ShuffleCommand, Key = Key.S});
+      inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayNextCommand, Key = Key.J});
+      inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayPrevCommand, Key = Key.K});
+      inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayOrPauseCommand, Key = Key.Space});
     }
 
     public PlayerEngine PlayerEngine {
