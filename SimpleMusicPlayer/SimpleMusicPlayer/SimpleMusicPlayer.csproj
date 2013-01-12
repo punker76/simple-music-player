@@ -105,6 +105,7 @@
     <Compile Include="Base\AttachedCommandBehavior.cs" />
     <Compile Include="Base\BaseListView.cs" />
     <Compile Include="Base\DelegateCommand.cs" />
+    <Compile Include="Base\FormattedSlider.cs" />
     <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />

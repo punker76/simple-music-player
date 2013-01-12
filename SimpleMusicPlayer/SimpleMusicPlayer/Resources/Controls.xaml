@@ -81,6 +81,12 @@
             Value="{x:Null}" />
   </Style>
 
+  <Style TargetType="Base:FormattedSlider"
+         BasedOn="{StaticResource SimpleMPMetroSlider}">
+    <Setter Property="FocusVisualStyle"
+            Value="{x:Null}" />
+  </Style>
+
   <Style TargetType="Base:BaseListView"
          BasedOn="{StaticResource BaseListViewStyle}">
   </Style>
