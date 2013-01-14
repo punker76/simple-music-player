@@ -33,6 +33,7 @@ namespace SimpleMusicPlayer.ViewModels
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayNextCommand, Key = Key.J});
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayPrevCommand, Key = Key.K});
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayOrPauseCommand, Key = Key.Space});
+      inputBindings.Add(new KeyBinding() {Command = this.PlaylistsViewModel.PlayCommand, Key = Key.Enter});
     }
 
     public PlayerEngine PlayerEngine {
