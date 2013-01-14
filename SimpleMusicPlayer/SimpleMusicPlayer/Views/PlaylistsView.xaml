@@ -94,14 +94,13 @@
 
   <Grid>
 
-    <ListBox Style="{StaticResource BaseListBoxStyle}"
-             ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-             SelectedItem="{Binding SelectedPlayListFile}"
-             Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
-             Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
-             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-             HorizontalContentAlignment="Stretch"
-             ItemTemplate="{StaticResource MediaFileViewModelDT}" />
+    <Base:BaseListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                      SelectedItem="{Binding SelectedPlayListFile}"
+                      Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+                      Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                      HorizontalContentAlignment="Stretch"
+                      ItemTemplate="{StaticResource MediaFileViewModelDT}" />
 
   </Grid>
 </UserControl>

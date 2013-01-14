@@ -4,11 +4,12 @@
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
 
     <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListView.xaml" />
     <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Slider.xaml" />
+
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
   <Style x:Key="SimpleMPMetroCircleButtonStyle"
@@ -92,7 +93,7 @@
          BasedOn="{StaticResource BaseListViewStyle}">
   </Style>
 
-  <Style TargetType="ListBox"
+  <Style TargetType="Base:BaseListBox"
          BasedOn="{StaticResource BaseListBoxStyle}">
   </Style>
 

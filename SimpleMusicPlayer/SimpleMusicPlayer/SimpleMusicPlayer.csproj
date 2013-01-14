@@ -102,6 +102,7 @@
       <Link>FMODEx\fmod_memoryinfo.cs</Link>
     </Compile>
     <Compile Include="Base\AttachedCommandBehavior.cs" />
+    <Compile Include="Base\BaseListBox.cs" />
     <Compile Include="Base\BaseListView.cs" />
     <Compile Include="Base\DelegateCommand.cs" />
     <Compile Include="Base\FormattedSlider.cs" />
