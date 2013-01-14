@@ -296,12 +296,10 @@
                                 Width="90"
                                 Minimum="0"
                                 Maximum="100"
-                                SmallChange="1"
+                                SmallChange="5"
                                 LargeChange="25"
                                 AutoToolTipPlacement="TopLeft"
                                 AutoToolTipFormat="{}Volume {0}%"
-                                ThumbToolTipPlacement="Top"
-                                ThumbToolTipText="{Binding PlayerEngine.Volume, Mode=OneWay, StringFormat={}Volume {0}%}"
                                 Value="{Binding PlayerEngine.Volume}" />
         </Grid>
 
