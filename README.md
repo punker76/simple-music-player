@@ -11,7 +11,7 @@ download
 
 all versions [here](https://github.com/punker76/simple-music-player/tree/master/dist)  
 
-download latest version v1.9.0.7 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.7.zip) as zip  
+download latest version v1.9.0.9 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.9.zip) as zip  
 
 screen shots
 ============
