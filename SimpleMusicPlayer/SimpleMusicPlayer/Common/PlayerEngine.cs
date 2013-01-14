@@ -22,8 +22,8 @@ namespace SimpleMusicPlayer.Common
     private ChannelInfo channelInfo = null;
     private DispatcherTimer timer;
     private float volume;
-    private TimeSpan length;
-    private double currentPositionMs;
+    private uint lengthMs;
+    private uint currentPositionMs;
     private PlayerState state;
     private Equalizer equalizer;
     private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
@@ -60,7 +60,7 @@ namespace SimpleMusicPlayer.Common
 
       this.Volume = this.smpSettings.PlayerSettings.Volume;
       this.State = PlayerState.Stop;
-      this.Length = TimeSpan.Zero;
+      this.LengthMs = 0;
 
       this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
       this.timer.Stop();
@@ -133,29 +133,30 @@ namespace SimpleMusicPlayer.Common
       }
     }
 
-    public TimeSpan Length {
-      get { return this.length; }
+    public uint LengthMs {
+      get { return this.lengthMs; }
       private set {
-        if (Equals(value, this.length)) {
+        if (Equals(value, this.lengthMs)) {
           return;
         }
-        this.length = value;
-        this.OnPropertyChanged("Length");
+        this.lengthMs = value;
+        this.OnPropertyChanged("LengthMs");
       }
     }
 
     public bool DontUpdatePosition { get; set; }
 
-    public double CurrentPositionMs {
+    public uint CurrentPositionMs {
       get { return this.currentPositionMs; }
       set {
         if (Equals(value, this.currentPositionMs)) {
           return;
         }
-        this.currentPositionMs = value;
+
+        this.currentPositionMs = value >= this.LengthMs ? this.LengthMs - 1 : value;
 
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
-          var result = this.channelInfo.Channel.setPosition(Convert.ToUInt32(value), FMOD.TIMEUNIT.MS);
+          var result = this.channelInfo.Channel.setPosition(this.currentPositionMs, FMOD.TIMEUNIT.MS);
           if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
             result.ERRCHECK();
           }
@@ -222,7 +223,7 @@ namespace SimpleMusicPlayer.Common
       uint lenms = 0;
       result = this.sound.getLength(ref lenms, FMOD.TIMEUNIT.MS);
       result.ERRCHECK();
-      this.Length = TimeSpan.FromMilliseconds(lenms);
+      this.LengthMs = lenms;
 
       FMOD.Channel channel = null;
       result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref channel);
@@ -311,7 +312,7 @@ namespace SimpleMusicPlayer.Common
 
       this.currentPositionMs = 0;
       this.OnPropertyChanged("CurrentPositionMs");
-      this.Length = TimeSpan.Zero;
+      this.LengthMs = 0;
     }
 
     private void CleanUpEqualizer() {

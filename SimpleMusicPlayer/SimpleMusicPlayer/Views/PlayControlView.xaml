@@ -249,7 +249,7 @@
                   Minimum="0"
                   Thumb.DragStarted="PositionSlider_DragStarted"
                   Thumb.DragCompleted="PositionSlider_DragCompleted"
-                  Maximum="{Binding PlayerEngine.Length.TotalMilliseconds, Mode=OneWay}"
+                  Maximum="{Binding PlayerEngine.LengthMs, Mode=OneWay}"
                   Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
           <TextBlock Grid.Column="2"
                      HorizontalAlignment="Left"

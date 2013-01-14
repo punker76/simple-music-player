@@ -16,7 +16,7 @@ namespace SimpleMusicPlayer.Common
     Equalizer Equalizer { get; }
 
     float Volume { get; set; }
-    TimeSpan Length { get; }
-    double CurrentPositionMs { get; set; }
+    uint LengthMs { get; }
+    uint CurrentPositionMs { get; set; }
   }
 }
