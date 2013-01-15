@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -17,7 +15,7 @@ namespace SimpleMusicPlayer.Common
 {
   public class FileSearchWorker : ViewModelBaseNotifyPropertyChanged
   {
-    private readonly string[] extensions = new[] {".mp3", ".wma", ".mp4", ".wav"};
+    private readonly string[] extensions = new[] {".mp3", ".wma", ".ogg", ".wav"};
     private Task<IEnumerable<IMediaFile>> mainTask;
     private CancellationTokenSource cancelToken;
     private bool isWorking;
