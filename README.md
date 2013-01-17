@@ -1,19 +1,42 @@
-simple-music-player
+Simple Music Player
 ===================
 
-this is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
+This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
 
-Use it with your own risk!
-==========================
+*Use it with your own risk!*
 
-download
+SimpleMP or Simple Music Player is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
+
+Why another music player? So, as I decided to make my first player, the Winamp 3 player was to buggy and very slow! I started it in 2005 with the last update in 2007.
+At this time I used my favorite programming language Delphi 5 and I learned many new stuff. It was a great time and a few people of the Delphi community honours my work :-)  
+Unfortunately, the interface of the FMOD sound library was no longer supported for Delphi and I decided to stop my work on it.
+
+After long time, now it's time to make a new one!
+
+It's not perfect and many function not yet implemented.
+
+First simple functions
+======================
+
++ Drag&Drop your files or directories on the player (on the play list)
++ Plays mp3, ogg, wma and wav files
++ Shortcut keys if the player on top and has the focus
+	+ [Space] play or pause current file (if no one is playing, the selected files starts)
+	+ [Enter] play selected files
+	+ [j] play next file
+	+ [k] play previuos file
+	+ [s] shuffle mode on / off
+	+ [r] repeat current file on / off
++ Simple Equalizer
+
+Download
 ========
 
 all versions [here](https://github.com/punker76/simple-music-player/tree/master/dist)  
 
 download latest version v1.9.0.9 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.9.zip) as zip  
 
-screen shots
+Screen shots
 ============
 
 ![very early screenshot 06](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-01-05_23h26_18.png)  
@@ -131,3 +154,4 @@ AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
 OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGE.
+
