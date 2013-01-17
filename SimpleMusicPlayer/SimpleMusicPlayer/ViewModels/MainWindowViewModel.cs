@@ -27,13 +27,14 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
 
-      //inputBindings.Add(new KeyBinding(this.PlayControlViewModel.RepeatCommand, Key.R, ModifierKeys.None));
+      //doesn't work: inputBindings.Add(new KeyBinding(this.PlayControlViewModel.RepeatCommand, Key.R, ModifierKeys.None));
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.RepeatCommand, Key = Key.R});
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.ShuffleCommand, Key = Key.S});
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayNextCommand, Key = Key.J});
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayPrevCommand, Key = Key.K});
       inputBindings.Add(new KeyBinding() {Command = this.PlayControlViewModel.PlayOrPauseCommand, Key = Key.Space});
       inputBindings.Add(new KeyBinding() {Command = this.PlaylistsViewModel.PlayCommand, Key = Key.Enter});
+      inputBindings.Add(new KeyBinding() {Command = this.ShowEqualizerCommand, Key = Key.E});
     }
 
     public PlayerEngine PlayerEngine {
