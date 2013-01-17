@@ -139,12 +139,49 @@ namespace SimpleMusicPlayer.ViewModels
       get { return this.repeatCommand ?? (this.repeatCommand = new DelegateCommand(this.SetRepeatMode, this.CanSetRepeatMode)); }
     }
 
-    private bool CanSetRepeatMode() {
+    public bool CanSetRepeatMode() {
       return this.PlayerEngine.Initializied;
     }
 
-    private void SetRepeatMode() {
+    public void SetRepeatMode() {
       this.SMPSettings.PlayerSettings.RepeatMode = !this.SMPSettings.PlayerSettings.RepeatMode;
+    }
+
+    public bool HandleKeyDown(Key key) {
+      var handled = false;
+      switch (key) {
+        case Key.R:
+          handled = this.RepeatCommand.CanExecute(null);
+          if (handled) {
+            this.RepeatCommand.Execute(null);
+          }
+          break;
+        case Key.S:
+          handled = this.ShuffleCommand.CanExecute(null);
+          if (handled) {
+            this.ShuffleCommand.Execute(null);
+          }
+          break;
+        case Key.J:
+          handled = this.PlayNextCommand.CanExecute(null);
+          if (handled) {
+            this.PlayNextCommand.Execute(null);
+          }
+          break;
+        case Key.K:
+          handled = this.PlayPrevCommand.CanExecute(null);
+          if (handled) {
+            this.PlayPrevCommand.Execute(null);
+          }
+          break;
+        case Key.Space:
+          handled = this.PlayOrPauseCommand.CanExecute(null);
+          if (handled) {
+            this.PlayOrPauseCommand.Execute(null);
+          }
+          break;
+      }
+      return handled;
     }
   }
 }

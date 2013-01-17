@@ -194,5 +194,18 @@ namespace SimpleMusicPlayer.ViewModels
        * Typical intervals where they don't change are 16ms or 1ms.
        */
     }
+
+    public bool HandleKeyDown(Key key) {
+      var handled = false;
+      switch (key) {
+        case Key.Enter:
+          handled = this.PlayCommand.CanExecute(null);
+          if (handled) {
+            this.PlayCommand.Execute(null);
+          }
+          break;
+      }
+      return handled;
+    }
   }
 }
