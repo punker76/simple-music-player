@@ -7,9 +7,9 @@ This is the next version of simple music player ([SimpleMP](http://jkarger.de/si
 
 SimpleMP or Simple Music Player is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
 
-Why another music player? So, as I decided to make my first player, the Winamp 3 player was to buggy and very slow! I started it in 2005 with the last update in 2007.
-At this time I used my favorite programming language Delphi 5 and I learned many new stuff. It was a great time and a few people of the Delphi community honours my work :-)  
-Unfortunately, the interface of the FMOD sound library was no longer supported for Delphi and I decided to stop my work on it.
+Why another music player? When I decided to make my first player back in 2005, the Winamp 3 player was to buggy and very slow! I stopped developing in 2007.
+I used my favorite programming language Delphi 5 and I learned a lot of  new stuff. It was a great time and a few people in the Delphi community honoured my work :-)
+Unfortunately, the interface of the FMOD sound library was no longer supported for Delphi and I decided to stop working on it.
 
 After long time, now it's time to make a new one!
 
@@ -18,10 +18,10 @@ It's not perfect and many function not yet implemented.
 First simple functions
 ======================
 
-+ Drag&Drop your files or directories on the player (on the play list)
++ Drag&Drop your files or directories into the player (on the play list)
 + Plays mp3, ogg, wma and wav files
-+ Shortcut keys if the player on top and has the focus
-	+ [Space] play or pause current file (if no one is playing, the selected files starts)
++ Shortcut keys if the player is on top and has the focus
+	+ [Space] play or pause current file (if none is playing, the first selected file starts)
 	+ [Enter] play selected files
 	+ [j] play next file
 	+ [k] play previuos file
