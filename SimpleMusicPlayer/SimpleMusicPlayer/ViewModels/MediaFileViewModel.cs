@@ -519,7 +519,7 @@ namespace SimpleMusicPlayer.ViewModels
           return null;
         }
         try {
-          using (TagLib.File file = TagLib.File.Create(this.FullFileName)) {
+          using (var file = TagLib.File.Create(this.FullFileName)) {
             var pictures = file.Tag.Pictures;
             if (pictures != null) {
               var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover);
@@ -532,10 +532,24 @@ namespace SimpleMusicPlayer.ViewModels
                 bi.EndInit();
                 bi.Freeze();
                 return bi;
+              } else {
+                var path2Image = Path.GetDirectoryName(this.FullFileName);
+                var cover = !string.IsNullOrEmpty(path2Image) ? Directory.EnumerateFiles(path2Image, "folder.*").FirstOrDefault() : null;
+                if (!string.IsNullOrEmpty(cover)) {
+                  var bi = new BitmapImage();
+                  bi.BeginInit();
+                  bi.CreateOptions = BitmapCreateOptions.DelayCreation;
+                  bi.CacheOption = BitmapCacheOption.OnDemand;
+                  bi.UriSource = new Uri(cover, UriKind.RelativeOrAbsolute);
+                  bi.EndInit();
+                  bi.Freeze();
+                  return bi;
+                }
               }
             }
           }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
           Console.WriteLine("Fail to load cover: {0}, {1}", this.FullFileName, e);
         }
         return null;
