@@ -68,14 +68,14 @@ namespace SimpleMusicPlayer.ViewModels
           // ALBUMARTIST
           mf.AlbumArtists = file.Tag.AlbumArtists;
           mf.AlbumArtistsSort = file.Tag.AlbumArtistsSort;
-          mf.FirstAlbumArtist = file.Tag.FirstAlbumArtist;
-          mf.FirstAlbumArtistSort = file.Tag.FirstAlbumArtistSort;
+          mf.FirstAlbumArtist = mf.AlbumArtists.Length > 1 ? string.Join("/", mf.AlbumArtists) : file.Tag.FirstAlbumArtist;
+          mf.FirstAlbumArtistSort = mf.AlbumArtistsSort.Length > 1 ? string.Join("/", mf.AlbumArtistsSort) : file.Tag.FirstAlbumArtistSort;
 
           // ARTIST/Performer
           mf.Performers = file.Tag.Performers;
           mf.PerformersSort = file.Tag.PerformersSort;
-          mf.FirstPerformer = file.Tag.FirstPerformer;
-          mf.FirstPerformerSort = file.Tag.FirstPerformerSort;
+          mf.FirstPerformer = mf.Performers.Length > 1 ? string.Join("/", mf.Performers) : file.Tag.FirstPerformer;
+          mf.FirstPerformerSort = mf.PerformersSort.Length > 1 ? string.Join("/", mf.PerformersSort) : file.Tag.FirstPerformerSort;
 
           // BPM
           mf.BPM = file.Tag.BeatsPerMinute;
