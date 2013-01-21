@@ -24,6 +24,7 @@ namespace SimpleMusicPlayer.Common
     private float volume;
     private uint lengthMs;
     private uint currentPositionMs;
+    private bool isMute;
     private PlayerState state;
     private Equalizer equalizer;
     private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
@@ -163,6 +164,26 @@ namespace SimpleMusicPlayer.Common
         }
 
         this.OnPropertyChanged("CurrentPositionMs");
+      }
+    }
+
+    public bool IsMute {
+      get { return this.isMute; }
+      set {
+        if (Equals(value, this.isMute)) {
+          return;
+        }
+
+        this.isMute = value;
+
+        if (this.channelInfo != null && this.channelInfo.Channel != null) {
+          var result = this.channelInfo.Channel.setMute(value);
+          if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE)) {
+            result.ERRCHECK();
+          }
+        }
+
+        this.OnPropertyChanged("IsMute");
       }
     }
 

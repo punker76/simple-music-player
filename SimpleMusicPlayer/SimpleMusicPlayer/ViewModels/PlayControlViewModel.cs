@@ -16,6 +16,7 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand playNextCommand;
     private ICommand shuffleCommand;
     private ICommand repeatCommand;
+    private ICommand muteCommand;
     private SMPSettings smpSettings;
 
     public PlayControlViewModel(Dispatcher dispatcher, SMPSettings settings, PlaylistsViewModel playlistsViewModel) {
@@ -145,6 +146,19 @@ namespace SimpleMusicPlayer.ViewModels
 
     public void SetRepeatMode() {
       this.SMPSettings.PlayerSettings.RepeatMode = !this.SMPSettings.PlayerSettings.RepeatMode;
+    }
+
+    public ICommand MuteCommand {
+      get { return this.muteCommand ?? (this.muteCommand = new DelegateCommand(this.SetMute, this.CanSetMute)); }
+    }
+
+    public bool CanSetMute() {
+      return this.PlayerEngine.Initializied;
+    }
+
+    public void SetMute() {
+      //this.SMPSettings.PlayerSettings.RepeatMode = !this.SMPSettings.PlayerSettings.RepeatMode;
+      this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
     }
 
     public bool HandleKeyDown(Key key) {
