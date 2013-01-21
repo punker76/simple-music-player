@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Models;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Common
@@ -114,7 +115,7 @@ namespace SimpleMusicPlayer.Common
     private IMediaFile GetMediaFile(string fileName) {
       if (this.IsAudioFile(fileName)) {
         try {
-          var mf = MediaFileViewModel.GetMediaFileViewModel(fileName);
+          var mf = MediaFile.GetMediaFileViewModel(fileName);
           return mf;
         } catch (Exception e) {
           var em = e.Message;

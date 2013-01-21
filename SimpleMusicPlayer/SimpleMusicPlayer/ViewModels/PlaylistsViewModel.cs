@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Models;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -51,7 +52,7 @@ namespace SimpleMusicPlayer.ViewModels
 
     public async void SavePlayListAsync(IEnumerable<IMediaFile> files) {
       var pl = new PlayList();
-      pl.Files = files.OfType<MediaFileViewModel>().ToList();
+      pl.Files = files.OfType<MediaFile>().ToList();
       var playListAsJson = await JsonConvert.SerializeObjectAsync(pl, Formatting.None);
       await Task.Factory.StartNew(() => File.WriteAllText(PlayList.PlayListFileName, playListAsJson));
     }

@@ -9,9 +9,9 @@ using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
 using TagLib;
 
-namespace SimpleMusicPlayer.ViewModels
+namespace SimpleMusicPlayer.Models
 {
-  public class MediaFileViewModel : ViewModelBaseNotifyPropertyChanged, IMediaFile
+  public class MediaFile : ViewModelBaseNotifyPropertyChanged, IMediaFile
   {
     private string fullFileName;
     private string fileName;
@@ -43,7 +43,7 @@ namespace SimpleMusicPlayer.ViewModels
     private int playListIndex;
     private PlayerState state;
 
-    public MediaFileViewModel(string fileName) {
+    public MediaFile(string fileName) {
       this.FullFileName = fileName;
       this.FileName = Path.GetFileName(fileName);
     }
@@ -51,7 +51,7 @@ namespace SimpleMusicPlayer.ViewModels
     public static IMediaFile GetMediaFileViewModel(string fileName) {
       try {
         using (TagLib.File file = TagLib.File.Create(fileName)) {
-          var mf = new MediaFileViewModel(fileName);
+          var mf = new MediaFile(fileName);
 
           // ALBUM -> iTunes=Album, WMP10=Album, Winamp=Album
           mf.Album = file.Tag.Album;

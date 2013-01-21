@@ -6,6 +6,7 @@
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
+             xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -26,7 +27,7 @@
       </ResourceDictionary.MergedDictionaries>
 
       <DataTemplate x:Key="transitionContentTemplate"
-                    DataType="{x:Type ViewModels:MediaFileViewModel}">
+                    DataType="{x:Type models:MediaFile}">
         <Grid>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

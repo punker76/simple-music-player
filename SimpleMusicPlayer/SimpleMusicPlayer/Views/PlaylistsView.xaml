@@ -7,6 +7,7 @@
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
              xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
+             xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -35,7 +36,7 @@
                    Visual="{StaticResource appbar_pause}" />
 
       <DataTemplate x:Key="MediaFileViewModelDT"
-                    DataType="{x:Type ViewModels:MediaFileViewModel}">
+                    DataType="{x:Type models:MediaFile}">
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

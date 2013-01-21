@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
+             xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -27,7 +28,7 @@
 
   <Grid>
 
-    <Base:BaseListView DataType="{x:Type ViewModels:MediaFileViewModel}"
+    <Base:BaseListView DataType="{x:Type models:MediaFile}"
                        ItemsSource="{Binding MediaFiles, Mode=OneWay}">
 <!--      <ListView.GroupStyle>-->
 <!--        <GroupStyle>-->
