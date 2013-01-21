@@ -18,12 +18,6 @@ namespace SimpleMusicPlayer.ViewModels
     private string grouping;
     private string title;
     private string titleSort;
-    private string[] albumArtists;
-    private string[] albumArtistsSort;
-    private string[] performers;
-    private string[] performersSort;
-    private string[] composers;
-    private string[] composersSort;
     private string conductor;
     private string album;
     private string albumSort;
@@ -66,16 +60,16 @@ namespace SimpleMusicPlayer.ViewModels
           }
           mf.AlbumSort = file.Tag.AlbumSort;
           // ALBUMARTIST
-          mf.AlbumArtists = file.Tag.AlbumArtists;
-          mf.AlbumArtistsSort = file.Tag.AlbumArtistsSort;
-          mf.FirstAlbumArtist = mf.AlbumArtists.Length > 1 ? string.Join("/", mf.AlbumArtists) : file.Tag.FirstAlbumArtist;
-          mf.FirstAlbumArtistSort = mf.AlbumArtistsSort.Length > 1 ? string.Join("/", mf.AlbumArtistsSort) : file.Tag.FirstAlbumArtistSort;
+          var albumArtists = file.Tag.AlbumArtists;
+          var albumArtistsSort = file.Tag.AlbumArtistsSort;
+          mf.FirstAlbumArtist = albumArtists.Length > 1 ? string.Join("/", albumArtists) : file.Tag.FirstAlbumArtist;
+          mf.FirstAlbumArtistSort = albumArtistsSort.Length > 1 ? string.Join("/", albumArtistsSort) : file.Tag.FirstAlbumArtistSort;
 
           // ARTIST/Performer
-          mf.Performers = file.Tag.Performers;
-          mf.PerformersSort = file.Tag.PerformersSort;
-          mf.FirstPerformer = mf.Performers.Length > 1 ? string.Join("/", mf.Performers) : file.Tag.FirstPerformer;
-          mf.FirstPerformerSort = mf.PerformersSort.Length > 1 ? string.Join("/", mf.PerformersSort) : file.Tag.FirstPerformerSort;
+          var performers = file.Tag.Performers;
+          var performersSort = file.Tag.PerformersSort;
+          mf.FirstPerformer = performers.Length > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
+          mf.FirstPerformerSort = performersSort.Length > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
 
           // BPM
           mf.BPM = file.Tag.BeatsPerMinute;
@@ -84,10 +78,10 @@ namespace SimpleMusicPlayer.ViewModels
           mf.Comment = file.Tag.Comment;
 
           // COMPOSER
-          mf.Composers = file.Tag.Composers;
-          mf.ComposersSort = file.Tag.ComposersSort;
-          mf.FirstComposer = file.Tag.FirstComposer;
-          mf.FirstComposerSort = file.Tag.FirstComposerSort;
+          var composers = file.Tag.Composers;
+          var composersSort = file.Tag.ComposersSort;
+          mf.FirstComposer = composers.Length > 1 ? string.Join("/", composers) : file.Tag.FirstComposer;
+          mf.FirstComposerSort = composersSort.Length > 1 ? string.Join("/", composersSort) : file.Tag.FirstComposerSort;
 
           // CONDUCTOR
           mf.Conductor = file.Tag.Conductor;
@@ -375,72 +369,6 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.conductor = value;
         this.OnPropertyChanged(() => this.Conductor);
-      }
-    }
-
-    public string[] ComposersSort {
-      get { return this.composersSort; }
-      set {
-        if (Equals(value, this.composersSort)) {
-          return;
-        }
-        this.composersSort = value;
-        this.OnPropertyChanged(() => this.ComposersSort);
-      }
-    }
-
-    public string[] Composers {
-      get { return this.composers; }
-      set {
-        if (Equals(value, this.composers)) {
-          return;
-        }
-        this.composers = value;
-        this.OnPropertyChanged(() => this.Composers);
-      }
-    }
-
-    public string[] PerformersSort {
-      get { return this.performersSort; }
-      set {
-        if (Equals(value, this.performersSort)) {
-          return;
-        }
-        this.performersSort = value;
-        this.OnPropertyChanged(() => this.PerformersSort);
-      }
-    }
-
-    public string[] Performers {
-      get { return this.performers; }
-      set {
-        if (Equals(value, this.performers)) {
-          return;
-        }
-        this.performers = value;
-        this.OnPropertyChanged(() => this.Performers);
-      }
-    }
-
-    public string[] AlbumArtistsSort {
-      get { return this.albumArtistsSort; }
-      set {
-        if (Equals(value, this.albumArtistsSort)) {
-          return;
-        }
-        this.albumArtistsSort = value;
-        this.OnPropertyChanged(() => this.AlbumArtistsSort);
-      }
-    }
-
-    public string[] AlbumArtists {
-      get { return this.albumArtists; }
-      set {
-        if (Equals(value, this.albumArtists)) {
-          return;
-        }
-        this.albumArtists = value;
-        this.OnPropertyChanged(() => this.AlbumArtists);
       }
     }
 
