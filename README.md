@@ -27,14 +27,16 @@ First simple functions
 	+ [k] play previuos file
 	+ [s] shuffle mode on / off
 	+ [r] repeat current file on / off
-+ Simple Equalizer
+	+ [m] mute player on / off
+	+ [e] show equalizer
++ simple equalizer
 
 Download
 ========
 
 all versions [here](https://github.com/punker76/simple-music-player/tree/master/dist)  
 
-download latest version v1.9.0.9 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.9.zip) as zip  
+download latest version v1.9.0.10 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.10.zip) as zip  
 
 Screen shots
 ============
