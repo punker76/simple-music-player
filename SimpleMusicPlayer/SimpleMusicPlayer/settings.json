@@ -2,6 +2,7 @@
   "MainSettings": {},
   "PlayerSettings": {
     "Volume": 100.0,
+    "Mute": false,
     "ShuffleMode": false,
     "RepeatMode": false,
     "EqualizerSettings": {

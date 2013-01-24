@@ -60,6 +60,7 @@ namespace SimpleMusicPlayer.Common
       this.Equalizer = Equalizer.GetEqualizer(this.system, settings);
 
       this.Volume = this.smpSettings.PlayerSettings.Volume;
+      this.IsMute = this.smpSettings.PlayerSettings.Mute;
       this.State = PlayerState.Stop;
       this.LengthMs = 0;
 
@@ -173,8 +174,8 @@ namespace SimpleMusicPlayer.Common
         if (Equals(value, this.isMute)) {
           return;
         }
-
         this.isMute = value;
+        this.smpSettings.PlayerSettings.Mute = value;
 
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
           var result = this.channelInfo.Channel.setMute(value);

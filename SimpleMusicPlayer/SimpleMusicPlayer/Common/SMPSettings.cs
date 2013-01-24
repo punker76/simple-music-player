@@ -31,6 +31,8 @@ namespace SimpleMusicPlayer.Common
 
     public float Volume { get; set; }
 
+    public bool Mute { get; set; }
+
     public bool ShuffleMode {
       get { return this.shuffleMode; }
       set {
