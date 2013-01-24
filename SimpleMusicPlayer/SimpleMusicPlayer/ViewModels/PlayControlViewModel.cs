@@ -188,6 +188,12 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayPrevCommand.Execute(null);
           }
           break;
+        case Key.M:
+          handled = this.MuteCommand.CanExecute(null);
+          if (handled) {
+            this.MuteCommand.Execute(null);
+          }
+          break;
         case Key.Space:
           handled = this.PlayOrPauseCommand.CanExecute(null);
           if (handled) {

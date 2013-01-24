@@ -27,7 +27,7 @@ namespace SimpleMusicPlayer.Common
     private bool isMute;
     private PlayerState state;
     private Equalizer equalizer;
-    private FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
+    private readonly FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
     private bool initializied;
     private IMediaFile currentMediaFile;
     private SMPSettings smpSettings;
@@ -73,8 +73,8 @@ namespace SimpleMusicPlayer.Common
     private void PlayTimerCallback(object sender, EventArgs e) {
       FMOD.RESULT result;
       uint ms = 0;
-      bool playing = false;
-      bool paused = false;
+      var playing = false;
+      var paused = false;
 
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         result = this.channelInfo.Channel.isPlaying(ref playing);
@@ -124,7 +124,7 @@ namespace SimpleMusicPlayer.Common
         }
         this.volume = value;
         this.smpSettings.PlayerSettings.Volume = value;
-        
+
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
           var result = this.channelInfo.Channel.setVolume(value / 100f);
           result.ERRCHECK();
@@ -282,7 +282,7 @@ namespace SimpleMusicPlayer.Common
     }
 
     public void Pause() {
-      bool paused = false;
+      var paused = false;
       if (this.channelInfo != null && this.channelInfo.Channel != null) {
         var result = this.channelInfo.Channel.getPaused(ref paused);
         result.ERRCHECK();

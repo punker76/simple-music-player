@@ -35,6 +35,18 @@
       <ValueConverters:ModeToColorConverter x:Key="ModeToColorConverter"
                                             TrueColor="{StaticResource AccentColor}"
                                             FalseColor="{StaticResource BlackColor}" />
+
+      <VisualBrush x:Key="MuteBrush"
+                   Stretch="Fill"
+                   Visual="{StaticResource appbar_sound_mute}" />
+      <VisualBrush x:Key="VolumeBrush"
+                   Stretch="Fill"
+                   Visual="{StaticResource appbar_sound_3}" />
+
+      <ValueConverters:PlayerMuteToVisualBrushConverter x:Key="PlayerMuteToVisualBrushConverter"
+                                                        MuteBrush="{StaticResource MuteBrush}"
+                                                        VolumeBrush="{StaticResource VolumeBrush}" />
+
     </ResourceDictionary>
   </UserControl.Resources>
 
@@ -280,30 +292,16 @@
           </Grid.ColumnDefinitions>
 
           <Button Grid.Column="0"
+                  HorizontalContentAlignment="Left"
                   Command="{Binding MuteCommand, Mode=OneWay}"
                   ToolTip="Mute (m)"
                   VerticalAlignment="Center"
                   Style="{StaticResource SimpleMPMetroVolumeButtonStyle}">
             <Rectangle Margin="2"
                        Width="15"
-                       Height="15">
-              <Rectangle.Fill>
-                <VisualBrush Stretch="Fill"
-                             Visual="{StaticResource appbar_sound_3}" />
-              </Rectangle.Fill>
-            </Rectangle>
+                       Height="15"
+                       Fill="{Binding PlayerEngine.IsMute, Mode=OneWay, Converter={StaticResource PlayerMuteToVisualBrushConverter}}" />
           </Button>
-
-<!--          <Rectangle Grid.Column="0"-->
-<!--                     Margin="2"-->
-<!--                     Width="15"-->
-<!--                     Height="15"-->
-<!--                     VerticalAlignment="Center">-->
-<!--            <Rectangle.Fill>-->
-<!--              <VisualBrush Stretch="Fill"-->
-<!--                           Visual="{StaticResource appbar_sound_3}" />-->
-<!--            </Rectangle.Fill>-->
-<!--          </Rectangle>-->
 
           <base:FormattedSlider Grid.Column="1"
                                 Margin="5,2,5,2"

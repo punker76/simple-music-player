@@ -83,11 +83,11 @@
 
     <Controls:MetroContentControl Grid.Row="1">
       <TabControl>
-        <TabItem Header="_Playlists">
+        <TabItem Header="Playlists">
           <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
                                Margin="5" />
         </TabItem>
-        <TabItem Header="_Medialib">
+        <TabItem Header="Medialib">
           <Views:MedialibView DataContext="{Binding MedialibViewModel, Mode=OneWay}"
                               Margin="5" />
         </TabItem>
