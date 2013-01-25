@@ -23,7 +23,6 @@ namespace SimpleMusicPlayer.Models
     private string albumSort;
     private string comment;
     private string copyright;
-    private string[] genres;
     private uint bpm;
     private uint year;
     private uint track;
@@ -94,8 +93,8 @@ namespace SimpleMusicPlayer.Models
           mf.TitleSort = file.Tag.TitleSort;
 
           // GENRE
-          mf.Genres = file.Tag.Genres;
-          mf.FirstGenre = file.Tag.FirstGenre;
+          var genres = file.Tag.Genres;
+          mf.FirstGenre = genres.Length > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
 
           mf.Track = file.Tag.Track;
           mf.TrackCount = file.Tag.TrackCount;
@@ -303,17 +302,6 @@ namespace SimpleMusicPlayer.Models
         }
         this.bpm = value;
         this.OnPropertyChanged(() => this.BPM);
-      }
-    }
-
-    public string[] Genres {
-      get { return this.genres; }
-      set {
-        if (Equals(value, this.genres)) {
-          return;
-        }
-        this.genres = value;
-        this.OnPropertyChanged(() => this.Genres);
       }
     }
 
