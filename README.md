@@ -18,8 +18,9 @@ It's not perfect and many function not yet implemented.
 First simple functions
 ======================
 
-+ Drag&Drop your files or directories into the player (on the play list)
 + Plays mp3, ogg, wma and wav files
++ Drag&Drop your files or directories into the player (on the play list)
++ Drag&Drop files within the playlist
 + Shortcut keys if the player is on top and has the focus
 	+ [Space] play or pause current file (if none is playing, the first selected file starts)
 	+ [Enter] play selected files
@@ -29,14 +30,14 @@ First simple functions
 	+ [r] repeat current file on / off
 	+ [m] mute player on / off
 	+ [e] show equalizer
-+ simple equalizer
++ Simple equalizer
 
 Download
 ========
 
 all versions [here](https://github.com/punker76/simple-music-player/tree/master/dist)  
 
-download latest version v1.9.0.10 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.10.zip) as zip  
+download latest version v1.9.0.11 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.11.zip) as zip  
 
 Screen shots
 ============
