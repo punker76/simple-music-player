@@ -6,9 +6,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
+using GongSolutions.Wpf.DragDrop;
 using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
@@ -17,7 +19,7 @@ using SimpleMusicPlayer.Models;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class PlaylistsViewModel : ViewModelBaseNotifyPropertyChanged
+  public class PlaylistsViewModel : ViewModelBaseNotifyPropertyChanged, IDropTarget
   {
     private IEnumerable firstSimplePlaylistFiles;
     private IMediaFile selectedPlayListFile;
@@ -131,10 +133,13 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private bool SetCurrentPlayListFile(IMediaFile file) {
-      var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
-      if (fileCollView != null) {
-        return fileCollView.MoveCurrentTo(file);
+      if (file != null) {
+        var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+        if (fileCollView != null) {
+          return fileCollView.MoveCurrentTo(file);
+        }
       }
+
       return false;
     }
 
@@ -207,6 +212,16 @@ namespace SimpleMusicPlayer.ViewModels
           break;
       }
       return handled;
+    }
+
+    public void DragOver(IDropInfo dropInfo) {
+      dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+      dropInfo.Effects = DragDropEffects.Move;
+    }
+
+    public void Drop(IDropInfo dropInfo) {
+      GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+      this.SetCurrentPlayListFile(dropInfo.Data as IMediaFile);
     }
   }
 }

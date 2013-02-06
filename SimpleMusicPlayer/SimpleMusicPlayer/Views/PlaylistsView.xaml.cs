@@ -20,9 +20,11 @@ namespace SimpleMusicPlayer.Views
         if (vm != null) {
           // Override this to allow drop functionality.
           this.PreviewDragOver += (sender, e) => {
-            e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop) && FileSearchWorker.Instance.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
-            e.Handled = true;
-          };
+                                    if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                                      e.Effects = FileSearchWorker.Instance.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
+                                      e.Handled = true;
+                                    }
+                                  };
           this.PreviewDrop += (sender, e) => {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
               // Get data object

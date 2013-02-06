@@ -41,6 +41,10 @@
       <HintPath>..\libs\AsyncCTP\AsyncCtpLibrary.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="GongSolutions.Wpf.DragDrop">
+      <HintPath>..\libs\GongSolutions.Wpf.DragDrop\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.10.1.21-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
@@ -125,6 +129,7 @@
     <Compile Include="ValueConverters\NullToCollapsedVisibilityConverter.cs" />
     <Compile Include="ValueConverters\PlayerMuteToVisualBrushConverter.cs" />
     <Compile Include="ValueConverters\PlayerStatePlayToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\PlayListItemIndexToViewConverter.cs" />
     <Compile Include="ValueConverters\SliderPositionValueToTextConverter.cs" />
     <Compile Include="ValueConverters\SliderRemainingPositionValueToTextConverter.cs" />
     <Compile Include="ViewModels\EqualizerViewModel.cs" />
@@ -244,16 +249,10 @@
     <EmbeddedResource Include="..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll">
       <Link>DllsAsResource\WPFSpark.dll</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\libs\AsyncCTP\AsyncCtpLibrary.xml">
-      <Link>DllsAsResource\AsyncCtpLibrary.xml</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll">
       <Link>DllsAsResource\Newtonsoft.Json.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.xml">
-      <Link>DllsAsResource\Newtonsoft.Json.xml</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -273,6 +272,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\MahApps.Metro.0.10.1.21-ALPHA\lib\net40\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\libs\GongSolutions.Wpf.DragDrop\GongSolutions.Wpf.DragDrop.dll">
+      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\libs\GongSolutions.Wpf.DragDrop\GongSolutions.Wpf.DragDrop.pdb">
+      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.pdb</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

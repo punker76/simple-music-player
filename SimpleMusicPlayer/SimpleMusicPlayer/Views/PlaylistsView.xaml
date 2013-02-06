@@ -8,6 +8,7 @@
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
              xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
              xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
+             xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -27,6 +28,7 @@
       </ResourceDictionary.MergedDictionaries>
 
       <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+      <ValueConverters:PlayListItemIndexToViewConverter x:Key="PlayListItemIndexToViewConverter" />
 
       <VisualBrush x:Key="VisualBrushPlay"
                    Stretch="Fill"
@@ -78,7 +80,10 @@
 
           <TextBlock Grid.Column="1"
                      Margin="2"
-                     Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />
+                     Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplatedParent.(ItemsControl.AlternationIndex), Mode=OneWay, StringFormat='{}{0}.', Converter={StaticResource PlayListItemIndexToViewConverter}}" />
+<!--          <TextBlock Grid.Column="1"-->
+<!--                     Margin="2"-->
+<!--                     Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />-->
           <TextBlock Grid.Column="2"
                      Margin="0,2,2,0"
                      TextTrimming="CharacterEllipsis"
@@ -101,7 +106,11 @@
                       Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       HorizontalContentAlignment="Stretch"
-                      ItemTemplate="{StaticResource MediaFileViewModelDT}" />
+                      ItemTemplate="{StaticResource MediaFileViewModelDT}"
+                      AlternationCount="{Binding RelativeSource={RelativeSource Self}, Path=Items.Count}"
+                      dd:DragDrop.IsDragSource="True"
+                      dd:DragDrop.IsDropTarget="True"
+                      dd:DragDrop.DropHandler="{Binding}" />
 
   </Grid>
 </UserControl>
