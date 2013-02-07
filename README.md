@@ -37,7 +37,7 @@ Download
 
 all versions [here](../dist)  
 
-download latest version v1.9.0.12 [now](../raw/master/dist/smp_1.9.0.12.zip) as zip  
+download latest version v1.9.0.12 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.12.zip) as zip  
 
 Screen shots
 ============
