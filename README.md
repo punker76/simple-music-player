@@ -35,12 +35,14 @@ First simple functions
 Download
 ========
 
-all versions [here](https://github.com/punker76/simple-music-player/tree/master/dist)  
+all versions [here](../dist)  
 
-download latest version v1.9.0.11 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.11.zip) as zip  
+download latest version v1.9.0.12 [now](../dist/smp_1.9.0.12.zip) as zip  
 
 Screen shots
 ============
+
+![very early screenshot 07](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-02-07_22h49_52.png)  
 
 ![very early screenshot 06](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-01-05_23h26_18.png)  
 
