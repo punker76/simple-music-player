@@ -113,6 +113,7 @@
     <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
+    <Compile Include="Common\CustomWindowSettings.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Equalizer.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />

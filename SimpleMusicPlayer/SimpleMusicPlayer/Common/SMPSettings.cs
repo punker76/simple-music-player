@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 
@@ -18,6 +19,7 @@ namespace SimpleMusicPlayer.Common
 
   public class MainSettings
   {
+    public WINDOWPLACEMENT? Placement { get; set; }
   }
 
   public class PlayerSettings : ViewModelBaseNotifyPropertyChanged

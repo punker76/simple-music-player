@@ -32,6 +32,10 @@ namespace SimpleMusicPlayer.ViewModels
       get { return PlayerEngine.Instance; }
     }
 
+    public SMPSettings SMPSettings {
+      get { return this.smpSettings; }
+    }
+
     private SMPSettings ReadSettings() {
       if (File.Exists(SMPSettings.SettingsFile)) {
         var jsonString = File.ReadAllText(SMPSettings.SettingsFile);
