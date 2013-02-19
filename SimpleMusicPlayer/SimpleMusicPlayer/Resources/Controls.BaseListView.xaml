@@ -42,7 +42,7 @@
 
   <Style x:Key="BaseListViewStyle"
          TargetType="Base:BaseListView"
-         BasedOn="{StaticResource VirtualisedListView}">
+         BasedOn="{StaticResource VirtualisedMetroListView}">
     <Setter Property="BorderThickness"
             Value="0" />
     <Setter Property="FocusVisualStyle"

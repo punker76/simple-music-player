@@ -8,7 +8,7 @@
 
   <Style x:Key="BaseListBoxStyle"
          TargetType="base:BaseListBox"
-         BasedOn="{StaticResource VirtualisedListBox}">
+         BasedOn="{StaticResource VirtualisedMetroListBox}">
     <Setter Property="IsTextSearchEnabled"
             Value="False" />
     <Setter Property="FocusVisualStyle"

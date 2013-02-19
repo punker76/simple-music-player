@@ -18,14 +18,27 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand showOnGitHubCmd;
     private ICommand showEqualizerCommand;
     private ICommand closeEqualizerCommand;
+    private CustomWindowPlacementSettings customWindowPlacementSettings;
 
     public MainWindowViewModel(Dispatcher dispatcher) {
       this.smpSettings = this.ReadSettings();
+      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.smpSettings);
       this.PlayerEngine.Configure(dispatcher, this.smpSettings);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
       this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel);
       this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
+    }
+
+    public CustomWindowPlacementSettings CustomWindowPlacementSettings {
+      get { return customWindowPlacementSettings; }
+      set {
+        if (Equals(value, this.customWindowPlacementSettings)) {
+          return;
+        }
+        this.customWindowPlacementSettings = value;
+        this.OnPropertyChanged(() => this.CustomWindowPlacementSettings);
+      }
     }
 
     public PlayerEngine PlayerEngine {

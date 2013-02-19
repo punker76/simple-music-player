@@ -20,7 +20,7 @@
                       MinWidth="400"
                       WindowStartupLocation="CenterScreen"
                       ShowMaxRestoreButton="False"
-                      WindowsSettings="{x:Static Common:CustomWindowSettings.Instance}"
+                      WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
                       mc:Ignorable="d"
                       d:DataContext="{d:DesignInstance ViewModels:MainWindowViewModel}">
