@@ -221,6 +221,10 @@ namespace SimpleMusicPlayer.ViewModels
 
     public void Drop(IDropInfo dropInfo) {
       GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+      var i = 1;
+      foreach (var mf in dropInfo.TargetCollection.OfType<IMediaFile>()) {
+        mf.PlayListIndex = i++;
+      }
       var mediaFile = dropInfo.Data as IMediaFile;
       if (mediaFile != null && mediaFile.State != PlayerState.Stop) {
         this.SetCurrentPlayListFile(mediaFile);

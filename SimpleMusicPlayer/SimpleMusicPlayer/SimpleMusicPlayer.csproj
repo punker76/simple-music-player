@@ -59,6 +59,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity">
       <HintPath>..\packages\MahApps.Metro.0.10.1.27-ALPHA\lib\net40\System.Windows.Interactivity.dll</HintPath>
       <Private>False</Private>
@@ -112,6 +114,7 @@
     <Compile Include="Base\NotifyPropertyChangedExtensions.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\ViewModelBaseNotifyPropertyChanged.cs" />
+    <Compile Include="Base\WindowExtensions.cs" />
     <Compile Include="Common\CustomWindowPlacementSettings.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Equalizer.cs" />
@@ -129,7 +132,6 @@
     <Compile Include="ValueConverters\NullToCollapsedVisibilityConverter.cs" />
     <Compile Include="ValueConverters\PlayerMuteToVisualBrushConverter.cs" />
     <Compile Include="ValueConverters\PlayerStatePlayToVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\PlayListItemIndexToViewConverter.cs" />
     <Compile Include="ValueConverters\SliderPositionValueToTextConverter.cs" />
     <Compile Include="ValueConverters\SliderRemainingPositionValueToTextConverter.cs" />
     <Compile Include="ViewModels\EqualizerViewModel.cs" />
