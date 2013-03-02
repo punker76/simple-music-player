@@ -4,6 +4,7 @@ using System.Windows.Input;
 using MahApps.Metro.Controls;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.ViewModels;
+using SimpleMusicPlayer.Base;
 
 namespace SimpleMusicPlayer
 {
@@ -22,10 +23,12 @@ namespace SimpleMusicPlayer
 
       this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
 
+      this.SourceInitialized += (sender, e) => this.FitIntoScreen();
+
       this.Closed += (sender, e) => {
-        ((MainWindowViewModel)this.DataContext).SaveSettings();
-        PlayerEngine.Instance.CleanUp();
-      };
+                       ((MainWindowViewModel)this.DataContext).SaveSettings();
+                       PlayerEngine.Instance.CleanUp();
+                     };
     }
 
     private void MainWindow_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e) {

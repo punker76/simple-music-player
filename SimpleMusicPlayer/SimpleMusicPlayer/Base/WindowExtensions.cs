@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Forms;
-using System.Windows.Shapes;
 
 namespace SimpleMusicPlayer.Base
 {
@@ -15,7 +14,7 @@ namespace SimpleMusicPlayer.Base
       if (w == null) {
         return;
       }
-      var workingArea = GetDesktopWorkingArea(); // Screen.GetWorkingArea(new System.Drawing.Point(Convert.ToInt32(w.Left), Convert.ToInt32(w.Top)));
+      var workingArea = GetDesktopWorkingArea(w);
       var formSize = w.RestoreBounds;
       Rect newFormSize;
       if (FitIntoScreen(workingArea, formSize, out newFormSize)) {
@@ -26,13 +25,17 @@ namespace SimpleMusicPlayer.Base
       }
     }
 
-    private static Rect GetDesktopWorkingArea() {
-      var workingArea = Rect.Empty;
-      foreach (var screen in Screen.AllScreens) {
-        var screenWorkingArea = screen.WorkingArea;
-        workingArea = Rect.Union(workingArea, new Rect(screenWorkingArea.Left, screenWorkingArea.Top, screenWorkingArea.Width, screenWorkingArea.Height));
-      }
-      return workingArea;
+    private static Rect GetDesktopWorkingArea(Window w) {
+      //      return SystemParameters.WorkArea;
+      //      return new Rect(SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop, SystemParameters.VirtualScreenWidth, SystemParameters.VirtualScreenHeight);
+      var rectangle = Screen.GetWorkingArea(new System.Drawing.Point(Convert.ToInt32((w.Left + w.Width) / 2.0), Convert.ToInt32(w.Top)));
+      return new Rect(rectangle.Left, rectangle.Top, rectangle.Width, rectangle.Height);
+      //      var workingArea = Rect.Empty;
+      //      foreach (var screen in Screen.AllScreens) {
+      //        var screenWorkingArea = screen.WorkingArea;
+      //        workingArea = Rect.Union(workingArea, new Rect(screenWorkingArea.Left, screenWorkingArea.Top, screenWorkingArea.Width, screenWorkingArea.Height));
+      //      }
+      //      return workingArea;
     }
 
     private static bool FitIntoScreen(Rect workArea, Rect formSize, out Rect newFormSize) {
