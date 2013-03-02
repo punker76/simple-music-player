@@ -9,7 +9,6 @@ namespace SimpleMusicPlayer.Base
     /// <summary>
     /// Fits the window into the current screen.
     /// </summary>
-    /// <param name="w">The w.</param>
     public static void FitIntoScreen(this Window w) {
       if (w == null) {
         return;
