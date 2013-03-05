@@ -53,72 +53,72 @@ namespace SimpleMusicPlayer.Models
           var mf = new MediaFile(fileName);
 
           // ALBUM -> iTunes=Album, WMP10=Album, Winamp=Album
-          mf.Album = file.Tag.Album;
-          if (string.IsNullOrWhiteSpace(mf.Album)) {
-            mf.Album = "<Unknown>";
+          mf.album = file.Tag.Album;
+          if (string.IsNullOrWhiteSpace(mf.album)) {
+            mf.album = "<Unknown>";
           }
-          mf.AlbumSort = file.Tag.AlbumSort;
+          mf.albumSort = file.Tag.AlbumSort;
           // ALBUMARTIST
           var albumArtists = file.Tag.AlbumArtists.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
           var albumArtistsSort = file.Tag.AlbumArtistsSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-          mf.FirstAlbumArtist = albumArtists.Count > 1 ? string.Join("/", albumArtists) : file.Tag.FirstAlbumArtist;
-          mf.FirstAlbumArtistSort = albumArtistsSort.Count > 1 ? string.Join("/", albumArtistsSort) : file.Tag.FirstAlbumArtistSort;
+          mf.firstAlbumArtist = albumArtists.Count > 1 ? string.Join("/", albumArtists) : file.Tag.FirstAlbumArtist;
+          mf.firstAlbumArtistSort = albumArtistsSort.Count > 1 ? string.Join("/", albumArtistsSort) : file.Tag.FirstAlbumArtistSort;
 
           // ARTIST/Performer
           var performers = file.Tag.Performers.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
           var performersSort = file.Tag.PerformersSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-          mf.FirstPerformer = performers.Count > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
-          mf.FirstPerformerSort = performersSort.Count > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
+          mf.firstPerformer = performers.Count > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
+          mf.firstPerformerSort = performersSort.Count > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
 
           // BPM
-          mf.BPM = file.Tag.BeatsPerMinute;
+          mf.bpm = file.Tag.BeatsPerMinute;
 
           // COMMENT
-          mf.Comment = file.Tag.Comment;
+          mf.comment = file.Tag.Comment;
 
           // COMPOSER
           var composers = file.Tag.Composers.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
           var composersSort = file.Tag.ComposersSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-          mf.FirstComposer = composers.Count > 1 ? string.Join("/", composers) : file.Tag.FirstComposer;
-          mf.FirstComposerSort = composersSort.Count > 1 ? string.Join("/", composersSort) : file.Tag.FirstComposerSort;
+          mf.firstComposer = composers.Count > 1 ? string.Join("/", composers) : file.Tag.FirstComposer;
+          mf.firstComposerSort = composersSort.Count > 1 ? string.Join("/", composersSort) : file.Tag.FirstComposerSort;
 
           // CONDUCTOR
-          mf.Conductor = file.Tag.Conductor;
+          mf.conductor = file.Tag.Conductor;
 
           // COPYRIGHT
-          mf.Copyright = file.Tag.Copyright;
+          mf.copyright = file.Tag.Copyright;
 
           // TITLE
-          mf.Title = file.Tag.Title;
-          mf.TitleSort = file.Tag.TitleSort;
+          mf.title = file.Tag.Title;
+          mf.titleSort = file.Tag.TitleSort;
 
           // GENRE
           var genres = file.Tag.Genres.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-          mf.FirstGenre = genres.Count > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
+          mf.firstGenre = genres.Count > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
 
-          mf.Track = file.Tag.Track;
-          mf.TrackCount = file.Tag.TrackCount;
-          mf.Disc = file.Tag.Disc;
-          mf.DiscCount = file.Tag.DiscCount;
-          mf.Year = file.Tag.Year;
-          mf.Grouping = file.Tag.Grouping;
+          mf.track = file.Tag.Track;
+          mf.trackCount = file.Tag.TrackCount;
+          mf.disc = file.Tag.Disc;
+          mf.discCount = file.Tag.DiscCount;
+          mf.year = file.Tag.Year;
+          mf.grouping = file.Tag.Grouping;
 
-          var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(mf.FirstPerformer);
-          var isTitleEmpty = string.IsNullOrWhiteSpace(mf.Title);
+          var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(mf.firstPerformer);
+          var isTitleEmpty = string.IsNullOrWhiteSpace(mf.title);
           if (!isFirstPerformerEmpty && !isTitleEmpty) {
-            mf.FirstPerformerAndTitle = string.Concat(mf.FirstPerformer, " - ", mf.Title);
+            mf.firstPerformerAndTitle = string.Concat(mf.firstPerformer, " - ", mf.title);
           } else if (!isFirstPerformerEmpty) {
-            mf.FirstPerformerAndTitle = mf.FirstPerformer;
+            mf.firstPerformerAndTitle = mf.firstPerformer;
           } else if (!isTitleEmpty) {
-            mf.FirstPerformerAndTitle = mf.Title;
+            mf.firstPerformerAndTitle = mf.title;
           } else {
-            mf.FirstPerformerAndTitle = Path.GetFileNameWithoutExtension(mf.FileName);
+            mf.firstPerformerAndTitle = Path.GetFileNameWithoutExtension(mf.fileName);
           }
 
           if (file.Properties.MediaTypes != TagLib.MediaTypes.None) {
-            mf.Duration = file.Properties.Duration;
+            mf.duration = file.Properties.Duration;
             var codec = file.Properties.Codecs.FirstOrDefault(c => c is TagLib.Mpeg.AudioHeader);
-            mf.IsVBR = codec != null && (((TagLib.Mpeg.AudioHeader)codec).VBRIHeader.Present || ((TagLib.Mpeg.AudioHeader)codec).XingHeader.Present);
+            mf.isVBR = codec != null && (((TagLib.Mpeg.AudioHeader)codec).VBRIHeader.Present || ((TagLib.Mpeg.AudioHeader)codec).XingHeader.Present);
           }
 
           return mf;
