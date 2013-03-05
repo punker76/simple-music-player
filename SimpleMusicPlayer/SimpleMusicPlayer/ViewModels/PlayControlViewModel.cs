@@ -7,7 +7,7 @@ using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class PlayControlViewModel : ViewModelBaseNotifyPropertyChanged
+  public class PlayControlViewModel : ViewModelBase
   {
     private readonly PlaylistsViewModel playlistsViewModel;
     private ICommand playOrPauseCommand;

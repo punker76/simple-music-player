@@ -8,7 +8,7 @@ using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class MedialibViewModel : ViewModelBaseNotifyPropertyChanged
+  public class MedialibViewModel : ViewModelBase
   {
     private IEnumerable mediaFiles;
 

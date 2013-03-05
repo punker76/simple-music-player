@@ -14,7 +14,7 @@ using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Common
 {
-  public class FileSearchWorker : ViewModelBaseNotifyPropertyChanged
+  public class FileSearchWorker : ViewModelBase
   {
     private readonly string[] extensions = new[] {".mp3", ".wma", ".ogg", ".wav"};
     private Task<IEnumerable<IMediaFile>> mainTask;

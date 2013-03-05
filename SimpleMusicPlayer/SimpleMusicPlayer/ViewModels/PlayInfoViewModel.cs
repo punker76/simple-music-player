@@ -4,7 +4,7 @@ using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class PlayInfoViewModel : ViewModelBaseNotifyPropertyChanged
+  public class PlayInfoViewModel : ViewModelBase
   {
     public PlayInfoViewModel(Dispatcher dispatcher) {
     }

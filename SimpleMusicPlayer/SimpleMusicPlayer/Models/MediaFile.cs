@@ -11,7 +11,7 @@ using TagLib;
 
 namespace SimpleMusicPlayer.Models
 {
-  public class MediaFile : ViewModelBaseNotifyPropertyChanged, IMediaFile
+  public class MediaFile : ViewModelBase, IMediaFile
   {
     private string fullFileName;
     private string fileName;

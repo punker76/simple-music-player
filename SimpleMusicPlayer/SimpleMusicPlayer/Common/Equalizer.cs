@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SimpleMusicPlayer.Common
 {
-  public class Equalizer : ViewModelBaseNotifyPropertyChanged
+  public class Equalizer : ViewModelBase
   {
     // Center: Frequency center. 20.0 to 22000.0. Default = 8000.0
     // Bandwith: Octave range around the center frequency to filter. 0.2 to 5.0. Default = 1.0
@@ -123,7 +123,7 @@ namespace SimpleMusicPlayer.Common
     }
   }
 
-  public class EqualizerBand : ViewModelBaseNotifyPropertyChanged
+  public class EqualizerBand : ViewModelBase
   {
     private FMOD.DSP dspEQ;
     private float gain;

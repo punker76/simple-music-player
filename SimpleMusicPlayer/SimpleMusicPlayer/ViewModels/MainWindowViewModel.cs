@@ -7,7 +7,7 @@ using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class MainWindowViewModel : ViewModelBaseNotifyPropertyChanged
+  public class MainWindowViewModel : ViewModelBase
   {
     private readonly SMPSettings smpSettings;
     private PlayControlViewModel playControlViewModel;

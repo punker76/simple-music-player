@@ -22,7 +22,7 @@ namespace SimpleMusicPlayer.Common
     public WINDOWPLACEMENT? Placement { get; set; }
   }
 
-  public class PlayerSettings : ViewModelBaseNotifyPropertyChanged
+  public class PlayerSettings : ViewModelBase
   {
     private bool shuffleMode;
     private bool repeatMode;

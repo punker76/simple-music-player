@@ -19,7 +19,7 @@ using SimpleMusicPlayer.Models;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class PlaylistsViewModel : ViewModelBaseNotifyPropertyChanged, IDropTarget
+  public class PlaylistsViewModel : ViewModelBase, IDropTarget
   {
     private IEnumerable firstSimplePlaylistFiles;
     private IMediaFile selectedPlayListFile;

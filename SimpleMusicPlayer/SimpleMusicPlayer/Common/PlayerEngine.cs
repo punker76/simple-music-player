@@ -9,7 +9,7 @@ using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.Common
 {
-  public class PlayerEngine : ViewModelBaseNotifyPropertyChanged, IPlayerEngine
+  public class PlayerEngine : ViewModelBase, IPlayerEngine
   {
     private class ChannelInfo
     {

@@ -4,7 +4,7 @@ using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class EqualizerViewModel : ViewModelBaseNotifyPropertyChanged
+  public class EqualizerViewModel : ViewModelBase
   {
     private Equalizer equalizer;
     private ICommand setToDefaultCommand;

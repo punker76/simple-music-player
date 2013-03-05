@@ -25,16 +25,8 @@ namespace SimpleMusicPlayer.Base
     }
 
     private static Rect GetDesktopWorkingArea(Window w) {
-      //      return SystemParameters.WorkArea;
-      //      return new Rect(SystemParameters.VirtualScreenLeft, SystemParameters.VirtualScreenTop, SystemParameters.VirtualScreenWidth, SystemParameters.VirtualScreenHeight);
-      var rectangle = Screen.GetWorkingArea(new System.Drawing.Point(Convert.ToInt32((w.Left + w.Width) / 2.0), Convert.ToInt32(w.Top)));
+      var rectangle = Screen.GetWorkingArea(new System.Drawing.Point(Convert.ToInt32(w.Left + (w.Width / 2.0)), Convert.ToInt32(w.Top)));
       return new Rect(rectangle.Left, rectangle.Top, rectangle.Width, rectangle.Height);
-      //      var workingArea = Rect.Empty;
-      //      foreach (var screen in Screen.AllScreens) {
-      //        var screenWorkingArea = screen.WorkingArea;
-      //        workingArea = Rect.Union(workingArea, new Rect(screenWorkingArea.Left, screenWorkingArea.Top, screenWorkingArea.Width, screenWorkingArea.Height));
-      //      }
-      //      return workingArea;
     }
 
     private static bool FitIntoScreen(Rect workArea, Rect formSize, out Rect newFormSize) {
