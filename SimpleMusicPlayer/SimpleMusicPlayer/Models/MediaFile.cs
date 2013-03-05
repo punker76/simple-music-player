@@ -59,16 +59,16 @@ namespace SimpleMusicPlayer.Models
           }
           mf.AlbumSort = file.Tag.AlbumSort;
           // ALBUMARTIST
-          var albumArtists = file.Tag.AlbumArtists;
-          var albumArtistsSort = file.Tag.AlbumArtistsSort;
-          mf.FirstAlbumArtist = albumArtists.Length > 1 ? string.Join("/", albumArtists) : file.Tag.FirstAlbumArtist;
-          mf.FirstAlbumArtistSort = albumArtistsSort.Length > 1 ? string.Join("/", albumArtistsSort) : file.Tag.FirstAlbumArtistSort;
+          var albumArtists = file.Tag.AlbumArtists.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+          var albumArtistsSort = file.Tag.AlbumArtistsSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+          mf.FirstAlbumArtist = albumArtists.Count > 1 ? string.Join("/", albumArtists) : file.Tag.FirstAlbumArtist;
+          mf.FirstAlbumArtistSort = albumArtistsSort.Count > 1 ? string.Join("/", albumArtistsSort) : file.Tag.FirstAlbumArtistSort;
 
           // ARTIST/Performer
-          var performers = file.Tag.Performers;
-          var performersSort = file.Tag.PerformersSort;
-          mf.FirstPerformer = performers.Length > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
-          mf.FirstPerformerSort = performersSort.Length > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
+          var performers = file.Tag.Performers.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+          var performersSort = file.Tag.PerformersSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+          mf.FirstPerformer = performers.Count > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
+          mf.FirstPerformerSort = performersSort.Count > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
 
           // BPM
           mf.BPM = file.Tag.BeatsPerMinute;
@@ -77,10 +77,10 @@ namespace SimpleMusicPlayer.Models
           mf.Comment = file.Tag.Comment;
 
           // COMPOSER
-          var composers = file.Tag.Composers;
-          var composersSort = file.Tag.ComposersSort;
-          mf.FirstComposer = composers.Length > 1 ? string.Join("/", composers) : file.Tag.FirstComposer;
-          mf.FirstComposerSort = composersSort.Length > 1 ? string.Join("/", composersSort) : file.Tag.FirstComposerSort;
+          var composers = file.Tag.Composers.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+          var composersSort = file.Tag.ComposersSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+          mf.FirstComposer = composers.Count > 1 ? string.Join("/", composers) : file.Tag.FirstComposer;
+          mf.FirstComposerSort = composersSort.Count > 1 ? string.Join("/", composersSort) : file.Tag.FirstComposerSort;
 
           // CONDUCTOR
           mf.Conductor = file.Tag.Conductor;
@@ -93,8 +93,8 @@ namespace SimpleMusicPlayer.Models
           mf.TitleSort = file.Tag.TitleSort;
 
           // GENRE
-          var genres = file.Tag.Genres;
-          mf.FirstGenre = genres.Length > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
+          var genres = file.Tag.Genres.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+          mf.FirstGenre = genres.Count > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
 
           mf.Track = file.Tag.Track;
           mf.TrackCount = file.Tag.TrackCount;
@@ -106,13 +106,13 @@ namespace SimpleMusicPlayer.Models
           var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(mf.FirstPerformer);
           var isTitleEmpty = string.IsNullOrWhiteSpace(mf.Title);
           if (!isFirstPerformerEmpty && !isTitleEmpty) {
-            mf.FirstPerformerAndTitle = string.Format("{0} - {1}", mf.FirstPerformer, mf.Title);
+            mf.FirstPerformerAndTitle = string.Concat(mf.FirstPerformer, " - ", mf.Title);
           } else if (!isFirstPerformerEmpty) {
             mf.FirstPerformerAndTitle = mf.FirstPerformer;
           } else if (!isTitleEmpty) {
             mf.FirstPerformerAndTitle = mf.Title;
           } else {
-            mf.FirstPerformerAndTitle = mf.FileName;
+            mf.FirstPerformerAndTitle = Path.GetFileNameWithoutExtension(mf.FileName);
           }
 
           if (file.Properties.MediaTypes != TagLib.MediaTypes.None) {
