@@ -83,17 +83,34 @@
     </Grid>
 
     <Controls:MetroContentControl Grid.Row="1">
-      <TabControl>
-        <TabItem Header="Playlists">
-          <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
-                               Margin="5" />
-        </TabItem>
-        <TabItem Header="Medialib">
-          <Views:MedialibView DataContext="{Binding MedialibViewModel, Mode=OneWay}"
-                              Margin="5" />
-        </TabItem>
-      </TabControl>
+      <!--      <Grid>-->
+      <!--        <Grid.RowDefinitions>-->
+      <!--          <RowDefinition Height="Auto" />-->
+      <!--          <RowDefinition Height="*" />-->
+      <!--        </Grid.RowDefinitions>-->
+      <!--        <TextBlock Text="PlayLists"-->
+      <!--                   Margin="5"-->
+      <!--                   FontSize="20" />-->
+      <!--        <Views:PlaylistsView Grid.Row="1"-->
+      <!--                             DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"-->
+      <!--                             Margin="5" />-->
+      <!--      </Grid>-->
+      <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
+                           Margin="5,10,5,5" />
     </Controls:MetroContentControl>
+
+    <!--    <Controls:MetroContentControl Grid.Row="1">-->
+    <!--      <TabControl>-->
+    <!--        <TabItem Header="Playlists">-->
+    <!--          <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"-->
+    <!--                               Margin="5" />-->
+    <!--        </TabItem>-->
+    <!--        <TabItem Header="Medialib">-->
+    <!--          <Views:MedialibView DataContext="{Binding MedialibViewModel, Mode=OneWay}"-->
+    <!--                              Margin="5" />-->
+    <!--        </TabItem>-->
+    <!--      </TabControl>-->
+    <!--    </Controls:MetroContentControl>-->
 
     <StackPanel Grid.Row="2"
                 DataContext="{x:Static Common:FileSearchWorker.Instance}"

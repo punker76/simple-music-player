@@ -47,15 +47,15 @@
           </Grid.ColumnDefinitions>
 
           <Grid Grid.Column="0"
-                Margin="-1,0,0,0"
-                Opacity="0.75">
+                Margin="-1,0,0,1"
+                Opacity="0.8">
             <Grid Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
               <Ellipse Margin="0,0,2,0"
                        Stroke="{DynamicResource TextBrush}"
                        StrokeThickness="1"
                        Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
                        VerticalAlignment="Stretch" />
-              <Rectangle Margin="1,0,0,0"
+              <Rectangle Margin="0,0,0,0"
                          Width="8"
                          Height="8"
                          VerticalAlignment="Center"
