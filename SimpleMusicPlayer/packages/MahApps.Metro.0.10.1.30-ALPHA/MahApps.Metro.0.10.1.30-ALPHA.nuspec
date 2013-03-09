@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>MahApps.Metro</id>
-    <version>0.10.1.29-ALPHA</version>
+    <version>0.10.1.30-ALPHA</version>
     <title>MahApps.Metro</title>
     <authors>Paul Jenkins; Jake Ginnivan</authors>
     <owners>Paul Jenkins; Jake Ginnivan</owners>
