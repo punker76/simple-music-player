@@ -38,7 +38,8 @@
 
       <DataTemplate x:Key="MediaFileViewModelDT"
                     DataType="{x:Type models:MediaFile}">
-        <Grid>
+        <Grid RenderOptions.ClearTypeHint="Enabled"
+              TextOptions.TextFormattingMode="Display">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
