@@ -75,6 +75,11 @@
             Gets the position of the click that initiated the drag, relative to <see cref="P:GongSolutions.Wpf.DragDrop.IDragInfo.VisualSource"/>.
             </summary>
         </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.PositionInDraggedItem">
+            <summary>
+            Gets the point where the cursor was relative to the item being dragged when the drag was started.
+            </summary>
+        </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.Effects">
             <summary>
             Gets or sets the allowed effects for the drag.
@@ -175,6 +180,11 @@
         <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.DragStartPosition">
             <summary>
             Gets the position of the click that initiated the drag, relative to <see cref="P:GongSolutions.Wpf.DragDrop.DragInfo.VisualSource"/>.
+            </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.PositionInDraggedItem">
+            <summary>
+            Gets the point where the cursor was relative to the item being dragged when the drag was started.
             </summary>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.Effects">
@@ -333,7 +343,22 @@
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.VisualTargetOrientation">
             <summary>
-            Gets th orientation of the current drop target.
+            Gets the orientation of the current drop target.
+            </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.VisualTargetFlowDirection">
+            <summary>
+            Gets the FlowDirection of the current drop target.
+            </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.DestinationText">
+            <summary>
+            Gets and sets the text displayed in the DropDropEffects adorner.
+            </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.InsertPosition">
+            <summary>
+            Gets the relative position the item will be inserted to compared to the TargetItem
             </summary>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.KeyStates">
@@ -461,13 +486,42 @@
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.VisualTargetOrientation">
             <summary>
-            Gets th orientation of the current drop target.
+            Gets the orientation of the current drop target.
+            </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.VisualTargetFlowDirection">
+            <summary>
+            Gets the orientation of the current drop target.
+            </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.DestinationText">
+            <summary>
+            Gets and sets the text displayed in the DropDropEffects adorner.
+            </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.InsertPosition">
+            <summary>
+            Gets the relative position the item will be inserted to compared to the TargetItem
             </summary>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.KeyStates">
             <summary>
             Gets a flag enumeration indicating the current state of the SHIFT, CTRL, and ALT keys, as well as the state of the mouse buttons.
             </summary>
+        </member>
+        <member name="T:GongSolutions.Wpf.DragDrop.Icons.IconFactory">
+            <summary>
+            Static class to provide access to standard application images
+            </summary>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.Icons.IconFactory.GetImage(System.String,System.Int32)">
+            <summary>
+            Loads an image based on the name and size required.
+            Images need to be marked as 'Resource' in the project for them be loaded.
+            </summary>
+            <param name="iconName">Name of the icon</param>
+            <param name="size">The size of the icon</param>
+            <returns>The image to be displayed</returns>
         </member>
     </members>
 </doc>

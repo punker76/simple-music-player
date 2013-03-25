@@ -42,7 +42,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop">
-      <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.5\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.6\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
@@ -272,7 +272,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.3.5\lib\net40\GongSolutions.Wpf.DragDrop.dll">
+    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.3.6\lib\net40\GongSolutions.Wpf.DragDrop.dll">
       <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
