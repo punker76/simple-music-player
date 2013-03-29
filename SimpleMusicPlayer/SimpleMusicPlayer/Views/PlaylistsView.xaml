@@ -17,14 +17,8 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
@@ -80,14 +74,14 @@
 
           <TextBlock Grid.Column="1"
                      Margin="2"
-                     Text="{Binding PlayListIndex, StringFormat='{}{0}.'}" />
+                     Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
           <TextBlock Grid.Column="2"
                      Margin="0,2,2,0"
                      TextTrimming="CharacterEllipsis"
-                     Text="{Binding FirstPerformerAndTitle}" />
+                     Text="{Binding FirstPerformerAndTitle, Mode=OneWay}" />
           <TextBlock Grid.Column="3"
                      Margin="0,2,5,2"
-                     Text="{Binding Duration, StringFormat='{}{0:m\\:ss}'}" />
+                     Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
 
         </Grid>
       </DataTemplate>
@@ -95,19 +89,15 @@
     </ResourceDictionary>
   </UserControl.Resources>
 
-  <Grid>
+  <Base:BaseListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                    SelectedItem="{Binding SelectedPlayListFile}"
+                    Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+                    Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                    HorizontalContentAlignment="Stretch"
+                    ItemTemplate="{StaticResource MediaFileViewModelDT}"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.DropHandler="{Binding}" />
 
-    <Base:BaseListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-                      SelectedItem="{Binding SelectedPlayListFile}"
-                      Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
-                      Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      HorizontalContentAlignment="Stretch"
-                      ItemTemplate="{StaticResource MediaFileViewModelDT}"
-                      AlternationCount="{Binding RelativeSource={RelativeSource Self}, Path=Items.Count}"
-                      dd:DragDrop.IsDragSource="True"
-                      dd:DragDrop.IsDropTarget="True"
-                      dd:DragDrop.DropHandler="{Binding}" />
-
-  </Grid>
 </UserControl>

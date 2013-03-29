@@ -6,10 +6,23 @@ using System.Windows.Media;
 
 namespace SimpleMusicPlayer.ValueConverters
 {
-  public class ModeToColorConverter : IValueConverter
+  public class ModeToColorConverter : Freezable, IValueConverter
   {
-    public Color TrueColor { get; set; }
-    public Color FalseColor { get; set; }
+    public static readonly DependencyProperty TrueColorProperty =
+      DependencyProperty.Register("TrueColor", typeof(Color), typeof(ModeToColorConverter), new PropertyMetadata(default(Color)));
+
+    public Color TrueColor {
+      get { return (Color)this.GetValue(TrueColorProperty); }
+      set { this.SetValue(TrueColorProperty, value); }
+    }
+
+    public static readonly DependencyProperty FalseColorProperty =
+      DependencyProperty.Register("FalseColor", typeof(Color), typeof(ModeToColorConverter), new PropertyMetadata(default(Color)));
+
+    public Color FalseColor {
+      get { return (Color)this.GetValue(FalseColorProperty); }
+      set { this.SetValue(FalseColorProperty, value); }
+    }
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
       return value is bool && (bool)value ? this.TrueColor : this.FalseColor;
@@ -17,6 +30,10 @@ namespace SimpleMusicPlayer.ValueConverters
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
       return DependencyProperty.UnsetValue;
+    }
+
+    protected override Freezable CreateInstanceCore() {
+      return new ModeToColorConverter();
     }
   }
 }

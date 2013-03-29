@@ -16,15 +16,8 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <ValueConverters:SliderPositionValueToTextConverter x:Key="SliderPositionValueToTextConverter" />
@@ -33,8 +26,8 @@
       <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
 
       <ValueConverters:ModeToColorConverter x:Key="ModeToColorConverter"
-                                            TrueColor="{StaticResource AccentColor}"
-                                            FalseColor="{StaticResource BlackColor}" />
+                                            TrueColor="{DynamicResource AccentColor}"
+                                            FalseColor="{DynamicResource BlackColor}" />
 
       <VisualBrush x:Key="MuteBrush"
                    Stretch="Fill"
@@ -42,6 +35,46 @@
       <VisualBrush x:Key="VolumeBrush"
                    Stretch="Fill"
                    Visual="{StaticResource appbar_sound_3}" />
+      <VisualBrush x:Key="ShuffleBrush"
+                   Stretch="Fill">
+        <VisualBrush.Visual>
+          <Canvas Width="48"
+                  Height="48"
+                  Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
+                  UseLayoutRounding="False">
+            <Path Width="30"
+                  Height="26"
+                  Canvas.Left="9"
+                  Canvas.Top="11"
+                  Stretch="Fill"
+                  Data="F1 M 9.00001,29L 13,29L 24.7499,15L 30.25,15L 26,11L 32.5,11L 39,17L 32.5,23L 26,23L 30.25,19L 26,19L 14,33L 9.00001,33L 9.00001,29 Z M 9,19L 9,15L 14,15L 18.75,20.5417L 16.4985,23.1684L 13,19L 9,19 Z M 26,29L 30.25,29L 26,25L 32.5,25L 39,31L 32.5,37L 26,37L 30.25,33L 24.7499,33L 20.1736,27.5474L 22.4643,24.875L 26,29 Z ">
+              <Path.Fill>
+                <SolidColorBrush Color="{Binding SMPSettings.PlayerSettings.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
+              </Path.Fill>
+            </Path>
+          </Canvas>
+        </VisualBrush.Visual>
+      </VisualBrush>
+      <VisualBrush x:Key="RepeatBrush"
+                   Stretch="Fill">
+        <VisualBrush.Visual>
+          <Canvas Width="48"
+                  Height="48"
+                  Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
+                  UseLayoutRounding="False">
+            <Path Width="28"
+                  Height="24"
+                  Canvas.Left="10"
+                  Canvas.Top="12"
+                  Stretch="Fill"
+                  Data="F1 M 10.0001,27L 10,16L 29.25,16L 25,12L 31.5,12L 38,18L 31.5,24L 25,24L 29.25,20L 14,20L 14,23.5L 10.0001,27 Z M 38,21L 38,32L 18.75,32L 23,36L 16.5,36L 10,30L 16.5,24L 23,24L 18.75,28L 34,28L 34,24.5L 38,21 Z ">
+              <Path.Fill>
+                <SolidColorBrush Color="{Binding SMPSettings.PlayerSettings.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
+              </Path.Fill>
+            </Path>
+          </Canvas>
+        </VisualBrush.Visual>
+      </VisualBrush>
 
       <ValueConverters:PlayerMuteToVisualBrushConverter x:Key="PlayerMuteToVisualBrushConverter"
                                                         MuteBrush="{StaticResource MuteBrush}"
@@ -175,16 +208,8 @@
                 Height="35"
                 Width="35">
           <Rectangle Width="10"
-                     Height="10">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="{Binding SMPSettings.PlayerSettings.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_shuffle}" />
-            </Rectangle.Fill>
-          </Rectangle>
+                     Height="10"
+                     Fill="{StaticResource ShuffleBrush}" />
         </Button>
 
         <!-- repeat -->
@@ -196,16 +221,8 @@
                 Height="35"
                 Width="35">
           <Rectangle Width="10"
-                     Height="10">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="{Binding SMPSettings.PlayerSettings.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_repeat}" />
-            </Rectangle.Fill>
-          </Rectangle>
+                     Height="10"
+                     Fill="{StaticResource RepeatBrush}" />
         </Button>
 
         <!-- show equalizer -->
@@ -296,7 +313,7 @@
                   Command="{Binding MuteCommand, Mode=OneWay}"
                   ToolTip="Mute (m)"
                   VerticalAlignment="Center"
-                  Style="{StaticResource SimpleMPMetroVolumeButtonStyle}">
+                  Style="{DynamicResource SimpleMPMetroVolumeButtonStyle}">
             <Rectangle Margin="2"
                        Width="15"
                        Height="15"

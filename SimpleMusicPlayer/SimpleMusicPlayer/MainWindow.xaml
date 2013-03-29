@@ -15,11 +15,10 @@
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="True"
                       Height="600"
-                      MinHeight="400"
                       Width="400"
+                      MinHeight="400"
                       MinWidth="400"
                       WindowStartupLocation="CenterScreen"
-                      ShowMaxRestoreButton="False"
                       WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
                       mc:Ignorable="d"
@@ -82,35 +81,9 @@
                              DataContext="{Binding PlayControlViewModel, Mode=OneWay}" />
     </Grid>
 
-    <Controls:MetroContentControl Grid.Row="1">
-      <!--      <Grid>-->
-      <!--        <Grid.RowDefinitions>-->
-      <!--          <RowDefinition Height="Auto" />-->
-      <!--          <RowDefinition Height="*" />-->
-      <!--        </Grid.RowDefinitions>-->
-      <!--        <TextBlock Text="PlayLists"-->
-      <!--                   Margin="5"-->
-      <!--                   FontSize="20" />-->
-      <!--        <Views:PlaylistsView Grid.Row="1"-->
-      <!--                             DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"-->
-      <!--                             Margin="5" />-->
-      <!--      </Grid>-->
-      <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
-                           Margin="5,10,5,5" />
-    </Controls:MetroContentControl>
-
-    <!--    <Controls:MetroContentControl Grid.Row="1">-->
-    <!--      <TabControl>-->
-    <!--        <TabItem Header="Playlists">-->
-    <!--          <Views:PlaylistsView DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"-->
-    <!--                               Margin="5" />-->
-    <!--        </TabItem>-->
-    <!--        <TabItem Header="Medialib">-->
-    <!--          <Views:MedialibView DataContext="{Binding MedialibViewModel, Mode=OneWay}"-->
-    <!--                              Margin="5" />-->
-    <!--        </TabItem>-->
-    <!--      </TabControl>-->
-    <!--    </Controls:MetroContentControl>-->
+    <Views:PlaylistsView Grid.Row="1"
+                         DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
+                         Margin="5,10,5,5" />
 
     <StackPanel Grid.Row="2"
                 DataContext="{x:Static Common:FileSearchWorker.Instance}"
@@ -137,9 +110,7 @@
                 Margin="5,0,0,0"
                 Content="Cancel"
                 Style="{StaticResource LinkButton}"
-                Command="{Binding StopSearchCmd, Mode=OneWay}">
-
-        </Button>
+                Command="{Binding StopSearchCmd, Mode=OneWay}" />
       </Grid>
     </StackPanel>
 
