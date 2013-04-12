@@ -90,6 +90,8 @@
       </Border>
 
       <Image Stretch="UniformToFill"
+             RenderOptions.EdgeMode="Aliased"
+             RenderOptions.BitmapScalingMode="HighQuality"
              Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
     </Grid>
 
