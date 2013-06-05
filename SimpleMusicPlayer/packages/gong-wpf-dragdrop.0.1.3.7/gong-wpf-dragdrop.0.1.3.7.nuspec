@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>gong-wpf-dragdrop</id>
-    <version>0.1.3.6</version>
+    <version>0.1.3.7</version>
     <title>gong-wpf-dragdrop</title>
     <authors>Jan Karger (punker76),  Steven Kirk,  mitchell.jon</authors>
     <owners>Jan Karger (punker76),  Steven Kirk,  mitchell.jon</owners>
@@ -12,8 +12,5 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A Drag'n'Drap Framework for WPF</description>
     <copyright>Copyright 2013</copyright>
-    <references>
-      <reference file="GongSolutions.Wpf.DragDrop.dll" />
-    </references>
   </metadata>
 </package>
