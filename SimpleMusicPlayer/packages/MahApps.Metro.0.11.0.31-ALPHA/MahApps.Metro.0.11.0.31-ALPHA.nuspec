@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>MahApps.Metro</id>
-    <version>0.11.0.4-ALPHA</version>
+    <version>0.11.0.31-ALPHA</version>
     <title>MahApps.Metro</title>
     <authors>Paul Jenkins; Jake Ginnivan</authors>
     <owners>Paul Jenkins; Jake Ginnivan</owners>
@@ -14,9 +14,5 @@
     <summary>The goal of MahApps.Metro is to allow devs to quickly and easily cobble togther a "Metro" UI for their WPF4+ apps, with minimal effort.</summary>
     <releaseNotes />
     <tags>WPF UI Metro</tags>
-    <references>
-      <reference file="MahApps.Metro.dll" />
-      <reference file="System.Windows.Interactivity.dll" />
-    </references>
   </metadata>
 </package>
