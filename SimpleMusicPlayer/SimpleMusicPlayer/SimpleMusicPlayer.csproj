@@ -84,10 +84,6 @@
       <HintPath>..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="WPFToolkit.Extended">
-      <HintPath>..\packages\Extended.Wpf.Toolkit.1.8.0\lib\net40\WPFToolkit.Extended.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -232,11 +228,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll">
       <Link>DllsAsResource\WPFSpark.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\packages\Extended.Wpf.Toolkit.1.8.0\lib\net40\WPFToolkit.Extended.dll">
-      <Link>DllsAsResource\WPFToolkit.Extended.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
