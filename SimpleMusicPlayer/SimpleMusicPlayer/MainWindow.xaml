@@ -42,6 +42,10 @@
       <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
     </ResourceDictionary>
   </Controls:MetroWindow.Resources>
+  
+  <Controls:MetroWindow.GlowBrush>
+    <SolidColorBrush Color="{DynamicResource WhiteColor}" />
+  </Controls:MetroWindow.GlowBrush>
 
   <Controls:MetroWindow.WindowCommands>
     <Controls:WindowCommands>
