@@ -61,6 +61,11 @@
               Information about the drop.
             </param>
         </member>
+        <member name="F:GongSolutions.Wpf.DragDrop.DragDrop.DragMouseAnchorPointProperty">
+            <summary>
+            DragMouseAnchorPoint defines the horizontal and vertical proportion at which the pointer will anchor on the DragAdorner.
+            </summary>
+        </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.Data">
             <summary>
             Gets or sets the drag data.
@@ -527,6 +532,11 @@
             <param name="iconName">Name of the icon</param>
             <param name="size">The size of the icon</param>
             <returns>The image to be displayed</returns>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.Utilities.VisualTreeExtensions.GetVisualAncestor(System.Windows.DependencyObject,System.Type,System.Windows.Controls.ItemsControl)">
+            <summary>
+            find the visual ancestor by type and go through the visual tree until the given itemsControl will be found
+            </summary>
         </member>
     </members>
 </doc>
