@@ -90,6 +90,7 @@
   </UserControl.Resources>
 
   <Base:BaseListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                    SelectionMode="Extended"
                     SelectedItem="{Binding SelectedPlayListFile}"
                     Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
                     Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
