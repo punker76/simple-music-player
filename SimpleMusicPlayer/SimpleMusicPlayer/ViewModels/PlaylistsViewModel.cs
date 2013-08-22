@@ -59,21 +59,6 @@ namespace SimpleMusicPlayer.ViewModels
       await Task.Factory.StartNew(() => File.WriteAllText(PlayList.PlayListFileName, playListAsJson));
     }
 
-    public async void HandleDropActionAsync(StringCollection fileOrDirDropList) {
-      if (FileSearchWorker.Instance.CanStartSearch()) {
-        var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
-
-        this.SavePlayListAsync(files);
-
-        this.PlayerEngine.Stop();
-
-        var filesColl = new PlayListObservableCollection(files);
-        var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
-        this.FirstSimplePlaylistFiles = filesCollView;
-        ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
-      }
-    }
-
     public PlayerEngine PlayerEngine {
       get { return PlayerEngine.Instance; }
     }
@@ -216,18 +201,63 @@ namespace SimpleMusicPlayer.ViewModels
 
     public void DragOver(IDropInfo dropInfo) {
       dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
-      dropInfo.Effects = DragDropEffects.Move;
+
+      var dataObject = dropInfo.Data as IDataObject;
+      // look for drag&drop new files
+      if (dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop)) {
+        dropInfo.Effects = FileSearchWorker.Instance.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
+      } else {
+        dropInfo.Effects = DragDropEffects.Move;
+      }
     }
 
     public void Drop(IDropInfo dropInfo) {
-      GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
-      var i = 1;
-      foreach (var mf in dropInfo.TargetCollection.OfType<IMediaFile>()) {
-        mf.PlayListIndex = i++;
+      var dataObject = dropInfo.Data as DataObject;
+      // look for drag&drop new files
+      if (dataObject != null && dataObject.ContainsFileDropList()) {
+        this.HandleDropActionAsync(dropInfo, dataObject.GetFileDropList());
+      } else {
+        GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+        this.ResetPlayListIndices(dropInfo.TargetCollection.OfType<IMediaFile>());
+        var mediaFile = dropInfo.Data as IMediaFile;
+        if (mediaFile != null && mediaFile.State != PlayerState.Stop) {
+          this.SetCurrentPlayListFile(mediaFile);
+        }
       }
-      var mediaFile = dropInfo.Data as IMediaFile;
-      if (mediaFile != null && mediaFile.State != PlayerState.Stop) {
-        this.SetCurrentPlayListFile(mediaFile);
+    }
+
+    private async void HandleDropActionAsync(IDropInfo dropInfo, StringCollection fileOrDirDropList) {
+      if (FileSearchWorker.Instance.CanStartSearch()) {
+        var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
+
+        var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+
+        if (currentFilesCollView == null) {
+          var filesColl = new PlayListObservableCollection(files);
+          var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
+          this.FirstSimplePlaylistFiles = filesCollView;
+          ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
+
+          this.SavePlayListAsync(files);
+        } else {
+          var insertIndex = dropInfo.InsertIndex;
+          var destinationList = DefaultDropHandler.GetList(dropInfo.TargetCollection);
+          foreach (var o in files) {
+            destinationList.Insert(insertIndex++, o);
+          }
+
+          var mediaFiles = destinationList.OfType<IMediaFile>().ToList();
+          this.ResetPlayListIndices(mediaFiles);
+          this.SavePlayListAsync(mediaFiles);
+        }
+      }
+    }
+
+    private void ResetPlayListIndices(IEnumerable<IMediaFile> mediaFiles) {
+      // it's not the best but it works for the first time
+      var i = 1;
+      foreach (var mf in mediaFiles) {
+        mf.PlayListIndex = i++;
       }
     }
   }
