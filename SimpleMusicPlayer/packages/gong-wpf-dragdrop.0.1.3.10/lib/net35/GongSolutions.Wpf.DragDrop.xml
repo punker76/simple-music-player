@@ -66,6 +66,17 @@
             DragMouseAnchorPoint defines the horizontal and vertical proportion at which the pointer will anchor on the DragAdorner.
             </summary>
         </member>
+        <member name="T:GongSolutions.Wpf.DragDrop.DragInfo">
+            <summary>
+            Holds information about a the source of a drag drop operation.
+            </summary>
+            
+            <remarks>
+            The <see cref="T:GongSolutions.Wpf.DragDrop.DragInfo"/> class holds all of the framework's information about the source
+            of a drag. It is used by <see cref="M:GongSolutions.Wpf.DragDrop.IDragSource.StartDrag(GongSolutions.Wpf.DragDrop.IDragInfo)"/> to determine whether a drag 
+            can start, and what the dragged data should be.
+            </remarks>
+        </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.Data">
             <summary>
             Gets or sets the drag data.
@@ -148,17 +159,6 @@
             Gets the <see cref="T:System.Windows.IDataObject"/> which is used by the drag and drop operation. Set it to
             a custom instance if custom drag and drop behavior is needed.
             </summary>
-        </member>
-        <member name="T:GongSolutions.Wpf.DragDrop.DragInfo">
-            <summary>
-            Holds information about a the source of a drag drop operation.
-            </summary>
-            
-            <remarks>
-            The <see cref="T:GongSolutions.Wpf.DragDrop.DragInfo"/> class holds all of the framework's information about the source
-            of a drag. It is used by <see cref="M:GongSolutions.Wpf.DragDrop.IDragSource.StartDrag(GongSolutions.Wpf.DragDrop.IDragInfo)"/> to determine whether a drag 
-            can start, and what the dragged data should be.
-            </remarks>
         </member>
         <member name="M:GongSolutions.Wpf.DragDrop.DragInfo.#ctor(System.Object,System.Windows.Input.MouseButtonEventArgs)">
             <summary>
@@ -255,6 +255,17 @@
             Gets the <see cref="T:System.Windows.IDataObject"/> which is used by the drag and drop operation. Set it to
             a custom instance if custom drag and drop behavior is needed.
             </summary>
+        </member>
+        <member name="T:GongSolutions.Wpf.DragDrop.DropInfo">
+            <summary>
+            Holds information about a the target of a drag drop operation.
+            </summary>
+            
+            <remarks>
+            The <see cref="T:GongSolutions.Wpf.DragDrop.DropInfo"/> class holds all of the framework's information about the current 
+            target of a drag. It is used by <see cref="M:GongSolutions.Wpf.DragDrop.IDropTarget.DragOver(GongSolutions.Wpf.DragDrop.IDropInfo)"/> method to determine whether 
+            the current drop target is valid, and by <see cref="M:GongSolutions.Wpf.DragDrop.IDropTarget.Drop(GongSolutions.Wpf.DragDrop.IDropInfo)"/> to perform the drop.
+            </remarks>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.Data">
             <summary>
@@ -375,17 +386,6 @@
             <summary>
             Indicates if the drop info should be handled by itself (useful for child elements)
             </summary>
-        </member>
-        <member name="T:GongSolutions.Wpf.DragDrop.DropInfo">
-            <summary>
-            Holds information about a the target of a drag drop operation.
-            </summary>
-            
-            <remarks>
-            The <see cref="T:GongSolutions.Wpf.DragDrop.DropInfo"/> class holds all of the framework's information about the current 
-            target of a drag. It is used by <see cref="M:GongSolutions.Wpf.DragDrop.IDropTarget.DragOver(GongSolutions.Wpf.DragDrop.IDropInfo)"/> method to determine whether 
-            the current drop target is valid, and by <see cref="M:GongSolutions.Wpf.DragDrop.IDropTarget.Drop(GongSolutions.Wpf.DragDrop.IDropInfo)"/> to perform the drop.
-            </remarks>
         </member>
         <member name="M:GongSolutions.Wpf.DragDrop.DropInfo.#ctor(System.Object,System.Windows.DragEventArgs,GongSolutions.Wpf.DragDrop.DragInfo)">
             <summary>
