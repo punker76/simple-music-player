@@ -24,6 +24,7 @@ First simple functions
 + Shortcut keys if the player is on top and has the focus
 	+ [Space] play or pause current file (if none is playing, the first selected file starts)
 	+ [Enter] play selected files
+  + [Del] delete selected files from current playlist
 	+ [j] play next file
 	+ [k] play previuos file
 	+ [s] shuffle mode on / off
