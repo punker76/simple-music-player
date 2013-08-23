@@ -4,10 +4,11 @@ using System.Windows.Threading;
 using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
+using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class MainWindowViewModel : ViewModelBase
+  public class MainWindowViewModel : ViewModelBase, IKeyHandler
   {
     private readonly SMPSettings smpSettings;
     private PlayControlViewModel playControlViewModel;
@@ -159,9 +160,6 @@ namespace SimpleMusicPlayer.ViewModels
 
     public bool HandleKeyDown(Key key) {
       if (this.PlayControlViewModel.HandleKeyDown(key)) {
-        return true;
-      }
-      if (this.PlaylistsViewModel.HandleKeyDown(key)) {
         return true;
       }
       if (key == Key.E && this.ShowEqualizerCommand.CanExecute(null)) {

@@ -1,0 +1,20 @@
+﻿using System.Windows.Controls;
+using System.Windows.Input;
+using SimpleMusicPlayer.Interfaces;
+
+namespace SimpleMusicPlayer.Base
+{
+  public static class KeyHandlerExtensions
+  {
+    public static void HandlePreviewKeyDown(this IKeyHandler keyHandler, object sender, System.Windows.Input.KeyEventArgs e) {
+      //bool fFocusedControlIsTextBox = FocusManager.GetFocusedElement(this).GetType().Equals(typeof(TextBox));
+      var fFocusedControlIsTextBox = Keyboard.FocusedElement != null && Keyboard.FocusedElement.GetType() == typeof(TextBox);
+      if (fFocusedControlIsTextBox) {
+        e.Handled = false;
+      } else if (keyHandler != null) {
+        var handled = keyHandler.HandleKeyDown(e.Key);
+        e.Handled = handled;
+      }
+    }
+  }
+}

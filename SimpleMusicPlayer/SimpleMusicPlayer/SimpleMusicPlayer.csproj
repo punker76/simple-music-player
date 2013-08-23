@@ -110,9 +110,13 @@
     <Compile Include="Base\BaseListView.cs" />
     <Compile Include="Base\DelegateCommand.cs" />
     <Compile Include="Base\FormattedSlider.cs" />
+    <Compile Include="Base\KeyHandlerExtensions.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Base\WindowExtensions.cs" />
+    <Compile Include="Behavior\IListItemConverter.cs" />
+    <Compile Include="Behavior\MultiSelectorBehaviours.cs" />
+    <Compile Include="Behavior\TwoListSynchronizer.cs" />
     <Compile Include="Common\CustomWindowPlacementSettings.cs" />
     <Compile Include="Common\Enums.cs" />
     <Compile Include="Common\Equalizer.cs" />
@@ -123,6 +127,7 @@
     <Compile Include="Common\PlayList.cs" />
     <Compile Include="Common\PlayListObservableCollection.cs" />
     <Compile Include="Common\SMPSettings.cs" />
+    <Compile Include="Interfaces\IKeyHandler.cs" />
     <Compile Include="Interfaces\IMediaFile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />

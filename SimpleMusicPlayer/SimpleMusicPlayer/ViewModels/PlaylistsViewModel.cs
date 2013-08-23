@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
@@ -19,16 +20,18 @@ using SimpleMusicPlayer.Models;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class PlaylistsViewModel : ViewModelBase, IDropTarget
+  public class PlaylistsViewModel : ViewModelBase, IDropTarget, IKeyHandler
   {
     private IEnumerable firstSimplePlaylistFiles;
     private IMediaFile selectedPlayListFile;
+    private IEnumerable<IMediaFile> selectedPlayListFiles;
+    private ICommand deleteCommand;
     private ICommand playCommand;
     private readonly SMPSettings smpSettings;
 
     public PlaylistsViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.smpSettings = settings;
-
+      this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
       this.LoadPlayListAsync();
     }
 
@@ -82,6 +85,43 @@ namespace SimpleMusicPlayer.ViewModels
         }
         this.selectedPlayListFile = value;
         this.OnPropertyChanged(() => this.SelectedPlayListFile);
+      }
+    }
+    
+    public IEnumerable<IMediaFile> SelectedPlayListFiles {
+      get { return this.selectedPlayListFiles; }
+      set {
+        if (Equals(value, this.selectedPlayListFiles)) {
+          return;
+        }
+        this.selectedPlayListFiles = value;
+        this.OnPropertyChanged(() => this.SelectedPlayListFiles);
+      }
+    }
+
+    public ICommand DeleteCommand {
+      get { return this.deleteCommand ?? (this.deleteCommand = new DelegateCommand(this.DeleteSelectedFiles, this.CanDeleteSelectedFiles)); }
+    }
+
+    private bool CanDeleteSelectedFiles() {
+      return this.FirstSimplePlaylistFiles != null
+             && this.SelectedPlayListFiles != null
+             && this.SelectedPlayListFiles.Any();
+    }
+
+    private void DeleteSelectedFiles() {
+      var filesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (filesCollView != null) {
+        var currentPlayingFile = filesCollView.CurrentItem as IMediaFile;
+        var filesColl = ((IList)filesCollView.SourceCollection);
+        var files2Delete = this.SelectedPlayListFiles.ToList();
+        foreach (var mediaFile in files2Delete) {
+          filesColl.Remove(mediaFile);
+        }
+        if (currentPlayingFile != null && files2Delete.Contains(currentPlayingFile)) {
+          // for the first time go to nothing
+          filesCollView.MoveCurrentTo(null);
+        }
       }
     }
 
@@ -193,6 +233,12 @@ namespace SimpleMusicPlayer.ViewModels
           handled = this.PlayCommand.CanExecute(null);
           if (handled) {
             this.PlayCommand.Execute(null);
+          }
+          break;
+        case Key.Delete:
+          handled = this.DeleteCommand.CanExecute(null);
+          if (handled) {
+            this.DeleteCommand.Execute(null);
           }
           break;
       }
