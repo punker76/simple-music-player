@@ -55,13 +55,6 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    public async void SavePlayListAsync(IEnumerable<IMediaFile> files) {
-      var pl = new PlayList();
-      pl.Files = files.OfType<MediaFile>().ToList();
-      var playListAsJson = await JsonConvert.SerializeObjectAsync(pl, Formatting.None);
-      await Task.Factory.StartNew(() => File.WriteAllText(PlayList.PlayListFileName, playListAsJson));
-    }
-
     public PlayerEngine PlayerEngine {
       get { return PlayerEngine.Instance; }
     }
@@ -283,8 +276,6 @@ namespace SimpleMusicPlayer.ViewModels
           var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
           this.FirstSimplePlaylistFiles = filesCollView;
           ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
-
-          this.SavePlayListAsync(files);
         } else {
           var insertIndex = dropInfo.InsertIndex;
           var destinationList = DefaultDropHandler.GetList(dropInfo.TargetCollection);
@@ -294,7 +285,6 @@ namespace SimpleMusicPlayer.ViewModels
 
           var mediaFiles = destinationList.OfType<IMediaFile>().ToList();
           this.ResetPlayListIndices(mediaFiles);
-          this.SavePlayListAsync(mediaFiles);
         }
       }
     }
@@ -304,6 +294,13 @@ namespace SimpleMusicPlayer.ViewModels
       var i = 1;
       foreach (var mf in mediaFiles) {
         mf.PlayListIndex = i++;
+      }
+    }
+
+    public void SavePlayList() {
+      var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (currentFilesCollView != null) {
+        PlayList.SavePlayListAsync(currentFilesCollView.SourceCollection);
       }
     }
   }

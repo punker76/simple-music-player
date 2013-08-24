@@ -26,6 +26,7 @@ namespace SimpleMusicPlayer
 
       this.Closed += (sender, e) => {
                        ((MainWindowViewModel)this.DataContext).SaveSettings();
+                       ((MainWindowViewModel)this.DataContext).PlaylistsViewModel.SavePlayList();
                        PlayerEngine.Instance.CleanUp();
                      };
     }
