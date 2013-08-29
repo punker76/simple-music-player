@@ -13,6 +13,7 @@ namespace SimpleMusicPlayer.ViewModels
     private IEnumerable mediaFiles;
 
     public MedialibViewModel(Dispatcher dispatcher) {
+      this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(null));
     }
 
     public async void HandleDropAction(StringCollection fileOrDirDropList) {

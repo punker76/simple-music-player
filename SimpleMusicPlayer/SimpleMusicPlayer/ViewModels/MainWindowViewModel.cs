@@ -25,10 +25,10 @@ namespace SimpleMusicPlayer.ViewModels
       this.smpSettings = this.ReadSettings();
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.smpSettings);
       this.PlayerEngine.Configure(dispatcher, this.smpSettings);
-      this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
-      this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel);
-      this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
       this.MedialibViewModel = new MedialibViewModel(dispatcher);
+      this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
+      this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel, this.MedialibViewModel);
+      this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
     }
 
     public CustomWindowPlacementSettings CustomWindowPlacementSettings {

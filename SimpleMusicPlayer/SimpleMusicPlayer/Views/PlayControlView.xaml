@@ -163,6 +163,7 @@
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <!-- stop -->
@@ -238,6 +239,23 @@
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_equalizer}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+
+        <!-- show media library -->
+        <Button Grid.Column="5"
+                Command="{Binding ShowMediaLibraryCommand, Mode=OneWay}"
+                ToolTip="Media Library (l)"
+                VerticalAlignment="Bottom"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="40"
+                Width="40">
+          <Rectangle Width="12"
+                     Height="12">
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_database}" />
             </Rectangle.Fill>
           </Rectangle>
         </Button>

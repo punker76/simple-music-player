@@ -1,59 +1,79 @@
-﻿<UserControl x:Class="SimpleMusicPlayer.Views.MedialibView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
-             xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
-             xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
-             mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance ViewModels:MedialibViewModel}">
+﻿<Controls:MetroWindow x:Class="SimpleMusicPlayer.Views.MedialibView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
+                      xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
+                      xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
+                      Title="Media Library"
+                      ShowTitleBar="True"
+                      ShowIconOnTitleBar="False"
+                      Height="400"
+                      Width="600"
+                      MinHeight="200"
+                      MinWidth="300"
+                      mc:Ignorable="d"
+                      d:DesignHeight="300"
+                      d:DesignWidth="300"
+                      d:DataContext="{d:DesignInstance ViewModels:MedialibViewModel}">
 
-  <UserControl.Resources>
+  <Controls:MetroWindow.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
-  </UserControl.Resources>
+  </Controls:MetroWindow.Resources>
+
+  <Controls:MetroWindow.GlowBrush>
+    <SolidColorBrush Color="{DynamicResource WhiteColor}" />
+  </Controls:MetroWindow.GlowBrush>
 
   <Grid>
 
     <Base:BaseListView DataType="{x:Type models:MediaFile}"
                        ItemsSource="{Binding MediaFiles, Mode=OneWay}">
-<!--      <ListView.GroupStyle>-->
-<!--        <GroupStyle>-->
-<!--          <GroupStyle.ContainerStyle>-->
-<!--            <Style TargetType="{x:Type GroupItem}">-->
-<!--              <Setter Property="Margin"-->
-<!--                      Value="0,0,0,5" />-->
-<!--              <Setter Property="Template">-->
-<!--                <Setter.Value>-->
-<!--                  <ControlTemplate TargetType="{x:Type GroupItem}">-->
-<!--                    <HeaderedContentControl BorderBrush="#FFA4B97F"-->
-<!--                                            BorderThickness="0,0,0,1">-->
-<!--                      <HeaderedContentControl.Header>-->
-<!--                        <TextBlock FontWeight="Bold"-->
-<!--                                   FontSize="12"-->
-<!--                                   Foreground="{DynamicResource TextBrush}"-->
-<!--                                   Text="{Binding Path=Name, Mode=OneWay}"-->
-<!--                                   Margin="5,0,0,0" />-->
-<!--                      </HeaderedContentControl.Header>-->
-<!--                      <HeaderedContentControl.Content>-->
-<!--                        <ItemsPresenter />-->
-<!--                      </HeaderedContentControl.Content>-->
-<!--                    </HeaderedContentControl>-->
-<!--                  </ControlTemplate>-->
-<!--                </Setter.Value>-->
-<!--              </Setter>-->
-<!--            </Style>-->
-<!--          </GroupStyle.ContainerStyle>-->
-<!--        </GroupStyle>-->
-<!--      </ListView.GroupStyle>-->
+      <!--      <ListView.GroupStyle>-->
+      <!--        <GroupStyle>-->
+      <!--          <GroupStyle.ContainerStyle>-->
+      <!--            <Style TargetType="{x:Type GroupItem}">-->
+      <!--              <Setter Property="Margin"-->
+      <!--                      Value="0,0,0,5" />-->
+      <!--              <Setter Property="Template">-->
+      <!--                <Setter.Value>-->
+      <!--                  <ControlTemplate TargetType="{x:Type GroupItem}">-->
+      <!--                    <HeaderedContentControl BorderBrush="#FFA4B97F"-->
+      <!--                                            BorderThickness="0,0,0,1">-->
+      <!--                      <HeaderedContentControl.Header>-->
+      <!--                        <TextBlock FontWeight="Bold"-->
+      <!--                                   FontSize="12"-->
+      <!--                                   Foreground="{DynamicResource TextBrush}"-->
+      <!--                                   Text="{Binding Path=Name, Mode=OneWay}"-->
+      <!--                                   Margin="5,0,0,0" />-->
+      <!--                      </HeaderedContentControl.Header>-->
+      <!--                      <HeaderedContentControl.Content>-->
+      <!--                        <ItemsPresenter />-->
+      <!--                      </HeaderedContentControl.Content>-->
+      <!--                    </HeaderedContentControl>-->
+      <!--                  </ControlTemplate>-->
+      <!--                </Setter.Value>-->
+      <!--              </Setter>-->
+      <!--            </Style>-->
+      <!--          </GroupStyle.ContainerStyle>-->
+      <!--        </GroupStyle>-->
+      <!--      </ListView.GroupStyle>-->
     </Base:BaseListView>
 
   </Grid>
-</UserControl>
+</Controls:MetroWindow>

@@ -4,12 +4,14 @@ using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
 {
   public class PlayControlViewModel : ViewModelBase, IKeyHandler
   {
     private readonly PlaylistsViewModel playlistsViewModel;
+    private readonly MedialibViewModel medialibViewModel;
     private ICommand playOrPauseCommand;
     private ICommand stopCommand;
     private ICommand playPrevCommand;
@@ -17,27 +19,29 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand shuffleCommand;
     private ICommand repeatCommand;
     private ICommand muteCommand;
+    private ICommand showMediaLibraryCommand;
     private SMPSettings smpSettings;
 
-    public PlayControlViewModel(Dispatcher dispatcher, SMPSettings settings, PlaylistsViewModel playlistsViewModel) {
+    public PlayControlViewModel(Dispatcher dispatcher, SMPSettings settings, PlaylistsViewModel playlistsViewModel, MedialibViewModel medialibViewModel) {
       this.playlistsViewModel = playlistsViewModel;
+      this.medialibViewModel = medialibViewModel;
 
       this.SMPSettings = settings;
 
       this.PlayerEngine.PlayNextFileAction = () => {
-        if (this.SMPSettings.PlayerSettings.RepeatMode) {
-          if (this.CanPlayOrPause()) {
-            var file = this.playlistsViewModel.GetCurrentPlayListFile();
-            if (file != null) {
-              this.PlayerEngine.Play(file);
-            }
-          }
-        } else {
-          if (this.CanPlayNext()) {
-            this.PlayNext();
-          }
-        }
-      };
+                                               if (this.SMPSettings.PlayerSettings.RepeatMode) {
+                                                 if (this.CanPlayOrPause()) {
+                                                   var file = this.playlistsViewModel.GetCurrentPlayListFile();
+                                                   if (file != null) {
+                                                     this.PlayerEngine.Play(file);
+                                                   }
+                                                 }
+                                               } else {
+                                                 if (this.CanPlayNext()) {
+                                                   this.PlayNext();
+                                                 }
+                                               }
+                                             };
     }
 
     public SMPSettings SMPSettings {
@@ -161,6 +165,26 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
     }
 
+    public ICommand ShowMediaLibraryCommand {
+      get { return this.showMediaLibraryCommand ?? (this.showMediaLibraryCommand = new DelegateCommand(this.ShowMediaLibrary, this.CanShowMediaLibrary)); }
+    }
+
+    public bool CanShowMediaLibrary() {
+      return true;
+    }
+
+    private MedialibView medialibView;
+
+    public void ShowMediaLibrary() {
+      if (this.medialibView != null) {
+        this.medialibView.Activate();
+      } else {
+        this.medialibView = new MedialibView() { DataContext = this.medialibViewModel };
+        this.medialibView.Show();
+        this.medialibView.Closed += (sender, args) => this.medialibView = null;
+      }
+    }
+
     public bool HandleKeyDown(Key key) {
       var handled = false;
       switch (key) {
@@ -198,6 +222,12 @@ namespace SimpleMusicPlayer.ViewModels
           handled = this.PlayOrPauseCommand.CanExecute(null);
           if (handled) {
             this.PlayOrPauseCommand.Execute(null);
+          }
+          break;
+        case Key.L:
+          handled = this.ShowMediaLibraryCommand.CanExecute(null);
+          if (handled) {
+            this.ShowMediaLibraryCommand.Execute(null);
           }
           break;
       }
