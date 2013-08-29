@@ -26,7 +26,8 @@ namespace SimpleMusicPlayer.Base
 
     public void Fill(IEnumerable<T> collection) {
       if (collection == null) {
-        throw new ArgumentNullException("collection");
+        return;
+        //throw new ArgumentNullException("collection");
       }
       var newItems = collection.ToArray();
       if (newItems.Length == 1) {
