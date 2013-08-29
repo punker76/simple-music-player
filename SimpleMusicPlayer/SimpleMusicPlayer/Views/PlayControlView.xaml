@@ -88,11 +88,11 @@
     <Grid HorizontalAlignment="Center">
 
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="100" />
+        <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
@@ -107,8 +107,8 @@
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
               Width="45">
-        <Rectangle Width="12"
-                   Height="12">
+        <Rectangle Width="13"
+                   Height="13">
           <Rectangle.Fill>
             <VisualBrush Stretch="Fill"
                          Visual="{StaticResource appbar_fastforward}" />
@@ -128,9 +128,9 @@
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="60"
                 Width="60">
-          <Rectangle Width="16"
-                     Margin="3,0,0,0"
-                     Height="16">
+          <Rectangle Width="20"
+                     Height="20"
+                     Margin="5,0,0,0">
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_play}" />
@@ -144,8 +144,8 @@
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="60"
                 Width="60">
-          <Rectangle Width="16"
-                     Height="16">
+          <Rectangle Width="18"
+                     Height="18">
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_pause}" />
@@ -173,8 +173,8 @@
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="45"
                 Width="45">
-          <Rectangle Width="12"
-                     Height="12">
+          <Rectangle Width="13"
+                     Height="13">
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_control_stop}" />
@@ -190,8 +190,8 @@
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="45"
                 Width="45">
-          <Rectangle Width="12"
-                     Height="12">
+          <Rectangle Width="13"
+                     Height="13">
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_fastforward}" />
@@ -205,10 +205,10 @@
                 ToolTip="Shuffle (s)"
                 VerticalAlignment="Bottom"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="35"
-                Width="35">
-          <Rectangle Width="10"
-                     Height="10"
+                Height="40"
+                Width="40">
+          <Rectangle Width="12"
+                     Height="12"
                      Fill="{StaticResource ShuffleBrush}" />
         </Button>
 
@@ -218,10 +218,10 @@
                 ToolTip="Repeat (r)"
                 VerticalAlignment="Bottom"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="35"
-                Width="35">
-          <Rectangle Width="10"
-                     Height="10"
+                Height="40"
+                Width="40">
+          <Rectangle Width="12"
+                     Height="12"
                      Fill="{StaticResource RepeatBrush}" />
         </Button>
 
@@ -231,10 +231,10 @@
                 ToolTip="Equalizer (e)"
                 VerticalAlignment="Bottom"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="35"
-                Width="35">
-          <Rectangle Width="10"
-                     Height="10">
+                Height="40"
+                Width="40">
+          <Rectangle Width="12"
+                     Height="12">
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_equalizer}" />
