@@ -2,22 +2,34 @@
 using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.Common
 {
   public class SMPSettings
   {
-    [JsonIgnore] public const string SettingsFile = "settings.json";
+    [JsonIgnore]
+    public const string SettingsFile = "settings.json";
 
     public MainSettings MainSettings { get; set; }
+    public MedialibSettings MedialibSettings { get; set; }
     public PlayerSettings PlayerSettings { get; set; }
 
     public static SMPSettings GetEmptySettings() {
-      return new SMPSettings {MainSettings = new MainSettings(), PlayerSettings = new PlayerSettings()};
+      return new SMPSettings {
+                               MainSettings = new MainSettings(),
+                               MedialibSettings = new MedialibSettings(),
+                               PlayerSettings = new PlayerSettings()
+                             };
     }
   }
 
-  public class MainSettings
+  public class MainSettings : IWindowPlacementSetting
+  {
+    public WINDOWPLACEMENT? Placement { get; set; }
+  }
+
+  public class MedialibSettings : IWindowPlacementSetting
   {
     public WINDOWPLACEMENT? Placement { get; set; }
   }

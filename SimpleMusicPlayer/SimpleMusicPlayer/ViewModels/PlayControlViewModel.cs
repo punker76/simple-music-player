@@ -179,7 +179,7 @@ namespace SimpleMusicPlayer.ViewModels
       if (this.medialibView != null) {
         this.medialibView.Activate();
       } else {
-        this.medialibView = new MedialibView() { DataContext = this.medialibViewModel };
+        this.medialibView = new MedialibView(this.medialibViewModel);
         this.medialibView.Show();
         this.medialibView.Closed += (sender, args) => this.medialibView = null;
       }

@@ -1,24 +1,29 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Native;
+using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.Common
 {
   public class CustomWindowPlacementSettings : IWindowPlacementSettings
   {
-    private readonly SMPSettings smpSettings;
+    private readonly IWindowPlacementSetting windowPlacementSetting;
 
-    public CustomWindowPlacementSettings(SMPSettings settings) {
-      this.smpSettings = settings;
+    public CustomWindowPlacementSettings(IWindowPlacementSetting wps) {
+      this.windowPlacementSetting = wps;
     }
 
     public WINDOWPLACEMENT? Placement { get; set; }
 
     public void Reload() {
-      this.Placement = this.smpSettings.MainSettings.Placement;
+      if (this.windowPlacementSetting != null) {
+        this.Placement = this.windowPlacementSetting.Placement;
+      }
     }
 
     public void Save() {
-      this.smpSettings.MainSettings.Placement = this.Placement;
+      if (this.windowPlacementSetting != null) {
+        this.windowPlacementSetting.Placement = this.Placement;
+      }
     }
   }
 }

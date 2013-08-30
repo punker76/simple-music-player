@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
+using System.Windows;
 using MahApps.Metro.Controls;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
@@ -25,6 +27,9 @@ namespace SimpleMusicPlayer
       this.SourceInitialized += (sender, e) => this.FitIntoScreen();
 
       this.Closed += (sender, e) => {
+                       foreach (var w in Application.Current.Windows.OfType<Window>()) {
+                         w.Close();
+                       }
                        ((MainWindowViewModel)this.DataContext).SaveSettings();
                        ((MainWindowViewModel)this.DataContext).PlaylistsViewModel.SavePlayList();
                        PlayerEngine.Instance.CleanUp();

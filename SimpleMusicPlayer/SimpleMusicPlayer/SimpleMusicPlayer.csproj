@@ -129,6 +129,7 @@
     <Compile Include="Common\SMPSettings.cs" />
     <Compile Include="Interfaces\IKeyHandler.cs" />
     <Compile Include="Interfaces\IMediaFile.cs" />
+    <Compile Include="Interfaces\IWindowPlacementSetting.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />

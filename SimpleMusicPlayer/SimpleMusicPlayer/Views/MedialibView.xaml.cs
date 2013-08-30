@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
 {
@@ -8,7 +9,8 @@ namespace SimpleMusicPlayer.Views
   /// </summary>
   public partial class MedialibView : MetroWindow
   {
-    public MedialibView() {
+    public MedialibView(MedialibViewModel medialibViewModel) {
+      this.DataContext = medialibViewModel;
       this.InitializeComponent();
       this.AllowDrop = true;
       this.SourceInitialized += (sender, e) => this.FitIntoScreen();

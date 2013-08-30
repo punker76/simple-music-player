@@ -11,8 +11,10 @@ namespace SimpleMusicPlayer.ViewModels
   public class MedialibViewModel : ViewModelBase
   {
     private IEnumerable mediaFiles;
+    private CustomWindowPlacementSettings customWindowPlacementSettings;
 
-    public MedialibViewModel(Dispatcher dispatcher) {
+    public MedialibViewModel(Dispatcher dispatcher, SMPSettings settings) {
+      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.MedialibSettings);
       this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(null));
     }
 
@@ -22,6 +24,17 @@ namespace SimpleMusicPlayer.ViewModels
         //this.PlayerEngine.Stop();
         this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(files));
         ((ICollectionView)this.MediaFiles).GroupDescriptions.Add(new PropertyGroupDescription("Album"));
+      }
+    }
+
+    public CustomWindowPlacementSettings CustomWindowPlacementSettings {
+      get { return this.customWindowPlacementSettings; }
+      set {
+        if (Equals(value, this.customWindowPlacementSettings)) {
+          return;
+        }
+        this.customWindowPlacementSettings = value;
+        this.OnPropertyChanged(() => this.CustomWindowPlacementSettings);
       }
     }
 
