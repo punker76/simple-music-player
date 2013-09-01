@@ -48,5 +48,44 @@ namespace SimpleMusicPlayer.ViewModels
         this.OnPropertyChanged(() => this.MediaFiles);
       }
     }
+
+    private IEnumerable genreList;
+
+    public IEnumerable GenreList {
+      get { return this.genreList; }
+      set {
+        if (Equals(value, this.genreList)) {
+          return;
+        }
+        this.genreList = value;
+        this.OnPropertyChanged(() => this.GenreList);
+      }
+    }
+
+    private IEnumerable artistList;
+
+    public IEnumerable ArtistList {
+      get { return this.artistList; }
+      set {
+        if (Equals(value, this.artistList)) {
+          return;
+        }
+        this.artistList = value;
+        this.OnPropertyChanged(() => this.ArtistList);
+      }
+    }
+
+    private IEnumerable albumList;
+
+    public IEnumerable AlbumList {
+      get { return this.albumList; }
+      set {
+        if (Equals(value, this.albumList)) {
+          return;
+        }
+        this.albumList = value;
+        this.OnPropertyChanged(() => this.AlbumList);
+      }
+    }
   }
 }
