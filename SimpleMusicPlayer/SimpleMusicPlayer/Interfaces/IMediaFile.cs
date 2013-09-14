@@ -15,6 +15,7 @@ namespace SimpleMusicPlayer.Interfaces
     BitmapImage Cover { get; }
     string Album { get; set; }
     string FirstPerformer { get; set; }
+    string FirstGenre { get; set; }
 
     bool IsVBR { get; }
   }

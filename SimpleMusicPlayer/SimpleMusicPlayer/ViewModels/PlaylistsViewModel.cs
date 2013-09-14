@@ -265,7 +265,7 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    private async void HandleDropActionAsync(IDropInfo dropInfo, StringCollection fileOrDirDropList) {
+    private async void HandleDropActionAsync(IDropInfo dropInfo, IList fileOrDirDropList) {
       if (FileSearchWorker.Instance.CanStartSearch()) {
         var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -53,7 +54,7 @@ namespace SimpleMusicPlayer.Common
       this.cancelToken.Cancel();
     }
 
-    public async Task<IEnumerable<IMediaFile>> StartSearchAsync(StringCollection filesOrDirsCollection) {
+    public async Task<IEnumerable<IMediaFile>> StartSearchAsync(IList filesOrDirsCollection) {
       this.IsWorking = true;
       // create the cancellation token source
       this.cancelToken = new CancellationTokenSource();

@@ -13,6 +13,7 @@ namespace SimpleMusicPlayer.Models
 {
   public class MediaFile : ViewModelBase, IMediaFile
   {
+    private const string UnknownTag = "<Unknown>";
     private string fullFileName;
     private string fileName;
     private string grouping;
@@ -55,9 +56,10 @@ namespace SimpleMusicPlayer.Models
           // ALBUM -> iTunes=Album, WMP10=Album, Winamp=Album
           mf.album = file.Tag.Album;
           if (string.IsNullOrWhiteSpace(mf.album)) {
-            mf.album = "<Unknown>";
+            mf.album = UnknownTag;
           }
           mf.albumSort = file.Tag.AlbumSort;
+
           // ALBUMARTIST
           var albumArtists = file.Tag.AlbumArtists.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
           var albumArtistsSort = file.Tag.AlbumArtistsSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
@@ -68,7 +70,13 @@ namespace SimpleMusicPlayer.Models
           var performers = file.Tag.Performers.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
           var performersSort = file.Tag.PerformersSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
           mf.firstPerformer = performers.Count > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
+          if (string.IsNullOrWhiteSpace(mf.firstPerformer)) {
+            mf.firstPerformer = UnknownTag;
+          }
           mf.firstPerformerSort = performersSort.Count > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
+          if (string.IsNullOrWhiteSpace(mf.firstPerformerSort)) {
+            mf.firstPerformerSort = UnknownTag;
+          }
 
           // BPM
           mf.bpm = file.Tag.BeatsPerMinute;
@@ -95,6 +103,9 @@ namespace SimpleMusicPlayer.Models
           // GENRE
           var genres = file.Tag.Genres.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
           mf.firstGenre = genres.Count > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
+          if (string.IsNullOrWhiteSpace(mf.firstGenre)) {
+            mf.firstGenre = UnknownTag;
+          }
 
           mf.track = file.Tag.Track;
           mf.trackCount = file.Tag.TrackCount;

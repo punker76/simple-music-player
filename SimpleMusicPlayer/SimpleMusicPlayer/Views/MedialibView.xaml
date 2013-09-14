@@ -36,6 +36,13 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
       </ResourceDictionary.MergedDictionaries>
+
+      <DataTemplate x:Key="groupingListBoxDataTemplate">
+        <!-- Content presenter for the list of objects in each grouping. Binding is done to the Name property on the custom class -->
+        <!--<TextBlock Text="{Binding Path=Key, Mode=OneWay}" />-->
+        <TextBlock Text="{Binding Mode=OneWay}" />
+      </DataTemplate>
+
     </ResourceDictionary>
   </Controls:MetroWindow.Resources>
 
@@ -51,15 +58,33 @@
       <RowDefinition Height="2*" />
     </Grid.RowDefinitions>
 
-    <Grid Grid.Row="0">
+    <Grid Grid.Row="0" Margin="4,0,4,0">
+      <!-- show media library -->
+      <Button Command="{Binding AddDirectoryCommand, Mode=OneWay}"
+              ToolTip="Add Directory to Medialib"
+              VerticalAlignment="Center"
+              HorizontalAlignment="Left"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+              Height="38"
+              Width="38">
+        <Rectangle Width="12"
+                   Height="12">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_add}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+
       <TextBox Margin="5"
+               VerticalAlignment="Center"
                HorizontalAlignment="Right"
                Width="200"
                Controls:TextboxHelper.Watermark="Search"
                Style="{DynamicResource SearchMetroTextBox}" />
     </Grid>
 
-    <Grid Grid.Row="1">
+    <Grid Grid.Row="1" Margin="4,0,4,0">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*" />
         <ColumnDefinition Width="*" />
@@ -78,7 +103,16 @@
                    Margin="10,2,0,2"
                    Text="Genres" />
         <ListBox x:Name="GenreListBox"
-                 ItemsSource="{Binding GenreList, Mode=OneWay}" />
+                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonUp"
+                 Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByGenreSelectionCommand, Mode=OneWay}"
+                 SelectedItem="{Binding SelectedGenre}"
+                 ItemsSource="{Binding GenreList, Mode=OneWay}"
+                 ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
+          <ListBox.Background>
+            <SolidColorBrush Color="{DynamicResource BlackColor}"
+                             Opacity="0.15" />
+          </ListBox.Background>
+        </ListBox>
       </DockPanel>
 
       <!-- artis filter listbox -->
@@ -93,7 +127,16 @@
                    Margin="10,2,0,2"
                    Text="Artists" />
         <ListBox x:Name="ArtistListBox"
-                 ItemsSource="{Binding ArtistList, Mode=OneWay}"/>
+                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonUp"
+                 Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByArtistSelectionCommand, Mode=OneWay}"
+                 SelectedItem="{Binding SelectedArtist}"
+                 ItemsSource="{Binding ArtistList, Mode=OneWay}"
+                 ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
+          <ListBox.Background>
+            <SolidColorBrush Color="{DynamicResource BlackColor}"
+                             Opacity="0.15" />
+          </ListBox.Background>
+        </ListBox>
       </DockPanel>
 
       <!-- album filter listbox -->
@@ -108,13 +151,23 @@
                    Margin="10,2,0,2"
                    Text="Albums" />
         <ListBox x:Name="AlbumListBox"
-                 ItemsSource="{Binding AlbumList, Mode=OneWay}"/>
+                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonUp"
+                 Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByAlbumSelectionCommand, Mode=OneWay}"
+                 SelectedItem="{Binding SelectedAlbum}"
+                 ItemsSource="{Binding AlbumList, Mode=OneWay}"
+                 ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
+          <ListBox.Background>
+            <SolidColorBrush Color="{DynamicResource BlackColor}"
+                             Opacity="0.15" />
+          </ListBox.Background>
+        </ListBox>
       </DockPanel>
 
     </Grid>
 
     <Base:BaseListView Grid.Row="2"
-                       Margin="2"
+                       Margin="4"
+                       ScrollViewer.IsDeferredScrollingEnabled="False"
                        DataType="{x:Type models:MediaFile}"
                        ItemsSource="{Binding MediaFiles, Mode=OneWay}">
       <!--      <ListView.GroupStyle>-->
