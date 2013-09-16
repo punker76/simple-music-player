@@ -3,8 +3,6 @@ Simple Music Player
 
 This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
 
-*Use it with your own risk!*
-
 SimpleMP or Simple Music Player is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
 
 Why another music player? When I decided to make my first player back in 2005, the Winamp 3 player was to buggy and very slow! I stopped developing in 2007.
@@ -15,12 +13,16 @@ After long time, now it's time to make a new one!
 
 It's not perfect and many function not yet implemented.
 
+*Use it with your own risk!*
+
 First simple functions
 ======================
 
 + Plays mp3, ogg, wma and wav files
 + Drag&Drop your files or directories into the player (on the play list)
 + Drag&Drop files within the playlist
++ Add directories to the medialib (not yet finished)
++ Simple equalizer
 + Shortcut keys if the player is on top and has the focus
 	+ [Space] play or pause current file (if none is playing, the first selected file starts)
 	+ [Enter] play selected files
@@ -30,18 +32,22 @@ First simple functions
 	+ [s] shuffle mode on / off
 	+ [r] repeat current file on / off
 	+ [m] mute player on / off
-	+ [e] show equalizer
-+ Simple equalizer
+	+ [e] show the equalizer
+  + [l] show the medialib
 
 Download
 ========
 
-all versions [here](../dist)  
+all releases [here](https://github.com/punker76/simple-music-player/releases)  
 
-download latest version v1.9.0.12 [now](https://github.com/punker76/simple-music-player/raw/master/dist/smp_1.9.0.12.zip) as zip  
+download latest release v1.9.0.13 [here](https://github.com/punker76/simple-music-player/releases/download/v1.9.0.13/smp_1.9.0.13.zip) as zip  
 
 Screen shots
 ============
+
+![very early screenshot 09](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-09-16_09h40_08.png)  
+
+![very early screenshot 08](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-09-16_09h40_02.png)  
 
 ![very early screenshot 07](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-02-07_22h49_52.png)  
 
