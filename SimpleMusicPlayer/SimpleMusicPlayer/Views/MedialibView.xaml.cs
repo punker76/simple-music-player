@@ -27,6 +27,25 @@ namespace SimpleMusicPlayer.Views
                          viewModel.FileSearchWorker.StopSearch();
                        }
                      };
+
+      // Override this to allow drop functionality.
+      this.PreviewDragOver += (sender, e) => {
+                                if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                                  var viewModel = (MedialibViewModel)this.DataContext;
+                                  e.Effects = viewModel.FileSearchWorker.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
+                                  e.Handled = true;
+                                }
+                              };
+      this.PreviewDrop += (sender, e) => {
+                            if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                              var viewModel = (MedialibViewModel)this.DataContext;
+                              // Get data object
+                              var dataObject = e.Data as DataObject;
+                              if (dataObject != null && dataObject.ContainsFileDropList()) {
+                                viewModel.HandleDropAction(dataObject.GetFileDropList());
+                              }
+                            }
+                          };
     }
 
     // only for ShowDialog from FolderBrowserDialog
