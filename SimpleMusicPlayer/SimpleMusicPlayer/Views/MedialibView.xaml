@@ -97,7 +97,9 @@
       </Grid.ColumnDefinitions>
 
       <!-- genre filter listbox -->
-      <DockPanel Grid.Column="0"
+      <DockPanel RenderOptions.ClearTypeHint="Enabled"
+                 TextOptions.TextFormattingMode="Display"
+                 Grid.Column="0"
                  Margin="2"
                  LastChildFill="True">
         <DockPanel.Background>
@@ -121,7 +123,9 @@
       </DockPanel>
 
       <!-- artis filter listbox -->
-      <DockPanel Grid.Column="1"
+      <DockPanel RenderOptions.ClearTypeHint="Enabled"
+                 TextOptions.TextFormattingMode="Display"
+                 Grid.Column="1"
                  Margin="2"
                  LastChildFill="True">
         <DockPanel.Background>
@@ -145,7 +149,9 @@
       </DockPanel>
 
       <!-- album filter listbox -->
-      <DockPanel Grid.Column="2"
+      <DockPanel RenderOptions.ClearTypeHint="Enabled"
+                 TextOptions.TextFormattingMode="Display"
+                 Grid.Column="2"
                  Margin="2"
                  LastChildFill="True">
         <DockPanel.Background>
@@ -170,7 +176,9 @@
 
     </Grid>
 
-    <Base:BaseListView Grid.Row="2"
+    <Base:BaseListView RenderOptions.ClearTypeHint="Enabled"
+                       TextOptions.TextFormattingMode="Display"
+                       Grid.Row="2"
                        Margin="4"
                        ScrollViewer.IsDeferredScrollingEnabled="False"
                        DataType="{x:Type models:MediaFile}"

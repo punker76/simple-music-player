@@ -33,8 +33,7 @@
 
       <DataTemplate x:Key="MediaFileViewModelDT"
                     DataType="{x:Type models:MediaFile}">
-        <Grid RenderOptions.ClearTypeHint="Enabled"
-              TextOptions.TextFormattingMode="Display">
+        <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
@@ -90,7 +89,9 @@
     </ResourceDictionary>
   </UserControl.Resources>
 
-  <Base:BaseListBox ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+  <Base:BaseListBox RenderOptions.ClearTypeHint="Enabled"
+                    TextOptions.TextFormattingMode="Display"
+                    ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
                     SelectionMode="Extended"
                     SelectedItem="{Binding SelectedPlayListFile}"
                     Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
