@@ -29,13 +29,17 @@ namespace SimpleMusicPlayer.Views
                      };
 
       // Override this to allow drop functionality.
-      this.PreviewDragOver += (sender, e) => {
-                                if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
-                                  var viewModel = (MedialibViewModel)this.DataContext;
-                                  e.Effects = viewModel.FileSearchWorker.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
-                                  e.Handled = true;
-                                }
-                              };
+      DragEventHandler previewDragOver = (sender, e) => {
+                                           if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+                                             var viewModel = (MedialibViewModel)this.DataContext;
+                                             e.Effects = viewModel.FileSearchWorker.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
+                                           } else {
+                                             e.Effects = DragDropEffects.None;
+                                           }
+                                           e.Handled = true;
+                                         };
+      this.PreviewDragOver += previewDragOver;
+      this.PreviewDragEnter += previewDragOver;
       this.PreviewDrop += (sender, e) => {
                             if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
                               var viewModel = (MedialibViewModel)this.DataContext;
