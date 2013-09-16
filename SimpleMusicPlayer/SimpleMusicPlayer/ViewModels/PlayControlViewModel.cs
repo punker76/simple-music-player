@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
@@ -180,8 +181,8 @@ namespace SimpleMusicPlayer.ViewModels
         this.medialibView.Activate();
       } else {
         this.medialibView = new MedialibView(this.medialibViewModel);
-        this.medialibView.Show();
         this.medialibView.Closed += (sender, args) => this.medialibView = null;
+        this.medialibView.Show();
       }
     }
 

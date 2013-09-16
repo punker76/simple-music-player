@@ -44,7 +44,7 @@
   </Controls:MetroWindow.Resources>
   
   <Controls:MetroWindow.GlowBrush>
-    <SolidColorBrush Color="{DynamicResource WhiteColor}" />
+    <SolidColorBrush Color="Black" />
   </Controls:MetroWindow.GlowBrush>
 
   <Controls:MetroWindow.WindowCommands>

@@ -12,8 +12,8 @@
                       ShowIconOnTitleBar="False"
                       Height="400"
                       Width="600"
-                      MinHeight="200"
-                      MinWidth="300"
+                      MinHeight="400"
+                      MinWidth="600"
                       WindowStartupLocation="CenterScreen"
                       WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
@@ -47,7 +47,7 @@
   </Controls:MetroWindow.Resources>
 
   <Controls:MetroWindow.GlowBrush>
-    <SolidColorBrush Color="{DynamicResource WhiteColor}" />
+    <SolidColorBrush Color="Black" />
   </Controls:MetroWindow.GlowBrush>
 
   <Grid>
