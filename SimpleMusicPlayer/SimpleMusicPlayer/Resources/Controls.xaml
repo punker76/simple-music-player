@@ -141,4 +141,7 @@
          BasedOn="{StaticResource BaseListBoxStyle}">
   </Style>
 
+  <Style TargetType="ListViewItem"
+         BasedOn="{StaticResource SimpleMPMetroListViewItem}" />
+
 </ResourceDictionary>
