@@ -14,9 +14,19 @@ namespace SimpleMusicPlayer.Views
   {
     public MedialibView(MedialibViewModel medialibViewModel) {
       this.DataContext = medialibViewModel;
+
       this.InitializeComponent();
+
       this.AllowDrop = true;
+
       this.SourceInitialized += (sender, e) => this.FitIntoScreen();
+
+      this.Closed += (sender, e) => {
+                       var viewModel = ((MedialibViewModel)this.DataContext);
+                       if (viewModel.FileSearchWorker.CanStopSearch()) {
+                         viewModel.FileSearchWorker.StopSearch();
+                       }
+                     };
     }
 
     // only for ShowDialog from FolderBrowserDialog

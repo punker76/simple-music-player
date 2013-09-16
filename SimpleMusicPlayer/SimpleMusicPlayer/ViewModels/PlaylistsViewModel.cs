@@ -2,21 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
-using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
-using SimpleMusicPlayer.Models;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -35,24 +30,10 @@ namespace SimpleMusicPlayer.ViewModels
       this.LoadPlayListAsync();
     }
 
-    public async void LoadPlayListAsync() {
-      var playList = await PlayList.GetPlayListAsync();
-      if (playList != null) {
-        var filesColl = new PlayListObservableCollection(playList.Files);
-        var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
-        this.FirstSimplePlaylistFiles = filesCollView;
-        ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
+    private FileSearchWorker fileSearchWorker;
 
-        //        await Task.Factory
-        //                  .StartNew(() => {
-        //                    return filesCollView;
-        //                  })
-        //                  .ContinueWith(task => {
-        //                  },
-        //                                CancellationToken.None,
-        //                                TaskContinuationOptions.LongRunning,
-        //                                TaskScheduler.FromCurrentSynchronizationContext());
-      }
+    public FileSearchWorker FileSearchWorker {
+      get { return this.fileSearchWorker ?? (this.fileSearchWorker = new FileSearchWorker()); }
     }
 
     public PlayerEngine PlayerEngine {
@@ -80,7 +61,7 @@ namespace SimpleMusicPlayer.ViewModels
         this.OnPropertyChanged(() => this.SelectedPlayListFile);
       }
     }
-    
+
     public IEnumerable<IMediaFile> SelectedPlayListFiles {
       get { return this.selectedPlayListFiles; }
       set {
@@ -244,7 +225,7 @@ namespace SimpleMusicPlayer.ViewModels
       var dataObject = dropInfo.Data as IDataObject;
       // look for drag&drop new files
       if (dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop)) {
-        dropInfo.Effects = FileSearchWorker.Instance.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
+        dropInfo.Effects = this.FileSearchWorker.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
       } else {
         dropInfo.Effects = DragDropEffects.Move;
       }
@@ -266,8 +247,8 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private async void HandleDropActionAsync(IDropInfo dropInfo, IList fileOrDirDropList) {
-      if (FileSearchWorker.Instance.CanStartSearch()) {
-        var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
+      if (this.FileSearchWorker.CanStartSearch()) {
+        var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
 
         var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
 
@@ -294,6 +275,26 @@ namespace SimpleMusicPlayer.ViewModels
       var i = 1;
       foreach (var mf in mediaFiles) {
         mf.PlayListIndex = i++;
+      }
+    }
+
+    public async void LoadPlayListAsync() {
+      var playList = await PlayList.GetPlayListAsync();
+      if (playList != null) {
+        var filesColl = new PlayListObservableCollection(playList.Files);
+        var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
+        this.FirstSimplePlaylistFiles = filesCollView;
+        ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
+
+        //        await Task.Factory
+        //                  .StartNew(() => {
+        //                    return filesCollView;
+        //                  })
+        //                  .ContinueWith(task => {
+        //                  },
+        //                                CancellationToken.None,
+        //                                TaskContinuationOptions.LongRunning,
+        //                                TaskScheduler.FromCurrentSynchronizationContext());
       }
     }
 

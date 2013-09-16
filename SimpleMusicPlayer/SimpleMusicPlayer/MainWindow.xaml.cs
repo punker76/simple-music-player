@@ -30,8 +30,12 @@ namespace SimpleMusicPlayer
                        foreach (var w in Application.Current.Windows.OfType<Window>()) {
                          w.Close();
                        }
-                       ((MainWindowViewModel)this.DataContext).SaveSettings();
-                       ((MainWindowViewModel)this.DataContext).PlaylistsViewModel.SavePlayList();
+                       var mainWindowViewModel = ((MainWindowViewModel)this.DataContext);
+                       if (mainWindowViewModel.PlaylistsViewModel.FileSearchWorker.CanStopSearch()) {
+                         mainWindowViewModel.PlaylistsViewModel.FileSearchWorker.StopSearch();
+                       }
+                       mainWindowViewModel.SaveSettings();
+                       mainWindowViewModel.PlaylistsViewModel.SavePlayList();
                        PlayerEngine.Instance.CleanUp();
                      };
     }

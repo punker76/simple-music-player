@@ -24,6 +24,12 @@ namespace SimpleMusicPlayer.ViewModels
       this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(null));
     }
 
+    private FileSearchWorker fileSearchWorker;
+
+    public FileSearchWorker FileSearchWorker {
+      get { return this.fileSearchWorker ?? (this.fileSearchWorker = new FileSearchWorker()); }
+    }
+
     public CustomWindowPlacementSettings CustomWindowPlacementSettings {
       get { return this.customWindowPlacementSettings; }
       set {
@@ -157,8 +163,8 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     public async void HandleDropAction(IList fileOrDirDropList) {
-      if (FileSearchWorker.Instance.CanStartSearch()) {
-        var files = await FileSearchWorker.Instance.StartSearchAsync(fileOrDirDropList);
+      if (this.FileSearchWorker.CanStartSearch()) {
+        var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
 
         var collView = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(files));
         collView.Filter = o => {

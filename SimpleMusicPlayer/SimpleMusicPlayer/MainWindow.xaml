@@ -42,7 +42,7 @@
       <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
     </ResourceDictionary>
   </Controls:MetroWindow.Resources>
-  
+
   <Controls:MetroWindow.GlowBrush>
     <SolidColorBrush Color="Black" />
   </Controls:MetroWindow.GlowBrush>
@@ -90,7 +90,7 @@
                          Margin="5,10,5,5" />
 
     <StackPanel Grid.Row="2"
-                DataContext="{x:Static Common:FileSearchWorker.Instance}"
+                DataContext="{Binding PlaylistsViewModel.FileSearchWorker, Mode=OneWay}"
                 Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                 Orientation="Horizontal">
       <WPFSpark:SprocketControl VerticalAlignment="Center"

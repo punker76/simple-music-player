@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -11,7 +10,6 @@ using System.Windows.Input;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
 using SimpleMusicPlayer.Models;
-using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Common
 {
@@ -134,20 +132,6 @@ namespace SimpleMusicPlayer.Common
 
     private static bool IsDirectory(string dirName) {
       return Directory.Exists(dirName);
-    }
-
-    private static FileSearchWorker instance;
-
-    // Explicit static constructor to tell C# compiler
-    // not to mark type as beforefieldinit
-    static FileSearchWorker() {
-    }
-
-    private FileSearchWorker() {
-    }
-
-    public static FileSearchWorker Instance {
-      get { return instance ?? (instance = new FileSearchWorker()); }
     }
   }
 }
