@@ -110,7 +110,7 @@
                  ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
           <ListBox.Background>
             <SolidColorBrush Color="{DynamicResource BlackColor}"
-                             Opacity="0.15" />
+                             Opacity="0.06" />
           </ListBox.Background>
         </ListBox>
       </DockPanel>
@@ -134,7 +134,7 @@
                  ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
           <ListBox.Background>
             <SolidColorBrush Color="{DynamicResource BlackColor}"
-                             Opacity="0.15" />
+                             Opacity="0.06" />
           </ListBox.Background>
         </ListBox>
       </DockPanel>
@@ -158,7 +158,7 @@
                  ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
           <ListBox.Background>
             <SolidColorBrush Color="{DynamicResource BlackColor}"
-                             Opacity="0.15" />
+                             Opacity="0.06" />
           </ListBox.Background>
         </ListBox>
       </DockPanel>
