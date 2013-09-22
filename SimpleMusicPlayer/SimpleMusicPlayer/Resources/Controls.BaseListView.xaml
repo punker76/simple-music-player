@@ -60,41 +60,7 @@
                   Background="{TemplateBinding Background}"
                   SnapsToDevicePixels="true">
             <Grid>
-              <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
-<!--                <GridViewRowPresenter.Resources>-->
-<!--                  <Style TargetType="{x:Type TextBlock}">-->
-<!--                    <Setter Property="Foreground"-->
-<!--                            Value="{DynamicResource LabelTextBrush}" />-->
-<!--                    <Style.Triggers>-->
-<!--                      <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"-->
-<!--                                   Value="True">-->
-<!--                        <Setter Property="Foreground"-->
-<!--                                Value="{DynamicResource AccentSelectedColorBrush}" />-->
-<!--                      </DataTrigger>-->
-<!--                      <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"-->
-<!--                                   Value="False">-->
-<!--                        <Setter Property="Foreground">-->
-<!--                          <Setter.Value>-->
-<!--                            <SolidColorBrush Color="{DynamicResource GrayNormal}" />-->
-<!--                          </Setter.Value>-->
-<!--                        </Setter>-->
-<!--                      </DataTrigger>-->
-<!--                      <MultiDataTrigger>-->
-<!--                        <MultiDataTrigger.Conditions>-->
-<!--                          <Condition Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"-->
-<!--                                     Value="False" />-->
-<!--                          <Condition Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListViewItem}}}"-->
-<!--                                     Value="True" />-->
-<!--                        </MultiDataTrigger.Conditions>-->
-<!--                        <MultiDataTrigger.Setters>-->
-<!--                          <Setter Property="Foreground"-->
-<!--                                  Value="{DynamicResource AccentSelectedColorBrush}" />-->
-<!--                        </MultiDataTrigger.Setters>-->
-<!--                      </MultiDataTrigger>-->
-<!--                    </Style.Triggers>-->
-<!--                  </Style>-->
-<!--                </GridViewRowPresenter.Resources>-->
-              </GridViewRowPresenter>
+              <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
               <ContentPresenter x:Name="contentPresenter"
                                 Visibility="Collapsed" />
             </Grid>
@@ -163,7 +129,7 @@
       </Setter.Value>
     </Setter>
   </Style>
-  
+
   <Style x:Key="BaseListViewStyle"
          TargetType="Base:BaseListView"
          BasedOn="{StaticResource VirtualisedMetroListView}">
