@@ -136,12 +136,13 @@
     <Compile Include="Interfaces\IMediaFile.cs" />
     <Compile Include="Interfaces\IWindowPlacementSetting.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="ValueConverters\EnumToBoolConverter.cs" />
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />
     <Compile Include="ValueConverters\ModeToColorConverter.cs" />
     <Compile Include="ValueConverters\NullToCollapsedVisibilityConverter.cs" />
     <Compile Include="ValueConverters\PlayerMuteToVisualBrushConverter.cs" />
-    <Compile Include="ValueConverters\PlayerStatePlayToVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\PlayerStateToToolTipConverter.cs" />
     <Compile Include="ValueConverters\SliderPositionValueToTextConverter.cs" />
     <Compile Include="ValueConverters\SliderRemainingPositionValueToTextConverter.cs" />
     <Compile Include="ViewModels\EqualizerViewModel.cs" />

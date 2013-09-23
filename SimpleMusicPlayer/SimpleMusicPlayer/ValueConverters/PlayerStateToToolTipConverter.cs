@@ -6,14 +6,14 @@ using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ValueConverters
 {
-  public class PlayerStatePlayToVisibilityConverter : IValueConverter
+  public class PlayerStateToToolTipConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
       if (value is PlayerState) {
         var playState = (PlayerState)value;
-        return playState == PlayerState.Stop || playState == PlayerState.Pause ? Visibility.Visible : Visibility.Hidden;
+        return playState == PlayerState.Stop || playState == PlayerState.Pause ? "Play (Space)" : "Pause (Space)";
       }
-      return DependencyProperty.UnsetValue;
+      return string.Empty;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

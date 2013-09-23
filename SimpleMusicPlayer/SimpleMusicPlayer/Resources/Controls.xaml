@@ -15,39 +15,65 @@
   <Style x:Key="SimpleMPMetroCircleButtonStyle"
          TargetType="{x:Type Button}"
          BasedOn="{StaticResource MetroCircleButtonStyle}">
+    <!--        <Setter Property="FocusVisualStyle"-->
+    <!--                Value="{StaticResource MetroCircleButtonFocusVisual}" />-->
     <Setter Property="Background"
             Value="Transparent" />
+    <Setter Property="BorderThickness"
+            Value="2" />
+    <Setter Property="HorizontalContentAlignment"
+            Value="Center" />
+    <Setter Property="VerticalContentAlignment"
+            Value="Center" />
+    <Setter Property="Padding"
+            Value="1" />
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type Button}">
-          <Grid x:Name="grid"
-                Background="{TemplateBinding Background}">
-            <Ellipse x:Name="ellipsebg"
+          <Grid>
+            <Ellipse Fill="{TemplateBinding Background}"
                      Margin="4"
-                     Stroke="{TemplateBinding Foreground}"
-                     StrokeThickness="0"
-                     VerticalAlignment="Stretch" />
+                     StrokeThickness="0" />
+            <Ellipse x:Name="ellipsebg"
+                     Fill="{DynamicResource BlackBrush}"
+                     Opacity="0"
+                     Margin="4"
+                     StrokeThickness="0" />
             <Ellipse x:Name="ellipse"
                      Margin="4"
                      Stroke="{TemplateBinding Foreground}"
-                     StrokeThickness="2"
+                     StrokeThickness="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}, Path=BorderThickness.Left}"
                      VerticalAlignment="Stretch" />
-            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+            <ContentPresenter x:Name="content"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                               Margin="{TemplateBinding Padding}"
                               RecognizesAccessKey="True"
                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
           </Grid>
           <ControlTemplate.Triggers>
-            <Trigger Property="IsPressed"
-                     Value="True">
-              <Setter TargetName="ellipsebg"
-                      Property="Fill"
-                      Value="{DynamicResource BlackBrush}" />
-              <Setter TargetName="ellipsebg"
-                      Property="Opacity"
-                      Value="0.2" />
-            </Trigger>
+            <!-- some in and out fading -->
+            <EventTrigger RoutedEvent="PreviewMouseDown">
+              <BeginStoryboard>
+                <Storyboard>
+                  <DoubleAnimation Storyboard.TargetName="ellipsebg"
+                                   Storyboard.TargetProperty="Opacity"
+                                   From="0"
+                                   To="0.3"
+                                   Duration="0:0:0" />
+                </Storyboard>
+              </BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="PreviewMouseUp">
+              <BeginStoryboard>
+                <Storyboard>
+                  <DoubleAnimation Storyboard.TargetName="ellipsebg"
+                                   Storyboard.TargetProperty="Opacity"
+                                   To="0"
+                                   Duration="0:0:0.4" />
+                </Storyboard>
+              </BeginStoryboard>
+            </EventTrigger>
             <Trigger Property="IsMouseOver"
                      Value="True">
               <Setter TargetName="ellipse"
@@ -60,10 +86,6 @@
                       Property="Opacity"
                       Value=".5" />
             </Trigger>
-            <Trigger Property="IsKeyboardFocused"
-                     Value="true" />
-            <Trigger Property="ToggleButton.IsChecked"
-                     Value="true" />
             <Trigger Property="IsEnabled"
                      Value="false">
               <Setter Property="Foreground"
@@ -73,8 +95,6 @@
         </ControlTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
   </Style>
 
   <Style x:Key="SimpleMPMetroVolumeButtonStyle"

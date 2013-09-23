@@ -63,7 +63,7 @@
                        StrokeThickness="1"
                        Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
                        VerticalAlignment="Stretch" />
-              <Rectangle Margin="-1,0,0,0"
+              <Rectangle Margin="-2,0,0,0"
                          Width="8"
                          Height="8"
                          VerticalAlignment="Center"

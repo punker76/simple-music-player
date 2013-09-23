@@ -22,13 +22,19 @@
 
       <ValueConverters:SliderPositionValueToTextConverter x:Key="SliderPositionValueToTextConverter" />
       <ValueConverters:SliderRemainingPositionValueToTextConverter x:Key="SliderRemainingPositionValueToTextConverter" />
-      <ValueConverters:PlayerStatePlayToVisibilityConverter x:Key="PlayerStatePlayToVisibilityConverter" />
-      <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+      <ValueConverters:PlayerStateToToolTipConverter x:Key="PlayerStateToToolTipConverter" />
+      <ValueConverters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
 
       <ValueConverters:ModeToColorConverter x:Key="ModeToColorConverter"
                                             TrueColor="{DynamicResource AccentColor}"
                                             FalseColor="{DynamicResource BlackColor}" />
 
+      <VisualBrush x:Key="PlayBrush"
+                   Stretch="Fill"
+                   Visual="{StaticResource appbar_play}" />
+      <VisualBrush x:Key="PauseBrush"
+                   Stretch="Fill"
+                   Visual="{StaticResource appbar_pause}" />
       <VisualBrush x:Key="MuteBrush"
                    Stretch="Fill"
                    Visual="{StaticResource appbar_sound_mute}" />
@@ -122,35 +128,38 @@
       <!-- play/pause -->
       <Grid Grid.Column="2">
         <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
-                Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStatePlayToVisibilityConverter}}"
-                ToolTip="Play (Space)"
+                ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Height="60"
-                Width="60">
-          <Rectangle Width="20"
-                     Height="20"
-                     Margin="5,0,0,0">
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_play}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
-        <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
-                Visibility="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
-                ToolTip="Pause (Space)"
-                VerticalAlignment="Center"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="60"
-                Width="60">
-          <Rectangle Width="18"
-                     Height="18">
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_pause}" />
-            </Rectangle.Fill>
-          </Rectangle>
+                Width="60"
+                Content="{Binding Mode=OneWay}">
+          <Button.ContentTemplate>
+            <DataTemplate>
+              <Rectangle x:Name="iconRect"
+                         Width="20"
+                         Height="20"
+                         Margin="5,0,0,0"
+                         Fill="{StaticResource PlayBrush}" />
+              <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
+                             Value="True">
+                  <Setter TargetName="iconRect"
+                          Property="Fill"
+                          Value="{StaticResource PauseBrush}" />
+                  <Setter TargetName="iconRect"
+                          Property="Width"
+                          Value="18" />
+                  <Setter TargetName="iconRect"
+                          Property="Height"
+                          Value="18" />
+                  <Setter TargetName="iconRect"
+                          Property="Margin"
+                          Value="0" />
+                </DataTrigger>
+              </DataTemplate.Triggers>
+            </DataTemplate>
+          </Button.ContentTemplate>
         </Button>
       </Grid>
 
