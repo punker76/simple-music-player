@@ -56,12 +56,14 @@
                      HorizontalAlignment="Right"
                      TextAlignment="Right"
                      TextWrapping="Wrap"
+                     Foreground="{DynamicResource SemiTransparentWhiteBrush}"
                      Text="{Binding Album, Mode=OneWay}" />
           <TextBlock Grid.Row="2"
                      FontSize="12"
                      HorizontalAlignment="Right"
                      TextAlignment="Right"
                      TextWrapping="Wrap"
+                     Foreground="{DynamicResource SemiTransparentWhiteBrush}"
                      Text="{Binding FirstPerformer, Mode=OneWay}" />
         </Grid>
       </DataTemplate>
@@ -81,7 +83,8 @@
           Width="96"
           Height="96">
       <Border BorderBrush="{DynamicResource ButtonNormalBorder}"
-              BorderThickness="1">
+              BorderThickness="1"
+              SnapsToDevicePixels="True">
         <Rectangle Width="60"
                    Height="60"
                    HorizontalAlignment="Center"
