@@ -70,20 +70,8 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <Grid Grid.Row="0"
-          HorizontalAlignment="Center">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-      </Grid.RowDefinitions>
-
-      <Views:PlayInfoView Grid.Row="0"
-                          HorizontalAlignment="Stretch"
-                          DataContext="{Binding PlayInfoViewModel, Mode=OneWay}" />
-      <Views:PlayControlView Grid.Row="1"
-                             HorizontalAlignment="Center"
-                             DataContext="{Binding PlayControlViewModel, Mode=OneWay}" />
-    </Grid>
+    <Views:MainView Grid.Row="0"
+                    DataContext="{Binding MainViewModel, Mode=OneWay}" />
 
     <Views:PlaylistsView Grid.Row="1"
                          DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
@@ -133,12 +121,12 @@
         <Grid.Background>
           <SolidColorBrush Color="{DynamicResource WhiteColor}" />
         </Grid.Background>
-        <Grid.Effect>
+        <!--<Grid.Effect>
           <DropShadowEffect ShadowDepth="0"
                             Color="Black"
                             BlurRadius="20"
                             PresentationOptions:Freeze="true" />
-        </Grid.Effect>
+        </Grid.Effect>-->
 
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />

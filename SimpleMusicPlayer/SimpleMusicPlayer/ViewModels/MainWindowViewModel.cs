@@ -11,8 +11,7 @@ namespace SimpleMusicPlayer.ViewModels
   public class MainWindowViewModel : ViewModelBase, IKeyHandler
   {
     private readonly SMPSettings smpSettings;
-    private PlayControlViewModel playControlViewModel;
-    private PlayInfoViewModel playInfoViewModel;
+    private MainViewModel mainViewModel;
     private PlaylistsViewModel playlistsViewModel;
     private MedialibViewModel medialibViewModel;
     private EqualizerViewModel equalizerViewModel;
@@ -27,8 +26,10 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayerEngine.Configure(dispatcher, this.smpSettings);
       this.MedialibViewModel = new MedialibViewModel(dispatcher, this.smpSettings);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
-      this.PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel, this.MedialibViewModel);
-      this.PlayInfoViewModel = new PlayInfoViewModel(dispatcher);
+      this.MainViewModel = new MainViewModel(dispatcher) {
+        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel, this.MedialibViewModel),
+        PlayInfoViewModel = new PlayInfoViewModel(dispatcher)
+      };
     }
 
     public CustomWindowPlacementSettings CustomWindowPlacementSettings {
@@ -67,25 +68,14 @@ namespace SimpleMusicPlayer.ViewModels
       this.WriteSettings(this.smpSettings);
     }
 
-    public PlayControlViewModel PlayControlViewModel {
-      get { return this.playControlViewModel; }
+    public MainViewModel MainViewModel {
+      get { return this.mainViewModel; }
       set {
-        if (Equals(value, this.playControlViewModel)) {
+        if (Equals(value, this.mainViewModel)) {
           return;
         }
-        this.playControlViewModel = value;
-        this.OnPropertyChanged(() => this.PlayControlViewModel);
-      }
-    }
-
-    public PlayInfoViewModel PlayInfoViewModel {
-      get { return this.playInfoViewModel; }
-      set {
-        if (Equals(value, this.playInfoViewModel)) {
-          return;
-        }
-        this.playInfoViewModel = value;
-        this.OnPropertyChanged(() => this.PlayInfoViewModel);
+        this.mainViewModel = value;
+        this.OnPropertyChanged(() => this.MainViewModel);
       }
     }
 
@@ -159,7 +149,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     public bool HandleKeyDown(Key key) {
-      if (this.PlayControlViewModel.HandleKeyDown(key)) {
+      if (this.MainViewModel.PlayControlViewModel.HandleKeyDown(key)) {
         return true;
       }
       if (key == Key.E && this.ShowEqualizerCommand.CanExecute(null)) {
