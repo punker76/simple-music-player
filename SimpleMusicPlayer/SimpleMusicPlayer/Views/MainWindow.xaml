@@ -118,95 +118,100 @@
 
       <Grid VerticalAlignment="Center"
             HorizontalAlignment="Center">
-        <Grid.Background>
-          <SolidColorBrush Color="{DynamicResource WhiteColor}" />
-        </Grid.Background>
-        <!--<Grid.Effect>
+
+        <Grid.Effect>
           <DropShadowEffect ShadowDepth="0"
                             Color="Black"
                             BlurRadius="20"
                             PresentationOptions:Freeze="true" />
-        </Grid.Effect>-->
+        </Grid.Effect>
 
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
-          <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        <Grid Effect="{x:Null}">
 
-        <TextBlock Grid.Row="0"
-                   Height="30"
-                   Text="EQUALIZER"
-                   TextAlignment="Left"
-                   TextTrimming="CharacterEllipsis"
-                   VerticalAlignment="Center"
-                   Padding="4"
-                   FontSize="16"
-                   FontFamily="{DynamicResource HeaderFontFamily}"
-                   Foreground="White">
+          <Grid.Background>
+            <SolidColorBrush Color="{DynamicResource WhiteColor}" />
+          </Grid.Background>
+
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+
+          <TextBlock Grid.Row="0"
+                     Height="30"
+                     Text="EQUALIZER"
+                     TextAlignment="Left"
+                     TextTrimming="CharacterEllipsis"
+                     VerticalAlignment="Center"
+                     Padding="4"
+                     FontSize="16"
+                     FontFamily="{DynamicResource HeaderFontFamily}"
+                     Foreground="White">
             <TextBlock.Background>
               <SolidColorBrush Color="{DynamicResource AccentColor}" />
             </TextBlock.Background>
-        </TextBlock>
+          </TextBlock>
 
-        <Grid Grid.Row="1"
-              Margin="4,0,4,4">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
+          <Grid Grid.Row="1"
+                Margin="4,0,4,4">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-          <Controls:ToggleSwitch Grid.Column="0"
-                                 HorizontalAlignment="Left"
-                                 Margin="0,0,0,4"
-                                 MinWidth="120"
-                                 OnLabel="On"
-                                 OffLabel="Off"
-                                 IsChecked="{Binding Equalizer.IsEnabled}" />
+            <Controls:ToggleSwitch Grid.Column="0"
+                                   HorizontalAlignment="Left"
+                                   Margin="0,0,0,4"
+                                   MinWidth="120"
+                                   OnLabel="On"
+                                   OffLabel="Off"
+                                   IsChecked="{Binding Equalizer.IsEnabled}" />
 
-          <ItemsControl Grid.Row="1"
-                        ItemsSource="{Binding Equalizer.Bands, Mode=OneWay}">
-            <ItemsControl.ItemsPanel>
-              <ItemsPanelTemplate>
-                <VirtualizingStackPanel Orientation="Horizontal" />
-              </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-              <DataTemplate DataType="{x:Type Common:EqualizerBand}">
-                <Grid>
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                  </Grid.RowDefinitions>
-                  <Slider Grid.Row="0"
-                          Orientation="Vertical"
-                          Margin="4"
-                          Height="150"
-                          Minimum="0"
-                          Maximum="2"
-                          TickFrequency="0.1"
-                          LargeChange="0.2"
-                          SmallChange="0.1"
-                          Ticks="0,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2"
-                          Value="{Binding Gain}"
-                          IsEnabled="{Binding IsActive, Mode=OneWay}" />
-                  <TextBlock Grid.Row="1"
-                             Margin="4"
-                             Text="{Binding BandCaption}" />
-                </Grid>
-              </DataTemplate>
-            </ItemsControl.ItemTemplate>
-          </ItemsControl>
+            <ItemsControl Grid.Row="1"
+                          ItemsSource="{Binding Equalizer.Bands, Mode=OneWay}">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <VirtualizingStackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type Common:EqualizerBand}">
+                  <Grid>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="Auto" />
+                      <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Slider Grid.Row="0"
+                            Orientation="Vertical"
+                            Margin="4"
+                            Height="150"
+                            Minimum="0"
+                            Maximum="2"
+                            TickFrequency="0.1"
+                            LargeChange="0.2"
+                            SmallChange="0.1"
+                            Ticks="0,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2"
+                            Value="{Binding Gain}"
+                            IsEnabled="{Binding IsActive, Mode=OneWay}" />
+                    <TextBlock Grid.Row="1"
+                               Margin="4"
+                               Text="{Binding BandCaption}" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-          <UniformGrid Grid.Row="2"
-                       Columns="2">
-            <Button Content="_Default"
-                    Command="{Binding SetToDefaultCommand, Mode=OneWay}" />
-            <Button Content="_Close"
-                    Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.CloseEqualizerCommand, Mode=OneWay}" />
-          </UniformGrid>
+            <UniformGrid Grid.Row="2"
+                         Columns="2">
+              <Button Content="_Default"
+                      Command="{Binding SetToDefaultCommand, Mode=OneWay}" />
+              <Button Content="_Close"
+                      Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.CloseEqualizerCommand, Mode=OneWay}" />
+            </UniformGrid>
+          </Grid>
+
         </Grid>
-
       </Grid>
     </Grid>
 
