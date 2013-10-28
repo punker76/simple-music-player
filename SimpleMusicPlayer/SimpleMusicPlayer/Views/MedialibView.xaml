@@ -25,27 +25,11 @@
                       d:DataContext="{d:DesignInstance ViewModels:MedialibViewModel}">
 
   <Controls:MetroWindow.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-
-      <DataTemplate x:Key="groupingListBoxDataTemplate">
-        <!-- Content presenter for the list of objects in each grouping. Binding is done to the Name property on the custom class -->
-        <!--<TextBlock Text="{Binding Path=Key, Mode=OneWay}" />-->
-        <TextBlock Text="{Binding Mode=OneWay}" />
-      </DataTemplate>
-
-    </ResourceDictionary>
+    <DataTemplate x:Key="groupingListBoxDataTemplate">
+      <!-- Content presenter for the list of objects in each grouping. Binding is done to the Name property on the custom class -->
+      <!--<TextBlock Text="{Binding Path=Key, Mode=OneWay}" />-->
+      <TextBlock Text="{Binding Mode=OneWay}" />
+    </DataTemplate>
   </Controls:MetroWindow.Resources>
 
   <Controls:MetroWindow.GlowBrush>
@@ -230,7 +214,7 @@
         <Grid.Resources>
           <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-              <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colours.xaml" />
+              <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
               <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
           </ResourceDictionary>

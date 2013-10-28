@@ -15,8 +15,6 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </UserControl.Resources>
