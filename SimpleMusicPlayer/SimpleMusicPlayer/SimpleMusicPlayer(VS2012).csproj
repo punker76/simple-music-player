@@ -79,7 +79,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -279,11 +279,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\Newtonsoft.Json.5.0.6\lib\net40\Newtonsoft.Json.dll">
-      <Link>DllsAsResource\Newtonsoft.Json.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\libs\Windows API Code Pack 1.1\Microsoft.WindowsAPICodePack.dll">
       <Link>DllsAsResource\Microsoft.WindowsAPICodePack.dll</Link>
     </EmbeddedResource>
@@ -308,6 +303,11 @@
   <ItemGroup>
     <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.3.11\lib\net40\GongSolutions.Wpf.DragDrop.dll">
       <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Newtonsoft.Json.5.0.8\lib\net40\Newtonsoft.Json.dll">
+      <Link>DllsAsResource\Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
