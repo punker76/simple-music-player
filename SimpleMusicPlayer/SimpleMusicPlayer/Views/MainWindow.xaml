@@ -111,11 +111,8 @@
                             PresentationOptions:Freeze="true" />
         </Grid.Effect>
 
-        <Grid Effect="{x:Null}">
-
-          <Grid.Background>
-            <SolidColorBrush Color="{DynamicResource WhiteColor}" />
-          </Grid.Background>
+        <Grid UseLayoutRounding="True"
+              Background="{DynamicResource WhiteColorBrush}">
 
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
