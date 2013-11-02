@@ -20,7 +20,7 @@
             
             <remarks>
             To allow a drag to be started, the <see cref="P:GongSolutions.Wpf.DragDrop.DragInfo.Effects"/> property on <paramref name="dragInfo"/> 
-            should be set to a value other than <see cref="!:DragDropEffects.None"/>. 
+            should be set to a value other than <see cref="F:System.Windows.DragDropEffects.None"/>. 
             </remarks>
         </member>
         <member name="M:GongSolutions.Wpf.DragDrop.IDragSource.Dropped(GongSolutions.Wpf.DragDrop.IDropInfo)">
@@ -31,6 +31,11 @@
             <param name="dropInfo">
               Information about the drop.
             </param>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.IDragSource.DragCancelled">
+            <summary>
+            Notifies the drag handler that a drag has been aborted.
+            </summary>
         </member>
         <member name="T:GongSolutions.Wpf.DragDrop.IDropTarget">
             <summary>
@@ -120,6 +125,11 @@
             If the control that initated the drag is unbound or not an ItemsControl, this will be null.
             </remarks>
         </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.SourceIndex">
+            <summary>
+            Gets the position from where the item was dragged.
+            </summary>
+        </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.SourceItem">
             <summary>
             Gets the object that a dragged item is bound to.
@@ -153,6 +163,11 @@
             container of the clicked item. For example, if <see cref="P:GongSolutions.Wpf.DragDrop.IDragInfo.VisualSource"/> is a ListBox this
             will hold a ListBoxItem.
             </remarks>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.VisualSourceFlowDirection">
+            <summary>
+            Gets the FlowDirection of the current drag source.
+            </summary>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.DataObject">
             <summary>
@@ -216,6 +231,12 @@
             If the control that initated the drag is unbound or not an ItemsControl, this will be null.
             </remarks>
         </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.SourceIndex">
+            <summary>
+            Gets the position from where the item was dragged.
+            </summary>
+            <value>The index of the source.</value>
+        </member>
         <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.SourceItem">
             <summary>
             Gets the object that a dragged item is bound to.
@@ -249,6 +270,11 @@
             container of the clicked item. For example, if <see cref="P:GongSolutions.Wpf.DragDrop.DragInfo.VisualSource"/> is a ListBox this
             will hold a ListBoxItem.
             </remarks>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.VisualSourceFlowDirection">
+            <summary>
+            Gets the FlowDirection of the current drag source.
+            </summary>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.DataObject">
             <summary>
