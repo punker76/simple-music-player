@@ -96,12 +96,12 @@
                                           Margin="0,10,10,5"
                                           VerticalAlignment="Center"
                                           HorizontalAlignment="Right"
-                                          Transition="CustomDefaultTransition"
+                                          Transition="Custom"
                                           RestartTransitionOnContentChange="True"
                                           Content="{Binding PlayerEngine.CurrentMediaFile, Mode=OneWay}"
                                           ContentTemplate="{StaticResource transitionContentTemplate}">
       <controls:TransitioningContentControl.CustomVisualStates>
-        <VisualState x:Name="CustomDefaultTransition">
+        <VisualState x:Name="CustomTransition">
           <Storyboard>
             <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
                                            Storyboard.TargetName="CurrentContentPresentationSite"

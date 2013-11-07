@@ -2,10 +2,10 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>MahApps.Metro</id>
-    <version>0.11.2.10-ALPHA</version>
+    <version>0.11.2.17-ALPHA</version>
     <title>MahApps.Metro</title>
-    <authors>Paul Jenkins; Jake Ginnivan</authors>
-    <owners>Paul Jenkins; Jake Ginnivan</owners>
+    <authors>Paul Jenkins; Jake Ginnivan; Brendan Forster (shiftkey); Alex Mitchell (Amrykid); Dennis Daume (flagbug); Jan Karger (punker76)</authors>
+    <owners>Paul Jenkins; Jake Ginnivan; Brendan Forster (shiftkey); Alex Mitchell (Amrykid); Dennis Daume (flagbug); Jan Karger (punker76)</owners>
     <licenseUrl>http://www.opensource.org/licenses/MS-PL</licenseUrl>
     <projectUrl>https://github.com/MahApps/MahApps.Metro</projectUrl>
     <iconUrl>http://c713056.r56.cf2.rackcdn.com/mahapps.metro.logo2.png</iconUrl>
