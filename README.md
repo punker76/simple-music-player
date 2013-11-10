@@ -34,6 +34,7 @@ First simple functions
 	+ [m] mute player on / off
 	+ [e] show the equalizer
   + [l] show the medialib
++ flexible UI (different views for different main window sizes)
 
 Download
 ========
@@ -44,6 +45,10 @@ download latest release v1.9.0.13 [here](https://github.com/punker76/simple-musi
 
 Screen shots
 ============
+
+![very early screenshot 11](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-10_23h42_10.png)  
+
+![very early screenshot 10](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-10_23h42_24.png)  
 
 ![very early screenshot 09](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-09-16_09h40_08.png)  
 
