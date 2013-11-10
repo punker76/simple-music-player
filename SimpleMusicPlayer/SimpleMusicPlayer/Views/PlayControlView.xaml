@@ -24,19 +24,19 @@
                                           FalseColor="{DynamicResource BlackColor}" />
 
     <VisualBrush x:Key="PlayBrush"
-                  Stretch="Fill"
-                  Visual="{StaticResource appbar_play}" />
+                 Stretch="Fill"
+                 Visual="{StaticResource appbar_play}" />
     <VisualBrush x:Key="PauseBrush"
-                  Stretch="Fill"
-                  Visual="{StaticResource appbar_pause}" />
+                 Stretch="Fill"
+                 Visual="{StaticResource appbar_pause}" />
     <VisualBrush x:Key="MuteBrush"
-                  Stretch="Fill"
-                  Visual="{StaticResource appbar_sound_mute}" />
+                 Stretch="Fill"
+                 Visual="{StaticResource appbar_sound_mute}" />
     <VisualBrush x:Key="VolumeBrush"
-                  Stretch="Fill"
-                  Visual="{StaticResource appbar_sound_3}" />
+                 Stretch="Fill"
+                 Visual="{StaticResource appbar_sound_3}" />
     <VisualBrush x:Key="ShuffleBrush"
-                  Stretch="Fill">
+                 Stretch="Fill">
       <VisualBrush.Visual>
         <Canvas Width="48"
                 Height="48"
@@ -56,7 +56,7 @@
       </VisualBrush.Visual>
     </VisualBrush>
     <VisualBrush x:Key="RepeatBrush"
-                  Stretch="Fill">
+                 Stretch="Fill">
       <VisualBrush.Visual>
         <Canvas Width="48"
                 Height="48"
@@ -83,24 +83,109 @@
 
   <Grid>
 
-    <Grid HorizontalAlignment="Center">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <!-- prev -->
+    <Button Grid.Column="1"
+            Command="{Binding PlayPrevCommand, Mode=OneWay}"
+            ToolTip="Previous File (k)"
+            VerticalAlignment="Center"
+            Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+            Height="45"
+            Width="45">
+      <Rectangle Width="13"
+                 Height="13">
+        <Rectangle.Fill>
+          <VisualBrush Stretch="Fill"
+                       Visual="{StaticResource appbar_fastforward}" />
+        </Rectangle.Fill>
+        <Rectangle.LayoutTransform>
+          <ScaleTransform ScaleX="-1" />
+        </Rectangle.LayoutTransform>
+      </Rectangle>
+    </Button>
+
+    <!-- play/pause -->
+    <Grid Grid.Column="2">
+      <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
+              ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
+              VerticalAlignment="Center"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+              Height="60"
+              Width="60"
+              Content="{Binding Mode=OneWay}">
+        <Button.ContentTemplate>
+          <DataTemplate>
+            <Rectangle x:Name="iconRect"
+                       Width="20"
+                       Height="20"
+                       Margin="5,0,0,0"
+                       Fill="{StaticResource PlayBrush}" />
+            <DataTemplate.Triggers>
+              <DataTrigger Binding="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
+                           Value="True">
+                <Setter TargetName="iconRect"
+                        Property="Fill"
+                        Value="{StaticResource PauseBrush}" />
+                <Setter TargetName="iconRect"
+                        Property="Width"
+                        Value="18" />
+                <Setter TargetName="iconRect"
+                        Property="Height"
+                        Value="18" />
+                <Setter TargetName="iconRect"
+                        Property="Margin"
+                        Value="0" />
+              </DataTrigger>
+            </DataTemplate.Triggers>
+          </DataTemplate>
+        </Button.ContentTemplate>
+      </Button>
+    </Grid>
+
+    <Grid Grid.Column="3"
+          VerticalAlignment="Center">
 
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-      </Grid.RowDefinitions>
 
-      <!-- prev -->
+      <!-- stop -->
+      <Button Grid.Column="0"
+              Command="{Binding StopCommand, Mode=OneWay}"
+              ToolTip="Stop"
+              VerticalAlignment="Center"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+              Height="45"
+              Width="45">
+        <Rectangle Width="13"
+                   Height="13">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_control_stop}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+
+      <!-- next -->
       <Button Grid.Column="1"
-              Command="{Binding PlayPrevCommand, Mode=OneWay}"
-              ToolTip="Previous File (k)"
+              Command="{Binding PlayNextCommand, Mode=OneWay}"
+              ToolTip="Next File (j)"
               VerticalAlignment="Center"
               Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
               Height="45"
@@ -111,160 +196,128 @@
             <VisualBrush Stretch="Fill"
                          Visual="{StaticResource appbar_fastforward}" />
           </Rectangle.Fill>
-          <Rectangle.LayoutTransform>
-            <ScaleTransform ScaleX="-1" />
-          </Rectangle.LayoutTransform>
         </Rectangle>
       </Button>
 
-      <!-- play/pause -->
-      <Grid Grid.Column="2">
-        <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
-                ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
-                VerticalAlignment="Center"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="60"
-                Width="60"
-                Content="{Binding Mode=OneWay}">
-          <Button.ContentTemplate>
-            <DataTemplate>
-              <Rectangle x:Name="iconRect"
-                         Width="20"
-                         Height="20"
-                         Margin="5,0,0,0"
-                         Fill="{StaticResource PlayBrush}" />
-              <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
-                             Value="True">
-                  <Setter TargetName="iconRect"
-                          Property="Fill"
-                          Value="{StaticResource PauseBrush}" />
-                  <Setter TargetName="iconRect"
-                          Property="Width"
-                          Value="18" />
-                  <Setter TargetName="iconRect"
-                          Property="Height"
-                          Value="18" />
-                  <Setter TargetName="iconRect"
-                          Property="Margin"
-                          Value="0" />
-                </DataTrigger>
-              </DataTemplate.Triggers>
-            </DataTemplate>
-          </Button.ContentTemplate>
-        </Button>
-      </Grid>
+      <!-- shuffle -->
+      <Button Grid.Column="2"
+              Command="{Binding ShuffleCommand, Mode=OneWay}"
+              ToolTip="Shuffle (s)"
+              VerticalAlignment="Bottom"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+              Height="40"
+              Width="40">
+        <Rectangle Width="12"
+                   Height="12"
+                   Fill="{StaticResource ShuffleBrush}" />
+      </Button>
 
-      <Grid Grid.Column="3"
-            VerticalAlignment="Center">
+      <!-- repeat -->
+      <Button Grid.Column="3"
+              Command="{Binding RepeatCommand, Mode=OneWay}"
+              ToolTip="Repeat (r)"
+              VerticalAlignment="Bottom"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+              Height="40"
+              Width="40">
+        <Rectangle Width="12"
+                   Height="12"
+                   Fill="{StaticResource RepeatBrush}" />
+      </Button>
+
+      <!-- show equalizer -->
+      <Button Grid.Column="4"
+              Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.ShowEqualizerCommand, Mode=OneWay}"
+              ToolTip="Equalizer (e)"
+              VerticalAlignment="Bottom"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+              Height="40"
+              Width="40">
+        <Rectangle Width="12"
+                   Height="12">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_equalizer}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+
+      <!-- show media library -->
+      <Button Grid.Column="5"
+              Command="{Binding ShowMediaLibraryCommand, Mode=OneWay}"
+              ToolTip="Media Library (l)"
+              VerticalAlignment="Bottom"
+              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+              Height="40"
+              Width="40">
+        <Rectangle Width="12"
+                   Height="12">
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_database}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+    </Grid>
+
+    <Grid Grid.Column="0"
+          Grid.ColumnSpan="5"
+          Grid.Row="1"
+          HorizontalAlignment="Center">
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+
+      <!-- position -->
+      <Grid Grid.Column="0"
+            HorizontalAlignment="Center">
 
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <!-- stop -->
-        <Button Grid.Column="0"
-                Command="{Binding StopCommand, Mode=OneWay}"
-                ToolTip="Stop"
+        <!-- position -->
+        <TextBlock Grid.Column="0"
+                   Margin="10,0,0,0"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
+        <Slider Grid.Column="1"
+                x:Name="positionSlider"
                 VerticalAlignment="Center"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="45"
-                Width="45">
-          <Rectangle Width="13"
-                     Height="13">
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_control_stop}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
+                Width="150"
+                Margin="5,2,5,2"
+                Orientation="Horizontal"
+                Minimum="0"
+                Thumb.DragStarted="PositionSlider_DragStarted"
+                Thumb.DragCompleted="PositionSlider_DragCompleted"
+                Maximum="{Binding PlayerEngine.LengthMs, Mode=OneWay}"
+                Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
+        <TextBlock Grid.Column="2"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center">
+          <TextBlock.Text>
+            <MultiBinding FallbackValue="-0:00"
+                          Converter="{StaticResource SliderRemainingPositionValueToTextConverter}">
+              <Binding ElementName="positionSlider"
+                       Path="Value"
+                       Mode="OneWay" />
+              <Binding ElementName="positionSlider"
+                       Path="Maximum"
+                       Mode="OneWay" />
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
 
-        <!-- next -->
-        <Button Grid.Column="1"
-                Command="{Binding PlayNextCommand, Mode=OneWay}"
-                ToolTip="Next File (j)"
-                VerticalAlignment="Center"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="45"
-                Width="45">
-          <Rectangle Width="13"
-                     Height="13">
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_fastforward}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
-
-        <!-- shuffle -->
-        <Button Grid.Column="2"
-                Command="{Binding ShuffleCommand, Mode=OneWay}"
-                ToolTip="Shuffle (s)"
-                VerticalAlignment="Bottom"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="40"
-                Width="40">
-          <Rectangle Width="12"
-                     Height="12"
-                     Fill="{StaticResource ShuffleBrush}" />
-        </Button>
-
-        <!-- repeat -->
-        <Button Grid.Column="3"
-                Command="{Binding RepeatCommand, Mode=OneWay}"
-                ToolTip="Repeat (r)"
-                VerticalAlignment="Bottom"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="40"
-                Width="40">
-          <Rectangle Width="12"
-                     Height="12"
-                     Fill="{StaticResource RepeatBrush}" />
-        </Button>
-
-        <!-- show equalizer -->
-        <Button Grid.Column="4"
-                Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.ShowEqualizerCommand, Mode=OneWay}"
-                ToolTip="Equalizer (e)"
-                VerticalAlignment="Bottom"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="40"
-                Width="40">
-          <Rectangle Width="12"
-                     Height="12">
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_equalizer}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
-
-        <!-- show media library -->
-        <Button Grid.Column="5"
-                Command="{Binding ShowMediaLibraryCommand, Mode=OneWay}"
-                ToolTip="Media Library (l)"
-                VerticalAlignment="Bottom"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                Height="40"
-                Width="40">
-          <Rectangle Width="12"
-                     Height="12">
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_database}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
       </Grid>
 
-      <Grid Grid.Column="0"
-            Grid.ColumnSpan="5"
-            Grid.Row="1"
+      <!-- volume -->
+      <Grid Grid.Column="1"
+            Margin="20,0,0,0"
             HorizontalAlignment="Center">
 
         <Grid.ColumnDefinitions>
@@ -272,86 +325,29 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <!-- position -->
-        <Grid Grid.Column="0"
-              HorizontalAlignment="Center">
+        <Button Grid.Column="0"
+                HorizontalContentAlignment="Left"
+                Command="{Binding MuteCommand, Mode=OneWay}"
+                ToolTip="Mute (m)"
+                VerticalAlignment="Center"
+                Style="{DynamicResource SimpleMPMetroVolumeButtonStyle}">
+          <Rectangle Margin="2"
+                     Width="15"
+                     Height="15"
+                     Fill="{Binding PlayerEngine.IsMute, Mode=OneWay, Converter={StaticResource PlayerMuteToVisualBrushConverter}}" />
+        </Button>
 
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-
-          <!-- position -->
-          <TextBlock Grid.Column="0"
-                     Margin="10,0,0,0"
-                     HorizontalAlignment="Right"
-                     VerticalAlignment="Center"
-                     Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
-          <Slider Grid.Column="1"
-                  x:Name="positionSlider"
-                  VerticalAlignment="Center"
-                  Width="150"
-                  Margin="5,2,5,2"
-                  Orientation="Horizontal"
-                  Minimum="0"
-                  Thumb.DragStarted="PositionSlider_DragStarted"
-                  Thumb.DragCompleted="PositionSlider_DragCompleted"
-                  Maximum="{Binding PlayerEngine.LengthMs, Mode=OneWay}"
-                  Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
-          <TextBlock Grid.Column="2"
-                     HorizontalAlignment="Left"
-                     VerticalAlignment="Center">
-            <TextBlock.Text>
-              <MultiBinding FallbackValue="-0:00"
-                            Converter="{StaticResource SliderRemainingPositionValueToTextConverter}">
-                <Binding ElementName="positionSlider"
-                         Path="Value"
-                         Mode="OneWay" />
-                <Binding ElementName="positionSlider"
-                         Path="Maximum"
-                         Mode="OneWay" />
-              </MultiBinding>
-            </TextBlock.Text>
-          </TextBlock>
-
-        </Grid>
-
-        <!-- volume -->
-        <Grid Grid.Column="1"
-              Margin="20,0,0,0"
-              HorizontalAlignment="Center">
-
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-
-          <Button Grid.Column="0"
-                  HorizontalContentAlignment="Left"
-                  Command="{Binding MuteCommand, Mode=OneWay}"
-                  ToolTip="Mute (m)"
-                  VerticalAlignment="Center"
-                  Style="{DynamicResource SimpleMPMetroVolumeButtonStyle}">
-            <Rectangle Margin="2"
-                       Width="15"
-                       Height="15"
-                       Fill="{Binding PlayerEngine.IsMute, Mode=OneWay, Converter={StaticResource PlayerMuteToVisualBrushConverter}}" />
-          </Button>
-
-          <base:FormattedSlider Grid.Column="1"
-                                Margin="5,2,5,2"
-                                Orientation="Horizontal"
-                                Width="90"
-                                Minimum="0"
-                                Maximum="100"
-                                SmallChange="5"
-                                LargeChange="25"
-                                AutoToolTipPlacement="TopLeft"
-                                AutoToolTipFormat="{}Volume {0}%"
-                                Value="{Binding PlayerEngine.Volume}" />
-        </Grid>
-
+        <base:FormattedSlider Grid.Column="1"
+                              Margin="5,2,5,2"
+                              Orientation="Horizontal"
+                              Width="90"
+                              Minimum="0"
+                              Maximum="100"
+                              SmallChange="5"
+                              LargeChange="25"
+                              AutoToolTipPlacement="TopLeft"
+                              AutoToolTipFormat="{}Volume {0}%"
+                              Value="{Binding PlayerEngine.Volume}" />
       </Grid>
 
     </Grid>

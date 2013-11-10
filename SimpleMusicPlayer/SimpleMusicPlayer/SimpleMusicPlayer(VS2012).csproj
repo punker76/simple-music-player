@@ -160,6 +160,7 @@
     <Compile Include="ValueConverters\EnumToBoolConverter.cs" />
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />
+    <Compile Include="ValueConverters\SizeConverter.cs" />
     <Compile Include="ValueConverters\ModeToColorConverter.cs" />
     <Compile Include="ValueConverters\NullToCollapsedVisibilityConverter.cs" />
     <Compile Include="ValueConverters\PlayerMuteToVisualBrushConverter.cs" />
@@ -182,9 +183,6 @@
     </Compile>
     <Compile Include="Views\PlayControlView.xaml.cs">
       <DependentUpon>PlayControlView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PlayInfoView.xaml.cs">
-      <DependentUpon>PlayInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlaylistsView.xaml.cs">
       <DependentUpon>PlaylistsView.xaml</DependentUpon>
@@ -234,10 +232,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlayControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlayInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
