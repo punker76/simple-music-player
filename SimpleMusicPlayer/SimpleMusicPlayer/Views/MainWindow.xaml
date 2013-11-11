@@ -174,6 +174,7 @@
                             LargeChange="0.2"
                             SmallChange="0.1"
                             Ticks="0,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2"
+                            TickPlacement="BottomRight"
                             Value="{Binding Gain}"
                             IsEnabled="{Binding IsActive, Mode=OneWay}" />
                     <TextBlock Grid.Row="1"
@@ -187,8 +188,10 @@
             <UniformGrid Grid.Row="2"
                          Columns="2">
               <Button Content="_Default"
+                      Margin="0,0,2,0"
                       Command="{Binding SetToDefaultCommand, Mode=OneWay}" />
               <Button Content="_Close"
+                      Margin="2,0,0,0"
                       Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.CloseEqualizerCommand, Mode=OneWay}" />
             </UniformGrid>
           </Grid>
