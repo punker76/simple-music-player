@@ -12,6 +12,7 @@
                       Title="Media Library"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="False"
+                      GlowBrush="Black"
                       Height="400"
                       Width="600"
                       MinHeight="400"
@@ -31,10 +32,6 @@
       <TextBlock Text="{Binding Mode=OneWay}" />
     </DataTemplate>
   </Controls:MetroWindow.Resources>
-
-  <Controls:MetroWindow.GlowBrush>
-    <SolidColorBrush Color="Black" />
-  </Controls:MetroWindow.GlowBrush>
 
   <Grid>
 
