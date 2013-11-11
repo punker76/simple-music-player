@@ -32,7 +32,7 @@
       </VisualBrush.Visual>
     </VisualBrush>
 
-    <DataTemplate x:Key="transitionContentTemplate"
+    <DataTemplate x:Key="fileInfoRightTemplate"
                   DataType="{x:Type models:MediaFile}">
       <Grid RenderOptions.ClearTypeHint="Enabled"
             TextOptions.TextFormattingMode="Display">
@@ -42,20 +42,49 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
-                   FontSize="14"
+                   FontSize="16"
                    TextAlignment="Right"
                    TextWrapping="Wrap"
                    Text="{Binding Title, Mode=OneWay}" />
         <TextBlock Grid.Row="1"
-                   FontSize="12"
+                   FontSize="14"
                    Opacity="0.5"
                    TextAlignment="Right"
                    TextWrapping="Wrap"
                    Text="{Binding Album, Mode=OneWay}" />
         <TextBlock Grid.Row="2"
-                   FontSize="12"
+                   FontSize="14"
                    Opacity="0.5"
                    TextAlignment="Right"
+                   TextWrapping="Wrap"
+                   Text="{Binding FirstPerformer, Mode=OneWay}" />
+      </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="fileInfoLeftTemplate"
+                  DataType="{x:Type models:MediaFile}">
+      <Grid RenderOptions.ClearTypeHint="Enabled"
+            TextOptions.TextFormattingMode="Display">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   FontSize="16"
+                   TextAlignment="Left"
+                   TextWrapping="Wrap"
+                   Text="{Binding Title, Mode=OneWay}" />
+        <TextBlock Grid.Row="1"
+                   FontSize="14"
+                   Opacity="0.5"
+                   TextAlignment="Left"
+                   TextWrapping="Wrap"
+                   Text="{Binding Album, Mode=OneWay}" />
+        <TextBlock Grid.Row="2"
+                   FontSize="14"
+                   Opacity="0.5"
+                   TextAlignment="Left"
                    TextWrapping="Wrap"
                    Text="{Binding FirstPerformer, Mode=OneWay}" />
       </Grid>
@@ -79,7 +108,7 @@
 
         <!-- cover -->
         <Grid Grid.Column="0"
-              Margin="10,10,5,5"
+              Margin="10,10,10,5"
               Width="96"
               Height="96">
           <Border BorderBrush="#FF707070"
@@ -100,12 +129,12 @@
 
         <!-- title, album, artis -->
         <controls:TransitioningContentControl Grid.Column="1"
-                                              Margin="0,10,10,5"
-                                              VerticalAlignment="Center"
+                                              Margin="0,15,10,5"
+                                              VerticalAlignment="Top"
                                               Transition="Custom"
                                               RestartTransitionOnContentChange="True"
                                               Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
-                                              ContentTemplate="{StaticResource transitionContentTemplate}">
+                                              ContentTemplate="{StaticResource fileInfoRightTemplate}">
           <controls:TransitioningContentControl.CustomVisualStates>
             <VisualState x:Name="CustomTransition">
               <Storyboard>
@@ -154,7 +183,7 @@
         <Grid Grid.Column="0"
               Grid.Row="0"
               HorizontalAlignment="Left"
-              Margin="10,10,5,5"
+              Margin="10,10,10,5"
               Width="176"
               Height="176">
           <Border BorderBrush="#FF707070"
@@ -182,12 +211,12 @@
 
           <!-- title, album, artis -->
           <controls:TransitioningContentControl Grid.Row="0"
-                                                Margin="0,10,10,5"
-                                                VerticalAlignment="Center"
+                                                Margin="0,15,10,5"
+                                                VerticalAlignment="Top"
                                                 Transition="Custom"
                                                 RestartTransitionOnContentChange="True"
                                                 Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
-                                                ContentTemplate="{StaticResource transitionContentTemplate}">
+                                                ContentTemplate="{StaticResource fileInfoRightTemplate}">
             <controls:TransitioningContentControl.CustomVisualStates>
               <VisualState x:Name="CustomTransition">
                 <Storyboard>
@@ -213,9 +242,10 @@
           </controls:TransitioningContentControl>
 
           <Views:PlayControlView x:Name="playControlView"
-                                 Margin="10,0,10,0"
+                                 Margin="0,0,10,0"
                                  Grid.Row="1"
                                  VerticalAlignment="Center"
+                                 HorizontalAlignment="Right"
                                  DataContext="{Binding PlayControlViewModel, Mode=OneWay}" />
         </Grid>
 
@@ -235,7 +265,7 @@
         <!-- cover -->
         <Grid Grid.Column="0"
               HorizontalAlignment="Left"
-              Margin="10,10,5,5"
+              Margin="10,10,10,5"
               Width="176"
               Height="176">
           <Border BorderBrush="#FF707070"
@@ -256,12 +286,12 @@
 
         <!-- title, album, artis -->
         <controls:TransitioningContentControl Grid.Column="1"
-                                              Margin="0,10,10,5"
-                                              VerticalAlignment="Center"
+                                              Margin="0,15,5,5"
+                                              VerticalAlignment="Top"
                                               Transition="Custom"
                                               RestartTransitionOnContentChange="True"
                                               Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
-                                              ContentTemplate="{StaticResource transitionContentTemplate}">
+                                              ContentTemplate="{StaticResource fileInfoLeftTemplate}">
           <controls:TransitioningContentControl.CustomVisualStates>
             <VisualState x:Name="CustomTransition">
               <Storyboard>
@@ -287,9 +317,9 @@
         </controls:TransitioningContentControl>
 
         <Views:PlayControlView x:Name="playControlView"
-                               Margin="10,0,10,0"
+                               Margin="5,10,10,0"
                                Grid.Column="2"
-                               VerticalAlignment="Center"
+                               VerticalAlignment="Bottom"
                                DataContext="{Binding PlayControlViewModel, Mode=OneWay}" />
 
       </Grid>
