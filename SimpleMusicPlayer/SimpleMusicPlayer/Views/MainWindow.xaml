@@ -98,7 +98,8 @@
                          Opacity="0.8" />
       </Grid.Background>
 
-      <Grid VerticalAlignment="Center"
+      <Grid UseLayoutRounding="True"
+            VerticalAlignment="Center"
             HorizontalAlignment="Center">
 
         <Grid.Effect>
@@ -108,8 +109,7 @@
                             PresentationOptions:Freeze="true" />
         </Grid.Effect>
 
-        <Grid UseLayoutRounding="True"
-              Background="{DynamicResource WhiteColorBrush}">
+        <Grid Background="{DynamicResource WhiteColorBrush}">
 
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
