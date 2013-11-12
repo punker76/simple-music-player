@@ -32,6 +32,8 @@ namespace SimpleMusicPlayer.Models
     private uint discCount;
     private TimeSpan duration;
     private bool isVBR;
+    private int audioBitrate;
+    private int audioSampleRate;
     private string firstAlbumArtist;
     private string firstPerformerAndTitle;
     private string firstAlbumArtistSort;
@@ -130,6 +132,9 @@ namespace SimpleMusicPlayer.Models
             mf.duration = file.Properties.Duration;
             var codec = file.Properties.Codecs.FirstOrDefault(c => c is TagLib.Mpeg.AudioHeader);
             mf.isVBR = codec != null && (((TagLib.Mpeg.AudioHeader)codec).VBRIHeader.Present || ((TagLib.Mpeg.AudioHeader)codec).XingHeader.Present);
+
+            mf.audioBitrate = file.Properties.AudioBitrate;
+            mf.audioSampleRate = file.Properties.AudioSampleRate;
           }
 
           return mf;
@@ -250,7 +255,36 @@ namespace SimpleMusicPlayer.Models
       }
     }
 
-    public uint DiscCount {
+    public int AudioBitrate
+    {
+      get { return this.audioBitrate; }
+      private set
+      {
+        if (Equals(value, this.audioBitrate))
+        {
+          return;
+        }
+        this.audioBitrate = value;
+        this.OnPropertyChanged(() => this.AudioBitrate);
+      }
+    }
+
+    public int AudioSampleRate
+    {
+      get { return this.audioSampleRate; }
+      private set
+      {
+        if (Equals(value, this.audioSampleRate))
+        {
+          return;
+        }
+        this.audioSampleRate = value;
+        this.OnPropertyChanged(() => this.AudioSampleRate);
+      }
+    }
+
+    public uint DiscCount
+    {
       get { return this.discCount; }
       set {
         if (Equals(value, this.discCount)) {
