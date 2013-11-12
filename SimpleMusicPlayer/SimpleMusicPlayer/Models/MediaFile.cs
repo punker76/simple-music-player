@@ -246,7 +246,7 @@ namespace SimpleMusicPlayer.Models
 
     public bool IsVBR {
       get { return this.isVBR; }
-      private set {
+      set {
         if (Equals(value, this.isVBR)) {
           return;
         }
@@ -258,8 +258,7 @@ namespace SimpleMusicPlayer.Models
     public int AudioBitrate
     {
       get { return this.audioBitrate; }
-      private set
-      {
+      set {
         if (Equals(value, this.audioBitrate))
         {
           return;
@@ -272,8 +271,7 @@ namespace SimpleMusicPlayer.Models
     public int AudioSampleRate
     {
       get { return this.audioSampleRate; }
-      private set
-      {
+      set {
         if (Equals(value, this.audioSampleRate))
         {
           return;

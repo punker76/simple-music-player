@@ -30,13 +30,13 @@
                    Text="{Binding Title, Mode=OneWay}" />
         <TextBlock Grid.Row="1"
                    FontSize="14"
-                   Opacity="0.5"
+                   Opacity="0.6"
                    TextAlignment="Right"
                    TextWrapping="Wrap"
                    Text="{Binding Album, Mode=OneWay}" />
         <TextBlock Grid.Row="2"
                    FontSize="14"
-                   Opacity="0.5"
+                   Opacity="0.6"
                    TextAlignment="Right"
                    TextWrapping="Wrap"
                    Text="{Binding FirstPerformer, Mode=OneWay}" />
@@ -51,6 +51,8 @@
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0"
                    FontSize="16"
@@ -59,16 +61,37 @@
                    Text="{Binding Title, Mode=OneWay}" />
         <TextBlock Grid.Row="1"
                    FontSize="14"
-                   Opacity="0.5"
+                   Opacity="0.6"
                    TextAlignment="Left"
                    TextWrapping="Wrap"
                    Text="{Binding Album, Mode=OneWay}" />
         <TextBlock Grid.Row="2"
                    FontSize="14"
-                   Opacity="0.5"
+                   Opacity="0.6"
                    TextAlignment="Left"
                    TextWrapping="Wrap"
                    Text="{Binding FirstPerformer, Mode=OneWay}" />
+
+        <TextBlock Grid.Row="3"
+                   Margin="0,5,0,0"
+                   FontSize="14"
+                   Opacity="0.6"
+                   TextAlignment="Left">
+          <TextBlock.Text>
+            <MultiBinding Mode="OneWay"
+                          StringFormat="{}{0:0,.} kHz, {1} kbps">
+              <Binding Path="AudioSampleRate"
+                       Mode="OneWay" />
+              <Binding Path="AudioBitrate"
+                       Mode="OneWay" />
+            </MultiBinding>
+          </TextBlock.Text>
+        </TextBlock>
+        <TextBlock Grid.Row="4"
+                   FontSize="14"
+                   Opacity="0.6"
+                   TextAlignment="Left"
+                   Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
       </Grid>
     </DataTemplate>
 
