@@ -14,7 +14,7 @@ namespace SimpleMusicPlayer.ValueConverters
       if (value is double) {
         var actualSize = (double)value;
         if (actualSize > 850) return "Large";
-        if (actualSize > 600) return "Medium";
+        if (actualSize > 560) return "Medium";
       }
       return "Small";
     }
