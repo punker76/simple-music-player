@@ -36,6 +36,7 @@ namespace SimpleMusicPlayer.Models
     private int audioSampleRate;
     private string firstAlbumArtist;
     private string firstPerformerAndTitle;
+    private string firstPerformerAndAlbum;
     private string firstAlbumArtistSort;
     private string firstComposer;
     private string firstComposerSort;
@@ -126,6 +127,17 @@ namespace SimpleMusicPlayer.Models
             mf.firstPerformerAndTitle = mf.title;
           } else {
             mf.firstPerformerAndTitle = Path.GetFileNameWithoutExtension(mf.fileName);
+          }
+
+          var isAlbumEmpty = string.IsNullOrWhiteSpace(mf.album);
+          if (!isFirstPerformerEmpty && !isAlbumEmpty) {
+            mf.firstPerformerAndAlbum = string.Concat(mf.firstPerformer, " - ", mf.album);
+          } else if (!isFirstPerformerEmpty) {
+            mf.firstPerformerAndAlbum = mf.firstPerformer;
+          } else if (!isAlbumEmpty) {
+            mf.firstPerformerAndAlbum = mf.album;
+          } else {
+            mf.firstPerformerAndAlbum = Path.GetFileNameWithoutExtension(mf.fileName);
           }
 
           if (file.Properties.MediaTypes != TagLib.MediaTypes.None) {
@@ -230,6 +242,17 @@ namespace SimpleMusicPlayer.Models
         }
         this.firstPerformerAndTitle = value;
         this.OnPropertyChanged(() => this.FirstPerformerAndTitle);
+      }
+    }
+
+    public string FirstPerformerAndAlbum {
+      get { return this.firstPerformerAndAlbum; }
+      set {
+        if (Equals(value, this.firstPerformerAndAlbum)) {
+          return;
+        }
+        this.firstPerformerAndAlbum = value;
+        this.OnPropertyChanged(() => this.FirstPerformerAndAlbum);
       }
     }
 
