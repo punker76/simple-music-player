@@ -29,7 +29,8 @@
 
     <DataTemplate x:Key="SmallMediaFileTemplate"
                   DataType="{x:Type models:MediaFile}">
-      <Grid>
+      <Grid RenderOptions.ClearTypeHint="Enabled"
+            TextOptions.TextFormattingMode="Display">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto"
@@ -88,7 +89,8 @@
 
     <DataTemplate x:Key="MediumMediaFileTemplate"
                   DataType="{x:Type models:MediaFile}">
-      <Grid>
+      <Grid RenderOptions.ClearTypeHint="Enabled"
+            TextOptions.TextFormattingMode="Display">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto"
@@ -165,7 +167,8 @@
 
     <DataTemplate x:Key="LargeMediaFileTemplate"
                   DataType="{x:Type models:MediaFile}">
-      <Grid>
+      <Grid RenderOptions.ClearTypeHint="Enabled"
+            TextOptions.TextFormattingMode="Display">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />
           <ColumnDefinition Width="Auto"
@@ -241,9 +244,7 @@
     </DataTemplate>
   </UserControl.Resources>
 
-  <Base:BaseListBox RenderOptions.ClearTypeHint="Enabled"
-                    TextOptions.TextFormattingMode="Display"
-                    Grid.IsSharedSizeScope="True"
+  <Base:BaseListBox Grid.IsSharedSizeScope="True"
                     ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
                     SelectionMode="Extended"
                     SelectedItem="{Binding SelectedPlayListFile}"
