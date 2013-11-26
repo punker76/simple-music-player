@@ -75,6 +75,7 @@
 
         <TextBlock Grid.Column="1"
                    Margin="4,2,6,0"
+                   Opacity="0.8"
                    TextAlignment="Right"
                    Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
         <TextBlock Grid.Column="2"
