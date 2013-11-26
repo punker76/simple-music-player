@@ -138,10 +138,10 @@
 
         <TextBlock Grid.Column="1"
                    Grid.Row="0"
-                   Grid.RowSpan="2"
-                   Margin="4,2,6,4"
+                   Margin="4,2,6,0"
+                   FontSize="14"
+                   Opacity="0.8"
                    TextAlignment="Right"
-                   VerticalAlignment="Center"
                    Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
         <TextBlock Grid.Column="2"
                    Grid.Row="0"
@@ -218,11 +218,10 @@
 
         <TextBlock Grid.Column="1"
                    Grid.Row="0"
-                   Grid.RowSpan="2"
-                   Margin="6,2,8,4"
-                   FontSize="14"
+                   Margin="4,2,6,0"
+                   FontSize="16"
+                   Opacity="0.8"
                    TextAlignment="Right"
-                   VerticalAlignment="Center"
                    Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
         <TextBlock Grid.Column="2"
                    Grid.Row="0"
