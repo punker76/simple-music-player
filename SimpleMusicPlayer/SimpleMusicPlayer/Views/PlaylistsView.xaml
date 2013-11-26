@@ -10,6 +10,7 @@
              xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:behavior="clr-namespace:SimpleMusicPlayer.Behavior"
+             xmlns:views="clr-namespace:SimpleMusicPlayer.Views"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -281,17 +282,17 @@
       <Style TargetType="{x:Type Base:BaseListBox}"
              BasedOn="{StaticResource BaseListBoxStyle}">
         <Style.Triggers>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=ActualWidth, Converter={StaticResource SizeConverter}, Mode=OneWay}"
+          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlaylistsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
                        Value="Small">
             <Setter Property="ItemTemplate"
                     Value="{StaticResource SmallMediaFileTemplate}" />
           </DataTrigger>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=ActualWidth, Converter={StaticResource SizeConverter}, Mode=OneWay}"
+          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlaylistsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
                        Value="Medium">
             <Setter Property="ItemTemplate"
                     Value="{StaticResource MediumMediaFileTemplate}" />
           </DataTrigger>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}}, Path=ActualWidth, Converter={StaticResource SizeConverter}, Mode=OneWay}"
+          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlaylistsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
                        Value="Large">
             <Setter Property="ItemTemplate"
                     Value="{StaticResource LargeMediaFileTemplate}" />
