@@ -23,6 +23,7 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand deleteCommand;
     private ICommand playCommand;
     private readonly SMPSettings smpSettings;
+    private string playListItemTemplateKey;
 
     public PlaylistsViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.smpSettings = settings;
@@ -303,6 +304,27 @@ namespace SimpleMusicPlayer.ViewModels
       if (currentFilesCollView != null) {
         PlayList.SavePlayListAsync(currentFilesCollView.SourceCollection);
       }
+    }
+
+    public string PlayListItemTemplateKey
+    {
+      get { return this.playListItemTemplateKey; }
+      set
+      {
+        if (Equals(value, this.playListItemTemplateKey))
+        {
+          return;
+        }
+        this.playListItemTemplateKey = value;
+        this.OnPropertyChanged(() => this.PlayListItemTemplateKey);
+      }
+    }
+
+    public void CalcPlayListItemTemplateByActualWidth(double actualWidth)
+    {
+      if (actualWidth > 850) PlayListItemTemplateKey = "Large";
+      else if (actualWidth > 560) PlayListItemTemplateKey = "Medium";
+      else PlayListItemTemplateKey = "Small";
     }
   }
 }
