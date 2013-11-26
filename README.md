@@ -1,4 +1,4 @@
-Simple Music Player
+![icon](https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png) Simple Music Player
 ===================
 
 This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
@@ -34,7 +34,7 @@ First simple functions
 	+ [m] mute player on / off
 	+ [e] show the equalizer
   + [l] show the medialib
-+ flexible UI (different views for different main window sizes)
++ flexible, responsive UI (different views for different main window sizes)
 
 Download
 ========
@@ -45,6 +45,10 @@ download latest release v1.9.0.13 [here](https://github.com/punker76/simple-musi
 
 Screen shots
 ============
+
+![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_04.png)  
+
+![very early screenshot 12](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_17.png)  
 
 ![very early screenshot 11](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-10_23h42_10.png)  
 
