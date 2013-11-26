@@ -40,6 +40,9 @@
   <PropertyGroup>
     <StartupObject>SimpleMusicPlayer.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>simplemp.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AsyncCtpLibrary">
       <HintPath>..\libs\AsyncCTP\AsyncCtpLibrary.dll</HintPath>
@@ -50,7 +53,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.0.11.2.20-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.11.2.24-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -76,7 +79,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps.Metro.0.11.2.20-ALPHA\lib\net40\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.11.2.24-ALPHA\lib\net40\System.Windows.Interactivity.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -273,12 +276,15 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.0.11.2.20-ALPHA\lib\net40\MahApps.Metro.dll">
+    <EmbeddedResource Include="..\packages\MahApps.Metro.0.11.2.24-ALPHA\lib\net40\MahApps.Metro.dll">
       <Link>DllsAsResource\MahApps.Metro.dll</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.0.11.2.20-ALPHA\lib\net40\System.Windows.Interactivity.dll">
+    <EmbeddedResource Include="..\packages\MahApps.Metro.0.11.2.24-ALPHA\lib\net40\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="simplemp.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
