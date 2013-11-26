@@ -127,9 +127,9 @@
         <Button.ContentTemplate>
           <DataTemplate>
             <Rectangle x:Name="iconRect"
-                       Width="20"
+                       Width="18"
                        Height="20"
-                       Margin="5,0,0,0"
+                       Margin="3,0,0,0"
                        Fill="{StaticResource PlayBrush}" />
             <DataTemplate.Triggers>
               <DataTrigger Binding="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
@@ -139,7 +139,7 @@
                         Value="{StaticResource PauseBrush}" />
                 <Setter TargetName="iconRect"
                         Property="Width"
-                        Value="18" />
+                        Value="16" />
                 <Setter TargetName="iconRect"
                         Property="Height"
                         Value="18" />
