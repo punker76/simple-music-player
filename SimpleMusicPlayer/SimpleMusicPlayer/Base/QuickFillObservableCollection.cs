@@ -24,24 +24,23 @@ namespace SimpleMusicPlayer.Base
       }
     }
 
-    public void Fill(IEnumerable<T> collection) {
-      if (collection == null) {
+    public void Fill(IEnumerable<T> sourceItems) {
+      if (sourceItems == null) {
         return;
-        //throw new ArgumentNullException("collection");
       }
-      var newItems = collection.ToArray();
-      if (newItems.Length == 1) {
-        this.Add(newItems.First());
-      } else if (newItems.Length > 0) {
-        this.suspendCollectionChanged = true;
-        try {
-          foreach (var item in newItems) {
-            this.InsertItem(this.Count, item);
-          }
-        } finally {
-          this.suspendCollectionChanged = false;
-          this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+      var enumerator = sourceItems.GetEnumerator();
+      if (!enumerator.MoveNext()) {
+        return;
+      }
+      this.suspendCollectionChanged = true;
+      try {
+        this.InsertItem(this.Count, enumerator.Current);
+        while (enumerator.MoveNext()) {
+          this.InsertItem(this.Count, enumerator.Current);
         }
+      } finally {
+        this.suspendCollectionChanged = false;
+        this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
       }
     }
   }
