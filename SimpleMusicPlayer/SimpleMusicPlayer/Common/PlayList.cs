@@ -18,7 +18,7 @@ namespace SimpleMusicPlayer.Common
     public static async Task<PlayList> GetPlayListAsync() {
       if (File.Exists(PlayListFileName)) {
         var fileText = File.ReadAllText(PlayListFileName);
-        var playList = await JsonConvert.DeserializeObjectAsync<PlayList>(fileText);
+        var playList = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<PlayList>(fileText));
         return playList;
       }
       return null;
