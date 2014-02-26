@@ -31,6 +31,11 @@
             Gets/sets the name of the Accent.
             </summary>
         </member>
+        <member name="F:MahApps.Metro.Behaviours.BorderlessWindowBehavior.BackgroundSetPropertyKey">
+            <summary>
+            NO TOUCHY! This is a workaround for issue #897
+            </summary>
+        </member>
         <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.AdjustWorkingAreaForAutoHide(System.IntPtr,MahApps.Metro.Native.MINMAXINFO)">
             <summary>
             This method handles the window size if the taskbar is set to auto-hide.
@@ -44,6 +49,26 @@
         <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.RemoveBorder">
             <summary>
             show deactivated border with thickness from associated object
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.GlowWindowBehavior.Update">
+            <summary>
+            Updates all glow windows (visible, hidden, collapsed)
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.GlowWindowBehavior.SetOpacityTo(System.Double)">
+            <summary>
+            Sets the opacity to all glow windows
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.GlowWindowBehavior.StartOpacityStoryboard">
+            <summary>
+            Starts the opacity storyboard 0 -> 1
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.GlowWindowBehavior.Show">
+            <summary>
+            Shows all glow windows
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.ComboBoxHelper">
@@ -81,6 +106,212 @@
         <member name="F:MahApps.Metro.Controls.ControlsHelper.TransitionProperty">
             <summary>
             This property can be used to set the Transition for animated TabControls
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.#ctor(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Initializes a new MahApps.Metro.Controls.BaseMetroDialog.
+            </summary>
+            <param name="owningWindow">The window that is the parent of the dialog.</param>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.#ctor">
+            <summary>
+            Initializes a new MahApps.Metro.Controls.BaseMetroDialog.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.WaitForLoadAsync">
+            <summary>
+            Waits for the dialog to become ready for interaction.
+            </summary>
+            <returns>A task that represents the operation and it's status.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.RequestCloseAsync">
+            <summary>
+            Requests an externally shown Dialog to close. Will throw an exception if the Dialog is inside of a MetroWindow.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.OnRequestClose">
+            <summary>
+            A last chance virtual method for stopping an external dialog from closing.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.Title">
+            <summary>
+            Gets/sets the dialog's title.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.DialogBody">
+            <summary>
+            Gets/sets arbitrary content in the "message" area in the dialog. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.DialogTop">
+            <summary>
+            Gets/sets arbitrary content on top of the dialog.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.DialogBottom">
+            <summary>
+            Gets/sets arbitrary content below the dialog.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.ParentDialogWindow">
+            <summary>
+            Gets the window that owns the current Dialog IF AND ONLY IF the dialog is shown externally.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.OwningWindow">
+            <summary>
+            Gets the window that owns the current Dialog IF AND ONLY IF the dialog is shown inside of a window.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MetroDialogSettings">
+            <summary>
+            A class that represents the settings used by Metro Dialogs.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.AffirmativeButtonText">
+            <summary>
+            Gets/sets the text used for the Affirmative button. For example: "OK" or "Yes".
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.NegativeButtonText">
+            <summary>
+            Gets/sets the text used for the Negative button. For example: "Cancel" or "No".
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.ColorScheme">
+            <summary>
+            Gets/sets whether the metro dialog should use the default black/white appearance (theme) or try to use the current accent.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MetroDialogColorScheme">
+            <summary>
+            An enum representing the different choices for a color scheme in a Metro Dialog.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowInputAsync(MahApps.Metro.Controls.MetroWindow,System.String,System.String,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Creates a InputDialog inside of the current window.
+            </summary>
+            <param name="title">The title of the MessageDialog.</param>
+            <param name="message">The message contained within the MessageDialog.</param>
+            <param name="settings">Optional settings that override the global metro dialog settings.</param>
+            <returns>The text that was entered or null (Nothing in Visual Basic) if the user cancelled the operation.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowMessageAsync(MahApps.Metro.Controls.MetroWindow,System.String,System.String,MahApps.Metro.Controls.Dialogs.MessageDialogStyle,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Creates a MessageDialog inside of the current window.
+            </summary>
+            <param name="title">The title of the MessageDialog.</param>
+            <param name="message">The message contained within the MessageDialog.</param>
+            <param name="style">The type of buttons to use.</param>
+            <param name="settings">Optional settings that override the global metro dialog settings.</param>
+            <returns>A task promising the result of which button was pressed.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowProgressAsync(MahApps.Metro.Controls.MetroWindow,System.String,System.String,System.Boolean,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Creates a ProgressDialog inside of the current window.
+            </summary>
+            <param name="title">The title of the ProgressDialog.</param>
+            <param name="message">The message within the ProgressDialog.</param>
+            <param name="isCancelable">Determines if the cancel button is visible.</param>
+            <param name="settings">Optional Settings that override the global metro dialog settings.</param>
+            <returns>A task promising the instance of ProgressDialogController for this operation.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog)">
+            <summary>
+            Adds a Metro Dialog instance to the specified window and makes it visible.
+            </summary>
+            <param name="window">The owning window of the dialog.</param>
+            <param name="title">The title to be set in the dialog.</param>
+            <param name="dialog">The dialog instance itself.</param>
+            <returns>A task representing the operation.</returns>
+            <exception cref="T:System.InvalidOperationException">The <paramref name="dialog"/> is already visible in the window.</exception>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.HideMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog)">
+            <summary>
+            Hides a visible Metro Dialog instance.
+            </summary>
+            <param name="window">The window with the dialog that is visible.</param>
+            <param name="dialog">The dialog instance to hide.</param>
+            <returns>A task representing the operation.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The <paramref name="dialog"/> is not visible in the window.
+            This happens if <see cref="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog)"/> hasn't been called before.
+            </exception>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.InputDialog">
+            <summary>
+            InputDialog
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.InputDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.ProgressDialog">
+            <summary>
+            An internal control that represents a message dialog. Please use MetroWindow.ShowMessage instead!
+            </summary>
+            <summary>
+            ProgressDialog
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.ProgressDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.ProgressDialogController">
+            <summary>
+            A class for manipulating an open ProgressDialog.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.ProgressDialogController.SetIndeterminate">
+            <summary>
+            Sets the ProgressBar's IsIndeterminate to true. To set it to false, call SetProgress.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.ProgressDialogController.SetCancelable(System.Boolean)">
+            <summary>
+            Sets if the Cancel button is visible.
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.ProgressDialogController.SetProgress(System.Double)">
+            <summary>
+            Sets the dialog's progress bar value and sets IsIndeterminate to false.
+            </summary>
+            <param name="value">The percentage to set as the value.</param>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.ProgressDialogController.SetMessage(System.String)">
+            <summary>
+            Sets the dialog's message content.
+            </summary>
+            <param name="message">The message to be set.</param>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.ProgressDialogController.CloseAsync">
+            <summary>
+            Begins an operation to close the ProgressDialog.
+            </summary>
+            <returns>A task representing the operation.</returns>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.ProgressDialogController.IsOpen">
+            <summary>
+            Gets if the wrapped ProgressDialog is open.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.ProgressDialogController.IsCanceled">
+            <summary>
+            Gets if the Cancel button has been pressed.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.SimpleDialog">
+            <summary>
+            A simple implementation of BaseMetroDialog allowing arbitrary content.
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.FlipView">
@@ -135,6 +366,12 @@
             An event that is raised when IsOpen changes.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.Flyout.ActualTheme">
+            <summary>
+            Gets the actual theme (dark/light) of this flyout.
+            Used to handle the WindowCommands overlay in the MetroWindow.
+            </summary>
+        </member>
         <member name="P:MahApps.Metro.Controls.Flyout.CloseCommand">
             <summary>
             An ICommand that executes when the flyout's close button is clicked.
@@ -155,6 +392,11 @@
             Gets/sets whether this flyout is pinnable.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.Flyout.IsModal">
+            <summary>
+            Gets/sets whether this flyout is modal.
+            </summary>
+        </member>
         <member name="P:MahApps.Metro.Controls.Flyout.Position">
             <summary>
             Gets/sets this flyout's position in the FlyoutsControl/MetroWindow.
@@ -165,10 +407,35 @@
             Gets/sets the flyout's header.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.Flyout.Theme">
+            <summary>
+            Gets or sets the theme of this flyout.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.FlyoutsControl">
             <summary>
             A FlyoutsControl is for displaying flyouts in a MetroWindow.
             <see cref="T:MahApps.Metro.Controls.MetroWindow"/>
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.FlyoutTheme.Adapt">
+            <summary>
+            Adapts the Flyout's theme to the theme of its host window.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.FlyoutTheme.Inverse">
+            <summary>
+            Adapts the Flyout's theme to the theme of its host window, but inverted.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.FlyoutTheme.Dark">
+            <summary>
+            The dark theme. This is the default theme.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.FlyoutTheme.Accent">
+            <summary>
+            The flyouts theme will match the host window's accent color.
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.GlowWindow">
@@ -181,28 +448,35 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:MahApps.Metro.Controls.IPanoramaTile">
-            <summary>
-            The minimum specification that a tile needs to support  
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.PanoramaTile.RaisePropertyChanged(System.String)">
-            <summary>
-            Raises the PropertyChanged event if needed.
-            </summary>
-            <param name="propertyName">The name of the property that changed.</param>
-        </member>
-        <member name="T:MahApps.Metro.Controls.MessageDialog">
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialog">
             <summary>
             An internal control that represents a message dialog. Please use MetroWindow.ShowMessage instead!
             </summary>
+            <summary>
+            MessageDialog
+            </summary>
         </member>
-        <member name="F:MahApps.Metro.Controls.MessageDialogStyle.Affirmative">
+        <member name="M:MahApps.Metro.Controls.Dialogs.MessageDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogResult">
+            <summary>
+            An enum representing the result of a Message Dialog.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogStyle">
+            <summary>
+            An enum representing the different button states for a Message Dialog.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.Affirmative">
             <summary>
             Just "OK"
             </summary>
         </member>
-        <member name="F:MahApps.Metro.Controls.MessageDialogStyle.AffirmativeAndNegative">
+        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.AffirmativeAndNegative">
             <summary>
             "OK" and "Cancel"
             </summary>
@@ -252,6 +526,277 @@
             Initializes a new instance of the MahApps.Metro.Controls.MetroAnimatedTabControl class.
             </summary>
         </member>
+        <member name="T:MahApps.Metro.Controls.MetroNavigationWindow">
+            <summary>
+            A reimplementation of NavigationWindow based on MetroWindow.
+            </summary>
+            <see cref="T:System.Windows.Navigation.NavigationWindow"/>
+            <summary>
+            MetroNavigationWindow
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.MetroWindow">
+            <summary>
+            An extended, metrofied Window class.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroWindow.ShowOverlayAsync">
+            <summary>
+            Begins to show the MetroWindow's overlay effect.
+            </summary>
+            <returns>A task representing the process.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroWindow.HideOverlayAsync">
+            <summary>
+            Begins to hide the MetroWindow's overlay effect.
+            </summary>
+            <returns>A task representing the process.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroWindow.#ctor">
+            <summary>
+            Initializes a new instance of the MahApps.Metro.Controls.MetroWindow class.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.OverrideDefaultWindowCommandsBrush">
+            <summary>
+            CleanWindow sets this so it has the correct default window commands brush
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowWindowCommandsOnTop">
+            <summary>
+            Gets/sets whether the Window Commands will show on top of a Flyout with it's position set to Top or Right.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowTransitionsEnabled">
+            <summary>
+            Gets/sets whether the window's entrance transition animation is enabled.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.Flyouts">
+            <summary>
+            Gets/sets the FlyoutsControl that hosts the window's flyouts.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.IgnoreTaskbarOnMaximize">
+            <summary>
+            Gets/sets whether the window will ignore (and overlap) the taskbar when maximized.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.TitleForeground">
+            <summary>
+            Gets/sets the brush used for the titlebar's foreground.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.SaveWindowPosition">
+            <summary>
+            Gets/sets whether the window will save it's position between loads.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowIconOnTitleBar">
+            <summary>
+            Get/sets whether the titlebar icon is visible or not.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowTitleBar">
+            <summary>
+            Gets/sets whether the TitleBar is visible or not.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.UseNoneWindowStyle">
+            <summary>
+            Gets/sets whether the WindowStyle is None or not.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowMinButton">
+            <summary>
+            Gets/sets if the minimize button is visible.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowCloseButton">
+            <summary>
+            Gets/sets if the close button is visible.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.TitlebarHeight">
+            <summary>
+            Gets/sets the TitleBar's height.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowMaxRestoreButton">
+            <summary>
+            Gets/sets if the Maximize/Restore button is visible.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.TitleCaps">
+            <summary>
+            Gets/sets if the TitleBar's text is automatically capitalized.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.GlowBrush">
+            <summary>
+            Gets/sets the brush used for the Window's glow.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowTitle">
+            <summary>
+            Gets/sets the TitleBar/Window's Text.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.AddBackEntry(System.Windows.Navigation.CustomContentState)">
+            <summary>
+            Adds an entry to back navigation history that contains a CustomContentState object.
+            </summary>
+            <param name="state">A CustomContentState object that represents application-defined state that is associated with a specific piece of content.</param>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.AddBackEntry(System.Windows.Navigation.CustomContentState)"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.RemoveBackEntry">
+            <summary>
+            Removes the most recent journal entry from back history.
+            </summary>
+            <returns>The most recent JournalEntry in back navigation history, if there is one.</returns>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.RemoveBackEntry"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.GoBack">
+            <summary>
+            Navigates to the most recent item in back navigation history.
+            </summary>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.GoBack"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.GoForward">
+            <summary>
+            Navigates to the most recent item in forward navigation history.
+            </summary>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.GoForward"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.Navigate(System.Object)">
+            <summary>
+            Navigates asynchronously to content that is contained by an object.
+            </summary>
+            <param name="content">An Object that contains the content to navigate to.</param>
+            <returns>true if a navigation is not canceled; otherwise, false.</returns>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.Navigate(System.Object)"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.Navigate(System.Uri)">
+            <summary>
+            Navigates asynchronously to content that is specified by a uniform resource identifier (URI).
+            </summary>
+            <param name="source">A Uri object initialized with the URI for the desired content.</param>
+            <returns>true if a navigation is not canceled; otherwise, false.</returns>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.Navigate(System.Uri)"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.Navigate(System.Object,System.Object)">
+            <summary>
+            Navigates asynchronously to content that is contained by an object, and passes an object that contains data to be used for processing during navigation.
+            </summary>
+            <param name="content">An Object that contains the content to navigate to.</param>
+            <param name="extraData">A Object that contains data to be used for processing during navigation.</param>
+            <returns>true if a navigation is not canceled; otherwise, false.</returns>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.Navigate(System.Object,System.Object)"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.Navigate(System.Uri,System.Object)">
+            <summary>
+            Navigates asynchronously to source content located at a uniform resource identifier (URI), and pass an object that contains data to be used for processing during navigation.
+            </summary>
+            <param name="source">A Uri object initialized with the URI for the desired content.</param>
+            <param name="extraData">A Object that contains data to be used for processing during navigation.</param>
+            <returns>true if a navigation is not canceled; otherwise, false.</returns>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.Navigate(System.Uri,System.Object)"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.StopLoading">
+            <summary>
+            Stops further downloading of content for the current navigation request.
+            </summary>
+            <see cref="M:System.Windows.Navigation.NavigationWindow.StopLoading"/>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroNavigationWindow.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroNavigationWindow.ForwardStack">
+            <summary>
+            Gets an IEnumerable that you use to enumerate the entries in back navigation history for a NavigationWindow.
+            </summary>
+            <see cref="P:System.Windows.Navigation.NavigationWindow.ForwardStack"/>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroNavigationWindow.BackStack">
+            <summary>
+            Gets an IEnumerable that you use to enumerate the entries in back navigation history for a NavigationWindow.
+            </summary>
+            <see cref="P:System.Windows.Navigation.NavigationWindow.BackStack"/>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroNavigationWindow.NavigationService">
+            <summary>
+            Gets the NavigationService that is used by this MetroNavigationWindow to provide navigation services to its content.
+            </summary>
+            <see cref="P:System.Windows.Navigation.NavigationWindow.NavigationService"/>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroNavigationWindow.CanGoBack">
+            <summary>
+            Gets a value that indicates whether there is at least one entry in back navigation history.
+            </summary>
+            <see cref="P:System.Windows.Navigation.NavigationWindow.CanGoBack"/>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroNavigationWindow.CanGoForward">
+            <summary>
+            Gets a value that indicates whether there is at least one entry in forward navigation history.
+            </summary>
+            <see cref="P:System.Windows.Navigation.NavigationWindow.CanGoForward"/>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroNavigationWindow.System#Windows#Markup#IUriContext#BaseUri">
+            <summary>
+            Gets or sets the base uniform resource identifier (URI) of the current context.
+            </summary>
+            <see cref="!:System.Windows.Navigation.NavigationWindow.IUriContext.BaseUri"/>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroNavigationWindow.Source">
+            <summary>
+            Gets or sets the uniform resource identifier (URI) of the current content, or the URI of new content that is currently being navigated to.  
+            </summary>
+            <see cref="P:System.Windows.Navigation.NavigationWindow.Source"/>
+        </member>
+        <member name="E:MahApps.Metro.Controls.MetroNavigationWindow.FragmentNavigation">
+            <summary>
+            Occurs when navigation to a content fragment begins, which occurs immediately, if the desired fragment is in the current content, or after the source XAML content has been loaded, if the desired fragment is in different content.
+            </summary>
+            <see cref="E:System.Windows.Navigation.NavigationWindow.FragmentNavigation"/>
+        </member>
+        <member name="E:MahApps.Metro.Controls.MetroNavigationWindow.Navigating">
+            <summary>
+            Occurs when a new navigation is requested.
+            </summary>
+            <see cref="E:System.Windows.Navigation.NavigationWindow.Navigating"/>
+        </member>
+        <member name="E:MahApps.Metro.Controls.MetroNavigationWindow.NavigationFailed">
+            <summary>
+            Occurs when an error is raised while navigating to the requested content.
+            </summary>
+            <see cref="E:System.Windows.Navigation.NavigationWindow.NavigationFailed"/>
+        </member>
+        <member name="E:MahApps.Metro.Controls.MetroNavigationWindow.NavigationProgress">
+            <summary>
+            Occurs periodically during a download to provide navigation progress information.
+            </summary>
+            <see cref="E:System.Windows.Navigation.NavigationWindow.NavigationProgress"/>
+        </member>
+        <member name="E:MahApps.Metro.Controls.MetroNavigationWindow.NavigationStopped">
+            <summary>
+            Occurs when the StopLoading method is called, or when a new navigation is requested while a current navigation is in progre
+            </summary>
+            <see cref="E:System.Windows.Navigation.NavigationWindow.NavigationStopped"/>
+        </member>
+        <member name="E:MahApps.Metro.Controls.MetroNavigationWindow.Navigated">
+            <summary>
+            Occurs when the content that is being navigated to has been found, and is available from the PageContent property, although it may not have completed loading
+            </summary>
+            <see cref="E:System.Windows.Navigation.NavigationWindow.Navigated"/>
+        </member>
+        <member name="E:MahApps.Metro.Controls.MetroNavigationWindow.LoadCompleted">
+            <summary>
+            Occurs when content that was navigated to has been loaded, parsed, and has begun rendering.
+            </summary>
+            <see cref="E:System.Windows.Navigation.NavigationWindow.LoadCompleted"/>
+        </member>
         <member name="T:MahApps.Metro.Controls.MetroProgressBar">
             <summary>
             A metrofied ProgressBar.
@@ -298,6 +843,82 @@
             Gets the owning MetroTabControl of this MetroTabItem.
             </summary>
         </member>
+        <member name="T:MahApps.Metro.Controls.MetroWindowHelpers">
+            <summary>
+            This class eats little children.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:MahApps.Metro.Controls.MetroWindowHelpers.HandleWindowCommandsForFlyouts(MahApps.Metro.Controls.MetroWindow,System.Collections.Generic.IEnumerable{MahApps.Metro.Controls.Flyout},System.Windows.Media.Brush)" -->
+        <member name="T:MahApps.Metro.Controls.NumericUpDown">
+            <summary>
+                Represents a Windows spin box (also known as an up-down control) that displays numeric values.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.NumericUpDown.OnApplyTemplate">
+            <summary>
+                When overridden in a derived class, is invoked whenever application code or internal processes call
+                <see cref="M:System.Windows.FrameworkElement.ApplyTemplate" />.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.NumericUpDown.OnValueChanged(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+                Raises the <see cref="E:MahApps.Metro.Controls.NumericUpDown.ValueChanged"/> routed event.
+            </summary>
+            <param name="oldValue">
+                Old value of the <see cref="P:MahApps.Metro.Controls.NumericUpDown.Value"/> property
+            </param>
+            <param name="newValue">
+                New value of the <see cref="P:MahApps.Metro.Controls.NumericUpDown.Value"/> property
+            </param>
+        </member>
+        <member name="E:MahApps.Metro.Controls.NumericUpDown.MaximumReached">
+            <summary>
+                Event fired from this NumericUpDown when its value has reached the maximum value
+            </summary>
+        </member>
+        <member name="E:MahApps.Metro.Controls.NumericUpDown.MinimumReached">
+            <summary>
+                Event fired from this NumericUpDown when its value has reached the minimum value
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.Delay">
+            <summary>
+                Gets or sets the amount of time, in milliseconds, the NumericUpDown waits while the up/down button is pressed
+                before it starts increasing/decreasing the
+                <see cref="P:MahApps.Metro.Controls.NumericUpDown.Value"/> for the specified <see cref="P:MahApps.Metro.Controls.NumericUpDown.Interval"/> . The value must be
+                non-negative.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.InterceptArrowKeys">
+            <summary>
+                Gets or sets a value indicating whether the user can use the UP ARROW and DOWN ARROW keys to select values.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.IsReadOnly">
+            <summary>
+                Gets or sets a value indicating whether the text can be changed by the use of the up or down buttons only.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.Speedup">
+            <summary>
+                Gets or sets a value indicating whether the value to be added to or subtracted from <see cref="P:MahApps.Metro.Controls.NumericUpDown.Value"/> remains
+                always
+                <see cref="P:MahApps.Metro.Controls.NumericUpDown.Interval"/> or if it will increase faster after pressing the up/down button/arrow some time.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.StringFormat">
+            <summary>
+                Gets or sets the formatting for the displaying <see cref="P:MahApps.Metro.Controls.NumericUpDown.Value"/>
+            </summary>
+            <remarks>
+                <see href="http://msdn.microsoft.com/en-us/library/dwhawy9k.aspx"></see>
+            </remarks>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.TextAlignment">
+            <summary>
+                Gets or sets the horizontal alignment of the contents of the text box.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.Position">
             <summary>
             An Enum representing different positions, such as Left or Right.
@@ -310,11 +931,6 @@
             </summary>
             <param name = "bg">The bg.</param>
             <returns></returns>
-        </member>
-        <member name="T:MahApps.Metro.Controls.PanoramaGroup">
-            <summary>
-            Represents a grouping of tiles
-            </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.Planerator">
             <summary>
@@ -3569,120 +4185,6 @@
             Originally from http://xamlcoder.com/blog/2010/11/04/creating-a-metro-ui-style-control/
             </summary>
         </member>
-        <member name="T:MahApps.Metro.Controls.MetroImage">
-            <summary>
-            An obsolete control. Do not use.
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.MetroWindow">
-            <summary>
-            An extended, metrofied Window class.
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.MetroWindow.ShowMessageAsync(System.String,System.String,MahApps.Metro.Controls.MessageDialogStyle)">
-            <summary>
-            Creates a MessageDialog inside of the current window.
-            </summary>
-            <param name="title">The title of the MessageDialog.</param>
-            <param name="message">The message contained within the MessageDialog.</param>
-            <param name="style">The type of buttons to use.</param>
-            <returns></returns>
-        </member>
-        <member name="M:MahApps.Metro.Controls.MetroWindow.#ctor">
-            <summary>
-            Initializes a new instance of the MahApps.Metro.Controls.MetroWindow class.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowWindowCommandsOnTop">
-            <summary>
-            Gets/sets whether the Window Commands will show on top of a Flyout with it's position set to Top or Right.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowTransitionsEnabled">
-            <summary>
-            Gets/sets whether the window's entrance transition animation is enabled.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.Flyouts">
-            <summary>
-            Gets/sets the FlyoutsControl that hosts the window's flyouts.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.IgnoreTaskbarOnMaximize">
-            <summary>
-            Gets/sets whether the window will ignore (and overlap) the taskbar when maximized.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.TitleForeground">
-            <summary>
-            Gets/sets the brush used for the titlebar's foreground.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.SaveWindowPosition">
-            <summary>
-            Gets/sets whether the window will save it's position between loads.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowIconOnTitleBar">
-            <summary>
-            Get/sets whether the titlebar icon is visible or not.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowTitleBar">
-            <summary>
-            Gets/sets whether the TitleBar is visible or not.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.UseNoneWindowStyle">
-            <summary>
-            Gets/sets whether the WindowStyle is None or not.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowMinButton">
-            <summary>
-            Gets/sets if the minimize button is visible.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowCloseButton">
-            <summary>
-            Gets/sets if the close button is visible.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.TitlebarHeight">
-            <summary>
-            Gets/sets the TitleBar's height.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.ShowMaxRestoreButton">
-            <summary>
-            Gets/sets if the Maximize/Restore button is visible.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.TitleCaps">
-            <summary>
-            Gets/sets if the TitleBar's text is automatically capitalized.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.GlowBrush">
-            <summary>
-            Gets/sets the brush used for the Window's glow.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowTitle">
-            <summary>
-            Gets/sets the TitleBar/Window's Text.
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.ProgressIndicator">
-            <summary>
-            ProgressIndicator
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.ProgressIndicator.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
         <member name="T:MahApps.Metro.Controls.RevealImage">
             <summary>
             RevealImage
@@ -3777,7 +4279,7 @@
         <member name="M:MahApps.Metro.Native.UnsafeNativeMethods._PostMessage(System.IntPtr,System.UInt32,System.IntPtr,System.IntPtr)">
             <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/ms644944(v=vs.85).aspx</devdoc>
         </member>
-        <member name="M:MahApps.Metro.Native.UnsafeNativeMethods.GetCursorPos(MahApps.Metro.Native.UnsafeNativeMethods.Win32Point@)">
+        <member name="M:MahApps.Metro.Native.UnsafeNativeMethods.GetCursorPos(MahApps.Metro.Native.POINT@)">
             <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/ms648390(v=vs.85).aspx</devdoc>
         </member>
         <member name="M:MahApps.Metro.Native.UnsafeNativeMethods.GetDoubleClickTime">
@@ -3826,6 +4328,11 @@
             <param name="newAccent">The accent to apply to the ResourceDictionary.</param>
             <param name="newTheme">The theme to apply to the ResourceDictionary.</param>
         </member>
+        <member name="M:MahApps.Metro.ThemeManager.DetectTheme">
+            <summary>
+            Scans the window resources and returns it's accent and theme.
+            </summary>
+        </member>
         <member name="M:MahApps.Metro.ThemeManager.DetectTheme(System.Windows.Window)">
             <summary>
             Scans the window resources and returns it's accent and theme.
@@ -3859,6 +4366,36 @@
             <summary>
             This event fires if accent color and theme was changed
             this should be using the weak event pattern, but for now it's enough
+            </summary>
+        </member>
+        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+            <summary>
+            GeneratedInternalTypeHelper
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+            <summary>
+            CreateInstance
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            GetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+            <summary>
+            SetPropertyValue
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+            <summary>
+            CreateDelegate
+            </summary>
+        </member>
+        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+            <summary>
+            AddEventHandler
             </summary>
         </member>
     </members>
