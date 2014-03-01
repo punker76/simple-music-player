@@ -6,9 +6,10 @@ namespace SimpleMusicPlayer
   public class Program
   {
     [STAThread]
-    public static void Main() {
+    public static void Main()
+    {
       AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => {
-                                                   var resourceName = "SimpleMusicPlayer.DllsAsResource." + new AssemblyName(args.Name).Name + ".dll";
+                                                   var resourceName = Assembly.GetExecutingAssembly().GetName().Name + ".DllsAsResource." + new AssemblyName(args.Name).Name + ".dll";
                                                    using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)) {
                                                      if (stream != null) {
                                                        var assemblyData = new Byte[stream.Length];
@@ -18,6 +19,7 @@ namespace SimpleMusicPlayer
                                                    }
                                                    return null;
                                                  };
+
       App.Main();
     }
   }

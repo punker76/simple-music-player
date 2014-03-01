@@ -24,6 +24,8 @@ namespace SimpleMusicPlayer.Views
     {
       var vm = this.DataContext as PlaylistsViewModel;
       if (vm != null) {
+        this.Loaded += (o, args) => vm.LoadPlayListAsync();
+        
         var window = Window.GetWindow(this);
         if (window != null) {
           window.SizeChanged += (o, args) => vm.CalcPlayListItemTemplateByActualWidth(window.ActualWidth);

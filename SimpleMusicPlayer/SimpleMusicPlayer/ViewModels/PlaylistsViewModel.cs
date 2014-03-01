@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
@@ -28,7 +29,6 @@ namespace SimpleMusicPlayer.ViewModels
     public PlaylistsViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.smpSettings = settings;
       this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
-      this.LoadPlayListAsync();
     }
 
     private FileSearchWorker fileSearchWorker;
