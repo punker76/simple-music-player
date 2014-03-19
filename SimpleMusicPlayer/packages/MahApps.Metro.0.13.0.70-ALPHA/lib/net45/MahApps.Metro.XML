@@ -31,24 +31,14 @@
             Gets/sets the name of the Accent.
             </summary>
         </member>
-        <member name="F:MahApps.Metro.Behaviours.BorderlessWindowBehavior.BackgroundSetPropertyKey">
+        <member name="T:MahApps.Metro.Behaviours.BorderlessWindowBehavior">
             <summary>
-            NO TOUCHY! This is a workaround for issue #897
+            With this class we can make custom window styles.
             </summary>
         </member>
         <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.AdjustWorkingAreaForAutoHide(System.IntPtr,MahApps.Metro.Native.MINMAXINFO)">
             <summary>
             This method handles the window size if the taskbar is set to auto-hide.
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.AddBorder">
-            <summary>
-            show activated border with given brush and thickness from associated object
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.RemoveBorder">
-            <summary>
-            show deactivated border with thickness from associated object
             </summary>
         </member>
         <member name="M:MahApps.Metro.Behaviours.GlowWindowBehavior.Update">
@@ -106,6 +96,18 @@
         <member name="F:MahApps.Metro.Controls.ControlsHelper.TransitionProperty">
             <summary>
             This property can be used to set the Transition for animated TabControls
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.ControlsHelper.ContentDirectionProperty">
+            <summary>
+            This property can be used to handle the style for CheckBox and RadioButton
+            LeftToRight means content left and button right and RightToLeft vise versa
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.GetContentDirection(System.Windows.UIElement)">
+            <summary>
+            This property can be used to handle the style for CheckBox and RadioButton
+            LeftToRight means content left and button right and RightToLeft vise versa
             </summary>
         </member>
         <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.#ctor(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
@@ -186,6 +188,11 @@
             Gets/sets whether the metro dialog should use the default black/white appearance (theme) or try to use the current accent.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.DefaultText">
+            <summary>
+            Gets/sets the default text( just the inputdialog needed)
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.Dialogs.MetroDialogColorScheme">
             <summary>
             An enum representing the different choices for a color scheme in a Metro Dialog.
@@ -250,6 +257,39 @@
         <member name="M:MahApps.Metro.Controls.Dialogs.InputDialog.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialog">
+            <summary>
+            An internal control that represents a message dialog. Please use MetroWindow.ShowMessage instead!
+            </summary>
+            <summary>
+            MessageDialog
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.MessageDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogResult">
+            <summary>
+            An enum representing the result of a Message Dialog.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogStyle">
+            <summary>
+            An enum representing the different button states for a Message Dialog.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.Affirmative">
+            <summary>
+            Just "OK"
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.AffirmativeAndNegative">
+            <summary>
+            "OK" and "Cancel"
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.Dialogs.ProgressDialog">
@@ -387,9 +427,19 @@
             Gets/sets whether this flyout is visible.
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.Flyout.IsPinnable">
+        <member name="P:MahApps.Metro.Controls.Flyout.AnimateOnPositionChange">
             <summary>
-            Gets/sets whether this flyout is pinnable.
+            Gets/sets whether this flyout uses the open/close animation when changing the <see cref="P:MahApps.Metro.Controls.Flyout.Position"/> property. (default is true)
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Flyout.IsPinned">
+            <summary>
+            Gets/sets whether this flyout stays open when the user clicks outside of it.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Flyout.ExternalCloseButton">
+            <summary>
+            Gets/sets the mouse button that closes the flyout on an external mouse click.
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.Flyout.IsModal">
@@ -416,6 +466,16 @@
             <summary>
             A FlyoutsControl is for displaying flyouts in a MetroWindow.
             <see cref="T:MahApps.Metro.Controls.MetroWindow"/>
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.FlyoutsControl.OverrideExternalCloseButton">
+            <summary>
+            Gets/sets whether <see cref="P:MahApps.Metro.Controls.Flyout.ExternalCloseButton"/> is ignored and all flyouts behave as if it was set to the value of this property.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.FlyoutsControl.OverrideIsPinned">
+            <summary>
+            Gets/sets whether <see cref="P:MahApps.Metro.Controls.Flyout.IsPinned"/> is ignored and all flyouts behave as if it was set false.
             </summary>
         </member>
         <member name="F:MahApps.Metro.Controls.FlyoutTheme.Adapt">
@@ -446,39 +506,6 @@
         <member name="M:MahApps.Metro.Controls.GlowWindow.InitializeComponent">
             <summary>
             InitializeComponent
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialog">
-            <summary>
-            An internal control that represents a message dialog. Please use MetroWindow.ShowMessage instead!
-            </summary>
-            <summary>
-            MessageDialog
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.Dialogs.MessageDialog.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogResult">
-            <summary>
-            An enum representing the result of a Message Dialog.
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogStyle">
-            <summary>
-            An enum representing the different button states for a Message Dialog.
-            </summary>
-        </member>
-        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.Affirmative">
-            <summary>
-            Just "OK"
-            </summary>
-        </member>
-        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.AffirmativeAndNegative">
-            <summary>
-            "OK" and "Cancel"
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.MetroAnimatedSingleRowTabControl">
@@ -567,6 +594,21 @@
             Gets/sets whether the Window Commands will show on top of a Flyout with it's position set to Top or Right.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowMinButtonStyle">
+            <summary>
+            Gets/sets the style for the MIN button style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowMaxButtonStyle">
+            <summary>
+            Gets/sets the style for the MAX button style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowCloseButtonStyle">
+            <summary>
+            Gets/sets the style for the CLOSE button style.
+            </summary>
+        </member>
         <member name="P:MahApps.Metro.Controls.MetroWindow.WindowTransitionsEnabled">
             <summary>
             Gets/sets whether the window's entrance transition animation is enabled.
@@ -575,6 +617,31 @@
         <member name="P:MahApps.Metro.Controls.MetroWindow.Flyouts">
             <summary>
             Gets/sets the FlyoutsControl that hosts the window's flyouts.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.IconTemplate">
+            <summary>
+            Gets/sets the icon content template to show a custom icon.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.TitleTemplate">
+            <summary>
+            Gets/sets the title content template to show a custom title.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.LeftWindowCommands">
+            <summary>
+            Gets/sets the left window commands that hosts the user commands.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.RightWindowCommands">
+            <summary>
+            Gets/sets the right window commands that hosts the user commands.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.WindowCommands">
+            <summary>
+            Gets/sets the right window commands that hosts the user commands.
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.MetroWindow.IgnoreTaskbarOnMaximize">
@@ -635,6 +702,16 @@
         <member name="P:MahApps.Metro.Controls.MetroWindow.GlowBrush">
             <summary>
             Gets/sets the brush used for the Window's glow.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.NonActiveGlowBrush">
+            <summary>
+            Gets/sets the brush used for the Window's non-active glow.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.MetroWindow.NonActiveBorderBrush">
+            <summary>
+            Gets/sets the brush used for the Window's non-active border.
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.MetroWindow.WindowTitle">
@@ -891,7 +968,20 @@
         </member>
         <member name="P:MahApps.Metro.Controls.NumericUpDown.InterceptArrowKeys">
             <summary>
-                Gets or sets a value indicating whether the user can use the UP ARROW and DOWN ARROW keys to select values.
+                Gets or sets a value indicating whether the user can use the arrow keys to change values.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.InterceptMouseWheel">
+            <summary>
+                Gets or sets a value indicating whether the user can use the mouse wheel to change values.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.TrackMouseWheelWhenMouseOver">
+            <summary>
+                Gets or sets a value indicating whether the control must have the focus in order to change values using the mouse wheel.
+            <remarks>
+                If the value is false then the value changes when the mouse wheel is over the control. If the value is true then the value changes only if the control has the focus.
+            </remarks>
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.NumericUpDown.IsReadOnly">
@@ -924,6 +1014,7 @@
             An Enum representing different positions, such as Left or Right.
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "T:MahApps.Metro.Controls.SplitButton" -->
         <member name="M:MahApps.Metro.Converters.BackgroundToForegroundConverter.IdealTextColor(System.Windows.Media.Color)">
             <summary>
             Determining Ideal Text Color Based on Specified Background Color
@@ -931,6 +1022,11 @@
             </summary>
             <param name = "bg">The bg.</param>
             <returns></returns>
+        </member>
+        <member name="T:MahApps.Metro.Converters.IsNullConverter">
+            <summary>
+            Converts the value from true to false and false to true.
+            </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.Planerator">
             <summary>
@@ -944,12 +1040,12 @@
             <see cref="T:MahApps.Metro.Controls.RangeSlider"/>
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.RangeSelectionChangedEventArgs.NewRangeStart">
+        <member name="P:MahApps.Metro.Controls.RangeSelectionChangedEventArgs.NewLowerValue">
             <summary>
             The value of the new range's beginning.
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.RangeSelectionChangedEventArgs.NewRangeStop">
+        <member name="P:MahApps.Metro.Controls.RangeSelectionChangedEventArgs.NewUpperValue">
             <summary>
             The value of the new range's ending.
             </summary>
@@ -959,22 +1055,79 @@
             A slider control with the ability to select a range between two values.
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.RangeSlider.RangeStart">
+        <member name="M:MahApps.Metro.Controls.RangeSlider.OnMinimumChanged(System.Double,System.Double)">
             <summary>
-            Gets/sets the beginning of the range.
+            Responds to a change in the value of the <see cref="P:System.Windows.Controls.Primitives.RangeBase.Minimum"/> property.
+            </summary>
+            <param name="oldMinimum">The old value of the <see cref="P:System.Windows.Controls.Primitives.RangeBase.Minimum"/> property.</param><param name="newMinimum">The new value of the <see cref="P:System.Windows.Controls.Primitives.RangeBase.Minimum"/> property.</param>
+        </member>
+        <member name="M:MahApps.Metro.Controls.RangeSlider.OnMaximumChanged(System.Double,System.Double)">
+            <summary>
+            Responds to a change in the value of the <see cref="P:System.Windows.Controls.Primitives.RangeBase.Maximum"/> property.
+            </summary>
+            <param name="oldMaximum">The old value of the <see cref="P:System.Windows.Controls.Primitives.RangeBase.Maximum"/> property.</param><param name="newMaximum">The new value of the <see cref="P:System.Windows.Controls.Primitives.RangeBase.Maximum"/> property.</param>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.Interval">
+            <summary>
+            Get/sets value how fast thumbs will move when user press on left/right/central with left mouse button (IsMoveToPoint must be set to FALSE)
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.RangeSlider.RangeStop">
+        <member name="P:MahApps.Metro.Controls.RangeSlider.AutoToolTipPrecision">
             <summary>
-            Gets/sets the end of the range.
+            Get/sets precision of the value, which displaying inside AutotToolTip
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.RangeSlider.RangeStartSelected">
+        <member name="P:MahApps.Metro.Controls.RangeSlider.AutoToolTipPlacement">
+            <summary>
+            Get/sets tooltip, which will show while dragging thumbs and display currect value
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.TickPlacement">
+            <summary>
+            Get/sets tick placement position
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.IsMoveToPointEnabled">
+            <summary>
+            Get/sets IsMoveToPoint feature which will enable/disable moving to exact point inside control when user clicked on it
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.TickFrequency">
+            <summary>
+            Get/sets tickFrequency
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.Orientation">
+            <summary>
+            Get/sets orientation of range slider
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.IsSnapToTickEnabled">
+            <summary>
+            Get/sets whether possibility to make manipulations inside range with left/right mouse buttons + cotrol button
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.ExtendedMode">
+            <summary>
+            Get/sets whether possibility to make manipulations inside range with left/right mouse buttons + cotrol button
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.MoveWholeRange">
+            <summary>
+            Get/sets whether whole range will be moved when press on right/left/central part of control
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.MinRangeWidth">
+            <summary>
+            Get/sets the minimal distance between two thumbs.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.RangeSlider.LowerValue">
             <summary>
             Get/sets the beginning of the range selection.
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.RangeSlider.RangeStopSelected">
+        <member name="P:MahApps.Metro.Controls.RangeSlider.UpperValue">
             <summary>
             Get/sets the end of the range selection.
             </summary>
@@ -991,6 +1144,11 @@
             <remarks>
             Password watermarking code from: http://prabu-guru.blogspot.com/2010/06/how-to-add-watermark-text-to-textbox.html
             </remarks>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextboxHelper.GetIsSpellCheckContextMenuEnabled(System.Windows.UIElement)">
+            <summary>
+            Indicates if a TextBox or RichTextBox should use SpellCheck context menu
+            </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.TextboxHelper.FocusBorderBrush">
             <summary>
@@ -1064,7 +1222,7 @@
         </member>
         <member name="F:MahApps.Metro.Controls.TransitionType.Custom">
             <summary>
-            Use a custom VisualState, the name must be CustomTransition
+            Use a custom VisualState, the name must be set using CustomVisualStatesName property
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.TransitioningContentControl">
@@ -1075,6 +1233,11 @@
         <member name="M:MahApps.Metro.Controls.TransitioningContentControl.ReloadTransition">
             <summary>
             Reload the current transition if the content is the same.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.TransitioningContentControl.CustomVisualStatesName">
+            <summary>
+            Gets or sets the name of the custom transition visual state.
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.TransitioningContentControl.IsTransitioning">
@@ -1111,7 +1274,7 @@
             <returns>The submitted item's parent, if available. Otherwise
             null.</returns>
         </member>
-        <member name="M:MahApps.Metro.Controls.TreeHelper.FindChildren``1(System.Windows.DependencyObject)">
+        <member name="M:MahApps.Metro.Controls.TreeHelper.FindChildren``1(System.Windows.DependencyObject,System.Boolean)">
             <summary>
             Analyzes both visual and logical tree in order to find all elements of a given
             type that are descendants of the <paramref name="source"/> item.
@@ -1119,9 +1282,10 @@
             <typeparam name="T">The type of the queried items.</typeparam>
             <param name="source">The root element that marks the source of the search. If the
             source is already of the requested type, it will not be included in the result.</param>
+            <param name="forceUsingTheVisualTreeHelper">Sometimes it's better to search in the VisualTree (e.g. in tests)</param>
             <returns>All descendants of <paramref name="source"/> that match the requested type.</returns>
         </member>
-        <member name="M:MahApps.Metro.Controls.TreeHelper.GetChildObjects(System.Windows.DependencyObject)">
+        <member name="M:MahApps.Metro.Controls.TreeHelper.GetChildObjects(System.Windows.DependencyObject,System.Boolean)">
             <summary>
             This method is an alternative to WPF's
             <see cref="M:System.Windows.Media.VisualTreeHelper.GetChild(System.Windows.DependencyObject,System.Int32)"/> method, which also
@@ -1129,6 +1293,7 @@
             this method falls back to the logical tree of the element.
             </summary>
             <param name="parent">The item to be processed.</param>
+            <param name="forceUsingTheVisualTreeHelper">Sometimes it's better to search in the VisualTree (e.g. in tests)</param>
             <returns>The submitted item's child elements, if available.</returns>
         </member>
         <member name="M:MahApps.Metro.Controls.TreeHelper.TryFindFromPoint``1(System.Windows.UIElement,System.Windows.Point)">
@@ -1142,11 +1307,41 @@
             hit testing.</param>
             <param name="point">The position to be evaluated on the origin.</param>
         </member>
+        <member name="F:Standard.IID.ApplicationAssociationRegistration">
+            <summary>IID_IApplicationAssociationRegistration</summary>
+        </member>
+        <member name="F:Standard.IID.ConnectionPoint">
+            <summary>IID_IConnectionPoint</summary>
+        </member>
+        <member name="F:Standard.IID.ConnectionPointContainer">
+            <summary>IID_IConnectionPointContainer</summary>
+        </member>
+        <member name="F:Standard.IID.EnumConnectionPoints">
+            <summary>IID_IEnumConnectionPoints</summary>
+        </member>
+        <member name="F:Standard.IID.EnumConnections">
+            <summary>IID_IEnumConnections</summary>
+        </member>
         <member name="F:Standard.IID.EnumIdList">
             <summary>IID_IEnumIDList</summary>
         </member>
         <member name="F:Standard.IID.EnumObjects">
             <summary>IID_IEnumObjects</summary>
+        </member>
+        <member name="F:Standard.IID.FileDialog">
+            <summary>IID_IFileDialog</summary>
+        </member>
+        <member name="F:Standard.IID.FileDialogEvents">
+            <summary>IID_IFileDialogEvents</summary>
+        </member>
+        <member name="F:Standard.IID.FileOpenDialog">
+            <summary>IID_IFileOpenDialog</summary>
+        </member>
+        <member name="F:Standard.IID.FileSaveDialog">
+            <summary>IID_IFileSaveDialog</summary>
+        </member>
+        <member name="F:Standard.IID.HtmlDocument">
+            <summary>IID_IHTMLDocument</summary>
         </member>
         <member name="F:Standard.IID.HtmlDocument2">
             <summary>IID_IHTMLDocument2</summary>
@@ -1193,6 +1388,39 @@
         <member name="F:Standard.IID.Unknown">
             <summary>IID_IUnknown</summary>
         </member>
+        <member name="F:Standard.IID.WebBrowser2">
+            <summary>IID_IWebBrowser2</summary>
+        </member>
+        <member name="F:Standard.IID.WebBrowserEvents">
+            <summary>DIID_DWebBrowserEvents</summary>
+        </member>
+        <member name="F:Standard.IID.WebBrowserEvents2">
+            <summary>IID_DWebBrowserEvents2</summary>
+        </member>
+        <member name="F:Standard.IID.WICBitmapDecoder">
+            <summary>IID_IWICBitmapDecoder</summary>
+        </member>
+        <member name="F:Standard.IID.WICBitmapFlipRotator">
+            <summary>IID_IWICBitmapFlipRotator</summary>
+        </member>
+        <member name="F:Standard.IID.WICBitmapFrameDecode">
+            <summary>IID_IWICBitmapFrameDecode</summary>
+        </member>
+        <member name="F:Standard.IID.WICBitmap">
+            <summary>IID_IWICBitmap</summary>
+        </member>
+        <member name="F:Standard.IID.WICBitmapSource">
+            <summary>IID_IWICBitmapSource</summary>
+        </member>
+        <member name="F:Standard.IID.WICFormatConverter">
+            <summary>IID_IWICFormatConverter</summary>
+        </member>
+        <member name="F:Standard.IID.WICImagingFactory">
+            <summary>IID_IWICImagingFactory</summary>
+        </member>
+        <member name="F:Standard.IID.WICStream">
+            <summary>IID_IWICStream</summary>
+        </member>
         <member name="F:Standard.IID.ApplicationDestinations">
             <summary>IID_IApplicationDestinations</summary>
         </member>
@@ -1214,6 +1442,24 @@
         <member name="F:Standard.IID.TaskbarList4">
             <summary>IID_ITaskbarList4</summary>
         </member>
+        <member name="F:Standard.SID.SWebBrowserApp">
+            <summary>SID_SWebBrowserApp</summary>
+        </member>
+        <member name="F:Standard.CLSID.ApplicationAssociationRegistration">
+            <summary>CLSID_ApplicationAssociationRegistration</summary>
+            <remarks>IID_IApplicationAssociationRegistration</remarks>
+        </member>
+        <member name="F:Standard.CLSID.DragDropHelper">
+            <summary>CLSID_DragDropHelper</summary>
+        </member>
+        <member name="F:Standard.CLSID.FileOpenDialog">
+            <summary>CLSID_FileOpenDialog</summary>
+            <remarks>IID_IFileOpenDialog</remarks>
+        </member>
+        <member name="F:Standard.CLSID.FileSaveDialog">
+            <summary>CLSID_FileSaveDialog</summary>
+            <remarks>IID_IFileSaveDialog</remarks>
+        </member>
         <member name="F:Standard.CLSID.TaskbarList">
             <summary>CLSID_TaskbarList</summary>
             <remarks>IID_ITaskbarList</remarks>
@@ -1225,6 +1471,9 @@
         <member name="F:Standard.CLSID.ShellLink">
             <summary>CLSID_ShellLink</summary>
             <remarks>IID_IShellLink</remarks>
+        </member>
+        <member name="F:Standard.CLSID.WICImagingFactory">
+            <summary>CLSID_WICImagingFactory</summary>
         </member>
         <member name="F:Standard.CLSID.DestinationList">
             <summary>CLSID_DestinationList</summary>
@@ -1419,7 +1668,7 @@
             <param name="value2">The second double to compare.</param>
             <returns>The result of the AreClose comparision.</returns>
         </member>
-        <member name="M:Standard.DoubleUtilities.LessThan(System.Double,System.Double)">
+        <member name="M:Standard.DoubleUtilities.IsStrictlyLessThan(System.Double,System.Double)">
             <summary>
             LessThan returns whether or not the first double is less than the second double.
             That is, whether or not the first is strictly less than *and* not within epsilon of
@@ -1432,7 +1681,7 @@
             <param name="value2">The second double to compare.</param>
             <returns>The result of the LessThan comparision.</returns>
         </member>
-        <member name="M:Standard.DoubleUtilities.GreaterThan(System.Double,System.Double)">
+        <member name="M:Standard.DoubleUtilities.IsStrictlyGreaterThan(System.Double,System.Double)">
             <summary>
             GreaterThan returns whether or not the first double is greater than the second double.
             That is, whether or not the first is strictly greater than *and* not within epsilon of
@@ -1445,7 +1694,7 @@
             <param name="value2">The second double to compare.</param>
             <returns>The result of the GreaterThan comparision.</returns>
         </member>
-        <member name="M:Standard.DoubleUtilities.LessThanOrClose(System.Double,System.Double)">
+        <member name="M:Standard.DoubleUtilities.IsLessThanOrCloseTo(System.Double,System.Double)">
             <summary>
             LessThanOrClose returns whether or not the first double is less than or close to
             the second double.  That is, whether or not the first is strictly less than or within
@@ -1458,7 +1707,7 @@
             <param name="value2">The second double to compare.</param>
             <returns>The result of the LessThanOrClose comparision.</returns>
         </member>
-        <member name="M:Standard.DoubleUtilities.GreaterThanOrClose(System.Double,System.Double)">
+        <member name="M:Standard.DoubleUtilities.IsGreaterThanOrCloseTo(System.Double,System.Double)">
             <summary>
             GreaterThanOrClose returns whether or not the first double is greater than or close to
             the second double.  That is, whether or not the first is strictly greater than or within
@@ -1496,7 +1745,7 @@
             <summary>
             Convert a point in system coordinates to a point in device independent pixels (1/96").
             </summary>
-            <param name="devicePoint">A point in the physical coordinate system.</param>
+            <param name="logicalPoint">A point in the physical coordinate system.</param>
             <returns>Returns the parameter converted to the device independent coordinate system.</returns>
         </member>
         <member name="T:Standard.Win32Error">
@@ -1558,6 +1807,9 @@
         <member name="F:Standard.Win32Error.ERROR_CANCELLED">
             <summary>The operation was canceled by the user.</summary>
         </member>
+        <member name="F:Standard.Win32Error.ERROR_CANNOT_FIND_WND_CLASS">
+            <summary>Cannot find window class.</summary>
+        </member>
         <member name="F:Standard.Win32Error.ERROR_CLASS_ALREADY_EXISTS">
             <summary>The window class was already registered.</summary>
         </member>
@@ -1577,6 +1829,7 @@
         </member>
         <member name="M:Standard.Win32Error.ToHRESULT">
             <summary>Performs HRESULT_FROM_WIN32 conversion.</summary>
+            <param name="error">The Win32 error being converted to an HRESULT.</param>
             <returns>The equivilent HRESULT value.</returns>
         </member>
         <member name="M:Standard.Win32Error.GetLastError">
@@ -1707,6 +1960,11 @@
             </summary>
             <param name="i"></param>
         </member>
+        <member name="M:Standard.HRESULT.op_Explicit(Standard.HRESULT)~System.Int32">
+            <summary>
+            Convert an HRESULT to an int.  Used for COM interface declarations out of our control.
+            </summary>
+        </member>
         <member name="M:Standard.HRESULT.ToString">
             <summary>
             Get a string representation of this HRESULT.
@@ -1731,6 +1989,11 @@
         <member name="T:Standard.HCF">
             <summary>
             HIGHCONTRAST flags
+            </summary>
+        </member>
+        <member name="T:Standard.DROPIMAGETYPE">
+            <summary>
+            DROPIMAGE_*
             </summary>
         </member>
         <member name="T:Standard.BI">
@@ -2071,9 +2334,6 @@
         <member name="T:Standard.WndProc">
             <summary>Delegate declaration that matches native WndProc signatures.</summary>
         </member>
-        <member name="T:Standard.WndProcHook">
-            <summary>Delegate declaration that matches native WndProc signatures.</summary>
-        </member>
         <member name="T:Standard.MessageHandler">
             <summary>Delegate declaration that matches managed WndProc signatures.</summary>
         </member>
@@ -2115,6 +2375,24 @@
             Retrieves the User Model AppID that has been explicitly set for the current process via SetCurrentProcessExplicitAppUserModelID
             </summary>
             <param name="AppID"></param>
+        </member>
+        <member name="T:Standard.AL">
+            <summary>ASSOCIATIONLEVEL, AL_*</summary>
+        </member>
+        <member name="T:Standard.AT">
+            <summary>ASSOCIATIONTYPE, AT_*</summary>
+        </member>
+        <member name="T:Standard.FDAP">
+            <summary>FileDialog AddPlace options.  FDAP_*</summary>
+        </member>
+        <member name="T:Standard.FOS">
+            <summary>IFileDialog options.  FOS_*</summary>
+        </member>
+        <member name="T:Standard.FDEOR">
+            <summary>FDE_OVERWRITE_RESPONSE.  FDEOR_*</summary>
+        </member>
+        <member name="T:Standard.FDESVR">
+            <summary>FDE_SHAREVIOLATION_RESPONSE.  FDESVR_*</summary>
         </member>
         <member name="T:Standard.SIATTRIBFLAGS">
             <summary>ShellItem attribute flags.  SIATTRIBFLAGS_*</summary>
@@ -2421,9 +2699,7 @@
             Retrieve an IEnumObjects or IObjectArray for IShellItems and/or IShellLinks. 
             Items may appear in both the frequent and recent lists.  
             </summary>
-            <param name="cItemsDesired"></param>
-            <param name="listtype"></param>
-            <param name="riid"></param>
+            <param name="?"></param>
             <returns></returns>
         </member>
         <member name="T:Standard.IObjectWithAppUserModelId">
@@ -2435,6 +2711,28 @@
             <summary>
             Provides access to the ProgID associated with an object 
             </summary>
+        </member>
+        <member name="T:Standard.ComStream">
+            <summary>
+            Wraps an IStream interface pointer from COM into a form consumable by .Net.
+            </summary>
+            <remarks>
+            This implementation is immutable, though it's possible that the underlying
+            stream can be changed in another context.
+            </remarks>
+        </member>
+        <member name="M:Standard.ComStream.#ctor(System.Runtime.InteropServices.ComTypes.IStream@)">
+            <summary>
+            Wraps a native IStream interface into a CLR Stream subclass.
+            </summary>
+            <param name="stream">
+            The stream that this object wraps.
+            </param>
+            <remarks>
+            Note that the parameter is passed by ref.  On successful creation it is
+            zeroed out to the caller.  This object becomes responsible for the lifetime
+            management of the wrapped IStream.
+            </remarks>
         </member>
         <member name="T:Standard.ManagedIStream">
             <summary>
@@ -2624,20 +2922,14 @@
             after it has been disposed will generally throw ObjectDisposedExceptions.
             </remarks>
         </member>
-        <member name="M:Standard.Utility.RGB(System.Windows.Media.Color)">
-            <summary>The native RGB macro.</summary>
-            <param name="c"></param>
+        <member name="M:Standard.Utility.SafeCopyFile(System.String,System.String,Standard.SafeCopyFileOptions)">
+            <summary>
+            Wrapper around File.Copy to provide feedback as to whether the file wasn't copied because it didn't exist.
+            </summary>
+            <param name="cachePath"></param>
+            <param name="suggestedPath"></param>
+            <param name="overwrite"></param>
             <returns></returns>
-        </member>
-        <member name="M:Standard.Utility.ColorFromArgbDword(System.UInt32)">
-            <summary>Convert a native integer that represent a color with an alpha channel into a Color struct.</summary>
-            <param name="color">The integer that represents the color.  Its bits are of the format 0xAARRGGBB.</param>
-            <returns>A Color representation of the parameter.</returns>
-        </member>
-        <member name="M:Standard.Utility._GetBestMatch(System.Collections.Generic.IList{System.Windows.Media.Imaging.BitmapFrame},System.Int32,System.Int32,System.Int32)">
-            From a list of BitmapFrames find the one that best matches the requested dimensions.
-            The methods used here are copied from Win32 sources.  We want to be consistent with
-            system behaviors.
         </member>
         <member name="M:Standard.Utility.SafeDeleteFile(System.String)">
             <summary>
@@ -2648,13 +2940,6 @@
             Note that File.Delete, and by extension SafeDeleteFile, does not throw an exception
             if the file does not exist.
             </remarks>
-        </member>
-        <member name="M:Standard.Utility.SafeDeleteObject(System.IntPtr@)">
-            <summary>GDI's DeleteObject</summary>
-        </member>
-        <member name="M:Standard.Utility.SafeDisposeImage(System.IntPtr@)">
-            <summary>GDI+'s DisposeImage</summary>
-            <param name="gdipImage"></param>
         </member>
         <member name="M:Standard.Utility.GeneratePropertyString(System.Text.StringBuilder,System.String,System.String)">
             <summary>
@@ -2689,14 +2974,22 @@
             This implementation does not treat '~' as a safe character to be consistent with the System.Web version.
             </remarks>
         </member>
-        <member name="P:Standard.Utility.IsPresentationFrameworkVersionLessThan4">
-            <summary>
-            Is this using WPF4?
-            </summary>
-            <remarks>
-            There are a few specific bugs in Window in 3.5SP1 and below that require workarounds
-            when handling WM_NCCALCSIZE on the HWND.
-            </remarks>
+        <member name="M:Standard.Utility.SafeDeleteObject(System.IntPtr@)">
+            <summary>GDI's DeleteObject</summary>
+        </member>
+        <member name="M:Standard.Utility.SafeDisposeImage(System.IntPtr@)">
+            <summary>GDI+'s DisposeImage</summary>
+            <param name="gdipImage"></param>
+        </member>
+        <member name="M:Standard.Utility._GetBestMatch(System.Collections.Generic.IList{System.Windows.Media.Imaging.BitmapFrame},System.Int32,System.Int32,System.Int32)">
+            From a list of BitmapFrames find the one that best matches the requested dimensions.
+            The methods used here are copied from Win32 sources.  We want to be consistent with
+            system behaviors.
+        </member>
+        <member name="M:Standard.Utility.ColorFromArgbDword(System.UInt32)">
+            <summary>Convert a native integer that represent a color with an alpha channel into a Color struct.</summary>
+            <param name="color">The integer that represents the color.  Its bits are of the format 0xAARRGGBB.</param>
+            <returns>A Color representation of the parameter.</returns>
         </member>
         <member name="T:Standard.Verify">
             <summary>
@@ -2750,13 +3043,6 @@
             <param name="obj">The object to validate.</param>
             <param name="name">The name of the parameter that will be presented if an exception is thrown.</param>
         </member>
-        <member name="M:Standard.Verify.IsTrue(System.Boolean,System.String)">
-            <summary>
-            Verifies the specified statement is true.  Throws an ArgumentException if it's not.
-            </summary>
-            <param name="statement">The statement to be verified as true.</param>
-            <param name="name">Name of the parameter to include in the ArgumentException.</param>
-        </member>
         <member name="M:Standard.Verify.IsTrue(System.Boolean,System.String,System.String)">
             <summary>
             Verifies the specified statement is true.  Throws an ArgumentException if it's not.
@@ -2772,11 +3058,9 @@
             <param name="lowerBoundInclusive">The lower bound inclusive value.</param>
             <param name="value">The value to verify.</param>
             <param name="upperBoundExclusive">The upper bound exclusive value.</param>
-            <param name="parameterName">The paramater name value.</param>
         </member>
         <member name="M:Microsoft.Windows.Shell.SystemCommands.ShowSystemMenu(System.Windows.Window,System.Windows.Point)">
             <summary>Display the system menu at a specified location.</summary>
-            <param name="window">The window to display the menu on.</param>
             <param name="screenLocation">The location to display the system menu, in logical screen coordinates.</param>
         </member>
         <member name="M:Microsoft.Windows.Shell.SystemParameters2.#ctor">
@@ -2828,6 +3112,15 @@
             <summary>
             Matrix of the HT values to return when responding to NC window messages.
             </summary>
+        </member>
+        <member name="P:Microsoft.Windows.Shell.WindowChromeWorker._IsPresentationFrameworkVersionLessThan4">
+            <summary>
+            Is this using WPF4?
+            </summary>
+            <remarks>
+            There are a few specific bugs in Window in 3.5SP1 and below that require workarounds
+            when handling WM_NCCALCSIZE on the HWND.
+            </remarks>
         </member>
         <member name="T:MahApps.Metro.Models.Win32.WM">
             <summary>
@@ -4302,6 +4595,11 @@
         <member name="T:MahApps.Metro.ThemeManager">
             <summary>
             A class that allows for the detection and alteration of a MetroWindow's theme and accent.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.ThemeManager.SystemColors_InvalidateColors">
+            <summary>
+            Cached method info's for use in OnThemeChanged
             </summary>
         </member>
         <member name="M:MahApps.Metro.ThemeManager.ChangeTheme(System.Windows.Application,MahApps.Metro.Accent,MahApps.Metro.Theme)">
