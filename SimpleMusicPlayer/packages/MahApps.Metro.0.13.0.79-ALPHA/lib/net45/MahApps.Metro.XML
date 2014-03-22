@@ -36,6 +36,11 @@
             With this class we can make custom window styles.
             </summary>
         </member>
+        <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.HandleResizeMode(MahApps.Metro.Controls.MetroWindow,System.Windows.ResizeMode)">
+            <summary>
+            handle the resize mode for the window
+            </summary>
+        </member>
         <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.AdjustWorkingAreaForAutoHide(System.IntPtr,MahApps.Metro.Native.MINMAXINFO)">
             <summary>
             This method handles the window size if the taskbar is set to auto-hide.
