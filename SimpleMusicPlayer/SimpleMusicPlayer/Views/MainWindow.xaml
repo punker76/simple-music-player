@@ -16,7 +16,6 @@
                       ShowIconOnTitleBar="True"
                       BorderBrush="Black"
                       BorderThickness="1"
-                      EnableDWMDropShadow="True"
                       Height="600"
                       Width="400"
                       MinHeight="400"
