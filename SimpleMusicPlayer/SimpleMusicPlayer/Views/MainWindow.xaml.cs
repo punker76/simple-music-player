@@ -2,12 +2,12 @@
 using System.Reflection;
 using System.Windows;
 using MahApps.Metro.Controls;
+using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
 using SimpleMusicPlayer.ViewModels;
-using SimpleMusicPlayer.Base;
 
-namespace SimpleMusicPlayer
+namespace SimpleMusicPlayer.Views
 {
   /// <summary>
   /// Interaction logic for MainWindow.xaml

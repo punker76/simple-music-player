@@ -1,4 +1,4 @@
-﻿<Controls:MetroWindow x:Class="SimpleMusicPlayer.MainWindow"
+﻿<Controls:MetroWindow x:Class="SimpleMusicPlayer.Views.MainWindow"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,7 +10,6 @@
                       xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
-                      xmlns:SimpleMusicPlayer="clr-namespace:SimpleMusicPlayer"
                       Title="Simple Music Player"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="True"
@@ -30,7 +29,7 @@
     <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
   </Controls:MetroWindow.Resources>
 
-  <Controls:MetroWindow.WindowCommands>
+  <Controls:MetroWindow.RightWindowCommands>
     <Controls:WindowCommands>
       <Button ToolTip="Simple Music Player on GitHub"
               Command="{Binding ShowOnGitHubCmd}">
@@ -43,7 +42,7 @@
         </Rectangle>
       </Button>
     </Controls:WindowCommands>
-  </Controls:MetroWindow.WindowCommands>
+  </Controls:MetroWindow.RightWindowCommands>
 
   <Grid>
 
@@ -68,7 +67,7 @@
                                 Width="25"
                                 Height="25"
                                 TickWidth="2"
-                                TickColor="{StaticResource AccentColor}"
+                                TickColor="{DynamicResource AccentColor}"
                                 IsIndeterminate="True" />
       <TextBlock VerticalAlignment="Center"
                  Text="Search for Files..." />
@@ -190,7 +189,7 @@
                       Command="{Binding SetToDefaultCommand, Mode=OneWay}" />
               <Button Content="_Close"
                       Margin="2,0,0,0"
-                      Command="{Binding RelativeSource={RelativeSource AncestorType=SimpleMusicPlayer:MainWindow}, Path=DataContext.CloseEqualizerCommand, Mode=OneWay}" />
+                      Command="{Binding RelativeSource={RelativeSource AncestorType=Views:MainWindow}, Path=DataContext.CloseEqualizerCommand, Mode=OneWay}" />
             </UniformGrid>
           </Grid>
 

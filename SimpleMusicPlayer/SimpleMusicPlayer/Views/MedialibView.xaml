@@ -203,7 +203,7 @@
                                 Width="25"
                                 Height="25"
                                 TickWidth="2"
-                                TickColor="{StaticResource AccentColor}"
+                                TickColor="{DynamicResource AccentColor}"
                                 IsIndeterminate="True" />
       <TextBlock VerticalAlignment="Center"
                  Text="Search for Files..." />
