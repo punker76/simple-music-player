@@ -3,7 +3,7 @@
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
                       xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
                       xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark"
@@ -28,6 +28,19 @@
   <Controls:MetroWindow.Resources>
     <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
   </Controls:MetroWindow.Resources>
+
+  <Controls:MetroWindow.TitleTemplate>
+    <DataTemplate>
+      <TextBlock RenderOptions.ClearTypeHint="Enabled"
+                 TextOptions.TextFormattingMode="Display"
+                 Text="{TemplateBinding Content}"
+                 TextTrimming="CharacterEllipsis"
+                 VerticalAlignment="Center"
+                 Margin="8 -1 0 0"
+                 FontSize="{DynamicResource WindowTitleFontSize}"
+                 FontFamily="{DynamicResource DefaultFont}" />
+    </DataTemplate>
+  </Controls:MetroWindow.TitleTemplate>
 
   <Controls:MetroWindow.RightWindowCommands>
     <Controls:WindowCommands>
