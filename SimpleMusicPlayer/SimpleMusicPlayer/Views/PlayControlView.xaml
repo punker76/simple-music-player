@@ -272,7 +272,9 @@
 
       <!-- position -->
       <Grid Grid.Column="0"
-            HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            RenderOptions.ClearTypeHint="Enabled"
+            TextOptions.TextFormattingMode="Display">
 
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />

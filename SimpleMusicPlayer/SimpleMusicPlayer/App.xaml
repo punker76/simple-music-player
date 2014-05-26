@@ -17,6 +17,14 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
       </ResourceDictionary.MergedDictionaries>
+
+      <!-- text brush for additional title information -->
+      <SolidColorBrush x:Key="SemiTextColorBrush"
+                       Color="#A8A8A8" />
+      <!-- text brush for play list index -->
+      <SolidColorBrush x:Key="SemiTextColorBrush2"
+                       Color="#D1DDE1" />
+
     </ResourceDictionary>
   </Application.Resources>
 </Application>

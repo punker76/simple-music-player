@@ -194,6 +194,9 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MediaFileTransitioningContentControl.xaml.cs">
+      <DependentUpon>MediaFileTransitioningContentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MedialibView.xaml.cs">
       <DependentUpon>MedialibView.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,10 @@
     <Page Include="Resources\MoreIcons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MediaFileTransitioningContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MedialibView.xaml">
       <SubType>Designer</SubType>

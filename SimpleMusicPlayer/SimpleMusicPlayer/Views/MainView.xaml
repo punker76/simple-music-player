@@ -6,7 +6,6 @@
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
              xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
-             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -14,6 +13,7 @@
              d:DataContext="{d:DesignInstance ViewModels:MainViewModel}">
 
   <UserControl.Resources>
+
     <DataTemplate x:Key="fileInfoRightTemplate"
                   DataType="{x:Type models:MediaFile}">
       <Grid RenderOptions.ClearTypeHint="Enabled"
@@ -30,13 +30,13 @@
                    Text="{Binding Title, Mode=OneWay}" />
         <TextBlock Grid.Row="1"
                    FontSize="14"
-                   Opacity="0.6"
+                   Foreground="{StaticResource SemiTextColorBrush}"
                    TextAlignment="Right"
                    TextWrapping="Wrap"
                    Text="{Binding Album, Mode=OneWay}" />
         <TextBlock Grid.Row="2"
                    FontSize="14"
-                   Opacity="0.6"
+                   Foreground="{StaticResource SemiTextColorBrush}"
                    TextAlignment="Right"
                    TextWrapping="Wrap"
                    Text="{Binding FirstPerformer, Mode=OneWay}" />
@@ -61,13 +61,13 @@
                    Text="{Binding Title, Mode=OneWay}" />
         <TextBlock Grid.Row="1"
                    FontSize="14"
-                   Opacity="0.6"
+                   Foreground="{StaticResource SemiTextColorBrush}"
                    TextAlignment="Left"
                    TextWrapping="Wrap"
                    Text="{Binding Album, Mode=OneWay}" />
         <TextBlock Grid.Row="2"
                    FontSize="14"
-                   Opacity="0.6"
+                   Foreground="{StaticResource SemiTextColorBrush}"
                    TextAlignment="Left"
                    TextWrapping="Wrap"
                    Text="{Binding FirstPerformer, Mode=OneWay}" />
@@ -75,7 +75,7 @@
         <TextBlock Grid.Row="3"
                    Margin="0,5,0,0"
                    FontSize="14"
-                   Opacity="0.6"
+                   Foreground="{StaticResource SemiTextColorBrush}"
                    TextAlignment="Left">
           <TextBlock.Text>
             <MultiBinding Mode="OneWay"
@@ -89,7 +89,7 @@
         </TextBlock>
         <TextBlock Grid.Row="4"
                    FontSize="14"
-                   Opacity="0.6"
+                   Foreground="{StaticResource SemiTextColorBrush}"
                    TextAlignment="Left"
                    Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
       </Grid>
@@ -133,36 +133,10 @@
         </Grid>
 
         <!-- title, album, artis -->
-        <controls:TransitioningContentControl Grid.Column="1"
-                                              Margin="0,15,10,5"
-                                              VerticalAlignment="Top"
-                                              Transition="Custom"
-                                              RestartTransitionOnContentChange="True"
-                                              Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
-                                              ContentTemplate="{StaticResource fileInfoRightTemplate}">
-          <controls:TransitioningContentControl.CustomVisualStates>
-            <VisualState x:Name="CustomTransition">
-              <Storyboard>
-                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                               Storyboard.TargetName="CurrentContentPresentationSite"
-                                               Storyboard.TargetProperty="(UIElement.Opacity)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                        Value="0" />
-                  <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                        Value="1" />
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                               Storyboard.TargetName="PreviousContentPresentationSite"
-                                               Storyboard.TargetProperty="(UIElement.Opacity)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                        Value="1" />
-                  <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                        Value="0" />
-                </DoubleAnimationUsingKeyFrames>
-              </Storyboard>
-            </VisualState>
-          </controls:TransitioningContentControl.CustomVisualStates>
-        </controls:TransitioningContentControl>
+        <Views:MediaFileTransitioningContentControl Grid.Column="1"
+                                                    Margin="0,15,10,5"
+                                                    Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                    ContentTemplate="{StaticResource fileInfoRightTemplate}" />
 
         <Views:PlayControlView x:Name="playControlView"
                                Margin="10,0,10,0"
@@ -215,36 +189,10 @@
           </Grid.RowDefinitions>
 
           <!-- title, album, artis -->
-          <controls:TransitioningContentControl Grid.Row="0"
-                                                Margin="0,15,10,5"
-                                                VerticalAlignment="Top"
-                                                Transition="Custom"
-                                                RestartTransitionOnContentChange="True"
-                                                Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
-                                                ContentTemplate="{StaticResource fileInfoRightTemplate}">
-            <controls:TransitioningContentControl.CustomVisualStates>
-              <VisualState x:Name="CustomTransition">
-                <Storyboard>
-                  <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                 Storyboard.TargetName="CurrentContentPresentationSite"
-                                                 Storyboard.TargetProperty="(UIElement.Opacity)">
-                    <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                          Value="0" />
-                    <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                          Value="1" />
-                  </DoubleAnimationUsingKeyFrames>
-                  <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                 Storyboard.TargetName="PreviousContentPresentationSite"
-                                                 Storyboard.TargetProperty="(UIElement.Opacity)">
-                    <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                          Value="1" />
-                    <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                          Value="0" />
-                  </DoubleAnimationUsingKeyFrames>
-                </Storyboard>
-              </VisualState>
-            </controls:TransitioningContentControl.CustomVisualStates>
-          </controls:TransitioningContentControl>
+          <Views:MediaFileTransitioningContentControl Grid.Row="0"
+                                                      Margin="0,15,10,5"
+                                                      Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                      ContentTemplate="{StaticResource fileInfoRightTemplate}" />
 
           <Views:PlayControlView x:Name="playControlView"
                                  Margin="0,0,10,0"
@@ -290,36 +238,10 @@
         </Grid>
 
         <!-- title, album, artis -->
-        <controls:TransitioningContentControl Grid.Column="1"
-                                              Margin="0,15,5,5"
-                                              VerticalAlignment="Top"
-                                              Transition="Custom"
-                                              RestartTransitionOnContentChange="True"
-                                              Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
-                                              ContentTemplate="{StaticResource fileInfoLeftTemplate}">
-          <controls:TransitioningContentControl.CustomVisualStates>
-            <VisualState x:Name="CustomTransition">
-              <Storyboard>
-                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                               Storyboard.TargetName="CurrentContentPresentationSite"
-                                               Storyboard.TargetProperty="(UIElement.Opacity)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                        Value="0" />
-                  <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                        Value="1" />
-                </DoubleAnimationUsingKeyFrames>
-                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                               Storyboard.TargetName="PreviousContentPresentationSite"
-                                               Storyboard.TargetProperty="(UIElement.Opacity)">
-                  <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                        Value="1" />
-                  <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                        Value="0" />
-                </DoubleAnimationUsingKeyFrames>
-              </Storyboard>
-            </VisualState>
-          </controls:TransitioningContentControl.CustomVisualStates>
-        </controls:TransitioningContentControl>
+        <Views:MediaFileTransitioningContentControl Grid.Column="1"
+                                                    Margin="0,15,5,5"
+                                                    Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                    ContentTemplate="{StaticResource fileInfoLeftTemplate}" />
 
         <Views:PlayControlView x:Name="playControlView"
                                Margin="5,10,10,0"
