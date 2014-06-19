@@ -28,9 +28,23 @@ namespace SimpleMusicPlayer.Base
         }
         var binding = new Binding { Path = new PropertyPath(pi.Name), Mode = BindingMode.OneWay };
         var gridViewColumn = new GridViewColumn() { Header = pi.Name, DisplayMemberBinding = binding };
+        //var gridViewColumn = new GridViewColumn() { Header = pi.Name, CellTemplate = GetCellTemplate(binding) };
         gridView.Columns.Add(gridViewColumn);
       }
       lv.View = gridView;
+    }
+
+    private static DataTemplate GetCellTemplate(Binding binding)
+    {
+      var template = new DataTemplate();
+      var factory = new FrameworkElementFactory(typeof(TextBlock));
+      //factory.SetValue(RenderOptions.ClearTypeHintProperty, ClearTypeHint.Enabled);
+      //factory.SetValue(TextOptions.TextFormattingModeProperty, TextFormattingMode.Display);
+      //factory.SetValue(TextBlock.TextAlignmentProperty, TextAlignment.Right);
+      factory.SetBinding(TextBlock.TextProperty, binding);
+      template.VisualTree = factory;
+
+      return template;
     }
 
     public Type DataType { get; set; }
