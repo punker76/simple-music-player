@@ -3,7 +3,7 @@
                     xmlns:base="clr-namespace:SimpleMusicPlayer.Base">
 
   <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListBox.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
   <Style x:Key="BaseListBoxStyle"

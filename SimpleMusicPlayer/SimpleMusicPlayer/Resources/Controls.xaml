@@ -79,6 +79,10 @@
          BasedOn="{StaticResource BaseListViewStyle}">
   </Style>
 
+  <Style TargetType="GridViewColumnHeader"
+         BasedOn="{StaticResource BaseGridViewColumnHeader}">
+  </Style>
+
   <Style TargetType="Base:BaseListBox"
          BasedOn="{StaticResource BaseListBoxStyle}">
   </Style>
