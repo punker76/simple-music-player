@@ -8,6 +8,7 @@
     <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListView.xaml" />
     <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Slider.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Tooltip.xaml" />
 
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
   </ResourceDictionary.MergedDictionaries>
@@ -85,6 +86,10 @@
 
   <Style TargetType="Base:BaseListBox"
          BasedOn="{StaticResource BaseListBoxStyle}">
+  </Style>
+
+  <Style TargetType="ToolTip"
+         BasedOn="{StaticResource BaseMetroToolTip}">
   </Style>
 
 </ResourceDictionary>
