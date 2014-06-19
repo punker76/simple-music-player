@@ -65,19 +65,19 @@
   </Style>
 
   <Style TargetType="Slider"
-         BasedOn="{StaticResource SimpleMPMetroSlider}">
+         BasedOn="{StaticResource BaseMetroSlider}">
     <Setter Property="FocusVisualStyle"
             Value="{x:Null}" />
   </Style>
 
   <Style TargetType="Base:FormattedSlider"
-         BasedOn="{StaticResource SimpleMPMetroSlider}">
+         BasedOn="{StaticResource BaseMetroSlider}">
     <Setter Property="FocusVisualStyle"
             Value="{x:Null}" />
   </Style>
 
   <Style TargetType="Base:BaseListView"
-         BasedOn="{StaticResource BaseListViewStyle}">
+         BasedOn="{StaticResource BaseMetroListView}">
   </Style>
 
   <Style TargetType="GridViewColumnHeader"
@@ -85,7 +85,7 @@
   </Style>
 
   <Style TargetType="Base:BaseListBox"
-         BasedOn="{StaticResource BaseListBoxStyle}">
+         BasedOn="{StaticResource BaseMetroListBox}">
   </Style>
 
   <Style TargetType="ToolTip"

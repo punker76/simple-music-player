@@ -293,7 +293,7 @@
                     dd:DragDrop.DropHandler="{Binding}">
     <Base:BaseListBox.Style>
       <Style TargetType="{x:Type Base:BaseListBox}"
-             BasedOn="{StaticResource BaseListBoxStyle}">
+             BasedOn="{StaticResource BaseMetroListBox}">
         <Style.Triggers>
           <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlaylistsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
                        Value="Small">

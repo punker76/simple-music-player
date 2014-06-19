@@ -130,7 +130,7 @@
   <!--    </Setter>-->
   <!--  </Style>-->
 
-  <Style x:Key="BaseListViewStyle"
+  <Style x:Key="BaseMetroListView"
          TargetType="Base:BaseListView"
          BasedOn="{StaticResource VirtualisedMetroListView}">
     <Setter Property="BorderThickness"

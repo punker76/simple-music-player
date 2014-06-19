@@ -11,8 +11,8 @@
   <System:Double x:Key="VerticalThumbWidth">12</System:Double>
   <System:Double x:Key="VerticalThumbHeight">22</System:Double>
 
-  <Style TargetType="Slider"
-         x:Key="SimpleMPMetroSlider"
+  <Style x:Key="BaseMetroSlider"
+         TargetType="Slider"
          BasedOn="{StaticResource MetroSlider}">
     <Setter Property="SnapsToDevicePixels"
             Value="True" />
