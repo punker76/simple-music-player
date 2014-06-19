@@ -6,17 +6,28 @@
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        
+
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/MoreIcons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-        
+
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
       </ResourceDictionary.MergedDictionaries>
+
+      <DataTemplate x:Key="WindowTitleDataTemplate">
+        <TextBlock RenderOptions.ClearTypeHint="Enabled"
+                   TextOptions.TextFormattingMode="Display"
+                   Text="{TemplateBinding Content}"
+                   TextTrimming="CharacterEllipsis"
+                   VerticalAlignment="Center"
+                   Margin="8 -1 0 0"
+                   FontSize="{DynamicResource WindowTitleFontSize}"
+                   FontFamily="{DynamicResource DefaultFont}" />
+      </DataTemplate>
 
       <!-- text brush for additional title information -->
       <SolidColorBrush x:Key="SemiTextColorBrush"
