@@ -28,11 +28,19 @@
                       d:DataContext="{d:DesignInstance ViewModels:MedialibViewModel}">
 
   <Controls:MetroWindow.Resources>
-    <DataTemplate x:Key="groupingListBoxDataTemplate">
+    <SolidColorBrush x:Key="ListBoxHeaderBrush"
+                     Color="#303030" />
+    <SolidColorBrush x:Key="ListBoxBrush"
+                     Color="#3C3C3C" />
+
+    <DataTemplate x:Key="GroupingListBoxDataTemplate">
       <!-- Content presenter for the list of objects in each grouping. Binding is done to the Name property on the custom class -->
       <!--<TextBlock Text="{Binding Path=Key, Mode=OneWay}" />-->
-      <TextBlock Text="{Binding Mode=OneWay}" />
+      <TextBlock RenderOptions.ClearTypeHint="Enabled"
+                 TextOptions.TextFormattingMode="Display"
+                 Text="{Binding Mode=OneWay}" />
     </DataTemplate>
+
   </Controls:MetroWindow.Resources>
 
   <Grid>
@@ -84,11 +92,8 @@
                  TextOptions.TextFormattingMode="Display"
                  Grid.Column="0"
                  Margin="2"
-                 LastChildFill="True">
-        <DockPanel.Background>
-          <SolidColorBrush Color="{DynamicResource BlackColor}"
-                           Opacity="0.05" />
-        </DockPanel.Background>
+                 LastChildFill="True"
+                 Background="{StaticResource ListBoxHeaderBrush}">
         <TextBlock DockPanel.Dock="Top"
                    Margin="10,2,0,2"
                    Text="Genres" />
@@ -97,12 +102,8 @@
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByGenreSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedGenre}"
                  ItemsSource="{Binding GenreList, Mode=OneWay}"
-                 ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
-          <ListBox.Background>
-            <SolidColorBrush Color="{DynamicResource BlackColor}"
-                             Opacity="0.06" />
-          </ListBox.Background>
-        </ListBox>
+                 ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
+                 Background="{StaticResource ListBoxBrush}" />
       </DockPanel>
 
       <!-- artis filter listbox -->
@@ -110,11 +111,8 @@
                  TextOptions.TextFormattingMode="Display"
                  Grid.Column="1"
                  Margin="2"
-                 LastChildFill="True">
-        <DockPanel.Background>
-          <SolidColorBrush Color="{DynamicResource BlackColor}"
-                           Opacity="0.05" />
-        </DockPanel.Background>
+                 LastChildFill="True"
+                 Background="{StaticResource ListBoxHeaderBrush}">
         <TextBlock DockPanel.Dock="Top"
                    Margin="10,2,0,2"
                    Text="Artists" />
@@ -123,12 +121,8 @@
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByArtistSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedArtist}"
                  ItemsSource="{Binding ArtistList, Mode=OneWay}"
-                 ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
-          <ListBox.Background>
-            <SolidColorBrush Color="{DynamicResource BlackColor}"
-                             Opacity="0.06" />
-          </ListBox.Background>
-        </ListBox>
+                 ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
+                 Background="{StaticResource ListBoxBrush}" />
       </DockPanel>
 
       <!-- album filter listbox -->
@@ -136,11 +130,8 @@
                  TextOptions.TextFormattingMode="Display"
                  Grid.Column="2"
                  Margin="2"
-                 LastChildFill="True">
-        <DockPanel.Background>
-          <SolidColorBrush Color="{DynamicResource BlackColor}"
-                           Opacity="0.05" />
-        </DockPanel.Background>
+                 LastChildFill="True"
+                 Background="{StaticResource ListBoxHeaderBrush}">
         <TextBlock DockPanel.Dock="Top"
                    Margin="10,2,0,2"
                    Text="Albums" />
@@ -149,12 +140,8 @@
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByAlbumSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedAlbum}"
                  ItemsSource="{Binding AlbumList, Mode=OneWay}"
-                 ItemTemplate="{StaticResource groupingListBoxDataTemplate}">
-          <ListBox.Background>
-            <SolidColorBrush Color="{DynamicResource BlackColor}"
-                             Opacity="0.06" />
-          </ListBox.Background>
-        </ListBox>
+                 ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
+                 Background="{StaticResource ListBoxBrush}" />
       </DockPanel>
 
     </Grid>
