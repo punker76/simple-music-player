@@ -62,7 +62,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GongSolutions.Wpf.DragDrop">
-      <HintPath>..\packages\gong-wpf-dragdrop.0.1.4\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <HintPath>..\packages\gong-wpf-dragdrop.0.1.4.1\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
@@ -299,14 +299,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll">
-      <Link>DllsAsResource\Microsoft.Threading.Tasks.Extensions.Desktop.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.dll">
-      <Link>DllsAsResource\Microsoft.Threading.Tasks.Extensions.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="simplemp.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -325,16 +317,24 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.4\lib\net40\GongSolutions.Wpf.DragDrop.dll">
-      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\MahApps.Metro.0.14.0-ALPHA86\lib\net40\MahApps.Metro.dll">
       <Link>DllsAsResource\MahApps.Metro.dll</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\MahApps.Metro.0.14.0-ALPHA86\lib\net40\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.4.1\lib\net40\GongSolutions.Wpf.DragDrop.dll">
+      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll">
+      <Link>DllsAsResource\Microsoft.Threading.Tasks.Extensions.Desktop.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.dll">
+      <Link>DllsAsResource\Microsoft.Threading.Tasks.Extensions.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
