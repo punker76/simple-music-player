@@ -98,7 +98,8 @@
                    Margin="10,2,0,2"
                    Text="Genres" />
         <ListBox x:Name="GenreListBox"
-                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonUp"
+                 Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonDown"
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByGenreSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedGenre}"
                  ItemsSource="{Binding GenreList, Mode=OneWay}"
@@ -117,7 +118,8 @@
                    Margin="10,2,0,2"
                    Text="Artists" />
         <ListBox x:Name="ArtistListBox"
-                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonUp"
+                 Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonDown"
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByArtistSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedArtist}"
                  ItemsSource="{Binding ArtistList, Mode=OneWay}"
@@ -136,7 +138,8 @@
                    Margin="10,2,0,2"
                    Text="Albums" />
         <ListBox x:Name="AlbumListBox"
-                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonUp"
+                 Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonDown"
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByAlbumSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedAlbum}"
                  ItemsSource="{Binding AlbumList, Mode=OneWay}"
@@ -148,6 +151,7 @@
 
     <Base:BaseListView RenderOptions.ClearTypeHint="Enabled"
                        TextOptions.TextFormattingMode="Display"
+                       Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
                        Grid.Row="2"
                        Margin="4"
                        ScrollViewer.IsDeferredScrollingEnabled="False"
