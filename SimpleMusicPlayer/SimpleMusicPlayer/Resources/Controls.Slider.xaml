@@ -3,6 +3,7 @@
                     xmlns:System="clr-namespace:System;assembly=mscorlib">
 
   <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.CustomSlider.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Slider.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
