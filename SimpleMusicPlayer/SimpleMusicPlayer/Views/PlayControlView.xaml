@@ -290,11 +290,11 @@
                    Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
         <Slider Grid.Column="1"
                 x:Name="positionSlider"
+                Style="{StaticResource MetroCircleSlider}"
                 VerticalAlignment="Center"
                 Width="150"
                 Margin="5,2,5,2"
                 Orientation="Horizontal"
-                Minimum="0"
                 Thumb.DragStarted="PositionSlider_DragStarted"
                 Thumb.DragCompleted="PositionSlider_DragCompleted"
                 Maximum="{Binding PlayerEngine.LengthMs, Mode=OneWay}"
@@ -340,11 +340,10 @@
         </Button>
 
         <base:FormattedSlider Grid.Column="1"
+                              Style="{StaticResource MetroCircleSlider}"
                               Margin="5,2,5,2"
                               Orientation="Horizontal"
                               Width="90"
-                              Minimum="0"
-                              Maximum="100"
                               SmallChange="5"
                               LargeChange="25"
                               AutoToolTipPlacement="TopLeft"
