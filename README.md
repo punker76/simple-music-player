@@ -46,7 +46,7 @@ download latest release v1.9.0.13 [here](https://github.com/punker76/simple-musi
 Screen shots
 ============
 
-![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-06-29_11h55_37.png)  
+![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-07-14_22h42_19.png)  
 
 ![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_04.png)  
 
