@@ -62,7 +62,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GongSolutions.Wpf.DragDrop">
-      <HintPath>..\packages\gong-wpf-dragdrop.0.1.4.1\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <HintPath>..\packages\gong-wpf-dragdrop.0.1.4.3\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
@@ -329,16 +329,16 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.4.1\lib\net40\GongSolutions.Wpf.DragDrop.dll">
-      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll">
       <Link>DllsAsResource\Microsoft.Threading.Tasks.Extensions.Desktop.dll</Link>
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\Microsoft.Bcl.Async.1.0.165\lib\net40\Microsoft.Threading.Tasks.Extensions.dll">
       <Link>DllsAsResource\Microsoft.Threading.Tasks.Extensions.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.4.3\lib\net40\GongSolutions.Wpf.DragDrop.dll">
+      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
