@@ -56,6 +56,11 @@ namespace SimpleMusicPlayer.Common
         return false;
       }
 
+      result = this.system.setStreamBufferSize(64*1024, FMOD.TIMEUNIT.RAWBYTES);
+      if (!result.ERRCHECK()) {
+        return false;
+      }
+
       // equalizer
       this.Equalizer = Equalizer.GetEqualizer(this.system, settings);
 
@@ -228,7 +233,7 @@ namespace SimpleMusicPlayer.Common
 
       this.CurrentMediaFile = file;
 
-      var mode = FMOD.MODE._2D | FMOD.MODE.CREATESTREAM;
+      var mode = FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_OFF | FMOD.MODE.UNICODE;
       if (file.IsVBR) {
         mode |= FMOD.MODE.ACCURATETIME;
       }
