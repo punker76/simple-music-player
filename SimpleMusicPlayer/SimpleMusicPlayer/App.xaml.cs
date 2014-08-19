@@ -1,11 +1,15 @@
 ﻿using System.Windows;
 
-namespace SimpleMusicPlayer
+namespace SimpleMusicPlayerApplication
 {
   /// <summary>
   /// Interaction logic for App.xaml
   /// </summary>
   public partial class App : Application
   {
+    public void Init()
+    {
+      this.InitializeComponent();
+    }
   }
 }
