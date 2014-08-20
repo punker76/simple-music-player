@@ -103,6 +103,7 @@
       <HintPath>..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.1.1.6\lib\net40\System.Threading.Tasks.dll</HintPath>
       <Private>True</Private>
@@ -172,6 +173,7 @@
     <Compile Include="Interfaces\IKeyHandler.cs" />
     <Compile Include="Interfaces\IMediaFile.cs" />
     <Compile Include="Interfaces\IWindowPlacementSetting.cs" />
+    <Compile Include="Microsoft.Shell\SingleInstance.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ValueConverters\EnumToBoolConverter.cs" />
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />
