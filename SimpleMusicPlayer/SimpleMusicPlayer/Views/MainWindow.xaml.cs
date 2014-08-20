@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using MahApps.Metro.Controls;
@@ -38,6 +39,8 @@ namespace SimpleMusicPlayer.Views
                        mainWindowViewModel.PlaylistsViewModel.SavePlayList();
                        PlayerEngine.Instance.CleanUp();
                      };
+
+      vm.ProcessCommandLineArgs(Environment.GetCommandLineArgs().ToList());
     }
   }
 }
