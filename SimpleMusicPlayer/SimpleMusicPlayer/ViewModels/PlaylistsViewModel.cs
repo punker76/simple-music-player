@@ -265,8 +265,38 @@ namespace SimpleMusicPlayer.ViewModels
             destinationList.Insert(insertIndex++, o);
           }
 
-          var mediaFiles = destinationList.OfType<IMediaFile>().ToList();
+          var mediaFiles = destinationList.OfType<IMediaFile>();//.ToList();
           this.ResetPlayListIndices(mediaFiles);
+        }
+      }
+    }
+
+    public async void HandleCommandLineArgsAsync(IList args) {
+      if (this.FileSearchWorker.CanStartSearch()) {
+        var files = await this.FileSearchWorker.StartSearchAsync(args);
+
+        var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+
+        if (currentFilesCollView == null) {
+          var filesColl = new PlayListObservableCollection(files);
+          var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
+          this.FirstSimplePlaylistFiles = filesCollView;
+          ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
+        } else {
+          var filesColl = (IList)((ICollectionView)this.FirstSimplePlaylistFiles).SourceCollection;
+          var insertIndex = filesColl.Count;
+          foreach (var o in files) {
+            filesColl.Insert(insertIndex++, o);
+          }
+
+          var mediaFiles = filesColl.OfType<IMediaFile>();//.ToList();
+          this.ResetPlayListIndices(mediaFiles);
+
+          var file = files.FirstOrDefault();
+          if (file != null) {
+            ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(file);
+            this.PlayerEngine.Play(file);
+          }
         }
       }
     }

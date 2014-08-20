@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Newtonsoft.Json;
@@ -163,6 +164,7 @@ namespace SimpleMusicPlayer.ViewModels
     public void ProcessCommandLineArgs(IList<string> args)
     {
       if (args != null && args.Count != 0) {
+        this.PlaylistsViewModel.HandleCommandLineArgsAsync(args.ToList());
       }
     }
   }
