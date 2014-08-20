@@ -110,7 +110,9 @@ namespace SimpleMusicPlayer.Base
       }
       var hwnd = new WindowInteropHelper(window).Handle;
       NativeMethods.ShowWindowAsync(hwnd, NativeMethods.ShowWindowCommands.Show);
-      NativeMethods.SetForegroundWindow(hwnd);
+
+      window.Activate();
+      window.Focus();
     }
 
     /// <summary>
