@@ -12,6 +12,21 @@ namespace SimpleMusicPlayer.Base
     [SuppressUnmanagedCodeSecurity]
     internal static class NativeMethods
     {
+      /// <summary>
+      /// Win32 API Imports
+      /// </summary>
+      [DllImport("user32.dll")]
+      private static extern bool IsIconic(IntPtr hWnd);
+
+      [DllImport("user32.dll")]
+      private static extern IntPtr GetForegroundWindow();
+
+      [DllImport("user32.dll")]
+      private static extern IntPtr GetWindowThreadProcessId(IntPtr hWnd, IntPtr ProcessId);
+
+      [DllImport("user32.dll")]
+      private static extern IntPtr AttachThreadInput(IntPtr idAttach, IntPtr idAttachTo, int fAttach);
+
       [DllImport("user32.dll")]
       internal static extern bool ShowWindow(IntPtr hWnd, ShowWindowCommands cmdShow);
 
@@ -92,6 +107,29 @@ namespace SimpleMusicPlayer.Base
         /// </summary>
         ForceMinimize = 11
       }
+
+      /// <summary>
+      /// Activates and sets focus to the Window Object
+      /// </summary>
+      internal static void ActivateWindowHandle(IntPtr hWnd)
+      {
+        var threadId1 = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+        var threadId2 = GetWindowThreadProcessId(hWnd, IntPtr.Zero);
+        
+        if (threadId1 != threadId2) {
+          AttachThreadInput(threadId1, threadId2, 1);
+          SetForegroundWindow(hWnd);
+          AttachThreadInput(threadId1, threadId2, 0);
+        } else {
+          SetForegroundWindow(hWnd);
+        }
+
+        if (IsIconic(hWnd)) {
+          ShowWindowAsync(hWnd, ShowWindowCommands.Restore);
+        } else {
+          ShowWindowAsync(hWnd, ShowWindowCommands.Show);
+        }
+      }
     }
 
     public static void Unminimize(this Window window)
@@ -109,10 +147,7 @@ namespace SimpleMusicPlayer.Base
         return;
       }
       var hwnd = new WindowInteropHelper(window).Handle;
-      NativeMethods.ShowWindowAsync(hwnd, NativeMethods.ShowWindowCommands.Show);
-
-      window.Activate();
-      window.Focus();
+      NativeMethods.ActivateWindowHandle(hwnd);
     }
 
     /// <summary>
