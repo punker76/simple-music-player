@@ -152,6 +152,7 @@
     <Compile Include="Base\DelegateCommand.cs" />
     <Compile Include="Base\FormattedSlider.cs" />
     <Compile Include="Base\KeyHandlerExtensions.cs" />
+    <Compile Include="Base\ListBoxAutoScrollBehavior.cs" />
     <Compile Include="Base\SelectorScrollViewerAttachedBehavior.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
