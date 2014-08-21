@@ -282,6 +282,8 @@ namespace SimpleMusicPlayer.ViewModels
           var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
           this.FirstSimplePlaylistFiles = filesCollView;
           ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
+
+          this.Play();
         } else {
           var filesColl = (IList)((ICollectionView)this.FirstSimplePlaylistFiles).SourceCollection;
           var insertIndex = filesColl.Count;

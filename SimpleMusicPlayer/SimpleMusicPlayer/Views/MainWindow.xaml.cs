@@ -40,7 +40,7 @@ namespace SimpleMusicPlayer.Views
                        PlayerEngine.Instance.CleanUp();
                      };
 
-      vm.ProcessCommandLineArgs(Environment.GetCommandLineArgs().ToList());
+      this.Loaded += (sender, args) => vm.ProcessCommandLineArgs(Environment.GetCommandLineArgs().ToList());
     }
   }
 }
