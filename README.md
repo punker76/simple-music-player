@@ -40,6 +40,11 @@ First simple functions
 	+ if you try start the player twice you get always the first started player
 	+ if you link with supported media files, the player loads the new files and play the first file from the added files  
 
+Ideas? Bugs?
+============
+
+[![Gitter chat](https://badges.gitter.im/punker76/simple-music-player.png)](https://gitter.im/punker76/simple-music-player)
+
 Download
 ========
 
