@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
@@ -23,8 +25,13 @@ namespace SimpleMusicPlayer.Views
     private void PlaylistsView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
     {
       var vm = this.DataContext as PlaylistsViewModel;
-      if (vm != null) {
-        this.Loaded += (o, args) => vm.LoadPlayListAsync();
+      if (vm != null)
+      {
+        this.Loaded += (o, args) =>
+          {
+            vm.LoadPlayListAsync();
+            vm.ProcessCommandLineArgs(Environment.GetCommandLineArgs().ToList());
+          };
         
         var window = Window.GetWindow(this);
         if (window != null) {

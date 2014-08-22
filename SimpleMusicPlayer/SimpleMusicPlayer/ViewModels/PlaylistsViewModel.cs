@@ -331,6 +331,14 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+
+    public void ProcessCommandLineArgs(IList<string> args)
+    {
+      if (args != null && args.Count != 0) {
+        this.HandleCommandLineArgsAsync(args.ToList());
+      }
+    }
+
     public void SavePlayList() {
       var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (currentFilesCollView != null) {
