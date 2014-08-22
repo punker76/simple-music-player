@@ -3,7 +3,7 @@
 
 This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
 
-SimpleMP or Simple Music Player is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
+**SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
 
 Why another music player? When I decided to make my first player back in 2005, the Winamp 3 player was to buggy and very slow! I stopped developing in 2007.
 I used my favorite programming language Delphi 5 and I learned a lot of  new stuff. It was a great time and a few people in the Delphi community honoured my work :-)
@@ -13,28 +13,32 @@ After long time, now it's time to make a new one!
 
 It's not perfect and many function not yet implemented.
 
-*Use it with your own risk!*
+***Use it with your own risk!***
 
 First simple functions
 ======================
 
-+ Plays mp3, ogg, wma and wav files
++ Plays **mp3**, **ogg**, **wma** and **wav** files (should be enough... or not?)
 + Drag&Drop your files or directories into the player (on the play list)
 + Drag&Drop files within the playlist
 + Add directories to the medialib (not yet finished)
 + Simple equalizer
 + Shortcut keys if the player is on top and has the focus
-	+ [Space] play or pause current file (if none is playing, the first selected file starts)
-	+ [Enter] play selected files
-  + [Del] delete selected files from current playlist
-	+ [j] play next file
-	+ [k] play previuos file
-	+ [s] shuffle mode on / off
-	+ [r] repeat current file on / off
-	+ [m] mute player on / off
-	+ [e] show the equalizer
-  + [l] show the medialib
-+ flexible, responsive UI (different views for different main window sizes)
+	+ **[Space]** play or pause current file (if none is playing, the first selected file starts)
+	+ **[Enter]** play selected files
+	+ **[Del]** delete selected files from current playlist
+	+ **[j]** play next file
+	+ **[k]** play previuos file
+	+ **[s]** shuffle mode on / off
+	+ **[r]** repeat current file on / off
+	+ **[m]** mute player on / off
+	+ **[e]** show the equalizer
+	+ **[l]** show the medialib
++ Flexible, responsive UI (different views for different window sizes)
++ You can link with the supported files (open with...)
++ Working as single instance, that means
+	+ if you try start the player twice you get always the first started player
+	+ if you link with supported media files, the player loads the new files and play the first file from the added files  
 
 Download
 ========
