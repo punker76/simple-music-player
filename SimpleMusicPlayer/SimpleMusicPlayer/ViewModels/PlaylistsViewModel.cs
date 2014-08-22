@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
@@ -40,6 +39,8 @@ namespace SimpleMusicPlayer.ViewModels
     public PlayerEngine PlayerEngine {
       get { return PlayerEngine.Instance; }
     }
+
+    public BaseListBox ListBoxPlayList { get; set; }
 
     public IEnumerable FirstSimplePlaylistFiles {
       get { return this.firstSimplePlaylistFiles; }
@@ -271,11 +272,20 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    public async void HandleCommandLineArgsAsync(IList args) {
-      if (this.FileSearchWorker.CanStartSearch()) {
+    public async void HandleCommandLineArgsAsync(IList args)
+    {
+      if (args == null || args.Count == 0) {
+        return;
+      }
+
+      // TODO take another search worker for multiple added files via command line (possible lost the command line files while searching...)
+      if (this.FileSearchWorker.CanStartSearch())
+      {
         var files = await this.FileSearchWorker.StartSearchAsync(args);
 
         var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+
+        var scrollIndex = 0;
 
         if (currentFilesCollView == null) {
           var filesColl = new PlayListObservableCollection(files);
@@ -286,6 +296,7 @@ namespace SimpleMusicPlayer.ViewModels
           this.Play();
         } else {
           var filesColl = (IList)((ICollectionView)this.FirstSimplePlaylistFiles).SourceCollection;
+          scrollIndex = filesColl.Count;
           var insertIndex = filesColl.Count;
           foreach (var o in files) {
             filesColl.Insert(insertIndex++, o);
@@ -299,6 +310,10 @@ namespace SimpleMusicPlayer.ViewModels
             ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(file);
             this.PlayerEngine.Play(file);
           }
+        }
+
+        if (this.ListBoxPlayList != null && this.ListBoxPlayList.Items != null && this.ListBoxPlayList.Items.Count > scrollIndex && scrollIndex >= 0) {
+          this.ListBoxPlayList.ScrollIntoView(this.ListBoxPlayList.Items[scrollIndex]);
         }
       }
     }
@@ -328,14 +343,6 @@ namespace SimpleMusicPlayer.ViewModels
         //                                CancellationToken.None,
         //                                TaskContinuationOptions.LongRunning,
         //                                TaskScheduler.FromCurrentSynchronizationContext());
-      }
-    }
-
-
-    public void ProcessCommandLineArgs(IList<string> args)
-    {
-      if (args != null && args.Count != 0) {
-        this.HandleCommandLineArgsAsync(args.ToList());
       }
     }
 

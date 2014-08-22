@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Microsoft.Shell;
 
@@ -28,12 +28,12 @@ namespace SimpleMusicPlayerApplication
       return ProcessCommandLineArgs(this.MainWindow as SimpleMusicPlayer.Views.MainWindow, args);
     }
 
-    private bool ProcessCommandLineArgs(SimpleMusicPlayer.Views.MainWindow window, IList<string> args)
+    private bool ProcessCommandLineArgs(SimpleMusicPlayer.Views.MainWindow window, IEnumerable<string> args)
     {
       if (window != null) {
         var vm = window.DataContext as SimpleMusicPlayer.ViewModels.MainWindowViewModel;
         if (vm != null) {
-          vm.PlaylistsViewModel.ProcessCommandLineArgs(args);
+          vm.PlaylistsViewModel.HandleCommandLineArgsAsync(args.ToList());
         }
       }
       return true;

@@ -279,8 +279,8 @@
     </DataTemplate>
   </UserControl.Resources>
 
-  <Base:BaseListBox Grid.IsSharedSizeScope="True"
-                    Base:ListBoxAutoScrollBehavior.AutoScrollToCurrentItem="True"
+  <Base:BaseListBox x:Name="ListBoxPlayList"
+                    Grid.IsSharedSizeScope="True"
                     Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
                     ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
                     SelectionMode="Extended"
