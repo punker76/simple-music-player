@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Microsoft.Shell;
 
 namespace SimpleMusicPlayer
 {
@@ -30,9 +31,15 @@ namespace SimpleMusicPlayer
 
     private static void StartUp()
     {
-      var app = new SimpleMusicPlayerApplication.App();
-      app.Init();
-      app.Run();
+      if (SingleInstance<SimpleMusicPlayerApplication.App>.InitializeAsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938"))
+      {
+        var application = new SimpleMusicPlayerApplication.App();
+        application.Init();
+        application.Run();
+
+        // Allow single instance code to perform cleanup operations
+        SingleInstance<SimpleMusicPlayerApplication.App>.Cleanup();
+      }
     }
   }
 }

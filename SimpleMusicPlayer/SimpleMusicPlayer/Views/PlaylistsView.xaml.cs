@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
@@ -20,15 +22,23 @@ namespace SimpleMusicPlayer.Views
       this.DataContextChanged += this.PlaylistsView_DataContextChanged;
     }
 
-    private void PlaylistsView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+    private void PlaylistsView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs dea)
     {
       var vm = this.DataContext as PlaylistsViewModel;
-      if (vm != null) {
-        this.Loaded += (o, args) => vm.LoadPlayListAsync();
+      if (vm != null)
+      {
+        // for the first, i need a connection for scrolling to the first playable media file
+        vm.ListBoxPlayList = this.ListBoxPlayList;
         
+        this.Loaded += (o, args) => {
+            vm.LoadPlayListAsync();
+            vm.HandleCommandLineArgsAsync(Environment.GetCommandLineArgs().ToList());
+          };
+
         var window = Window.GetWindow(this);
-        if (window != null) {
-          window.SizeChanged += (o, args) => vm.CalcPlayListItemTemplateByActualWidth(window.ActualWidth);
+        if (window != null)
+        {
+          window.SizeChanged += (s, e) => vm.CalcPlayListItemTemplateByActualWidth(window.ActualWidth);
         }
       }
     }

@@ -6,7 +6,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
@@ -40,6 +39,8 @@ namespace SimpleMusicPlayer.ViewModels
     public PlayerEngine PlayerEngine {
       get { return PlayerEngine.Instance; }
     }
+
+    public BaseListBox ListBoxPlayList { get; set; }
 
     public IEnumerable FirstSimplePlaylistFiles {
       get { return this.firstSimplePlaylistFiles; }
@@ -265,8 +266,54 @@ namespace SimpleMusicPlayer.ViewModels
             destinationList.Insert(insertIndex++, o);
           }
 
-          var mediaFiles = destinationList.OfType<IMediaFile>().ToList();
+          var mediaFiles = destinationList.OfType<IMediaFile>();//.ToList();
           this.ResetPlayListIndices(mediaFiles);
+        }
+      }
+    }
+
+    public async void HandleCommandLineArgsAsync(IList args)
+    {
+      if (args == null || args.Count == 0) {
+        return;
+      }
+
+      // TODO take another search worker for multiple added files via command line (possible lost the command line files while searching...)
+      if (this.FileSearchWorker.CanStartSearch())
+      {
+        var files = await this.FileSearchWorker.StartSearchAsync(args);
+
+        var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+
+        var scrollIndex = 0;
+
+        if (currentFilesCollView == null) {
+          var filesColl = new PlayListObservableCollection(files);
+          var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
+          this.FirstSimplePlaylistFiles = filesCollView;
+          ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
+
+          this.Play();
+        } else {
+          var filesColl = (IList)((ICollectionView)this.FirstSimplePlaylistFiles).SourceCollection;
+          scrollIndex = filesColl.Count;
+          var insertIndex = filesColl.Count;
+          foreach (var o in files) {
+            filesColl.Insert(insertIndex++, o);
+          }
+
+          var mediaFiles = filesColl.OfType<IMediaFile>();//.ToList();
+          this.ResetPlayListIndices(mediaFiles);
+
+          var file = files.FirstOrDefault();
+          if (file != null) {
+            ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(file);
+            this.PlayerEngine.Play(file);
+          }
+        }
+
+        if (this.ListBoxPlayList != null && this.ListBoxPlayList.Items != null && this.ListBoxPlayList.Items.Count > scrollIndex && scrollIndex >= 0) {
+          this.ListBoxPlayList.ScrollIntoView(this.ListBoxPlayList.Items[scrollIndex]);
         }
       }
     }
