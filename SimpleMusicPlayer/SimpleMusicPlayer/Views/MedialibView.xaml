@@ -99,7 +99,7 @@
                    Text="Genres" />
         <ListBox x:Name="GenreListBox"
                  Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
-                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonDown"
+                 Base:AttachedCommandBehavior.RoutedEventName="PreviewMouseLeftButtonDown"
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByGenreSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedGenre}"
                  ItemsSource="{Binding GenreList, Mode=OneWay}"
@@ -119,7 +119,7 @@
                    Text="Artists" />
         <ListBox x:Name="ArtistListBox"
                  Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
-                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonDown"
+                 Base:AttachedCommandBehavior.RoutedEventName="PreviewMouseLeftButtonDown"
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByArtistSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedArtist}"
                  ItemsSource="{Binding ArtistList, Mode=OneWay}"
@@ -139,7 +139,7 @@
                    Text="Albums" />
         <ListBox x:Name="AlbumListBox"
                  Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
-                 Base:AttachedCommandBehavior.RoutedEventName="MouseLeftButtonDown"
+                 Base:AttachedCommandBehavior.RoutedEventName="PreviewMouseLeftButtonDown"
                  Base:AttachedCommandBehavior.TheCommandToRun="{Binding FilterByAlbumSelectionCommand, Mode=OneWay}"
                  SelectedItem="{Binding SelectedAlbum}"
                  ItemsSource="{Binding AlbumList, Mode=OneWay}"
