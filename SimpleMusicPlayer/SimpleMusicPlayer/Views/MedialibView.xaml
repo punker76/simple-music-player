@@ -7,7 +7,7 @@
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
                       xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
                       xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
-                      xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark"
+                      xmlns:WPFSpark="clr-namespace:WPFSpark"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       Title="Media Library"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"

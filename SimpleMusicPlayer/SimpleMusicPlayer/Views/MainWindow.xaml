@@ -6,7 +6,7 @@
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
                       xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
-                      xmlns:WPFSpark="clr-namespace:WPFSpark;assembly=WPFSpark"
+                      xmlns:WPFSpark="clr-namespace:WPFSpark"
                       xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"

@@ -94,10 +94,6 @@
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.0.15.0-ALPHA26\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
@@ -108,10 +104,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFSpark">
-      <HintPath>..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
@@ -139,6 +131,7 @@
     <Compile Include="Base\ListBoxAutoScrollBehavior.cs" />
     <Compile Include="Base\SelectorScrollViewerAttachedBehavior.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
+    <Compile Include="Base\SprocketControl.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Base\VisualExtensions.cs" />
     <Compile Include="Base\WindowExtensions.cs" />
@@ -268,9 +261,6 @@
   <ItemGroup>
     <EmbeddedResource Include="..\libs\taglib-sharp\taglib-sharp.dll">
       <Link>DllsAsResource\taglib-sharp.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\WPFSpark.1.1\lib\net40\WPFSpark.dll">
-      <Link>DllsAsResource\WPFSpark.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
