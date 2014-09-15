@@ -1,12 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using ReactiveUI;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
@@ -22,6 +25,27 @@ namespace SimpleMusicPlayer.ViewModels
     public MedialibViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.MedialibSettings);
       this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(null));
+
+      this.ObservableForProperty(x => x.SelectedGenre)
+        .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
+        .Select(x => x.Value)
+        .DistinctUntilChanged()
+        .Where(x => !string.IsNullOrWhiteSpace(x))
+        .InvokeCommand(FilterByGenreSelectionCommand);
+
+      this.ObservableForProperty(x => x.SelectedArtist)
+        .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
+        .Select(x => x.Value)
+        .DistinctUntilChanged()
+        .Where(x => !string.IsNullOrWhiteSpace(x))
+        .InvokeCommand(FilterByArtistSelectionCommand);
+
+      this.ObservableForProperty(x => x.SelectedAlbum)
+        .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
+        .Select(x => x.Value)
+        .DistinctUntilChanged()
+        .Where(x => !string.IsNullOrWhiteSpace(x))
+        .InvokeCommand(FilterByAlbumSelectionCommand);
     }
 
     private FileSearchWorker fileSearchWorker;
