@@ -26,6 +26,9 @@ namespace SimpleMusicPlayer.ViewModels
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.MedialibSettings);
       this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(null));
 
+      // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
+      // an empty string... and don't filter for the same thing twice.
+      
       this.ObservableForProperty(x => x.SelectedGenre)
         .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
         .Select(x => x.Value)
