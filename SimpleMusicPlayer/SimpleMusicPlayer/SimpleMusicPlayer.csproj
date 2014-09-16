@@ -158,6 +158,7 @@
     <Compile Include="Base\BaseListBox.cs" />
     <Compile Include="Base\BaseListView.cs" />
     <Compile Include="Base\DelegateCommand.cs" />
+    <Compile Include="Base\FolderBrowserHelper.cs" />
     <Compile Include="Base\FormattedSlider.cs" />
     <Compile Include="Base\KeyHandlerExtensions.cs" />
     <Compile Include="Base\ListBoxAutoScrollBehavior.cs" />

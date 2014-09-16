@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using ReactiveUI;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
@@ -153,27 +152,9 @@ namespace SimpleMusicPlayer.ViewModels
 
     private void AddDirectory() {
       var owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.DataContext == this);
-      var directory = string.Empty;
-      if (CommonFileDialog.IsPlatformSupported) {
-        using (var dialog = new CommonOpenFileDialog()) {
-          dialog.IsFolderPicker = true;
-          var result = dialog.ShowDialog(owner);
-          if (result == CommonFileDialogResult.Ok) {
-            directory = dialog.FileName;
-          }
-        }
-      } else {
-        using (var dialog = new System.Windows.Forms.FolderBrowserDialog()) {
-          var result = owner is System.Windows.Forms.IWin32Window
-                         ? dialog.ShowDialog((System.Windows.Forms.IWin32Window)owner)
-                         : dialog.ShowDialog();
-          if (result == System.Windows.Forms.DialogResult.OK) {
-            directory = dialog.SelectedPath;
-          }
-        }
-      }
-      if (!string.IsNullOrWhiteSpace(directory)) {
-        this.HandleDropAction(new[] { directory });
+      var directories = FolderBrowserHelper.GetFolders(owner);
+      if (directories.Any()) {
+        this.HandleDropAction(directories.ToList());
       }
     }
 
