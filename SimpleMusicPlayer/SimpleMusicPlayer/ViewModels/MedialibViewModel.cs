@@ -14,7 +14,7 @@ using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class MedialibViewModel : ViewModelBase
+  public class MedialibViewModel : ReactiveObject
   {
     public MedialibViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.MedialibSettings);
@@ -22,27 +22,27 @@ namespace SimpleMusicPlayer.ViewModels
 
       // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
       // an empty string... and don't filter for the same thing twice.
-      
+
       this.ObservableForProperty(x => x.SelectedGenre)
         .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
         .Select(x => x.Value)
-        .Where(x => !string.IsNullOrWhiteSpace(x))
+        //.Where(x => !string.IsNullOrWhiteSpace(x))
         .DistinctUntilChanged()
-        .InvokeCommand(FilterByGenreSelectionCommand);
+        .Subscribe(x => FilterByGenreSelection(x));
 
       this.ObservableForProperty(x => x.SelectedArtist)
         .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
         .Select(x => x.Value)
-        .Where(x => !string.IsNullOrWhiteSpace(x))
+        //.Where(x => !string.IsNullOrWhiteSpace(x)/* && !string.IsNullOrEmpty(this.SelectedGenre)*/)
         .DistinctUntilChanged()
-        .InvokeCommand(FilterByArtistSelectionCommand);
+        .Subscribe(x => FilterByArtistSelection(this.SelectedGenre, x));
 
       this.ObservableForProperty(x => x.SelectedAlbum)
         .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
         .Select(x => x.Value)
-        .Where(x => !string.IsNullOrWhiteSpace(x))
+        //.Where(x => !string.IsNullOrWhiteSpace(x)/* && !string.IsNullOrEmpty(this.SelectedGenre) && !string.IsNullOrEmpty(this.SelectedArtist)*/)
         .DistinctUntilChanged()
-        .InvokeCommand(FilterByAlbumSelectionCommand);
+        .Subscribe(x => FilterByAlbumSelection());
     }
 
     private FileSearchWorker fileSearchWorker;
@@ -57,91 +57,49 @@ namespace SimpleMusicPlayer.ViewModels
 
     public IEnumerable MediaFiles {
       get { return this.mediaFiles; }
-      set {
-        if (Equals(value, this.mediaFiles)) {
-          return;
-        }
-        this.mediaFiles = value;
-        this.OnPropertyChanged(() => this.MediaFiles);
-      }
+      set { this.RaiseAndSetIfChanged(ref mediaFiles, value); }
     }
 
     private IEnumerable genreList;
 
     public IEnumerable GenreList {
       get { return this.genreList; }
-      set {
-        if (Equals(value, this.genreList)) {
-          return;
-        }
-        this.genreList = value;
-        this.OnPropertyChanged(() => this.GenreList);
-      }
+      set { this.RaiseAndSetIfChanged(ref genreList, value); }
     }
 
     private string selectedGenre;
 
     public string SelectedGenre {
       get { return this.selectedGenre; }
-      set {
-        if (Equals(value, this.selectedGenre)) {
-          return;
-        }
-        this.selectedGenre = value;
-        this.OnPropertyChanged(() => this.SelectedGenre);
-      }
+      set { this.RaiseAndSetIfChanged(ref selectedGenre, value); }
     }
 
     private IEnumerable artistList;
 
     public IEnumerable ArtistList {
       get { return this.artistList; }
-      set {
-        if (Equals(value, this.artistList)) {
-          return;
-        }
-        this.artistList = value;
-        this.OnPropertyChanged(() => this.ArtistList);
-      }
+      set { this.RaiseAndSetIfChanged(ref artistList, value); }
     }
 
     private string selectedArtist;
 
     public string SelectedArtist {
       get { return this.selectedArtist; }
-      set {
-        if (Equals(value, this.selectedArtist)) {
-          return;
-        }
-        this.selectedArtist = value;
-        this.OnPropertyChanged(() => this.SelectedArtist);
-      }
+      set { this.RaiseAndSetIfChanged(ref selectedArtist, value); }
     }
 
     private IEnumerable albumList;
 
     public IEnumerable AlbumList {
       get { return this.albumList; }
-      set {
-        if (Equals(value, this.albumList)) {
-          return;
-        }
-        this.albumList = value;
-        this.OnPropertyChanged(() => this.AlbumList);
-      }
+      set { this.RaiseAndSetIfChanged(ref albumList, value); }
     }
 
     private string selectedAlbum;
 
     public string SelectedAlbum {
       get { return this.selectedAlbum; }
-      set {
-        if (Equals(value, this.selectedAlbum)) {
-          return;
-        }
-        this.selectedAlbum = value;
-        this.OnPropertyChanged(() => this.SelectedAlbum);
-      }
+      set { this.RaiseAndSetIfChanged(ref selectedAlbum, value); }
     }
 
     private ICommand addDirectoryCommand;
@@ -187,36 +145,6 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    private ICommand filterByGenreSelectionCommand;
-
-    public ICommand FilterByGenreSelectionCommand {
-      get {
-        return this.filterByGenreSelectionCommand ?? (this.filterByGenreSelectionCommand =
-                                                      new DelegateCommand(() => this.FilterByGenreSelection(this.SelectedGenre),
-                                                                          () => !string.IsNullOrWhiteSpace(this.SelectedGenre)));
-      }
-    }
-
-    private ICommand filterByArtistSelectionCommand;
-
-    public ICommand FilterByArtistSelectionCommand {
-      get {
-        return this.filterByArtistSelectionCommand ?? (this.filterByArtistSelectionCommand =
-                                                       new DelegateCommand(() => this.FilterByArtistSelection(this.SelectedGenre, this.SelectedArtist),
-                                                                           () => !string.IsNullOrWhiteSpace(this.SelectedArtist)));
-      }
-    }
-
-    private ICommand filterByAlbumSelectionCommand;
-
-    public ICommand FilterByAlbumSelectionCommand {
-      get {
-        return this.filterByAlbumSelectionCommand ?? (this.filterByAlbumSelectionCommand =
-                                                      new DelegateCommand(() => this.FilterByAlbumSelection(this.SelectedGenre, this.SelectedArtist, this.SelectedAlbum),
-                                                                          () => !string.IsNullOrWhiteSpace(this.SelectedAlbum)));
-      }
-    }
-
     public void FilterByGenreSelection(string genre) {
       var collView = this.MediaFiles as ICollectionView;
       if (collView == null) {
@@ -247,7 +175,7 @@ namespace SimpleMusicPlayer.ViewModels
       collView.Refresh();
     }
 
-    public void FilterByAlbumSelection(string genre, string artist, string album) {
+    public void FilterByAlbumSelection() {
       var collView = this.MediaFiles as ICollectionView;
       if (collView == null) {
         return;
