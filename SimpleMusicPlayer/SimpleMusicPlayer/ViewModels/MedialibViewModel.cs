@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.WindowsAPICodePack.Dialogs;
@@ -13,15 +12,11 @@ using ReactiveUI;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
-using Application = System.Windows.Application;
 
 namespace SimpleMusicPlayer.ViewModels
 {
   public class MedialibViewModel : ViewModelBase
   {
-    private IEnumerable mediaFiles;
-    private CustomWindowPlacementSettings customWindowPlacementSettings;
-
     public MedialibViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.MedialibSettings);
       this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(null));
@@ -32,22 +27,22 @@ namespace SimpleMusicPlayer.ViewModels
       this.ObservableForProperty(x => x.SelectedGenre)
         .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
         .Select(x => x.Value)
-        .DistinctUntilChanged()
         .Where(x => !string.IsNullOrWhiteSpace(x))
+        .DistinctUntilChanged()
         .InvokeCommand(FilterByGenreSelectionCommand);
 
       this.ObservableForProperty(x => x.SelectedArtist)
         .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
         .Select(x => x.Value)
-        .DistinctUntilChanged()
         .Where(x => !string.IsNullOrWhiteSpace(x))
+        .DistinctUntilChanged()
         .InvokeCommand(FilterByArtistSelectionCommand);
 
       this.ObservableForProperty(x => x.SelectedAlbum)
         .Throttle(TimeSpan.FromMilliseconds(400), RxApp.MainThreadScheduler)
         .Select(x => x.Value)
-        .DistinctUntilChanged()
         .Where(x => !string.IsNullOrWhiteSpace(x))
+        .DistinctUntilChanged()
         .InvokeCommand(FilterByAlbumSelectionCommand);
     }
 
@@ -57,16 +52,9 @@ namespace SimpleMusicPlayer.ViewModels
       get { return this.fileSearchWorker ?? (this.fileSearchWorker = new FileSearchWorker()); }
     }
 
-    public CustomWindowPlacementSettings CustomWindowPlacementSettings {
-      get { return this.customWindowPlacementSettings; }
-      set {
-        if (Equals(value, this.customWindowPlacementSettings)) {
-          return;
-        }
-        this.customWindowPlacementSettings = value;
-        this.OnPropertyChanged(() => this.CustomWindowPlacementSettings);
-      }
-    }
+    public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; set; }
+
+    private IEnumerable mediaFiles;
 
     public IEnumerable MediaFiles {
       get { return this.mediaFiles; }
@@ -175,11 +163,11 @@ namespace SimpleMusicPlayer.ViewModels
           }
         }
       } else {
-        using (var dialog = new FolderBrowserDialog()) {
-          var result = owner is IWin32Window
-                         ? dialog.ShowDialog((IWin32Window)owner)
+        using (var dialog = new System.Windows.Forms.FolderBrowserDialog()) {
+          var result = owner is System.Windows.Forms.IWin32Window
+                         ? dialog.ShowDialog((System.Windows.Forms.IWin32Window)owner)
                          : dialog.ShowDialog();
-          if (result == DialogResult.OK) {
+          if (result == System.Windows.Forms.DialogResult.OK) {
             directory = dialog.SelectedPath;
           }
         }
