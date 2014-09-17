@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,21 +16,50 @@ namespace SimpleMusicPlayer.Common
 
     public List<MediaFile> Files { get; set; }
 
-    public static async Task<PlayList> GetPlayListAsync() {
-      if (File.Exists(PlayListFileName)) {
-        var fileText = File.ReadAllText(PlayListFileName);
-        var playList = await Task.Factory.StartNew(() => JsonConvert.DeserializeObject<PlayList>(fileText));
-        return playList;
-      }
-      return null;
+    public static async Task<PlayList> LoadPlayListAsync()
+    {
+      return await Task.Factory.StartNew(() => LoadPlayList());
     }
 
-    public static async void SavePlayListAsync(IEnumerable files) {
-      await Task.Factory.StartNew(() => {
-                                    var pl = new PlayList { Files = files.OfType<MediaFile>().ToList() };
-                                    var playListAsJson = JsonConvert.SerializeObject(pl, Formatting.None);
-                                    File.WriteAllText(PlayListFileName, playListAsJson);
-                                  });
+    private static PlayList LoadPlayList()
+    {
+      if (!File.Exists(PlayListFileName))
+      {
+        return null;
+      }
+      using (var fs = File.Open(PlayListFileName, FileMode.Open))
+      {
+        using (var sr = new StreamReader(fs))
+        {
+          using (var jr = new JsonTextReader(sr))
+          {
+            var serializer = new JsonSerializer();
+            return serializer.Deserialize<PlayList>(jr);
+          }
+        }
+      }
+    }
+
+    public static async void SavePlayListAsync(IEnumerable files)
+    {
+      await Task.Factory.StartNew(() => SavePlayList(files));
+    }
+
+    private static void SavePlayList(IEnumerable files)
+    {
+      var pl = new PlayList { Files = files.OfType<MediaFile>().ToList() };
+      using (var fs = File.Open(PlayListFileName, FileMode.OpenOrCreate))
+      {
+        using (var sw = new StreamWriter(fs))
+        {
+          using (var jw = new JsonTextWriter(sw))
+          {
+            jw.Formatting = Formatting.None;
+            var serializer = new JsonSerializer();
+            serializer.Serialize(jw, pl);
+          }
+        }
+      }
     }
   }
 }

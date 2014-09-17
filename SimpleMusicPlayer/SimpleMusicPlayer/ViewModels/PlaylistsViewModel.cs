@@ -327,7 +327,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     public async void LoadPlayListAsync() {
-      var playList = await PlayList.GetPlayListAsync();
+      var playList = await PlayList.LoadPlayListAsync();
       if (playList != null) {
         var filesColl = new PlayListObservableCollection(playList.Files);
         var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
