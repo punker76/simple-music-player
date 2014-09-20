@@ -54,7 +54,7 @@ all releases [here](https://github.com/punker76/simple-music-player/releases)
 
 download latest release v1.9.0.13 [here](https://github.com/punker76/simple-music-player/releases/download/v1.9.0.13/smp_1.9.0.13.zip) as zip  
 
-Screen shots
+Screen shots (from oldest to current, it's in progress, you know?)
 ============
 
 ![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-07-14_22h42_19.png)  
