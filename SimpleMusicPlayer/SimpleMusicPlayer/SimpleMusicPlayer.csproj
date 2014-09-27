@@ -176,10 +176,10 @@
     <Compile Include="Common\Equalizer.cs" />
     <Compile Include="Common\FileSearchWorker.cs" />
     <Compile Include="Common\IPlayerEngine.cs" />
-    <Compile Include="Common\MedialibObservableCollection.cs" />
+    <Compile Include="Common\MedialibCollection.cs" />
     <Compile Include="Common\PlayerEngine.cs" />
     <Compile Include="Common\PlayList.cs" />
-    <Compile Include="Common\PlayListObservableCollection.cs" />
+    <Compile Include="Common\PlayListCollection.cs" />
     <Compile Include="Common\SMPSettings.cs" />
     <Compile Include="Interfaces\IKeyHandler.cs" />
     <Compile Include="Interfaces\IMediaFile.cs" />

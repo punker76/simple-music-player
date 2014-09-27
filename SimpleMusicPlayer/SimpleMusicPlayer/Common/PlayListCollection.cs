@@ -5,9 +5,9 @@ using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.Common
 {
-  public class PlayListObservableCollection : QuickFillObservableCollection<IMediaFile>
+  public class PlayListCollection : QuickFillObservableCollection<IMediaFile>
   {
-    public PlayListObservableCollection(IEnumerable<IMediaFile> files)
+    public PlayListCollection(IEnumerable<IMediaFile> files)
       : base(files)
     {
     }

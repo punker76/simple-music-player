@@ -254,7 +254,7 @@ namespace SimpleMusicPlayer.ViewModels
         var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
 
         if (currentFilesCollView == null) {
-          var filesColl = new PlayListObservableCollection(files);
+          var filesColl = new PlayListCollection(files);
           var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
           this.FirstSimplePlaylistFiles = filesCollView;
           ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
@@ -284,7 +284,7 @@ namespace SimpleMusicPlayer.ViewModels
         var scrollIndex = 0;
 
         if (currentFilesCollView == null) {
-          var filesColl = new PlayListObservableCollection(files);
+          var filesColl = new PlayListCollection(files);
           var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
           this.FirstSimplePlaylistFiles = filesCollView;
           ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
@@ -314,7 +314,7 @@ namespace SimpleMusicPlayer.ViewModels
     public async void LoadPlayListAsync() {
       var playList = await PlayList.LoadPlayListAsync();
       if (playList != null) {
-        var filesColl = new PlayListObservableCollection(playList.Files);
+        var filesColl = new PlayListCollection(playList.Files);
         var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
         this.FirstSimplePlaylistFiles = filesCollView;
         ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);

@@ -18,7 +18,7 @@ namespace SimpleMusicPlayer.ViewModels
   {
     public MedialibViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.MedialibSettings);
-      this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(null));
+      this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));
 
       // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
       // an empty string... and don't filter for the same thing twice.
@@ -120,7 +120,7 @@ namespace SimpleMusicPlayer.ViewModels
       if (this.FileSearchWorker.CanStartSearch()) {
         var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
 
-        var collView = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(files));
+        var collView = CollectionViewSource.GetDefaultView(new MedialibCollection(files));
         collView.Filter = o => {
                             var m = (IMediaFile)o;
                             if (!string.IsNullOrWhiteSpace(this.SelectedGenre) && !Equals(m.FirstGenre, this.SelectedGenre)) {
@@ -140,7 +140,7 @@ namespace SimpleMusicPlayer.ViewModels
         this.ArtistList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.FirstPerformer).OrderBy(g => g.Key).Select(g => g.Key));
         this.AlbumList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.Album).OrderBy(g => g.Key).Select(g => g.Key));
 
-        //        this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibObservableCollection(files));
+        //        this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(files));
         //        ((ICollectionView)this.MediaFiles).GroupDescriptions.Add(new PropertyGroupDescription("Album"));
       }
     }
