@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
 
@@ -7,20 +8,57 @@ namespace SimpleMusicPlayer.Common
   public class PlayListObservableCollection : QuickFillObservableCollection<IMediaFile>
   {
     public PlayListObservableCollection(IEnumerable<IMediaFile> files)
-      : base(files) {
+      : base(files)
+    {
     }
 
-    protected override void InsertItem(int index, IMediaFile item) {
-      item.PlayListIndex = index + 1;
-      item.PlayList = this;
+    protected override void InsertItem(int index, IMediaFile item)
+    {
+      //item.PlayListIndex = index + 1;
+      //item.PlayList = this;
       base.InsertItem(index, item);
     }
 
-    protected override void RemoveItem(int index) {
-      IMediaFile item = this[index];
-      item.PlayListIndex = -1;
-      item.PlayList = null;
+    protected override void RemoveItem(int index)
+    {
+      var item = this[index];
+      //item.PlayListIndex = -1;
+      //item.PlayList = null;
       base.RemoveItem(index);
+    }
+
+    protected override void MoveItem(int oldIndex, int newIndex)
+    {
+      base.MoveItem(oldIndex, newIndex);
+      //var item = this[newIndex];
+      //item.PlayListIndex = newIndex + 1;
+    }
+
+    protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+    {
+      // Recommended is to avoid reentry 
+      // in collection changed event while collection
+      // is getting changed on other thread.
+      using (BlockReentrancy())
+      {
+        if (e.Action == NotifyCollectionChangedAction.Add)
+        {
+          var newIndex = e.NewStartingIndex;
+          for (int idx = newIndex; idx < this.Count; idx++)
+          {
+            this[idx].PlayListIndex = idx + 1;
+          }
+        }
+        else if (e.Action == NotifyCollectionChangedAction.Remove)
+        {
+          var newIndex = e.OldStartingIndex;
+          for (int idx = newIndex; idx < this.Count; idx++)
+          {
+            this[idx].PlayListIndex = idx + 1;
+          }
+        }
+      }
+      base.OnCollectionChanged(e);
     }
   }
 }
