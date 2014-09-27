@@ -240,7 +240,6 @@ namespace SimpleMusicPlayer.ViewModels
         this.HandleDropActionAsync(dropInfo, dataObject.GetFileDropList());
       } else {
         GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
-        this.ResetPlayListIndices(dropInfo.TargetCollection.OfType<IMediaFile>());
         var mediaFile = dropInfo.Data as IMediaFile;
         if (mediaFile != null && mediaFile.State != PlayerState.Stop) {
           this.SetCurrentPlayListFile(mediaFile);
@@ -265,9 +264,6 @@ namespace SimpleMusicPlayer.ViewModels
           foreach (var o in files) {
             destinationList.Insert(insertIndex++, o);
           }
-
-          var mediaFiles = destinationList.OfType<IMediaFile>();//.ToList();
-          this.ResetPlayListIndices(mediaFiles);
         }
       }
     }
@@ -302,9 +298,6 @@ namespace SimpleMusicPlayer.ViewModels
             filesColl.Insert(insertIndex++, o);
           }
 
-          var mediaFiles = filesColl.OfType<IMediaFile>();//.ToList();
-          this.ResetPlayListIndices(mediaFiles);
-
           var file = files.FirstOrDefault();
           if (file != null) {
             ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(file);
@@ -315,14 +308,6 @@ namespace SimpleMusicPlayer.ViewModels
         if (this.ListBoxPlayList != null && this.ListBoxPlayList.Items != null && this.ListBoxPlayList.Items.Count > scrollIndex && scrollIndex >= 0) {
           this.ListBoxPlayList.ScrollIntoView(this.ListBoxPlayList.Items[scrollIndex]);
         }
-      }
-    }
-
-    private void ResetPlayListIndices(IEnumerable<IMediaFile> mediaFiles) {
-      // it's not the best but it works for the first time
-      var i = 1;
-      foreach (var mf in mediaFiles) {
-        mf.PlayListIndex = i++;
       }
     }
 
