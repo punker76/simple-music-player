@@ -21,7 +21,7 @@ namespace SimpleMusicPlayer.Common
 
     protected override void RemoveItem(int index)
     {
-      var item = this[index];
+      //var item = this[index];
       //item.PlayListIndex = -1;
       //item.PlayList = null;
       base.RemoveItem(index);
@@ -41,20 +41,30 @@ namespace SimpleMusicPlayer.Common
       // is getting changed on other thread.
       using (BlockReentrancy())
       {
-        if (e.Action == NotifyCollectionChangedAction.Add)
+        if (!this.suspendCollectionChangeNotification)
         {
-          var newIndex = e.NewStartingIndex;
-          for (int idx = newIndex; idx < this.Count; idx++)
+          if (e.Action == NotifyCollectionChangedAction.Add)
           {
-            this[idx].PlayListIndex = idx + 1;
+            var newIndex = e.NewStartingIndex;
+            for (var idx = newIndex; idx < this.Count; idx++)
+            {
+              this[idx].PlayListIndex = idx + 1;
+            }
           }
-        }
-        else if (e.Action == NotifyCollectionChangedAction.Remove)
-        {
-          var newIndex = e.OldStartingIndex;
-          for (int idx = newIndex; idx < this.Count; idx++)
+          else if (e.Action == NotifyCollectionChangedAction.Remove)
           {
-            this[idx].PlayListIndex = idx + 1;
+            var newIndex = e.OldStartingIndex;
+            for (var idx = newIndex; idx < this.Count; idx++)
+            {
+              this[idx].PlayListIndex = idx + 1;
+            }
+          }
+          else if (e.Action == NotifyCollectionChangedAction.Reset)
+          {
+            for (var idx = 0; idx < this.Count; idx++)
+            {
+              this[idx].PlayListIndex = idx + 1;
+            }
           }
         }
       }
