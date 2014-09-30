@@ -85,18 +85,28 @@ namespace SimpleMusicPlayer.ViewModels
              && this.SelectedPlayListFiles.Any();
     }
 
-    private void DeleteSelectedFiles() {
+    private void DeleteSelectedFiles()
+    {
       var filesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
-      if (filesCollView != null) {
+      if (filesCollView != null)
+      {
+        ListBoxPlayList.ObserveItemContainerGenerator = true;
+
         var currentPlayingFile = filesCollView.CurrentItem as IMediaFile;
-        var filesColl = ((IList)filesCollView.SourceCollection);
+        var filesColl = ((QuickFillObservableCollection<IMediaFile>)filesCollView.SourceCollection);
         var files2Delete = this.SelectedPlayListFiles.ToList();
-        foreach (var mediaFile in files2Delete) {
-          filesColl.Remove(mediaFile);
+        ((IList)this.SelectedPlayListFiles).Clear();
+        var scrollIndex = filesColl.IndexOf(files2Delete.First());
+        filesColl.RemoveItems(files2Delete);
+        if (currentPlayingFile != null && files2Delete.Contains(currentPlayingFile))
+        {
+          // mh, nothing yet, maybe the player should be stoped...
         }
-        if (currentPlayingFile != null && files2Delete.Contains(currentPlayingFile)) {
-          // for the first time go to nothing
-          filesCollView.MoveCurrentTo(null);
+        scrollIndex = Math.Min(scrollIndex, filesColl.Count - 1);
+        if (scrollIndex >= 0)
+        {
+          var newSelFile = filesColl[scrollIndex];
+          ((IList)this.SelectedPlayListFiles).Add(newSelFile);
         }
       }
     }
