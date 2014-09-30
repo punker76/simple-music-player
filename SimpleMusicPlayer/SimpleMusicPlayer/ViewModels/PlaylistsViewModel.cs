@@ -85,18 +85,28 @@ namespace SimpleMusicPlayer.ViewModels
              && this.SelectedPlayListFiles.Any();
     }
 
-    private void DeleteSelectedFiles() {
+    private void DeleteSelectedFiles()
+    {
       var filesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
-      if (filesCollView != null) {
+      if (filesCollView != null)
+      {
+        ListBoxPlayList.ObserveItemContainerGenerator = true;
+
         var currentPlayingFile = filesCollView.CurrentItem as IMediaFile;
-        var filesColl = ((IList)filesCollView.SourceCollection);
+        var filesColl = ((QuickFillObservableCollection<IMediaFile>)filesCollView.SourceCollection);
         var files2Delete = this.SelectedPlayListFiles.ToList();
-        foreach (var mediaFile in files2Delete) {
-          filesColl.Remove(mediaFile);
+        ((IList)this.SelectedPlayListFiles).Clear();
+        var scrollIndex = filesColl.IndexOf(files2Delete.First());
+        filesColl.RemoveItems(files2Delete);
+        if (currentPlayingFile != null && files2Delete.Contains(currentPlayingFile))
+        {
+          // mh, nothing yet, maybe the player should be stoped...
         }
-        if (currentPlayingFile != null && files2Delete.Contains(currentPlayingFile)) {
-          // for the first time go to nothing
-          filesCollView.MoveCurrentTo(null);
+        scrollIndex = Math.Min(scrollIndex, filesColl.Count - 1);
+        if (scrollIndex >= 0)
+        {
+          var newSelFile = filesColl[scrollIndex];
+          ((IList)this.SelectedPlayListFiles).Add(newSelFile);
         }
       }
     }
@@ -240,7 +250,6 @@ namespace SimpleMusicPlayer.ViewModels
         this.HandleDropActionAsync(dropInfo, dataObject.GetFileDropList());
       } else {
         GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
-        this.ResetPlayListIndices(dropInfo.TargetCollection.OfType<IMediaFile>());
         var mediaFile = dropInfo.Data as IMediaFile;
         if (mediaFile != null && mediaFile.State != PlayerState.Stop) {
           this.SetCurrentPlayListFile(mediaFile);
@@ -255,7 +264,7 @@ namespace SimpleMusicPlayer.ViewModels
         var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
 
         if (currentFilesCollView == null) {
-          var filesColl = new PlayListObservableCollection(files);
+          var filesColl = new PlayListCollection(files);
           var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
           this.FirstSimplePlaylistFiles = filesCollView;
           ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
@@ -265,9 +274,6 @@ namespace SimpleMusicPlayer.ViewModels
           foreach (var o in files) {
             destinationList.Insert(insertIndex++, o);
           }
-
-          var mediaFiles = destinationList.OfType<IMediaFile>();//.ToList();
-          this.ResetPlayListIndices(mediaFiles);
         }
       }
     }
@@ -288,7 +294,7 @@ namespace SimpleMusicPlayer.ViewModels
         var scrollIndex = 0;
 
         if (currentFilesCollView == null) {
-          var filesColl = new PlayListObservableCollection(files);
+          var filesColl = new PlayListCollection(files);
           var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
           this.FirstSimplePlaylistFiles = filesCollView;
           ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
@@ -301,9 +307,6 @@ namespace SimpleMusicPlayer.ViewModels
           foreach (var o in files) {
             filesColl.Insert(insertIndex++, o);
           }
-
-          var mediaFiles = filesColl.OfType<IMediaFile>();//.ToList();
-          this.ResetPlayListIndices(mediaFiles);
 
           var file = files.FirstOrDefault();
           if (file != null) {
@@ -318,18 +321,10 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    private void ResetPlayListIndices(IEnumerable<IMediaFile> mediaFiles) {
-      // it's not the best but it works for the first time
-      var i = 1;
-      foreach (var mf in mediaFiles) {
-        mf.PlayListIndex = i++;
-      }
-    }
-
     public async void LoadPlayListAsync() {
       var playList = await PlayList.LoadPlayListAsync();
       if (playList != null) {
-        var filesColl = new PlayListObservableCollection(playList.Files);
+        var filesColl = new PlayListCollection(playList.Files);
         var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
         this.FirstSimplePlaylistFiles = filesCollView;
         ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);

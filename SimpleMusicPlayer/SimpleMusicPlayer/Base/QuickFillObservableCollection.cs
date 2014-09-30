@@ -10,7 +10,7 @@ namespace SimpleMusicPlayer.Base
   public class QuickFillObservableCollection<T> : ObservableCollection<T>
   {
     private readonly object locker = new object();
-    private bool suspendCollectionChangeNotification;
+    protected bool suspendCollectionChangeNotification;
 
     public QuickFillObservableCollection()
     {

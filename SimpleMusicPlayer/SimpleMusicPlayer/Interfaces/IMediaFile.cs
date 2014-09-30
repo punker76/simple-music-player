@@ -7,7 +7,7 @@ namespace SimpleMusicPlayer.Interfaces
   {
     string FullFileName { get; set; }
     int PlayListIndex { get; set; }
-    object PlayList { get; set; }
+    //object PlayList { get; set; }
 
     PlayerState State { get; set; }
 
