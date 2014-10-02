@@ -39,6 +39,9 @@ namespace SimpleMusicPlayer.Base
       var index = this.SelectedIndex;
       if (index < 0) return;
       Action focusAction = () => {
+        if (this.Items.Count == 0) return;
+        index = this.SelectedIndex;
+        if (index < 0) return;
         this.Focus();
         this.ScrollIntoView(this.SelectedItem);
         var item = this.ItemContainerGenerator.ContainerFromIndex(index) as ListBoxItem;
