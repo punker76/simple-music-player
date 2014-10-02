@@ -94,7 +94,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         var currentPlayingFile = filesCollView.CurrentItem as IMediaFile;
         var filesColl = ((QuickFillObservableCollection<IMediaFile>)filesCollView.SourceCollection);
-        var files2Delete = this.SelectedPlayListFiles.ToList();
+        var files2Delete = this.SelectedPlayListFiles.OrderBy(f => f.PlayListIndex).ToList();
         ((IList)this.SelectedPlayListFiles).Clear();
         var scrollIndex = filesColl.IndexOf(files2Delete.First());
         filesColl.RemoveItems(files2Delete);
@@ -102,7 +102,7 @@ namespace SimpleMusicPlayer.ViewModels
         {
           // mh, nothing yet, maybe the player should be stoped...
         }
-        scrollIndex = Math.Min(scrollIndex, filesColl.Count - 1);
+        scrollIndex = scrollIndex >= filesColl.Count ? Math.Max(scrollIndex - files2Delete.Count, filesColl.Count - 1) : scrollIndex;
         if (scrollIndex >= 0)
         {
           var newSelFile = filesColl[scrollIndex];
