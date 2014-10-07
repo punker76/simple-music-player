@@ -94,9 +94,9 @@ namespace SimpleMusicPlayer.ViewModels
 
         var currentPlayingFile = filesCollView.CurrentItem as IMediaFile;
         var filesColl = ((QuickFillObservableCollection<IMediaFile>)filesCollView.SourceCollection);
-        var files2Delete = this.SelectedPlayListFiles.ToList();
+        var files2Delete = this.SelectedPlayListFiles.OrderBy(f => f.PlayListIndex).ToList();
         ((IList)this.SelectedPlayListFiles).Clear();
-        var scrollIndex = filesColl.IndexOf(files2Delete.First());
+        var scrollIndex = files2Delete.First().PlayListIndex - 1;
         filesColl.RemoveItems(files2Delete);
         if (currentPlayingFile != null && files2Delete.Contains(currentPlayingFile))
         {
