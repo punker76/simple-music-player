@@ -41,9 +41,9 @@ namespace SimpleMusicPlayer.Base
         this.SuspendCollectionChangeNotification();
         try {
           atIndex = atIndex < 0 ? this.Count : atIndex;
-          this.InsertItem(atIndex, enumerator.Current);
+          this.InsertItem(atIndex++, enumerator.Current);
           while (enumerator.MoveNext()) {
-            this.InsertItem(this.Count, enumerator.Current);
+            this.InsertItem(atIndex++, enumerator.Current);
           }
         }
         finally {
