@@ -8,70 +8,91 @@ namespace SimpleMusicPlayer.Tests
 {
   public class PlayListCollectionTest
   {
+    private readonly PlayListCollection thePlayListCollection;
+
+    public PlayListCollectionTest()
+    {
+      this.thePlayListCollection = new PlayListCollection(Helpers.GetSomeMediaFiles());
+    }
+
     [Fact]
     public void CheckPlayListIndexAfterCreatingNewCollection()
     {
-      var thePlayListCollection = new PlayListCollection(Helpers.GetSomeMediaFiles());
-
-      Assert.Equal(Helpers.MediaFilesTestCount, thePlayListCollection.Count);
-      CheckTheIndicesForAllMediaFiles(thePlayListCollection);
+      Assert.Equal(Helpers.MediaFilesTestCount, this.thePlayListCollection.Count);
+      CheckTheIndicesForAllMediaFilesInPlayList();
     }
 
     [Fact]
     public void CheckPlayListIndexAfterAddingAndRemovingFiles()
     {
-      var thePlayListCollection = new PlayListCollection(Helpers.GetSomeMediaFiles());
+      Assert.Equal(Helpers.MediaFilesTestCount, this.thePlayListCollection.Count);
 
-      Assert.Equal(Helpers.MediaFilesTestCount, thePlayListCollection.Count);
-      CheckTheIndicesForAllMediaFiles(thePlayListCollection);
+      this.thePlayListCollection.AddItems(Helpers.GetSomeMediaFiles().Take(5));
+      this.thePlayListCollection.RemoveAt(2);
+      this.thePlayListCollection.RemoveAt(5);
 
-      thePlayListCollection.AddItems(Helpers.GetSomeMediaFiles().Take(5));
-      thePlayListCollection.RemoveAt(2);
-      thePlayListCollection.RemoveAt(5);
-
-      Assert.Equal(Helpers.MediaFilesTestCount + 5 - 2, thePlayListCollection.Count);
-      CheckTheIndicesForAllMediaFiles(thePlayListCollection);
+      Assert.Equal(Helpers.MediaFilesTestCount + 5 - 2, this.thePlayListCollection.Count);
+      CheckTheIndicesForAllMediaFilesInPlayList();
     }
 
     [Fact]
     public void CheckPlayListIndexAfterRemovingFiles()
     {
-      var thePlayListCollection = new PlayListCollection(Helpers.GetSomeMediaFiles());
+      Assert.Equal(Helpers.MediaFilesTestCount, this.thePlayListCollection.Count);
 
-      Assert.Equal(Helpers.MediaFilesTestCount, thePlayListCollection.Count);
-      CheckTheIndicesForAllMediaFiles(thePlayListCollection);
+      this.thePlayListCollection.RemoveAt(2);
+      this.thePlayListCollection.RemoveAt(5);
 
-      thePlayListCollection.RemoveAt(2);
-      thePlayListCollection.RemoveAt(5);
-
-      Assert.Equal(Helpers.MediaFilesTestCount - 2, thePlayListCollection.Count);
-      CheckTheIndicesForAllMediaFiles(thePlayListCollection);
+      Assert.Equal(Helpers.MediaFilesTestCount - 2, this.thePlayListCollection.Count);
+      CheckTheIndicesForAllMediaFilesInPlayList();
     }
 
     [Fact]
     public void CheckPlayListIndexAfterBulkRemovingFiles()
     {
-      var thePlayListCollection = new PlayListCollection(Helpers.GetSomeMediaFiles());
-
-      Assert.Equal(Helpers.MediaFilesTestCount, thePlayListCollection.Count);
-      CheckTheIndicesForAllMediaFiles(thePlayListCollection);
+      Assert.Equal(Helpers.MediaFilesTestCount, this.thePlayListCollection.Count);
 
       var items2Remove = new List<IMediaFile>();
       for (var i = 3; i < 7; i++)
       {
-        items2Remove.Add(thePlayListCollection[i]);
+        items2Remove.Add(this.thePlayListCollection[i]);
       }
-      thePlayListCollection.RemoveItems(items2Remove);
+      this.thePlayListCollection.RemoveItems(items2Remove);
 
-      Assert.Equal(Helpers.MediaFilesTestCount - items2Remove.Count, thePlayListCollection.Count);
-      CheckTheIndicesForAllMediaFiles(thePlayListCollection);
+      Assert.Equal(Helpers.MediaFilesTestCount - items2Remove.Count, this.thePlayListCollection.Count);
+      CheckTheIndicesForAllMediaFilesInPlayList();
     }
 
-    public void CheckTheIndicesForAllMediaFiles(PlayListCollection thePlayListCollection)
+    [Fact]
+    public void CheckPlayListIndexAfterInsertingNewFiles()
     {
-      for (var i = 0; i < thePlayListCollection.Count; i++)
+      Assert.Equal(Helpers.MediaFilesTestCount, this.thePlayListCollection.Count);
+
+      this.thePlayListCollection.AddItems(Helpers.GetSomeMediaFiles().Take(5), 0);
+
+      Assert.Equal(Helpers.MediaFilesTestCount + 5, this.thePlayListCollection.Count);
+      CheckTheIndicesForAllMediaFilesInPlayList();
+    }
+
+    /// <summary>
+    /// The inserted files should be at the right position.
+    /// </summary>
+    [Fact]
+    public void CheckFilesInPlayListAfterInsertingNewFiles()
+    {
+      Assert.Equal(Helpers.MediaFilesTestCount, this.thePlayListCollection.Count);
+
+      var newFiles = Helpers.GetSomeMediaFiles().Take(5).ToList();
+      this.thePlayListCollection.AddItems(newFiles, 0);
+
+      Assert.Equal(newFiles, this.thePlayListCollection.Take(5));
+    }
+
+    public void CheckTheIndicesForAllMediaFilesInPlayList()
+    {
+      for (var i = 0; i < this.thePlayListCollection.Count; i++)
       {
-        Assert.Equal(i + 1, thePlayListCollection[i].PlayListIndex);
+        Assert.Equal(i + 1, this.thePlayListCollection[i].PlayListIndex);
       }
     }
   }
