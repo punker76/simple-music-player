@@ -27,7 +27,8 @@ namespace SimpleMusicPlayer.Base
     /// It then notifies once after all items are added.
     /// </summary>
     /// <param name="sourceItems">The source collection.</param>
-    public void AddItems(IEnumerable<T> sourceItems)
+    /// <param name="atIndex">The start index, where the items are inserted.</param>
+    public void AddItems(IEnumerable<T> sourceItems, int atIndex = -1)
     {
       lock (locker) {
         if (sourceItems == null) {
@@ -39,7 +40,8 @@ namespace SimpleMusicPlayer.Base
         }
         this.SuspendCollectionChangeNotification();
         try {
-          this.InsertItem(this.Count, enumerator.Current);
+          atIndex = atIndex < 0 ? this.Count : atIndex;
+          this.InsertItem(atIndex, enumerator.Current);
           while (enumerator.MoveNext()) {
             this.InsertItem(this.Count, enumerator.Current);
           }

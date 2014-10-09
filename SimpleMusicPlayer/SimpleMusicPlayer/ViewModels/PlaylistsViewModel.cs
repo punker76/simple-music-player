@@ -270,10 +270,8 @@ namespace SimpleMusicPlayer.ViewModels
           ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
         } else {
           var insertIndex = dropInfo.InsertIndex;
-          var destinationList = DefaultDropHandler.GetList(dropInfo.TargetCollection);
-          foreach (var o in files) {
-            destinationList.Insert(insertIndex++, o);
-          }
+          var destinationList = (QuickFillObservableCollection<IMediaFile>)DefaultDropHandler.GetList(dropInfo.TargetCollection);
+          destinationList.AddItems(files, insertIndex);
         }
       }
     }
@@ -301,16 +299,14 @@ namespace SimpleMusicPlayer.ViewModels
 
           this.Play();
         } else {
-          var filesColl = (IList)((ICollectionView)this.FirstSimplePlaylistFiles).SourceCollection;
+          var filesColl = (QuickFillObservableCollection<IMediaFile>)currentFilesCollView.SourceCollection;
           scrollIndex = filesColl.Count;
           var insertIndex = filesColl.Count;
-          foreach (var o in files) {
-            filesColl.Insert(insertIndex++, o);
-          }
+          filesColl.AddItems(files, insertIndex);
 
           var file = files.FirstOrDefault();
           if (file != null) {
-            ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(file);
+            currentFilesCollView.MoveCurrentTo(file);
             this.PlayerEngine.Play(file);
           }
         }
