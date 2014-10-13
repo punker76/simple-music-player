@@ -11,7 +11,7 @@ namespace SimpleMusicPlayer.ViewModels
   public class MainWindowViewModel : ViewModelBase, IKeyHandler
   {
     private readonly SMPSettings smpSettings;
-    private MainViewModel mainViewModel;
+    private PlayControlInfoViewModel playControlInfoViewModel;
     private PlaylistsViewModel playlistsViewModel;
     private MedialibViewModel medialibViewModel;
     private EqualizerViewModel equalizerViewModel;
@@ -26,7 +26,7 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayerEngine.Configure(dispatcher, this.smpSettings);
       this.MedialibViewModel = new MedialibViewModel(dispatcher, this.smpSettings);
       this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
-      this.MainViewModel = new MainViewModel(dispatcher) {
+      this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher) {
         PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel, this.MedialibViewModel),
         PlayInfoViewModel = new PlayInfoViewModel(dispatcher)
       };
@@ -68,14 +68,14 @@ namespace SimpleMusicPlayer.ViewModels
       this.WriteSettings(this.smpSettings);
     }
 
-    public MainViewModel MainViewModel {
-      get { return this.mainViewModel; }
+    public PlayControlInfoViewModel PlayControlInfoViewModel {
+      get { return this.playControlInfoViewModel; }
       set {
-        if (Equals(value, this.mainViewModel)) {
+        if (Equals(value, this.playControlInfoViewModel)) {
           return;
         }
-        this.mainViewModel = value;
-        this.OnPropertyChanged(() => this.MainViewModel);
+        this.playControlInfoViewModel = value;
+        this.OnPropertyChanged(() => this.PlayControlInfoViewModel);
       }
     }
 
@@ -149,7 +149,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     public bool HandleKeyDown(Key key) {
-      if (this.MainViewModel.PlayControlViewModel.HandleKeyDown(key)) {
+      if (this.PlayControlInfoViewModel.PlayControlViewModel.HandleKeyDown(key)) {
         return true;
       }
       if (key == Key.E && this.ShowEqualizerCommand.CanExecute(null)) {

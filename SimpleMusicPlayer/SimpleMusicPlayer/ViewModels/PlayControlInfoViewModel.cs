@@ -7,12 +7,12 @@ using System.Windows.Threading;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class MainViewModel : ViewModelBase
+  public class PlayControlInfoViewModel : ViewModelBase
   {
     private PlayInfoViewModel playInfoViewModel;
     private PlayControlViewModel playControlViewModel;
 
-    public MainViewModel(Dispatcher dispatcher)
+    public PlayControlInfoViewModel(Dispatcher dispatcher)
     {
     }
 

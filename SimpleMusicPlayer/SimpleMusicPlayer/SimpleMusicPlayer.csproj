@@ -197,15 +197,15 @@
     <Compile Include="ValueConverters\SliderPositionValueToTextConverter.cs" />
     <Compile Include="ValueConverters\SliderRemainingPositionValueToTextConverter.cs" />
     <Compile Include="ViewModels\EqualizerViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\PlayControlInfoViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Models\MediaFile.cs" />
     <Compile Include="ViewModels\MedialibViewModel.cs" />
     <Compile Include="ViewModels\PlayControlViewModel.cs" />
     <Compile Include="ViewModels\PlayInfoViewModel.cs" />
     <Compile Include="ViewModels\PlaylistsViewModel.cs" />
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
+    <Compile Include="Views\PlayControlInfoView.xaml.cs">
+      <DependentUpon>PlayControlInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MediaFileTransitioningContentControl.xaml.cs">
       <DependentUpon>MediaFileTransitioningContentControl.xaml</DependentUpon>
@@ -227,7 +227,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainView.xaml">
+    <Page Include="Views\PlayControlInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

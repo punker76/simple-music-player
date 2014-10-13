@@ -53,8 +53,8 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <Views:MainView Grid.Row="0"
-                    DataContext="{Binding MainViewModel, Mode=OneWay}" />
+    <Views:PlayControlInfoView Grid.Row="0"
+                    DataContext="{Binding PlayControlInfoViewModel, Mode=OneWay}" />
 
     <Views:PlaylistsView Grid.Row="1"
                          DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
