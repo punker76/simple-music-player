@@ -6,7 +6,7 @@
     "Placement": null
   },
   "PlayerEngine": {
-    "Volume": 1.0,
+    "Volume": 100.0,
     "Mute": false,
     "ShuffleMode": false,
     "RepeatMode": false,

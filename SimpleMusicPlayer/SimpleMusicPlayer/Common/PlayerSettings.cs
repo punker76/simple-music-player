@@ -40,7 +40,7 @@ namespace SimpleMusicPlayer.Common
     private bool repeatMode;
 
     public PlayerEngineSettings() {
-      this.Volume = 1;
+      this.Volume = 100f;
     }
 
     public float Volume { get; set; }
