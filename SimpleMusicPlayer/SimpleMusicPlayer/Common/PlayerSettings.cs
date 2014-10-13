@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using MahApps.Metro.Native;
-using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
 
@@ -8,9 +7,6 @@ namespace SimpleMusicPlayer.Common
 {
   public class PlayerSettings
   {
-    [JsonIgnore]
-    public const string SettingsFile = "settings.json";
-
     public MainWindowSettings MainWindow { get; set; }
     public MedialibSettings Medialib { get; set; }
     public PlayerEngineSettings PlayerEngine { get; set; }

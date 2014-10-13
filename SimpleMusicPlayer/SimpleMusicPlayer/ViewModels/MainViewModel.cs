@@ -1,16 +1,14 @@
-﻿using System.IO;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using System.Windows.Threading;
-using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
+using SimpleMusicPlayer.Common.Extensions;
 using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {
   public class MainViewModel : ViewModelBase, IKeyHandler
   {
-    private readonly PlayerSettings playerSettings;
     private PlayControlInfoViewModel playControlInfoViewModel;
     private PlayListsViewModel playListsViewModel;
     private MedialibViewModel medialibViewModel;
@@ -21,13 +19,13 @@ namespace SimpleMusicPlayer.ViewModels
     private CustomWindowPlacementSettings customWindowPlacementSettings;
 
     public MainViewModel(Dispatcher dispatcher) {
-      this.playerSettings = this.ReadSettings();
-      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.playerSettings.MainWindow);
-      this.PlayerEngine.Configure(dispatcher, this.playerSettings);
-      this.MedialibViewModel = new MedialibViewModel(dispatcher, this.playerSettings);
-      this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this.playerSettings);
+      this.PlayerSettings = PlayerSettingsExtensions.ReadSettings();
+      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
+      this.PlayerEngine.Configure(dispatcher, this.PlayerSettings);
+      this.MedialibViewModel = new MedialibViewModel(dispatcher, this.PlayerSettings);
+      this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this.PlayerSettings);
       this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher) {
-        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.playerSettings, this.PlayListsViewModel, this.MedialibViewModel),
+        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.PlayerSettings, this.PlayListsViewModel, this.MedialibViewModel),
         PlayInfoViewModel = new PlayInfoViewModel(dispatcher)
       };
     }
@@ -47,25 +45,10 @@ namespace SimpleMusicPlayer.ViewModels
       get { return PlayerEngine.Instance; }
     }
 
-    public PlayerSettings PlayerSettings {
-      get { return this.playerSettings; }
-    }
-
-    private PlayerSettings ReadSettings() {
-      if (File.Exists(PlayerSettings.SettingsFile)) {
-        var jsonString = File.ReadAllText(PlayerSettings.SettingsFile);
-        return JsonConvert.DeserializeObject<PlayerSettings>(jsonString);
-      }
-      return PlayerSettings.GetEmptySettings();
-    }
-
-    private void WriteSettings(PlayerSettings settings) {
-      var settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
-      File.WriteAllText(PlayerSettings.SettingsFile, settingsAsJson);
-    }
+    public PlayerSettings PlayerSettings { get; private set; }
 
     public void SaveSettings() {
-      this.WriteSettings(this.playerSettings);
+      this.PlayerSettings.WriteSettings();
     }
 
     public PlayControlInfoViewModel PlayControlInfoViewModel {
