@@ -9,14 +9,10 @@ namespace SimpleMusicPlayer.ViewModels
 {
   public class MainViewModel : ViewModelBase, IKeyHandler
   {
-    private PlayControlInfoViewModel playControlInfoViewModel;
-    private PlayListsViewModel playListsViewModel;
-    private MedialibViewModel medialibViewModel;
     private EqualizerViewModel equalizerViewModel;
     private ICommand showOnGitHubCmd;
     private ICommand showEqualizerCommand;
     private ICommand closeEqualizerCommand;
-    private CustomWindowPlacementSettings customWindowPlacementSettings;
 
     public MainViewModel(Dispatcher dispatcher) {
       this.PlayerSettings = PlayerSettingsExtensions.ReadSettings();
@@ -30,16 +26,7 @@ namespace SimpleMusicPlayer.ViewModels
       };
     }
 
-    public CustomWindowPlacementSettings CustomWindowPlacementSettings {
-      get { return customWindowPlacementSettings; }
-      set {
-        if (Equals(value, this.customWindowPlacementSettings)) {
-          return;
-        }
-        this.customWindowPlacementSettings = value;
-        this.OnPropertyChanged(() => this.CustomWindowPlacementSettings);
-      }
-    }
+    public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
 
     public PlayerEngine PlayerEngine {
       get { return PlayerEngine.Instance; }
@@ -51,38 +38,11 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayerSettings.WriteSettings();
     }
 
-    public PlayControlInfoViewModel PlayControlInfoViewModel {
-      get { return this.playControlInfoViewModel; }
-      set {
-        if (Equals(value, this.playControlInfoViewModel)) {
-          return;
-        }
-        this.playControlInfoViewModel = value;
-        this.OnPropertyChanged(() => this.PlayControlInfoViewModel);
-      }
-    }
+    public PlayControlInfoViewModel PlayControlInfoViewModel { get; private set; }
 
-    public PlayListsViewModel PlayListsViewModel {
-      get { return this.playListsViewModel; }
-      set {
-        if (Equals(value, this.playListsViewModel)) {
-          return;
-        }
-        this.playListsViewModel = value;
-        this.OnPropertyChanged(() => this.PlayListsViewModel);
-      }
-    }
+    public PlayListsViewModel PlayListsViewModel { get; private set; }
 
-    public MedialibViewModel MedialibViewModel {
-      get { return this.medialibViewModel; }
-      set {
-        if (Equals(value, this.medialibViewModel)) {
-          return;
-        }
-        this.medialibViewModel = value;
-        this.OnPropertyChanged(() => this.MedialibViewModel);
-      }
-    }
+    public MedialibViewModel MedialibViewModel { get; private set; }
 
     public EqualizerViewModel EqualizerViewModel {
       get { return this.equalizerViewModel; }

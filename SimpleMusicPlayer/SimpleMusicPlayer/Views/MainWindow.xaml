@@ -21,7 +21,7 @@
                       MinHeight="400"
                       MinWidth="400"
                       WindowStartupLocation="CenterScreen"
-                      WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneWay}"
+                      WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneTime}"
                       SaveWindowPosition="True"
                       mc:Ignorable="d"
                       d:DataContext="{d:DesignInstance ViewModels:MainViewModel}">
@@ -54,10 +54,10 @@
     </Grid.RowDefinitions>
 
     <Views:PlayControlInfoView Grid.Row="0"
-                    DataContext="{Binding PlayControlInfoViewModel, Mode=OneWay}" />
+                    DataContext="{Binding PlayControlInfoViewModel, Mode=OneTime}" />
 
     <Views:PlayListsView Grid.Row="1"
-                         DataContext="{Binding PlayListsViewModel, Mode=OneWay}"
+                         DataContext="{Binding PlayListsViewModel, Mode=OneTime}"
                          Margin="5,10,5,5" />
 
     <StackPanel Grid.Row="2"
@@ -90,7 +90,7 @@
     </StackPanel>
 
     <!-- equalizer view -->
-    <Grid DataContext="{Binding EqualizerViewModel, Mode=OneWay}"
+    <Grid DataContext="{Binding EqualizerViewModel, Mode=OneTime}"
           Visibility="{Binding RelativeSource={RelativeSource Self}, Path=DataContext, Converter={StaticResource NullToCollapsedVisibilityConverter}, Mode=OneWay}"
           Grid.Row="0"
           Grid.RowSpan="3">
