@@ -31,11 +31,11 @@ namespace SimpleMusicPlayer.Views
                          w.Close();
                        }
                        var mainWindowViewModel = ((MainWindowViewModel)this.DataContext);
-                       if (mainWindowViewModel.PlaylistsViewModel.FileSearchWorker.CanStopSearch()) {
-                         mainWindowViewModel.PlaylistsViewModel.FileSearchWorker.StopSearch();
+                       if (mainWindowViewModel.PlayListsViewModel.FileSearchWorker.CanStopSearch()) {
+                         mainWindowViewModel.PlayListsViewModel.FileSearchWorker.StopSearch();
                        }
                        mainWindowViewModel.SaveSettings();
-                       mainWindowViewModel.PlaylistsViewModel.SavePlayList();
+                       mainWindowViewModel.PlayListsViewModel.SavePlayList();
                        PlayerEngine.Instance.CleanUp();
                      };
     }

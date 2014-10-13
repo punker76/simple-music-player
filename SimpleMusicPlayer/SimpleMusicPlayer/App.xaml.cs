@@ -33,7 +33,7 @@ namespace SimpleMusicPlayerApplication
       if (window != null) {
         var vm = window.DataContext as SimpleMusicPlayer.ViewModels.MainWindowViewModel;
         if (vm != null) {
-          vm.PlaylistsViewModel.HandleCommandLineArgsAsync(args.ToList());
+          vm.PlayListsViewModel.HandleCommandLineArgsAsync(args.ToList());
         }
       }
       return true;

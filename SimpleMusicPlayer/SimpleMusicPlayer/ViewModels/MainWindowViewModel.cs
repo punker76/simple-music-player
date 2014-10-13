@@ -12,7 +12,7 @@ namespace SimpleMusicPlayer.ViewModels
   {
     private readonly SMPSettings smpSettings;
     private PlayControlInfoViewModel playControlInfoViewModel;
-    private PlaylistsViewModel playlistsViewModel;
+    private PlayListsViewModel playListsViewModel;
     private MedialibViewModel medialibViewModel;
     private EqualizerViewModel equalizerViewModel;
     private ICommand showOnGitHubCmd;
@@ -25,9 +25,9 @@ namespace SimpleMusicPlayer.ViewModels
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.smpSettings.MainSettings);
       this.PlayerEngine.Configure(dispatcher, this.smpSettings);
       this.MedialibViewModel = new MedialibViewModel(dispatcher, this.smpSettings);
-      this.PlaylistsViewModel = new PlaylistsViewModel(dispatcher, this.smpSettings);
+      this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this.smpSettings);
       this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher) {
-        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlaylistsViewModel, this.MedialibViewModel),
+        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlayListsViewModel, this.MedialibViewModel),
         PlayInfoViewModel = new PlayInfoViewModel(dispatcher)
       };
     }
@@ -79,14 +79,14 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
-    public PlaylistsViewModel PlaylistsViewModel {
-      get { return this.playlistsViewModel; }
+    public PlayListsViewModel PlayListsViewModel {
+      get { return this.playListsViewModel; }
       set {
-        if (Equals(value, this.playlistsViewModel)) {
+        if (Equals(value, this.playListsViewModel)) {
           return;
         }
-        this.playlistsViewModel = value;
-        this.OnPropertyChanged(() => this.PlaylistsViewModel);
+        this.playListsViewModel = value;
+        this.OnPropertyChanged(() => this.PlayListsViewModel);
       }
     }
 

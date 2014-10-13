@@ -9,11 +9,11 @@ using SimpleMusicPlayer.ViewModels;
 namespace SimpleMusicPlayer.Views
 {
   /// <summary>
-  /// Interaction logic for PlaylistsView.xaml
+  /// Interaction logic for PlayListsView.xaml
   /// </summary>
-  public partial class PlaylistsView : UserControl
+  public partial class PlayListsView : UserControl
   {
-    public PlaylistsView()
+    public PlayListsView()
     {
       this.InitializeComponent();
 
@@ -24,7 +24,7 @@ namespace SimpleMusicPlayer.Views
 
     private void PlaylistsView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs dea)
     {
-      var vm = this.DataContext as PlaylistsViewModel;
+      var vm = this.DataContext as PlayListsViewModel;
       if (vm != null)
       {
         // for the first, i need a connection for scrolling to the first playable media file

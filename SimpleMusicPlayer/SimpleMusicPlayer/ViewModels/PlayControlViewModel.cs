@@ -11,7 +11,7 @@ namespace SimpleMusicPlayer.ViewModels
 {
   public class PlayControlViewModel : ViewModelBase, IKeyHandler
   {
-    private readonly PlaylistsViewModel playlistsViewModel;
+    private readonly PlayListsViewModel playListsViewModel;
     private readonly MedialibViewModel medialibViewModel;
     private ICommand playOrPauseCommand;
     private ICommand stopCommand;
@@ -23,8 +23,8 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand showMediaLibraryCommand;
     private SMPSettings smpSettings;
 
-    public PlayControlViewModel(Dispatcher dispatcher, SMPSettings settings, PlaylistsViewModel playlistsViewModel, MedialibViewModel medialibViewModel) {
-      this.playlistsViewModel = playlistsViewModel;
+    public PlayControlViewModel(Dispatcher dispatcher, SMPSettings settings, PlayListsViewModel playListsViewModel, MedialibViewModel medialibViewModel) {
+      this.playListsViewModel = playListsViewModel;
       this.medialibViewModel = medialibViewModel;
 
       this.SMPSettings = settings;
@@ -32,7 +32,7 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayerEngine.PlayNextFileAction = () => {
                                                if (this.SMPSettings.PlayerSettings.RepeatMode) {
                                                  if (this.CanPlayOrPause()) {
-                                                   var file = this.playlistsViewModel.GetCurrentPlayListFile();
+                                                   var file = this.playListsViewModel.GetCurrentPlayListFile();
                                                    if (file != null) {
                                                      this.PlayerEngine.Play(file);
                                                    }
@@ -66,15 +66,15 @@ namespace SimpleMusicPlayer.ViewModels
 
     private bool CanPlayOrPause() {
       return this.PlayerEngine.Initializied
-             && this.playlistsViewModel.FirstSimplePlaylistFiles != null
-             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+             && this.playListsViewModel.FirstSimplePlaylistFiles != null
+             && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
     }
 
     private void PlayOrPause() {
       if (this.PlayerEngine.State == PlayerState.Pause || this.PlayerEngine.State == PlayerState.Play) {
         this.PlayerEngine.Pause();
       } else {
-        var file = this.playlistsViewModel.GetCurrentPlayListFile();
+        var file = this.playListsViewModel.GetCurrentPlayListFile();
         if (file != null) {
           this.PlayerEngine.Play(file);
         }
@@ -87,8 +87,8 @@ namespace SimpleMusicPlayer.ViewModels
 
     private bool CanStop() {
       return this.PlayerEngine.Initializied
-             && this.playlistsViewModel.FirstSimplePlaylistFiles != null
-             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+             && this.playListsViewModel.FirstSimplePlaylistFiles != null
+             && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
     }
 
     private void Stop() {
@@ -101,12 +101,12 @@ namespace SimpleMusicPlayer.ViewModels
 
     private bool CanPlayPrev() {
       return this.PlayerEngine.Initializied
-             && this.playlistsViewModel.FirstSimplePlaylistFiles != null
-             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+             && this.playListsViewModel.FirstSimplePlaylistFiles != null
+             && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
     }
 
     private void PlayPrev() {
-      var file = this.playlistsViewModel.GetPrevPlayListFile();
+      var file = this.playListsViewModel.GetPrevPlayListFile();
       if (file != null) {
         this.PlayerEngine.Play(file);
       }
@@ -118,12 +118,12 @@ namespace SimpleMusicPlayer.ViewModels
 
     private bool CanPlayNext() {
       return this.PlayerEngine.Initializied
-             && this.playlistsViewModel.FirstSimplePlaylistFiles != null
-             && this.playlistsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+             && this.playListsViewModel.FirstSimplePlaylistFiles != null
+             && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
     }
 
     private void PlayNext() {
-      var file = this.playlistsViewModel.GetNextPlayListFile();
+      var file = this.playListsViewModel.GetNextPlayListFile();
       if (file != null) {
         this.PlayerEngine.Play(file);
       }

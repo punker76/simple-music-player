@@ -15,7 +15,7 @@ using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class PlaylistsViewModel : ViewModelBase, IDropTarget, IKeyHandler
+  public class PlayListsViewModel : ViewModelBase, IDropTarget, IKeyHandler
   {
     private IEnumerable firstSimplePlaylistFiles;
     private IMediaFile selectedPlayListFile;
@@ -25,7 +25,7 @@ namespace SimpleMusicPlayer.ViewModels
     private readonly SMPSettings smpSettings;
     private string playListItemTemplateKey;
 
-    public PlaylistsViewModel(Dispatcher dispatcher, SMPSettings settings) {
+    public PlayListsViewModel(Dispatcher dispatcher, SMPSettings settings) {
       this.smpSettings = settings;
       this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
     }

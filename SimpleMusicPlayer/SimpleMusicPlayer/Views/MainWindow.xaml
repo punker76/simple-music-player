@@ -56,12 +56,12 @@
     <Views:PlayControlInfoView Grid.Row="0"
                     DataContext="{Binding PlayControlInfoViewModel, Mode=OneWay}" />
 
-    <Views:PlaylistsView Grid.Row="1"
-                         DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
+    <Views:PlayListsView Grid.Row="1"
+                         DataContext="{Binding PlayListsViewModel, Mode=OneWay}"
                          Margin="5,10,5,5" />
 
     <StackPanel Grid.Row="2"
-                DataContext="{Binding PlaylistsViewModel.FileSearchWorker, Mode=OneWay}"
+                DataContext="{Binding PlayListsViewModel.FileSearchWorker, Mode=OneWay}"
                 Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                 Orientation="Horizontal">
       <WPFSpark:SprocketControl VerticalAlignment="Center"
