@@ -24,7 +24,7 @@
                       WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
                       mc:Ignorable="d"
-                      d:DataContext="{d:DesignInstance ViewModels:MainWindowViewModel}">
+                      d:DataContext="{d:DesignInstance ViewModels:MainViewModel}">
 
   <Controls:MetroWindow.Resources>
     <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />

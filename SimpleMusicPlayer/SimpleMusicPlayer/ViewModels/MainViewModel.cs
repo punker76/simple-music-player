@@ -8,7 +8,7 @@ using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class MainWindowViewModel : ViewModelBase, IKeyHandler
+  public class MainViewModel : ViewModelBase, IKeyHandler
   {
     private readonly SMPSettings smpSettings;
     private PlayControlInfoViewModel playControlInfoViewModel;
@@ -20,7 +20,7 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand closeEqualizerCommand;
     private CustomWindowPlacementSettings customWindowPlacementSettings;
 
-    public MainWindowViewModel(Dispatcher dispatcher) {
+    public MainViewModel(Dispatcher dispatcher) {
       this.smpSettings = this.ReadSettings();
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.smpSettings.MainSettings);
       this.PlayerEngine.Configure(dispatcher, this.smpSettings);

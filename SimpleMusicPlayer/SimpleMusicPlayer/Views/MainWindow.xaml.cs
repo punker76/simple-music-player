@@ -15,7 +15,7 @@ namespace SimpleMusicPlayer.Views
   public partial class MainWindow : MetroWindow
   {
     public MainWindow() {
-      var vm = new MainWindowViewModel(this.Dispatcher);
+      var vm = new MainViewModel(this.Dispatcher);
       this.DataContext = vm;
 
       this.InitializeComponent();
@@ -30,7 +30,7 @@ namespace SimpleMusicPlayer.Views
                        foreach (var w in Application.Current.Windows.OfType<Window>()) {
                          w.Close();
                        }
-                       var mainWindowViewModel = ((MainWindowViewModel)this.DataContext);
+                       var mainWindowViewModel = ((MainViewModel)this.DataContext);
                        if (mainWindowViewModel.PlayListsViewModel.FileSearchWorker.CanStopSearch()) {
                          mainWindowViewModel.PlayListsViewModel.FileSearchWorker.StopSearch();
                        }
