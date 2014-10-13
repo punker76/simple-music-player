@@ -21,16 +21,16 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand repeatCommand;
     private ICommand muteCommand;
     private ICommand showMediaLibraryCommand;
-    private SMPSettings smpSettings;
+    private PlayerSettings playerSettings;
 
-    public PlayControlViewModel(Dispatcher dispatcher, SMPSettings settings, PlayListsViewModel playListsViewModel, MedialibViewModel medialibViewModel) {
+    public PlayControlViewModel(Dispatcher dispatcher, PlayerSettings settings, PlayListsViewModel playListsViewModel, MedialibViewModel medialibViewModel) {
       this.playListsViewModel = playListsViewModel;
       this.medialibViewModel = medialibViewModel;
 
-      this.SMPSettings = settings;
+      this.PlayerSettings = settings;
 
       this.PlayerEngine.PlayNextFileAction = () => {
-                                               if (this.SMPSettings.PlayerSettings.RepeatMode) {
+                                               if (this.PlayerSettings.PlayerEngine.RepeatMode) {
                                                  if (this.CanPlayOrPause()) {
                                                    var file = this.playListsViewModel.GetCurrentPlayListFile();
                                                    if (file != null) {
@@ -45,14 +45,14 @@ namespace SimpleMusicPlayer.ViewModels
                                              };
     }
 
-    public SMPSettings SMPSettings {
-      get { return this.smpSettings; }
+    public PlayerSettings PlayerSettings {
+      get { return this.playerSettings; }
       private set {
-        if (Equals(value, this.smpSettings)) {
+        if (Equals(value, this.playerSettings)) {
           return;
         }
-        this.smpSettings = value;
-        this.OnPropertyChanged(() => this.SMPSettings);
+        this.playerSettings = value;
+        this.OnPropertyChanged(() => this.PlayerSettings);
       }
     }
 
@@ -138,7 +138,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     private void SetShuffelMode() {
-      this.SMPSettings.PlayerSettings.ShuffleMode = !this.SMPSettings.PlayerSettings.ShuffleMode;
+      this.PlayerSettings.PlayerEngine.ShuffleMode = !this.PlayerSettings.PlayerEngine.ShuffleMode;
     }
 
     public ICommand RepeatCommand {
@@ -150,7 +150,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     public void SetRepeatMode() {
-      this.SMPSettings.PlayerSettings.RepeatMode = !this.SMPSettings.PlayerSettings.RepeatMode;
+      this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
     }
 
     public ICommand MuteCommand {
@@ -162,7 +162,7 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     public void SetMute() {
-      //this.SMPSettings.PlayerSettings.RepeatMode = !this.SMPSettings.PlayerSettings.RepeatMode;
+      //this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
       this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
     }
 

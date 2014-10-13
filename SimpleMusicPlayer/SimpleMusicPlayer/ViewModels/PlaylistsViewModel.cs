@@ -22,11 +22,11 @@ namespace SimpleMusicPlayer.ViewModels
     private IEnumerable<IMediaFile> selectedPlayListFiles;
     private ICommand deleteCommand;
     private ICommand playCommand;
-    private readonly SMPSettings smpSettings;
+    private readonly PlayerSettings playerSettings;
     private string playListItemTemplateKey;
 
-    public PlayListsViewModel(Dispatcher dispatcher, SMPSettings settings) {
-      this.smpSettings = settings;
+    public PlayListsViewModel(Dispatcher dispatcher, PlayerSettings settings) {
+      this.playerSettings = settings;
       this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
     }
 
@@ -130,9 +130,9 @@ namespace SimpleMusicPlayer.ViewModels
     public IMediaFile GetCurrentPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        var currentFile = this.smpSettings.PlayerSettings.RepeatMode ? fileCollView.CurrentItem : (this.SelectedPlayListFile ?? fileCollView.CurrentItem);
+        var currentFile = this.playerSettings.PlayerEngine.RepeatMode ? fileCollView.CurrentItem : (this.SelectedPlayListFile ?? fileCollView.CurrentItem);
         if (currentFile == null) {
-          if (this.smpSettings.PlayerSettings.ShuffleMode) {
+          if (this.playerSettings.PlayerEngine.ShuffleMode) {
             return this.GetRandomPlayListFile();
           } else if (fileCollView.MoveCurrentToFirst()) {
             return fileCollView.CurrentItem as IMediaFile;
@@ -157,7 +157,7 @@ namespace SimpleMusicPlayer.ViewModels
     public IMediaFile GetPrevPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        if (this.smpSettings.PlayerSettings.ShuffleMode) {
+        if (this.playerSettings.PlayerEngine.ShuffleMode) {
           return this.GetRandomPlayListFile();
         } else {
           if (fileCollView.MoveCurrentToPrevious() || fileCollView.MoveCurrentToLast()) {
@@ -171,7 +171,7 @@ namespace SimpleMusicPlayer.ViewModels
     public IMediaFile GetNextPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        if (this.smpSettings.PlayerSettings.ShuffleMode) {
+        if (this.playerSettings.PlayerEngine.ShuffleMode) {
           return this.GetRandomPlayListFile();
         } else {
           if (fileCollView.MoveCurrentToNext() || fileCollView.MoveCurrentToFirst()) {

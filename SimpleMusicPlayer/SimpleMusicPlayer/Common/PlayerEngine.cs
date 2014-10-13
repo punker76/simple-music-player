@@ -30,10 +30,10 @@ namespace SimpleMusicPlayer.Common
     private readonly FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
     private bool initializied;
     private IMediaFile currentMediaFile;
-    private SMPSettings smpSettings;
+    private PlayerSettings playerSettings;
 
-    public bool Configure(Dispatcher dispatcher, SMPSettings settings) {
-      this.smpSettings = settings;
+    public bool Configure(Dispatcher dispatcher, PlayerSettings settings) {
+      this.playerSettings = settings;
       /*
           Global Settings
       */
@@ -64,8 +64,8 @@ namespace SimpleMusicPlayer.Common
       // equalizer
       this.Equalizer = Equalizer.GetEqualizer(this.system, settings);
 
-      this.Volume = this.smpSettings.PlayerSettings.Volume;
-      this.IsMute = this.smpSettings.PlayerSettings.Mute;
+      this.Volume = this.playerSettings.PlayerEngine.Volume;
+      this.IsMute = this.playerSettings.PlayerEngine.Mute;
       this.State = PlayerState.Stop;
       this.LengthMs = 0;
 
@@ -129,7 +129,7 @@ namespace SimpleMusicPlayer.Common
           return;
         }
         this.volume = value;
-        this.smpSettings.PlayerSettings.Volume = value;
+        this.playerSettings.PlayerEngine.Volume = value;
 
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
           var result = this.channelInfo.Channel.setVolume(value / 100f);
@@ -180,7 +180,7 @@ namespace SimpleMusicPlayer.Common
           return;
         }
         this.isMute = value;
-        this.smpSettings.PlayerSettings.Mute = value;
+        this.playerSettings.PlayerEngine.Mute = value;
 
         if (this.channelInfo != null && this.channelInfo.Channel != null) {
           var result = this.channelInfo.Channel.setMute(value);
@@ -314,7 +314,7 @@ namespace SimpleMusicPlayer.Common
       this.CleanUpSound(ref this.sound);
       this.CleanUpEqualizer();
       this.CleanUpSystem(ref this.system);
-      this.smpSettings = null;
+      this.playerSettings = null;
     }
 
     private void CleanUpSound(ref FMOD.Sound fmodSound) {

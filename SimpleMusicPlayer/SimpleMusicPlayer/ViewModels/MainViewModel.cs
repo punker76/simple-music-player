@@ -10,7 +10,7 @@ namespace SimpleMusicPlayer.ViewModels
 {
   public class MainViewModel : ViewModelBase, IKeyHandler
   {
-    private readonly SMPSettings smpSettings;
+    private readonly PlayerSettings playerSettings;
     private PlayControlInfoViewModel playControlInfoViewModel;
     private PlayListsViewModel playListsViewModel;
     private MedialibViewModel medialibViewModel;
@@ -21,13 +21,13 @@ namespace SimpleMusicPlayer.ViewModels
     private CustomWindowPlacementSettings customWindowPlacementSettings;
 
     public MainViewModel(Dispatcher dispatcher) {
-      this.smpSettings = this.ReadSettings();
-      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.smpSettings.MainSettings);
-      this.PlayerEngine.Configure(dispatcher, this.smpSettings);
-      this.MedialibViewModel = new MedialibViewModel(dispatcher, this.smpSettings);
-      this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this.smpSettings);
+      this.playerSettings = this.ReadSettings();
+      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.playerSettings.MainWindow);
+      this.PlayerEngine.Configure(dispatcher, this.playerSettings);
+      this.MedialibViewModel = new MedialibViewModel(dispatcher, this.playerSettings);
+      this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this.playerSettings);
       this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher) {
-        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.smpSettings, this.PlayListsViewModel, this.MedialibViewModel),
+        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.playerSettings, this.PlayListsViewModel, this.MedialibViewModel),
         PlayInfoViewModel = new PlayInfoViewModel(dispatcher)
       };
     }
@@ -47,25 +47,25 @@ namespace SimpleMusicPlayer.ViewModels
       get { return PlayerEngine.Instance; }
     }
 
-    public SMPSettings SMPSettings {
-      get { return this.smpSettings; }
+    public PlayerSettings PlayerSettings {
+      get { return this.playerSettings; }
     }
 
-    private SMPSettings ReadSettings() {
-      if (File.Exists(SMPSettings.SettingsFile)) {
-        var jsonString = File.ReadAllText(SMPSettings.SettingsFile);
-        return JsonConvert.DeserializeObject<SMPSettings>(jsonString);
+    private PlayerSettings ReadSettings() {
+      if (File.Exists(PlayerSettings.SettingsFile)) {
+        var jsonString = File.ReadAllText(PlayerSettings.SettingsFile);
+        return JsonConvert.DeserializeObject<PlayerSettings>(jsonString);
       }
-      return SMPSettings.GetEmptySettings();
+      return PlayerSettings.GetEmptySettings();
     }
 
-    private void WriteSettings(SMPSettings settings) {
+    private void WriteSettings(PlayerSettings settings) {
       var settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
-      File.WriteAllText(SMPSettings.SettingsFile, settingsAsJson);
+      File.WriteAllText(PlayerSettings.SettingsFile, settingsAsJson);
     }
 
     public void SaveSettings() {
-      this.WriteSettings(this.smpSettings);
+      this.WriteSettings(this.playerSettings);
     }
 
     public PlayControlInfoViewModel PlayControlInfoViewModel {

@@ -16,8 +16,8 @@ namespace SimpleMusicPlayer.ViewModels
 {
   public class MedialibViewModel : ReactiveObject
   {
-    public MedialibViewModel(Dispatcher dispatcher, SMPSettings settings) {
-      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.MedialibSettings);
+    public MedialibViewModel(Dispatcher dispatcher, PlayerSettings settings) {
+      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.Medialib);
       this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));
 
       // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
