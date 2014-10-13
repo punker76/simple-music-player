@@ -90,7 +90,7 @@
     </StackPanel>
 
     <!-- equalizer view -->
-    <Grid DataContext="{Binding EqualizerViewModel, Mode=OneTime}"
+    <Grid DataContext="{Binding EqualizerViewModel, Mode=OneWay}"
           Visibility="{Binding RelativeSource={RelativeSource Self}, Path=DataContext, Converter={StaticResource NullToCollapsedVisibilityConverter}, Mode=OneWay}"
           Grid.Row="0"
           Grid.RowSpan="3">
