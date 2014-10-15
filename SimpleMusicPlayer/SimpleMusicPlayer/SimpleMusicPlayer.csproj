@@ -203,7 +203,6 @@
     <Compile Include="Models\MediaFile.cs" />
     <Compile Include="ViewModels\MedialibViewModel.cs" />
     <Compile Include="ViewModels\PlayControlViewModel.cs" />
-    <Compile Include="ViewModels\PlayInfoViewModel.cs" />
     <Compile Include="ViewModels\PlaylistsViewModel.cs" />
     <Compile Include="Views\PlayControlInfoView.xaml.cs">
       <DependentUpon>PlayControlInfoView.xaml</DependentUpon>

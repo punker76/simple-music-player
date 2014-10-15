@@ -25,16 +25,13 @@ namespace SimpleMusicPlayer.ViewModels
     private readonly PlayerSettings playerSettings;
     private string playListItemTemplateKey;
 
-    public PlayListsViewModel(Dispatcher dispatcher, PlayerSettings settings) {
-      this.playerSettings = settings;
+    public PlayListsViewModel(Dispatcher dispatcher, MainViewModel mainViewModel) {
+      this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
+      this.playerSettings = mainViewModel.PlayerSettings;
       this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
     }
 
-    private FileSearchWorker fileSearchWorker;
-
-    public FileSearchWorker FileSearchWorker {
-      get { return this.fileSearchWorker ?? (this.fileSearchWorker = new FileSearchWorker()); }
-    }
+    public FileSearchWorker FileSearchWorker { get; private set; }
 
     public PlayerEngine PlayerEngine {
       get { return PlayerEngine.Instance; }

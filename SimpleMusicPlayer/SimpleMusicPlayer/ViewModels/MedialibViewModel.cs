@@ -16,8 +16,9 @@ namespace SimpleMusicPlayer.ViewModels
 {
   public class MedialibViewModel : ReactiveObject
   {
-    public MedialibViewModel(Dispatcher dispatcher, PlayerSettings settings) {
-      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(settings.Medialib);
+    public MedialibViewModel(Dispatcher dispatcher, MainViewModel mainViewModel) {
+      this.FileSearchWorker = mainViewModel.MedialibFileSearchWorker;
+      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(mainViewModel.PlayerSettings.Medialib);
       this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));
 
       // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
@@ -45,13 +46,9 @@ namespace SimpleMusicPlayer.ViewModels
         .Subscribe(x => FilterByAlbumSelection());
     }
 
-    private FileSearchWorker fileSearchWorker;
+    public FileSearchWorker FileSearchWorker { get; private set; }
 
-    public FileSearchWorker FileSearchWorker {
-      get { return this.fileSearchWorker ?? (this.fileSearchWorker = new FileSearchWorker()); }
-    }
-
-    public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; set; }
+    public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
 
     private IEnumerable mediaFiles;
 

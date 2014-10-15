@@ -129,13 +129,13 @@
           <Image Stretch="UniformToFill"
                  RenderOptions.EdgeMode="Aliased"
                  RenderOptions.BitmapScalingMode="HighQuality"
-                 Source="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
+                 Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
         </Grid>
 
         <!-- title, album, artis -->
         <Views:MediaFileTransitioningContentControl Grid.Column="1"
                                                     Margin="0,15,10,5"
-                                                    Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                    Content="{Binding PlayerEngine.CurrentMediaFile, Mode=OneWay}"
                                                     ContentTemplate="{StaticResource fileInfoRightTemplate}" />
 
         <Views:PlayControlView x:Name="playControlView"
@@ -178,7 +178,7 @@
           <Image Stretch="UniformToFill"
                  RenderOptions.EdgeMode="Aliased"
                  RenderOptions.BitmapScalingMode="HighQuality"
-                 Source="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
+                 Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
         </Grid>
 
         <Grid Grid.Column="1">
@@ -191,7 +191,7 @@
           <!-- title, album, artis -->
           <Views:MediaFileTransitioningContentControl Grid.Row="0"
                                                       Margin="0,15,10,5"
-                                                      Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                      Content="{Binding PlayerEngine.CurrentMediaFile, Mode=OneWay}"
                                                       ContentTemplate="{StaticResource fileInfoRightTemplate}" />
 
           <Views:PlayControlView x:Name="playControlView"
@@ -234,13 +234,13 @@
           <Image Stretch="UniformToFill"
                  RenderOptions.EdgeMode="Aliased"
                  RenderOptions.BitmapScalingMode="HighQuality"
-                 Source="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
+                 Source="{Binding PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}" />
         </Grid>
 
         <!-- title, album, artis -->
         <Views:MediaFileTransitioningContentControl Grid.Column="1"
                                                     Margin="0,15,5,5"
-                                                    Content="{Binding PlayInfoViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                    Content="{Binding PlayerEngine.CurrentMediaFile, Mode=OneWay}"
                                                     ContentTemplate="{StaticResource fileInfoLeftTemplate}" />
 
         <Views:PlayControlView x:Name="playControlView"

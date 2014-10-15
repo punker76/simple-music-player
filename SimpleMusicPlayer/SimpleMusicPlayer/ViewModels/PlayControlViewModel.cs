@@ -1,18 +1,16 @@
 ﻿using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
-using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
 {
   public class PlayControlViewModel : ViewModelBase, IKeyHandler
   {
+    private readonly MainViewModel mainViewModel;
     private readonly PlayListsViewModel playListsViewModel;
-    private readonly MedialibViewModel medialibViewModel;
     private ICommand playOrPauseCommand;
     private ICommand stopCommand;
     private ICommand playPrevCommand;
@@ -23,11 +21,10 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand showMediaLibraryCommand;
     private PlayerSettings playerSettings;
 
-    public PlayControlViewModel(Dispatcher dispatcher, PlayerSettings settings, PlayListsViewModel playListsViewModel, MedialibViewModel medialibViewModel) {
-      this.playListsViewModel = playListsViewModel;
-      this.medialibViewModel = medialibViewModel;
-
-      this.PlayerSettings = settings;
+    public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel) {
+      this.mainViewModel = mainViewModel;
+      this.playListsViewModel = mainViewModel.PlayListsViewModel;
+      this.PlayerSettings = mainViewModel.PlayerSettings;
 
       this.PlayerEngine.PlayNextFileAction = () => {
                                                if (this.PlayerSettings.PlayerEngine.RepeatMode) {
@@ -45,16 +42,7 @@ namespace SimpleMusicPlayer.ViewModels
                                              };
     }
 
-    public PlayerSettings PlayerSettings {
-      get { return this.playerSettings; }
-      private set {
-        if (Equals(value, this.playerSettings)) {
-          return;
-        }
-        this.playerSettings = value;
-        this.OnPropertyChanged(() => this.PlayerSettings);
-      }
-    }
+    public PlayerSettings PlayerSettings { get; private set; }
 
     public PlayerEngine PlayerEngine {
       get { return PlayerEngine.Instance; }
@@ -167,23 +155,11 @@ namespace SimpleMusicPlayer.ViewModels
     }
 
     public ICommand ShowMediaLibraryCommand {
-      get { return this.showMediaLibraryCommand ?? (this.showMediaLibraryCommand = new DelegateCommand(this.ShowMediaLibrary, this.CanShowMediaLibrary)); }
+      get { return this.showMediaLibraryCommand ?? (this.showMediaLibraryCommand = new DelegateCommand(this.mainViewModel.ShowMediaLibrary, this.CanShowMediaLibrary)); }
     }
 
     public bool CanShowMediaLibrary() {
       return true;
-    }
-
-    private MedialibView medialibView;
-
-    public void ShowMediaLibrary() {
-      if (this.medialibView != null) {
-        this.medialibView.Activate();
-      } else {
-        this.medialibView = new MedialibView(this.medialibViewModel);
-        this.medialibView.Closed += (sender, args) => this.medialibView = null;
-        this.medialibView.Show();
-      }
     }
 
     public bool HandleKeyDown(Key key) {

@@ -4,6 +4,7 @@ using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Common.Extensions;
 using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -13,17 +14,21 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand showOnGitHubCmd;
     private ICommand showEqualizerCommand;
     private ICommand closeEqualizerCommand;
+    private MedialibView medialibView;
 
     public MainViewModel(Dispatcher dispatcher) {
       this.PlayerSettings = PlayerSettingsExtensions.ReadSettings();
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
+      
       this.PlayerEngine.Configure(dispatcher, this.PlayerSettings);
-      this.MedialibViewModel = new MedialibViewModel(dispatcher, this.PlayerSettings);
-      this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this.PlayerSettings);
-      this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher) {
-        PlayControlViewModel = new PlayControlViewModel(dispatcher, this.PlayerSettings, this.PlayListsViewModel, this.MedialibViewModel),
-        PlayInfoViewModel = new PlayInfoViewModel(dispatcher)
-      };
+
+      this.PlayListFileSearchWorker = new FileSearchWorker();
+      this.MedialibFileSearchWorker = new FileSearchWorker();
+      
+      this.MedialibViewModel = new MedialibViewModel(dispatcher, this);
+      this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this);
+      
+      this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher, this);
     }
 
     public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
@@ -38,11 +43,25 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayerSettings.WriteSettings();
     }
 
+    public FileSearchWorker PlayListFileSearchWorker { get; private set; }
+
+    public FileSearchWorker MedialibFileSearchWorker { get; private set; }
+
     public PlayControlInfoViewModel PlayControlInfoViewModel { get; private set; }
 
     public PlayListsViewModel PlayListsViewModel { get; private set; }
 
     public MedialibViewModel MedialibViewModel { get; private set; }
+
+    public void ShowMediaLibrary() {
+      if (this.medialibView != null) {
+        this.medialibView.Activate();
+      } else {
+        this.medialibView = new MedialibView(this.MedialibViewModel);
+        this.medialibView.Closed += (sender, args) => this.medialibView = null;
+        this.medialibView.Show();
+      }
+    }
 
     public EqualizerViewModel EqualizerViewModel {
       get { return this.equalizerViewModel; }
