@@ -31,9 +31,9 @@ namespace SimpleMusicPlayerApplication
     private bool ProcessCommandLineArgs(SimpleMusicPlayer.Views.MainWindow window, IEnumerable<string> args)
     {
       if (window != null) {
-        var vm = window.DataContext as SimpleMusicPlayer.ViewModels.MainWindowViewModel;
+        var vm = window.DataContext as SimpleMusicPlayer.ViewModels.MainViewModel;
         if (vm != null) {
-          vm.PlaylistsViewModel.HandleCommandLineArgsAsync(args.ToList());
+          vm.PlayListsViewModel.HandleCommandLineArgsAsync(args.ToList());
         }
       }
       return true;

@@ -1,30 +1,26 @@
 ﻿using System.Collections.Generic;
 using MahApps.Metro.Native;
-using Newtonsoft.Json;
 using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.Common
 {
-  public class SMPSettings
+  public class PlayerSettings
   {
-    [JsonIgnore]
-    public const string SettingsFile = "settings.json";
+    public MainWindowSettings MainWindow { get; set; }
+    public MedialibSettings Medialib { get; set; }
+    public PlayerEngineSettings PlayerEngine { get; set; }
 
-    public MainSettings MainSettings { get; set; }
-    public MedialibSettings MedialibSettings { get; set; }
-    public PlayerSettings PlayerSettings { get; set; }
-
-    public static SMPSettings GetEmptySettings() {
-      return new SMPSettings {
-                               MainSettings = new MainSettings(),
-                               MedialibSettings = new MedialibSettings(),
-                               PlayerSettings = new PlayerSettings()
+    public static PlayerSettings GetEmptySettings() {
+      return new PlayerSettings {
+                               MainWindow = new MainWindowSettings(),
+                               Medialib = new MedialibSettings(),
+                               PlayerEngine = new PlayerEngineSettings()
                              };
     }
   }
 
-  public class MainSettings : IWindowPlacementSetting
+  public class MainWindowSettings : IWindowPlacementSetting
   {
     public WINDOWPLACEMENT? Placement { get; set; }
   }
@@ -34,13 +30,13 @@ namespace SimpleMusicPlayer.Common
     public WINDOWPLACEMENT? Placement { get; set; }
   }
 
-  public class PlayerSettings : ViewModelBase
+  public class PlayerEngineSettings : ViewModelBase
   {
     private bool shuffleMode;
     private bool repeatMode;
 
-    public PlayerSettings() {
-      this.Volume = 1;
+    public PlayerEngineSettings() {
+      this.Volume = 100f;
     }
 
     public float Volume { get; set; }

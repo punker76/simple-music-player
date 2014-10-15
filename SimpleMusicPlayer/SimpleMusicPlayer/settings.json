@@ -1,7 +1,11 @@
 {
-  "MainSettings": {},
-  "MedialibSettings": {},
-  "PlayerSettings": {
+  "MainWindow": {
+    "Placement": null
+  },
+  "Medialib": {
+    "Placement": null
+  },
+  "PlayerEngine": {
     "Volume": 100.0,
     "Mute": false,
     "ShuffleMode": false,

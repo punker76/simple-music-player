@@ -26,17 +26,17 @@ namespace SimpleMusicPlayer.Common
 
     private FMOD.System fmodSystem;
     private bool isEnabled = true;
-    private SMPSettings smpSettings;
+    private PlayerSettings playerSettings;
 
-    private Equalizer(FMOD.System system, SMPSettings settings) {
-      this.smpSettings = settings;
+    private Equalizer(FMOD.System system, PlayerSettings settings) {
+      this.playerSettings = settings;
       this.Name = "DefaultEqualizer";
       this.fmodSystem = system;
       this.Bands = new ObservableCollection<EqualizerBand>();
-      this.isEnabled = settings.PlayerSettings.EqualizerSettings == null || settings.PlayerSettings.EqualizerSettings.IsEnabled;
+      this.isEnabled = settings.PlayerEngine.EqualizerSettings == null || settings.PlayerEngine.EqualizerSettings.IsEnabled;
     }
 
-    public static Equalizer GetEqualizer(FMOD.System system, SMPSettings settings) {
+    public static Equalizer GetEqualizer(FMOD.System system, PlayerSettings settings) {
       var eq = new Equalizer(system, settings);
       eq.Init(system);
       return eq;
@@ -47,7 +47,7 @@ namespace SimpleMusicPlayer.Common
       result.ERRCHECK();
 
       this.Bands.Clear();
-      var gainValues = !setToDefaultValues && this.smpSettings.PlayerSettings.EqualizerSettings != null ? this.smpSettings.PlayerSettings.EqualizerSettings.GainValues : null;
+      var gainValues = !setToDefaultValues && this.playerSettings.PlayerEngine.EqualizerSettings != null ? this.playerSettings.PlayerEngine.EqualizerSettings.GainValues : null;
       foreach (var value in EqDefaultValues) {
         var band = EqualizerBand.GetEqualizerBand(system, this.IsEnabled, value[0], value[1], value[2]);
         if (band != null) {
@@ -79,15 +79,15 @@ namespace SimpleMusicPlayer.Common
       this.DeInit(this.fmodSystem);
       this.Bands.Clear();
       this.fmodSystem = null;
-      this.smpSettings = null;
+      this.playerSettings = null;
     }
 
     public void SaveEqualizerSettings() {
-      if (this.smpSettings != null) {
-        var equalizerSettings = this.smpSettings.PlayerSettings.EqualizerSettings;
+      if (this.playerSettings != null) {
+        var equalizerSettings = this.playerSettings.PlayerEngine.EqualizerSettings;
         if (equalizerSettings == null) {
           equalizerSettings = new EqualizerSettings {Name = this.Name};
-          this.smpSettings.PlayerSettings.EqualizerSettings = equalizerSettings;
+          this.playerSettings.PlayerEngine.EqualizerSettings = equalizerSettings;
         }
         equalizerSettings.GainValues = this.Bands.ToDictionary(b => b.BandCaption, b => b.Gain);
         equalizerSettings.IsEnabled = this.IsEnabled;

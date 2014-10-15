@@ -21,10 +21,10 @@
                       MinHeight="400"
                       MinWidth="400"
                       WindowStartupLocation="CenterScreen"
-                      WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneWay}"
+                      WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneTime}"
                       SaveWindowPosition="True"
                       mc:Ignorable="d"
-                      d:DataContext="{d:DesignInstance ViewModels:MainWindowViewModel}">
+                      d:DataContext="{d:DesignInstance ViewModels:MainViewModel}">
 
   <Controls:MetroWindow.Resources>
     <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
@@ -53,15 +53,15 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <Views:MainView Grid.Row="0"
-                    DataContext="{Binding MainViewModel, Mode=OneWay}" />
+    <Views:PlayControlInfoView Grid.Row="0"
+                    DataContext="{Binding PlayControlInfoViewModel, Mode=OneTime}" />
 
-    <Views:PlaylistsView Grid.Row="1"
-                         DataContext="{Binding PlaylistsViewModel, Mode=OneWay}"
+    <Views:PlayListsView Grid.Row="1"
+                         DataContext="{Binding PlayListsViewModel, Mode=OneTime}"
                          Margin="5,10,5,5" />
 
     <StackPanel Grid.Row="2"
-                DataContext="{Binding PlaylistsViewModel.FileSearchWorker, Mode=OneWay}"
+                DataContext="{Binding PlayListsViewModel.FileSearchWorker, Mode=OneWay}"
                 Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                 Orientation="Horizontal">
       <WPFSpark:SprocketControl VerticalAlignment="Center"

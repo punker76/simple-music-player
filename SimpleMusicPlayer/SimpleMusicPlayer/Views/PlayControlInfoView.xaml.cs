@@ -4,11 +4,11 @@ using System.Windows.Controls;
 namespace SimpleMusicPlayer.Views
 {
     /// <summary>
-    /// Interaction logic for MainView.xaml
+    /// Interaction logic for PlayControlInfoView.xaml
     /// </summary>
-    public partial class MainView : UserControl
+    public partial class PlayControlInfoView : UserControl
     {
-        public MainView()
+        public PlayControlInfoView()
         {
             InitializeComponent();
         }

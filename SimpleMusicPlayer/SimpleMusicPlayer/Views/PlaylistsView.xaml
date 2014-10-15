@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SimpleMusicPlayer.Views.PlaylistsView"
+﻿<UserControl x:Class="SimpleMusicPlayer.Views.PlayListsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,7 +14,7 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance ViewModels:PlaylistsViewModel}">
+             d:DataContext="{d:DesignInstance ViewModels:PlayListsViewModel}">
 
   <UserControl.Resources>
     <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
@@ -297,17 +297,17 @@
       <Style TargetType="{x:Type Base:BaseListBox}"
              BasedOn="{StaticResource BaseMetroListBox}">
         <Style.Triggers>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlaylistsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
                        Value="Small">
             <Setter Property="ItemTemplate"
                     Value="{StaticResource SmallMediaFileTemplate}" />
           </DataTrigger>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlaylistsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
                        Value="Medium">
             <Setter Property="ItemTemplate"
                     Value="{StaticResource MediumMediaFileTemplate}" />
           </DataTrigger>
-          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlaylistsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+          <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
                        Value="Large">
             <Setter Property="ItemTemplate"
                     Value="{StaticResource LargeMediaFileTemplate}" />

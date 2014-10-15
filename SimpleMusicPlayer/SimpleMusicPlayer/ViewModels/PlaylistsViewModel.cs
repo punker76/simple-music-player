@@ -15,30 +15,25 @@ using SimpleMusicPlayer.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class PlaylistsViewModel : ViewModelBase, IDropTarget, IKeyHandler
+  public class PlayListsViewModel : ViewModelBase, IDropTarget, IKeyHandler
   {
     private IEnumerable firstSimplePlaylistFiles;
     private IMediaFile selectedPlayListFile;
     private IEnumerable<IMediaFile> selectedPlayListFiles;
     private ICommand deleteCommand;
     private ICommand playCommand;
-    private readonly SMPSettings smpSettings;
+    private readonly PlayerEngine playerEngine;
+    private readonly PlayerSettings playerSettings;
     private string playListItemTemplateKey;
 
-    public PlaylistsViewModel(Dispatcher dispatcher, SMPSettings settings) {
-      this.smpSettings = settings;
+    public PlayListsViewModel(Dispatcher dispatcher, MainViewModel mainViewModel) {
+      this.playerEngine = mainViewModel.PlayerEngine;
+      this.playerSettings = mainViewModel.PlayerSettings;
+      this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
       this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
     }
 
-    private FileSearchWorker fileSearchWorker;
-
-    public FileSearchWorker FileSearchWorker {
-      get { return this.fileSearchWorker ?? (this.fileSearchWorker = new FileSearchWorker()); }
-    }
-
-    public PlayerEngine PlayerEngine {
-      get { return PlayerEngine.Instance; }
-    }
+    public FileSearchWorker FileSearchWorker { get; private set; }
 
     public BaseListBox ListBoxPlayList { get; set; }
 
@@ -123,16 +118,16 @@ namespace SimpleMusicPlayer.ViewModels
     private void Play() {
       var file = this.SelectedPlayListFile;
       if (file != null && this.SetCurrentPlayListFile(file)) {
-        this.PlayerEngine.Play(file);
+        this.playerEngine.Play(file);
       }
     }
 
     public IMediaFile GetCurrentPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        var currentFile = this.smpSettings.PlayerSettings.RepeatMode ? fileCollView.CurrentItem : (this.SelectedPlayListFile ?? fileCollView.CurrentItem);
+        var currentFile = this.playerSettings.PlayerEngine.RepeatMode ? fileCollView.CurrentItem : (this.SelectedPlayListFile ?? fileCollView.CurrentItem);
         if (currentFile == null) {
-          if (this.smpSettings.PlayerSettings.ShuffleMode) {
+          if (this.playerSettings.PlayerEngine.ShuffleMode) {
             return this.GetRandomPlayListFile();
           } else if (fileCollView.MoveCurrentToFirst()) {
             return fileCollView.CurrentItem as IMediaFile;
@@ -157,7 +152,7 @@ namespace SimpleMusicPlayer.ViewModels
     public IMediaFile GetPrevPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        if (this.smpSettings.PlayerSettings.ShuffleMode) {
+        if (this.playerSettings.PlayerEngine.ShuffleMode) {
           return this.GetRandomPlayListFile();
         } else {
           if (fileCollView.MoveCurrentToPrevious() || fileCollView.MoveCurrentToLast()) {
@@ -171,7 +166,7 @@ namespace SimpleMusicPlayer.ViewModels
     public IMediaFile GetNextPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        if (this.smpSettings.PlayerSettings.ShuffleMode) {
+        if (this.playerSettings.PlayerEngine.ShuffleMode) {
           return this.GetRandomPlayListFile();
         } else {
           if (fileCollView.MoveCurrentToNext() || fileCollView.MoveCurrentToFirst()) {
@@ -307,7 +302,7 @@ namespace SimpleMusicPlayer.ViewModels
           var file = files.FirstOrDefault();
           if (file != null) {
             currentFilesCollView.MoveCurrentTo(file);
-            this.PlayerEngine.Play(file);
+            this.playerEngine.Play(file);
           }
         }
 
