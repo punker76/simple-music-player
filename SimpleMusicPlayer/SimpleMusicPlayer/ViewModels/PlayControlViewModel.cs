@@ -19,11 +19,11 @@ namespace SimpleMusicPlayer.ViewModels
     private ICommand repeatCommand;
     private ICommand muteCommand;
     private ICommand showMediaLibraryCommand;
-    private PlayerSettings playerSettings;
 
     public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel) {
       this.mainViewModel = mainViewModel;
       this.playListsViewModel = mainViewModel.PlayListsViewModel;
+      this.PlayerEngine = mainViewModel.PlayerEngine;
       this.PlayerSettings = mainViewModel.PlayerSettings;
 
       this.PlayerEngine.PlayNextFileAction = () => {
@@ -42,11 +42,9 @@ namespace SimpleMusicPlayer.ViewModels
                                              };
     }
 
-    public PlayerSettings PlayerSettings { get; private set; }
+    public PlayerEngine PlayerEngine { get; private set; }
 
-    public PlayerEngine PlayerEngine {
-      get { return PlayerEngine.Instance; }
-    }
+    public PlayerSettings PlayerSettings { get; private set; }
 
     public ICommand PlayOrPauseCommand {
       get { return this.playOrPauseCommand ?? (this.playOrPauseCommand = new DelegateCommand(this.PlayOrPause, this.CanPlayOrPause)); }

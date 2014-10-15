@@ -22,20 +22,18 @@ namespace SimpleMusicPlayer.ViewModels
     private IEnumerable<IMediaFile> selectedPlayListFiles;
     private ICommand deleteCommand;
     private ICommand playCommand;
+    private readonly PlayerEngine playerEngine;
     private readonly PlayerSettings playerSettings;
     private string playListItemTemplateKey;
 
     public PlayListsViewModel(Dispatcher dispatcher, MainViewModel mainViewModel) {
-      this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
+      this.playerEngine = mainViewModel.PlayerEngine;
       this.playerSettings = mainViewModel.PlayerSettings;
+      this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
       this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
     }
 
     public FileSearchWorker FileSearchWorker { get; private set; }
-
-    public PlayerEngine PlayerEngine {
-      get { return PlayerEngine.Instance; }
-    }
 
     public BaseListBox ListBoxPlayList { get; set; }
 
@@ -120,7 +118,7 @@ namespace SimpleMusicPlayer.ViewModels
     private void Play() {
       var file = this.SelectedPlayListFile;
       if (file != null && this.SetCurrentPlayListFile(file)) {
-        this.PlayerEngine.Play(file);
+        this.playerEngine.Play(file);
       }
     }
 
@@ -304,7 +302,7 @@ namespace SimpleMusicPlayer.ViewModels
           var file = files.FirstOrDefault();
           if (file != null) {
             currentFilesCollView.MoveCurrentTo(file);
-            this.PlayerEngine.Play(file);
+            this.playerEngine.Play(file);
           }
         }
 
