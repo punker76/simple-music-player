@@ -122,10 +122,30 @@ namespace SimpleMusicPlayer.ViewModels
       }
     }
 
+    public void ResetCurrentItemAndSelection()
+    {
+      var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (fileCollView != null)
+      {
+        fileCollView.MoveCurrentTo(null);
+        this.SelectedPlayListFile = null;
+      }
+    }
+
+    public bool IsFirstOrLastPlayListFile()
+    {
+      var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
+      if (fileCollView != null)
+      {
+        return fileCollView.CurrentPosition == 0 || fileCollView.CurrentPosition == fileCollView.SourceCollection.OfType<IMediaFile>().Count() - 1;
+      }
+      return false;
+    }
+
     public IMediaFile GetCurrentPlayListFile() {
       var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
       if (fileCollView != null) {
-        var currentFile = this.playerSettings.PlayerEngine.RepeatMode ? fileCollView.CurrentItem : (this.SelectedPlayListFile ?? fileCollView.CurrentItem);
+        var currentFile = fileCollView.CurrentItem ?? this.SelectedPlayListFile;
         if (currentFile == null) {
           if (this.playerSettings.PlayerEngine.ShuffleMode) {
             return this.GetRandomPlayListFile();
