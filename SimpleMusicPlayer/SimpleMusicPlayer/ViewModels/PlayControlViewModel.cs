@@ -26,18 +26,22 @@ namespace SimpleMusicPlayer.ViewModels
       this.PlayerEngine = mainViewModel.PlayerEngine;
       this.PlayerSettings = mainViewModel.PlayerSettings;
 
-      this.PlayerEngine.PlayNextFileAction = () => {
-                                               if (this.PlayerSettings.PlayerEngine.RepeatMode) {
-                                                 if (this.CanPlayOrPause()) {
-                                                   var file = this.playListsViewModel.GetCurrentPlayListFile();
-                                                   if (file != null) {
-                                                     this.PlayerEngine.Play(file);
-                                                   }
-                                                 }
-                                               } else {
-                                                 if (this.CanPlayNext()) {
+      this.PlayerEngine.PlayNextFileAction = () =>
+                                             {
+                                               var playerMustBeStoped = !this.CanPlayNext();
+                                               if (!playerMustBeStoped)
+                                               {
+                                                 playerMustBeStoped = !this.PlayerSettings.PlayerEngine.ShuffleMode
+                                                                      && !this.PlayerSettings.PlayerEngine.RepeatMode
+                                                                      && this.playListsViewModel.IsFirstOrLastPlayListFile();
+                                                 if (!playerMustBeStoped)
+                                                 {
                                                    this.PlayNext();
                                                  }
+                                               }
+                                               if (playerMustBeStoped)
+                                               {
+                                                 this.Stop();
                                                }
                                              };
     }
@@ -79,6 +83,8 @@ namespace SimpleMusicPlayer.ViewModels
 
     private void Stop() {
       this.PlayerEngine.Stop();
+      // at this we should re-set the current playlist item and the handsome selected file
+      this.playListsViewModel.ResetCurrentItemAndSelection();
     }
 
     public ICommand PlayPrevCommand {
