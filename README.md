@@ -32,7 +32,7 @@ First simple functions
 	+ **[j]** play next file
 	+ **[k]** play previuos file
 	+ **[s]** shuffle mode on / off
-	+ **[r]** repeat current file on / off
+	+ **[r]** repeat play list on / off
 	+ **[m]** mute player on / off
 	+ **[e]** show the equalizer
 	+ **[l]** show the medialib
