@@ -165,6 +165,7 @@
     <Compile Include="Base\SelectorScrollViewerAttachedBehavior.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\SprocketControl.cs" />
+    <Compile Include="Base\ToolTipHelper.cs" />
     <Compile Include="Base\ViewModelBase.cs" />
     <Compile Include="Base\VisualExtensions.cs" />
     <Compile Include="Base\WindowExtensions.cs" />
