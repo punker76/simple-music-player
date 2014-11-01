@@ -14,7 +14,7 @@ namespace SimpleMusicPlayer.Base
                                           new FrameworkPropertyMetadata(false, AutoMoveCasePropertyChangedCallback));
 
     /// <summary>
-    /// Enable a ToolTip to follow the mouse cursor.
+    /// Enables a ToolTip to follow the mouse cursor.
     /// When set to <c>true</c>, the tool tip follows the mouse cursor.
     /// </summary>
     [AttachedPropertyBrowsableForType(typeof(ToolTip))]
