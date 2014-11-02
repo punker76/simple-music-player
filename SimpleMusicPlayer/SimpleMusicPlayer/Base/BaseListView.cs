@@ -9,31 +9,43 @@ namespace SimpleMusicPlayer.Base
 {
   public class BaseListView : ListView
   {
-    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e) {
+    public Type DataType { get; set; }
+
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
       base.OnPropertyChanged(e);
 
-      if (e.Property.Name == "ItemsSource" && e.OldValue != e.NewValue && e.NewValue != null) {
+      if (e.Property.Name == "ItemsSource"
+          && e.OldValue != e.NewValue
+          && e.NewValue != null
+          && this.DataType != null)
+      {
         CreateColumns(this);
       }
     }
 
-    private static void CreateColumns(BaseListView lv) {
-      var gridView = new GridView();
-      gridView.AllowsColumnReorder = true;
+    private static void CreateColumns(BaseListView lv)
+    {
+      var gridView = new GridView { AllowsColumnReorder = true };
+
       var properties = lv.DataType.GetProperties();
-      foreach (var pi in properties) {
-        var browsable = pi.GetCustomAttributes(true).FirstOrDefault(a => a is BrowsableAttribute) as BrowsableAttribute;
-        if (browsable != null && !browsable.Browsable) {
+      foreach (var pi in properties)
+      {
+        var browsableAttribute = pi.GetCustomAttributes(true).FirstOrDefault(a => a is BrowsableAttribute) as BrowsableAttribute;
+        if (browsableAttribute != null && !browsableAttribute.Browsable)
+        {
           continue;
         }
+        
         var binding = new Binding { Path = new PropertyPath(pi.Name), Mode = BindingMode.OneWay };
         var gridViewColumn = new GridViewColumn() { Header = pi.Name, DisplayMemberBinding = binding };
-        //var gridViewColumn = new GridViewColumn() { Header = pi.Name, CellTemplate = GetCellTemplate(binding) };
         gridView.Columns.Add(gridViewColumn);
       }
+      
       lv.View = gridView;
     }
 
+    //var gridViewColumn = new GridViewColumn() { Header = pi.Name, CellTemplate = GetCellTemplate(binding) };
     private static DataTemplate GetCellTemplate(Binding binding)
     {
       var template = new DataTemplate();
@@ -46,7 +58,5 @@ namespace SimpleMusicPlayer.Base
 
       return template;
     }
-
-    public Type DataType { get; set; }
   }
 }
