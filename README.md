@@ -38,7 +38,8 @@ First simple functions
 + You can link with the supported files (open with...)
 + Working as single instance, that means
 	+ if you try start the player twice you get always the first started player
-	+ if you link with supported media files, the player loads the new files and play the first file from the added files  
+	+ if you link with supported media files, the player loads the new files and play the first file from the added files
++ Tooltip on playlist files  
 
 Ideas? Bugs?
 ============
@@ -53,7 +54,9 @@ Download
 Screen shots (from oldest to current, it's in progress, you know?)
 ============
 
-![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-07-14_22h42_19.png)  
+![very early screenshot 15](./screenshots/2014-11-02_12h11_31.png)  
+
+![very early screenshot 14](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-07-14_22h42_19.png)  
 
 ![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_04.png)  
 
