@@ -40,6 +40,97 @@
       </VisualBrush.Visual>
     </VisualBrush>
 
+    <DataTemplate x:Key="PlayListToolTipDataTemplate"
+                  DataType="{x:Type models:MediaFile}">
+      <StackPanel Orientation="Horizontal">
+        <!-- cover -->
+        <Grid VerticalAlignment="Top"
+              Margin="0,0,5,0"
+              Width="96"
+              Height="96">
+          <Border BorderBrush="#FF707070"
+                  BorderThickness="1"
+                  SnapsToDevicePixels="True">
+            <Rectangle Width="60"
+                       Height="60"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Fill="{DynamicResource CDBrush}" />
+          </Border>
+
+          <Image Stretch="UniformToFill"
+                 RenderOptions.EdgeMode="Aliased"
+                 RenderOptions.BitmapScalingMode="HighQuality"
+                 Source="{Binding Cover, Mode=OneWay}" />
+        </Grid>
+
+        <Grid RenderOptions.ClearTypeHint="Enabled"
+              TextOptions.TextFormattingMode="Display">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <TextBlock Grid.Row="0"
+                     FontSize="16"
+                     TextAlignment="Left"
+                     TextWrapping="Wrap"
+                     Text="{Binding Title, Mode=OneWay}" />
+          <TextBlock Grid.Row="1"
+                     FontSize="14"
+                     Foreground="{StaticResource SemiTextColorBrush}"
+                     TextAlignment="Left"
+                     TextWrapping="Wrap"
+                     Text="{Binding Album, Mode=OneWay}" />
+          <TextBlock Grid.Row="2"
+                     FontSize="14"
+                     Foreground="{StaticResource SemiTextColorBrush}"
+                     TextAlignment="Left"
+                     TextWrapping="Wrap"
+                     Text="{Binding FirstPerformer, Mode=OneWay}" />
+          <TextBlock Grid.Row="3"
+                     FontSize="14"
+                     Foreground="{StaticResource SemiTextColorBrush}"
+                     TextAlignment="Left">
+            <TextBlock.Text>
+              <MultiBinding Mode="OneWay"
+                            StringFormat="{}{0:0,.} kHz, {1} kbps">
+                <Binding Path="AudioSampleRate"
+                         Mode="OneWay" />
+                <Binding Path="AudioBitrate"
+                         Mode="OneWay" />
+              </MultiBinding>
+            </TextBlock.Text>
+          </TextBlock>
+          <TextBlock Grid.Row="4"
+                     FontSize="14"
+                     TextAlignment="Left"
+                     Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+        </Grid>
+      </StackPanel>
+    </DataTemplate>
+
+    <ToolTip x:Key="PlayListToolTip"
+             Content="{Binding}"
+             ContentTemplate="{StaticResource PlayListToolTipDataTemplate}"
+             Background="{StaticResource PlayListToolTipBackground}"
+             MinWidth="250"
+             Padding="1"
+             Base:ToolTipHelper.AutoMove="True" />
+
+    <Style x:Key="PlayListMetroListBoxItem"
+           TargetType="{x:Type ListBoxItem}"
+           BasedOn="{StaticResource MetroListBoxItem}">
+      <Setter Property="ToolTipService.InitialShowDelay"
+              Value="1000" />
+      <Setter Property="ToolTipService.BetweenShowDelay"
+              Value="0" />
+      <Setter Property="ToolTip"
+              Value="{StaticResource PlayListToolTip}" />
+    </Style>
+
     <DataTemplate x:Key="SmallMediaFileTemplate"
                   DataType="{x:Type models:MediaFile}">
       <Grid RenderOptions.ClearTypeHint="Enabled"
@@ -283,6 +374,7 @@
                     Grid.IsSharedSizeScope="True"
                     Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
                     ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                    ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
                     SelectionMode="Extended"
                     SelectedItem="{Binding SelectedPlayListFile}"
                     Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"

@@ -34,6 +34,10 @@
       <!-- text brush for play list index -->
       <SolidColorBrush x:Key="SemiTextColorBrush2"
                        Color="#D1DDE1" />
+      <!-- tooltip background with a little opacity -->
+      <SolidColorBrush x:Key="PlayListToolTipBackground"
+                       Color="{DynamicResource WhiteColor}"
+                       Opacity="0.8" />
 
     </ResourceDictionary>
   </Application.Resources>
