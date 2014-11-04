@@ -11,7 +11,7 @@ namespace SimpleMusicPlayer.Base
       DependencyProperty.RegisterAttached("AutoMove",
                                           typeof(bool),
                                           typeof(ToolTipHelper),
-                                          new FrameworkPropertyMetadata(false, AutoMoveCasePropertyChangedCallback));
+                                          new FrameworkPropertyMetadata(false, AutoMovePropertyChangedCallback));
 
     /// <summary>
     /// Enables a ToolTip to follow the mouse cursor.
@@ -62,7 +62,7 @@ namespace SimpleMusicPlayer.Base
       element.SetValue(AutoMoveVerticalOffsetProperty, value);
     }
 
-    private static void AutoMoveCasePropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
+    private static void AutoMovePropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
     {
       var toolTip = (ToolTip)dependencyObject;
       if (eventArgs.OldValue != eventArgs.NewValue && eventArgs.NewValue != null)
@@ -89,7 +89,7 @@ namespace SimpleMusicPlayer.Base
       {
         // move the tooltip on openeing to the correct position
         MoveToolTip(target, toolTip);
-        target.MouseMove += ToolTipTargetPreviewMouseMove;
+        target.MouseMove += ToolTipTargetMouseMove;
         Debug.WriteLine(">>tool tip opened");
       }
     }
@@ -100,12 +100,12 @@ namespace SimpleMusicPlayer.Base
       var target = toolTip.PlacementTarget as FrameworkElement;
       if (target != null)
       {
-        target.MouseMove -= ToolTipTargetPreviewMouseMove;
+        target.MouseMove -= ToolTipTargetMouseMove;
         Debug.WriteLine(">>tool tip closed");
       }
     }
 
-    private static void ToolTipTargetPreviewMouseMove(object sender, MouseEventArgs e)
+    private static void ToolTipTargetMouseMove(object sender, MouseEventArgs e)
     {
       var target = sender as FrameworkElement;
       var toolTip = (target != null ? target.ToolTip : null) as ToolTip;
