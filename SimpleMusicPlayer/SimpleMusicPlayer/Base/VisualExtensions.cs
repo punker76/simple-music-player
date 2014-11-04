@@ -6,22 +6,38 @@ namespace SimpleMusicPlayer.Base
 {
   public static class VisualExtensions
   {
-    public static Visual GetDescendantByType(this Visual element, Type type)
+    /// <summary>
+    /// Gets a descendant by type at the given visual.
+    /// </summary>
+    /// <param name="visual">The visual that contains the descendant.</param>
+    /// <param name="type">The type to search for the descendant.</param>
+    /// <returns>Returns the searched descendant or null if nothing was found.</returns>
+    public static Visual GetDescendantByType(this Visual visual, Type type)
     {
-      if (element == null) {
+      if (visual == null)
+      {
         return null;
       }
-      if (element.GetType() == type) {
-        return element;
+
+      if (visual.GetType() == type)
+      {
+        return visual;
       }
+
+      // sometimes it's necessary to apply a template before getting the childrens
+      var frameworkElement = visual as FrameworkElement;
+      if (frameworkElement != null)
+      {
+        frameworkElement.ApplyTemplate();
+      }
+
       Visual foundElement = null;
-      if (element is FrameworkElement) {
-        (element as FrameworkElement).ApplyTemplate();
-      }
-      for (var i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++) {
-        var visual = VisualTreeHelper.GetChild(element, i) as Visual;
-        foundElement = GetDescendantByType(visual, type);
-        if (foundElement != null) {
+      for (var i = 0; i < VisualTreeHelper.GetChildrenCount(visual); i++)
+      {
+        var childVisual = VisualTreeHelper.GetChild(visual, i) as Visual;
+        foundElement = GetDescendantByType(childVisual, type);
+        if (foundElement != null)
+        {
           break;
         }
       }

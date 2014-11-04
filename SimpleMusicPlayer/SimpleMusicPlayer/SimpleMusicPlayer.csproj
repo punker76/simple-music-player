@@ -162,7 +162,7 @@
     <Compile Include="Base\FormattedSlider.cs" />
     <Compile Include="Base\KeyHandlerExtensions.cs" />
     <Compile Include="Base\ListBoxAutoScrollBehavior.cs" />
-    <Compile Include="Base\SelectorScrollViewerAttachedBehavior.cs" />
+    <Compile Include="Base\SelectorHelper.cs" />
     <Compile Include="Base\QuickFillObservableCollection.cs" />
     <Compile Include="Base\SprocketControl.cs" />
     <Compile Include="Base\ToolTipHelper.cs" />

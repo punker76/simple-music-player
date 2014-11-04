@@ -98,7 +98,7 @@
                    Margin="10,2,0,2"
                    Text="Genres" />
         <ListBox x:Name="GenreListBox"
-                 Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                 Base:SelectorHelper.ScrollingLines="1"
                  SelectedItem="{Binding SelectedGenre}"
                  ItemsSource="{Binding GenreList, Mode=OneWay}"
                  ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
@@ -116,7 +116,7 @@
                    Margin="10,2,0,2"
                    Text="Artists" />
         <ListBox x:Name="ArtistListBox"
-                 Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                 Base:SelectorHelper.ScrollingLines="1"
                  SelectedItem="{Binding SelectedArtist}"
                  ItemsSource="{Binding ArtistList, Mode=OneWay}"
                  ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
@@ -134,7 +134,7 @@
                    Margin="10,2,0,2"
                    Text="Albums" />
         <ListBox x:Name="AlbumListBox"
-                 Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                 Base:SelectorHelper.ScrollingLines="1"
                  SelectedItem="{Binding SelectedAlbum}"
                  ItemsSource="{Binding AlbumList, Mode=OneWay}"
                  ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
@@ -145,7 +145,7 @@
 
     <Base:BaseListView RenderOptions.ClearTypeHint="Enabled"
                        TextOptions.TextFormattingMode="Display"
-                       Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                       Base:SelectorHelper.ScrollingLines="1"
                        Grid.Row="2"
                        Margin="4"
                        ScrollViewer.IsDeferredScrollingEnabled="False"

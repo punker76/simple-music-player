@@ -372,7 +372,7 @@
 
   <Base:BaseListBox x:Name="ListBoxPlayList"
                     Grid.IsSharedSizeScope="True"
-                    Base:SelectorScrollViewerAttachedBehavior.ScrollingLines="1"
+                    Base:SelectorHelper.ScrollingLines="1"
                     ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
                     ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
                     SelectionMode="Extended"
