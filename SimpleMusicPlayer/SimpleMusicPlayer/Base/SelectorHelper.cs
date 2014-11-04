@@ -58,8 +58,9 @@ namespace SimpleMusicPlayer.Base
     private static void OnSelectorLoaded(object sender, RoutedEventArgs routedEventArgs)
     {
       var selector = (Selector)sender;
-      // get or store scrollviewer
-      SetScrollViewer(selector, selector.GetDescendantByType(typeof(ScrollViewer)) as ScrollViewer);
+      // get the scrollviewer
+      SetScrollViewer(selector,
+                      selector.GetDescendantByType(typeof(ScrollViewer)) as ScrollViewer);
       selector.PreviewMouseWheel -= OnSelectorPreviewMouseWheel;
       selector.PreviewMouseWheel += OnSelectorPreviewMouseWheel;
     }
