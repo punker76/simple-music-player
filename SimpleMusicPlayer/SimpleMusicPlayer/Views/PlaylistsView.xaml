@@ -116,7 +116,8 @@
              Content="{Binding}"
              ContentTemplate="{StaticResource PlayListToolTipDataTemplate}"
              Background="{StaticResource PlayListToolTipBackground}"
-             MinWidth="250"
+             BorderBrush="{DynamicResource GrayBrush10}"
+             MinWidth="350"
              Padding="1"
              Base:ToolTipHelper.AutoMove="True" />
 

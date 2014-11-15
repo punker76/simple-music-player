@@ -37,7 +37,7 @@
       <!-- tooltip background with a little opacity -->
       <SolidColorBrush x:Key="PlayListToolTipBackground"
                        Color="{DynamicResource WhiteColor}"
-                       Opacity="0.8" />
+                       Opacity="0.9" />
 
     </ResourceDictionary>
   </Application.Resources>
