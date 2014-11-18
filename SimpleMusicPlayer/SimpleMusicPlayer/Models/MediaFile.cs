@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -603,6 +604,54 @@ namespace SimpleMusicPlayer.Models
             }
         }
 
+        private static BitmapImage GetImageFromPictureTag(string fileName)
+        {
+            using (var file = TagLib.File.Create(fileName))
+            {
+                var pictures = file.Tag.Pictures;
+                if (pictures != null)
+                {
+                    var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover);
+                    if (pic != null)
+                    {
+                        var bi = new BitmapImage();
+                        bi.BeginInit();
+                        bi.CreateOptions = BitmapCreateOptions.DelayCreation;
+                        bi.CacheOption = BitmapCacheOption.OnDemand;
+                        bi.StreamSource = new MemoryStream(pic.Data.Data);
+                        bi.EndInit();
+                        bi.Freeze();
+                        return bi;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private static BitmapImage GetImageFromDirectory(string fileName)
+        {
+            var path2Image = Path.GetDirectoryName(fileName);
+            var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp" };
+            var cover = !string.IsNullOrEmpty(path2Image)
+                ? Directory.EnumerateFiles(path2Image, "*folder*")
+                           .Concat(Directory.EnumerateFiles(path2Image, "*cover*"))
+                           .Distinct()
+                           .FirstOrDefault(f => extensions.Contains(Path.GetExtension(f)))
+                : null;
+            if (!string.IsNullOrEmpty(cover))
+            {
+                var bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CreateOptions = BitmapCreateOptions.DelayCreation;
+                bi.CacheOption = BitmapCacheOption.OnDemand;
+                bi.UriSource = new Uri(cover, UriKind.RelativeOrAbsolute);
+                bi.EndInit();
+                bi.Freeze();
+                return bi;
+            }
+            return null;
+        }
+
         [Browsable(false)]
         [JsonIgnore]
         public BitmapImage Cover
@@ -615,41 +664,10 @@ namespace SimpleMusicPlayer.Models
                 }
                 try
                 {
-                    using (var file = TagLib.File.Create(this.FullFileName))
-                    {
-                        var pictures = file.Tag.Pictures;
-                        if (pictures != null)
-                        {
-                            var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover);
-                            if (pic != null)
-                            {
-                                var bi = new BitmapImage();
-                                bi.BeginInit();
-                                bi.CreateOptions = BitmapCreateOptions.DelayCreation;
-                                bi.CacheOption = BitmapCacheOption.OnDemand;
-                                bi.StreamSource = new MemoryStream(pic.Data.Data);
-                                bi.EndInit();
-                                bi.Freeze();
-                                return bi;
-                            }
-                            else
-                            {
-                                var path2Image = Path.GetDirectoryName(this.FullFileName);
-                                var cover = !string.IsNullOrEmpty(path2Image) ? Directory.EnumerateFiles(path2Image, "folder.*").FirstOrDefault() : null;
-                                if (!string.IsNullOrEmpty(cover))
-                                {
-                                    var bi = new BitmapImage();
-                                    bi.BeginInit();
-                                    bi.CreateOptions = BitmapCreateOptions.DelayCreation;
-                                    bi.CacheOption = BitmapCacheOption.OnDemand;
-                                    bi.UriSource = new Uri(cover, UriKind.RelativeOrAbsolute);
-                                    bi.EndInit();
-                                    bi.Freeze();
-                                    return bi;
-                                }
-                            }
-                        }
-                    }
+                    // try getting the cover by picture tag
+                    var image = GetImageFromPictureTag(this.FullFileName);
+                    // if no cover was found try getting the cover from disk
+                    return image ?? GetImageFromDirectory(this.FullFileName);
                 }
                 catch (Exception e)
                 {
@@ -673,10 +691,6 @@ namespace SimpleMusicPlayer.Models
                 this.OnPropertyChanged(() => this.PlayListIndex);
             }
         }
-
-        //[Browsable(false)]
-        //[JsonIgnore]
-        //public object PlayList { get; set; }
 
         public override string ToString()
         {
