@@ -716,11 +716,9 @@ namespace WPFSpark
             CalculateSpokesPoints();
 
             RoutedEventHandler handler = null;
-            handler = delegate
-                            {
+            handler = delegate {
                                 this.Loaded -= handler;
-                                this.Dispatcher.BeginInvoke(new Action(() =>
-                                {
+                                this.Dispatcher.BeginInvoke(new Action(() => {
                                     if ((IsIndeterminate) && (IsVisible))
                                         Start();
                                 }));
@@ -894,8 +892,7 @@ namespace WPFSpark
         /// <param name="e">EventArgs</param>
         void OnRenderTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() =>
-            {
+            this.Dispatcher.BeginInvoke(new Action(() => {
                 if (Rotation == Direction.CLOCKWISE)
                 {
                     renderStartAngle += angleIncrement;

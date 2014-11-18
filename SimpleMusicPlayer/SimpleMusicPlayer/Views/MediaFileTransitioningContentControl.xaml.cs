@@ -3,11 +3,11 @@ using MahApps.Metro.Controls;
 
 namespace SimpleMusicPlayer.Views
 {
-  public partial class MediaFileTransitioningContentControl : TransitioningContentControl
-  {
-    public MediaFileTransitioningContentControl()
+    public partial class MediaFileTransitioningContentControl : TransitioningContentControl
     {
-      InitializeComponent();
+        public MediaFileTransitioningContentControl()
+        {
+            InitializeComponent();
+        }
     }
-  }
 }

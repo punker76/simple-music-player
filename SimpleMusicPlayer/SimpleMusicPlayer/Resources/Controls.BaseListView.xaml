@@ -2,153 +2,153 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Base="clr-namespace:SimpleMusicPlayer.Base">
 
-  <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListView.xaml" />
-  </ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListView.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-  <!--Group Header-->
-  <!--  <Style TargetType="{x:Type HeaderedContentControl}">-->
-  <!--    <Setter Property="Control.Template">-->
-  <!--      <Setter.Value>-->
-  <!--        <ControlTemplate TargetType="{x:Type HeaderedContentControl}">-->
-  <!--          <Grid>-->
-  <!--            <Grid.RowDefinitions>-->
-  <!--              <RowDefinition Height="*" />-->
-  <!--              <RowDefinition Height="Auto" />-->
-  <!--            </Grid.RowDefinitions>-->
-  <!--            <StackPanel Orientation="Horizontal">-->
-  <!--              <ContentPresenter Content="{TemplateBinding HeaderedContentControl.Header}"-->
-  <!--                                ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"-->
-  <!--                                ContentSource="Header"-->
-  <!--                                VerticalAlignment="Center"-->
-  <!--                                Width="100">-->
-  <!--              </ContentPresenter>-->
-  <!--              <ContentPresenter Content="{TemplateBinding ContentControl.Content}"-->
-  <!--                                ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" />-->
-  <!--            </StackPanel>-->
-  <!--            <Separator HorizontalAlignment="Stretch"-->
-  <!--                       Grid.Row="1" />-->
-  <!--          </Grid>-->
-  <!--        </ControlTemplate>-->
-  <!--      </Setter.Value>-->
-  <!--    </Setter>-->
-  <!--  </Style>-->
-  <!--Group Header-->
+    <!--Group Header-->
+    <!--  <Style TargetType="{x:Type HeaderedContentControl}">-->
+    <!--    <Setter Property="Control.Template">-->
+    <!--      <Setter.Value>-->
+    <!--        <ControlTemplate TargetType="{x:Type HeaderedContentControl}">-->
+    <!--          <Grid>-->
+    <!--            <Grid.RowDefinitions>-->
+    <!--              <RowDefinition Height="*" />-->
+    <!--              <RowDefinition Height="Auto" />-->
+    <!--            </Grid.RowDefinitions>-->
+    <!--            <StackPanel Orientation="Horizontal">-->
+    <!--              <ContentPresenter Content="{TemplateBinding HeaderedContentControl.Header}"-->
+    <!--                                ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}"-->
+    <!--                                ContentSource="Header"-->
+    <!--                                VerticalAlignment="Center"-->
+    <!--                                Width="100">-->
+    <!--              </ContentPresenter>-->
+    <!--              <ContentPresenter Content="{TemplateBinding ContentControl.Content}"-->
+    <!--                                ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" />-->
+    <!--            </StackPanel>-->
+    <!--            <Separator HorizontalAlignment="Stretch"-->
+    <!--                       Grid.Row="1" />-->
+    <!--          </Grid>-->
+    <!--        </ControlTemplate>-->
+    <!--      </Setter.Value>-->
+    <!--    </Setter>-->
+    <!--  </Style>-->
+    <!--Group Header-->
 
-  <!--Separator-->
-  <!--  <Style TargetType="{x:Type Separator}"-->
-  <!--         BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />-->
+    <!--Separator-->
+    <!--  <Style TargetType="{x:Type Separator}"-->
+    <!--         BasedOn="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />-->
 
-  <!--  <Style x:Key="SimpleMPMetroListViewItem"-->
-  <!--         TargetType="{x:Type ListViewItem}">-->
-  <!--    <Setter Property="Foreground"-->
-  <!--            Value="{DynamicResource BlackBrush}" />-->
-  <!--    <Setter Property="HorizontalContentAlignment"-->
-  <!--            Value="Stretch" />-->
-  <!--    <Setter Property="VerticalContentAlignment"-->
-  <!--            Value="Center" />-->
-  <!--    <Setter Property="MinHeight"-->
-  <!--            Value="25" />-->
-  <!--    <Setter Property="Margin"-->
-  <!--            Value="0,0,0,0" />-->
-  <!--    <Setter Property="Border.BorderBrush"-->
-  <!--            Value="{DynamicResource Gray3}" />-->
-  <!--    <Setter Property="Template">-->
-  <!--      <Setter.Value>-->
-  <!--        <ControlTemplate TargetType="{x:Type ListViewItem}">-->
-  <!--          <Border x:Name="Bd"-->
-  <!--                  Background="{TemplateBinding Background}"-->
-  <!--                  SnapsToDevicePixels="true">-->
-  <!--            <Grid>-->
-  <!--              <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />-->
-  <!--              <ContentPresenter x:Name="contentPresenter"-->
-  <!--                                Visibility="Collapsed" />-->
-  <!--            </Grid>-->
-  <!--          </Border>-->
-  <!--          <ControlTemplate.Triggers>-->
-  <!--            <Trigger Property="GridView.ColumnCollection"-->
-  <!--                     Value="{x:Null}">-->
-  <!--              <Setter TargetName="contentPresenter"-->
-  <!--                      Property="Visibility"-->
-  <!--                      Value="Visible" />-->
-  <!--            </Trigger>-->
-  <!--            <Trigger Property="IsSelected"-->
-  <!--                     Value="true">-->
-  <!--              <Setter TargetName="Bd"-->
-  <!--                      Property="BorderBrush"-->
-  <!--                      Value="#FF143c65" />-->
-  <!--              <Setter Property="Background"-->
-  <!--                      TargetName="Bd"-->
-  <!--                      Value="{DynamicResource AccentColorBrush}"></Setter>-->
-  <!--              <Setter Property="Foreground"-->
-  <!--                      Value="{DynamicResource AccentSelectedColorBrush}" />-->
-  <!--            </Trigger>-->
-  <!--            <Trigger Property="IsMouseOver"-->
-  <!--                     Value="True">-->
-  <!--              <Setter TargetName="Bd"-->
-  <!--                      Property="Background">-->
-  <!--                <Setter.Value>-->
-  <!--                  <SolidColorBrush Color="{DynamicResource AccentColor3}" />-->
-  <!--                </Setter.Value>-->
-  <!--              </Setter>-->
-  <!--            </Trigger>-->
-  <!--            <MultiTrigger>-->
-  <!--              <MultiTrigger.Conditions>-->
-  <!--                <Condition Property="IsSelected"-->
-  <!--                           Value="true" />-->
-  <!--                <Condition Property="Selector.IsSelectionActive"-->
-  <!--                           Value="True" />-->
-  <!--              </MultiTrigger.Conditions>-->
-  <!--              <Setter Property="Background"-->
-  <!--                      TargetName="Bd">-->
-  <!--                <Setter.Value>-->
-  <!--                  <SolidColorBrush Color="{DynamicResource AccentColor2}" />-->
-  <!--                </Setter.Value>-->
-  <!--              </Setter>-->
-  <!--              <Setter Property="BorderBrush"-->
-  <!--                      TargetName="Bd"-->
-  <!--                      Value="#FF143c65" />-->
-  <!--              <Setter Property="Foreground"-->
-  <!--                      Value="{DynamicResource AccentSelectedColorBrush}" />-->
-  <!--            </MultiTrigger>-->
-  <!--            <MultiTrigger>-->
-  <!--              <MultiTrigger.Conditions>-->
-  <!--                <Condition Property="IsEnabled"-->
-  <!--                           Value="False" />-->
-  <!--                <Condition Property="IsSelected"-->
-  <!--                           Value="True" />-->
-  <!--              </MultiTrigger.Conditions>-->
-  <!--              <MultiTrigger.Setters>-->
-  <!--                <Setter TargetName="Bd"-->
-  <!--                        Property="Background"-->
-  <!--                        Value="{DynamicResource GrayBrush5}" />-->
-  <!--              </MultiTrigger.Setters>-->
-  <!--            </MultiTrigger>-->
-  <!--          </ControlTemplate.Triggers>-->
-  <!--        </ControlTemplate>-->
-  <!--      </Setter.Value>-->
-  <!--    </Setter>-->
-  <!--  </Style>-->
+    <!--  <Style x:Key="SimpleMPMetroListViewItem"-->
+    <!--         TargetType="{x:Type ListViewItem}">-->
+    <!--    <Setter Property="Foreground"-->
+    <!--            Value="{DynamicResource BlackBrush}" />-->
+    <!--    <Setter Property="HorizontalContentAlignment"-->
+    <!--            Value="Stretch" />-->
+    <!--    <Setter Property="VerticalContentAlignment"-->
+    <!--            Value="Center" />-->
+    <!--    <Setter Property="MinHeight"-->
+    <!--            Value="25" />-->
+    <!--    <Setter Property="Margin"-->
+    <!--            Value="0,0,0,0" />-->
+    <!--    <Setter Property="Border.BorderBrush"-->
+    <!--            Value="{DynamicResource Gray3}" />-->
+    <!--    <Setter Property="Template">-->
+    <!--      <Setter.Value>-->
+    <!--        <ControlTemplate TargetType="{x:Type ListViewItem}">-->
+    <!--          <Border x:Name="Bd"-->
+    <!--                  Background="{TemplateBinding Background}"-->
+    <!--                  SnapsToDevicePixels="true">-->
+    <!--            <Grid>-->
+    <!--              <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />-->
+    <!--              <ContentPresenter x:Name="contentPresenter"-->
+    <!--                                Visibility="Collapsed" />-->
+    <!--            </Grid>-->
+    <!--          </Border>-->
+    <!--          <ControlTemplate.Triggers>-->
+    <!--            <Trigger Property="GridView.ColumnCollection"-->
+    <!--                     Value="{x:Null}">-->
+    <!--              <Setter TargetName="contentPresenter"-->
+    <!--                      Property="Visibility"-->
+    <!--                      Value="Visible" />-->
+    <!--            </Trigger>-->
+    <!--            <Trigger Property="IsSelected"-->
+    <!--                     Value="true">-->
+    <!--              <Setter TargetName="Bd"-->
+    <!--                      Property="BorderBrush"-->
+    <!--                      Value="#FF143c65" />-->
+    <!--              <Setter Property="Background"-->
+    <!--                      TargetName="Bd"-->
+    <!--                      Value="{DynamicResource AccentColorBrush}"></Setter>-->
+    <!--              <Setter Property="Foreground"-->
+    <!--                      Value="{DynamicResource AccentSelectedColorBrush}" />-->
+    <!--            </Trigger>-->
+    <!--            <Trigger Property="IsMouseOver"-->
+    <!--                     Value="True">-->
+    <!--              <Setter TargetName="Bd"-->
+    <!--                      Property="Background">-->
+    <!--                <Setter.Value>-->
+    <!--                  <SolidColorBrush Color="{DynamicResource AccentColor3}" />-->
+    <!--                </Setter.Value>-->
+    <!--              </Setter>-->
+    <!--            </Trigger>-->
+    <!--            <MultiTrigger>-->
+    <!--              <MultiTrigger.Conditions>-->
+    <!--                <Condition Property="IsSelected"-->
+    <!--                           Value="true" />-->
+    <!--                <Condition Property="Selector.IsSelectionActive"-->
+    <!--                           Value="True" />-->
+    <!--              </MultiTrigger.Conditions>-->
+    <!--              <Setter Property="Background"-->
+    <!--                      TargetName="Bd">-->
+    <!--                <Setter.Value>-->
+    <!--                  <SolidColorBrush Color="{DynamicResource AccentColor2}" />-->
+    <!--                </Setter.Value>-->
+    <!--              </Setter>-->
+    <!--              <Setter Property="BorderBrush"-->
+    <!--                      TargetName="Bd"-->
+    <!--                      Value="#FF143c65" />-->
+    <!--              <Setter Property="Foreground"-->
+    <!--                      Value="{DynamicResource AccentSelectedColorBrush}" />-->
+    <!--            </MultiTrigger>-->
+    <!--            <MultiTrigger>-->
+    <!--              <MultiTrigger.Conditions>-->
+    <!--                <Condition Property="IsEnabled"-->
+    <!--                           Value="False" />-->
+    <!--                <Condition Property="IsSelected"-->
+    <!--                           Value="True" />-->
+    <!--              </MultiTrigger.Conditions>-->
+    <!--              <MultiTrigger.Setters>-->
+    <!--                <Setter TargetName="Bd"-->
+    <!--                        Property="Background"-->
+    <!--                        Value="{DynamicResource GrayBrush5}" />-->
+    <!--              </MultiTrigger.Setters>-->
+    <!--            </MultiTrigger>-->
+    <!--          </ControlTemplate.Triggers>-->
+    <!--        </ControlTemplate>-->
+    <!--      </Setter.Value>-->
+    <!--    </Setter>-->
+    <!--  </Style>-->
 
-  <Style x:Key="BaseMetroListView"
-         TargetType="Base:BaseListView"
-         BasedOn="{StaticResource VirtualisedMetroListView}">
-    <Setter Property="BorderThickness"
-            Value="0" />
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-  </Style>
+    <Style x:Key="BaseMetroListView"
+           TargetType="Base:BaseListView"
+           BasedOn="{StaticResource VirtualisedMetroListView}">
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+    </Style>
 
-  <Style x:Key="BaseGridViewColumnHeader"
-         TargetType="GridViewColumnHeader"
-         BasedOn="{StaticResource MetroGridViewColumnHeader}">
-    <Setter Property="ContentTemplate">
-      <Setter.Value>
-        <DataTemplate>
-          <TextBlock Text="{Binding Converter={StaticResource ToUpperConverter}}" />
-        </DataTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <Style x:Key="BaseGridViewColumnHeader"
+           TargetType="GridViewColumnHeader"
+           BasedOn="{StaticResource MetroGridViewColumnHeader}">
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource ToUpperConverter}}" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

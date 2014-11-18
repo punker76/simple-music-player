@@ -2,8 +2,8 @@
 
 namespace SimpleMusicPlayer.Interfaces
 {
-  public interface IWindowPlacementSetting
-  {
-    WINDOWPLACEMENT? Placement { get; set; }
-  }
+    public interface IWindowPlacementSetting
+    {
+        WINDOWPLACEMENT? Placement { get; set; }
+    }
 }

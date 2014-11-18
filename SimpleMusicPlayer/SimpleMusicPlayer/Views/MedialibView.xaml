@@ -27,189 +27,189 @@
                       d:DesignWidth="300"
                       d:DataContext="{d:DesignInstance ViewModels:MedialibViewModel}">
 
-  <Controls:MetroWindow.Resources>
-    <SolidColorBrush x:Key="ListBoxHeaderBrush"
-                     Color="#303030" />
-    <SolidColorBrush x:Key="ListBoxBrush"
-                     Color="#3C3C3C" />
+    <Controls:MetroWindow.Resources>
+        <SolidColorBrush x:Key="ListBoxHeaderBrush"
+                         Color="#303030" />
+        <SolidColorBrush x:Key="ListBoxBrush"
+                         Color="#3C3C3C" />
 
-    <DataTemplate x:Key="GroupingListBoxDataTemplate">
-      <!-- Content presenter for the list of objects in each grouping. Binding is done to the Name property on the custom class -->
-      <!--<TextBlock Text="{Binding Path=Key, Mode=OneWay}" />-->
-      <TextBlock RenderOptions.ClearTypeHint="Enabled"
-                 TextOptions.TextFormattingMode="Display"
-                 Text="{Binding Mode=OneWay}" />
-    </DataTemplate>
-
-  </Controls:MetroWindow.Resources>
-
-  <Grid>
-
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="2*" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-
-    <Grid Grid.Row="0"
-          Margin="4,0,4,0">
-      <!-- show media library -->
-      <Button Command="{Binding AddDirectoryCommand, Mode=OneWay}"
-              ToolTip="Add Directory to Medialib"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Left"
-              Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-              Height="38"
-              Width="38">
-        <Rectangle Width="12"
-                   Height="12">
-          <Rectangle.Fill>
-            <VisualBrush Stretch="Fill"
-                         Visual="{StaticResource appbar_add}" />
-          </Rectangle.Fill>
-        </Rectangle>
-      </Button>
-
-      <TextBox Margin="5"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Right"
-               Width="200"
-               Controls:TextboxHelper.Watermark="Search"
-               Style="{DynamicResource SearchMetroTextBox}" />
-    </Grid>
-
-    <Grid Grid.Row="1"
-          Margin="4,0,4,0">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
-
-      <!-- genre filter listbox -->
-      <DockPanel RenderOptions.ClearTypeHint="Enabled"
-                 TextOptions.TextFormattingMode="Display"
-                 Grid.Column="0"
-                 Margin="2"
-                 LastChildFill="True"
-                 Background="{StaticResource ListBoxHeaderBrush}">
-        <TextBlock DockPanel.Dock="Top"
-                   Margin="10,2,0,2"
-                   Text="Genres" />
-        <ListBox x:Name="GenreListBox"
-                 Base:SelectorHelper.ScrollingLines="1"
-                 SelectedItem="{Binding SelectedGenre}"
-                 ItemsSource="{Binding GenreList, Mode=OneWay}"
-                 ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
-                 Background="{StaticResource ListBoxBrush}" />
-      </DockPanel>
-
-      <!-- artis filter listbox -->
-      <DockPanel RenderOptions.ClearTypeHint="Enabled"
-                 TextOptions.TextFormattingMode="Display"
-                 Grid.Column="1"
-                 Margin="2"
-                 LastChildFill="True"
-                 Background="{StaticResource ListBoxHeaderBrush}">
-        <TextBlock DockPanel.Dock="Top"
-                   Margin="10,2,0,2"
-                   Text="Artists" />
-        <ListBox x:Name="ArtistListBox"
-                 Base:SelectorHelper.ScrollingLines="1"
-                 SelectedItem="{Binding SelectedArtist}"
-                 ItemsSource="{Binding ArtistList, Mode=OneWay}"
-                 ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
-                 Background="{StaticResource ListBoxBrush}" />
-      </DockPanel>
-
-      <!-- album filter listbox -->
-      <DockPanel RenderOptions.ClearTypeHint="Enabled"
-                 TextOptions.TextFormattingMode="Display"
-                 Grid.Column="2"
-                 Margin="2"
-                 LastChildFill="True"
-                 Background="{StaticResource ListBoxHeaderBrush}">
-        <TextBlock DockPanel.Dock="Top"
-                   Margin="10,2,0,2"
-                   Text="Albums" />
-        <ListBox x:Name="AlbumListBox"
-                 Base:SelectorHelper.ScrollingLines="1"
-                 SelectedItem="{Binding SelectedAlbum}"
-                 ItemsSource="{Binding AlbumList, Mode=OneWay}"
-                 ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
-                 Background="{StaticResource ListBoxBrush}" />
-      </DockPanel>
-
-    </Grid>
-
-    <Base:BaseListView RenderOptions.ClearTypeHint="Enabled"
+        <DataTemplate x:Key="GroupingListBoxDataTemplate">
+            <!-- Content presenter for the list of objects in each grouping. Binding is done to the Name property on the custom class -->
+            <!--<TextBlock Text="{Binding Path=Key, Mode=OneWay}" />-->
+            <TextBlock RenderOptions.ClearTypeHint="Enabled"
                        TextOptions.TextFormattingMode="Display"
-                       Base:SelectorHelper.ScrollingLines="1"
-                       Grid.Row="2"
-                       Margin="4"
-                       ScrollViewer.IsDeferredScrollingEnabled="False"
-                       DataType="{x:Type models:MediaFile}"
-                       ItemsSource="{Binding MediaFiles, Mode=OneWay}">
-      <!--      <ListView.GroupStyle>-->
-      <!--        <GroupStyle>-->
-      <!--          <GroupStyle.ContainerStyle>-->
-      <!--            <Style TargetType="{x:Type GroupItem}">-->
-      <!--              <Setter Property="Margin"-->
-      <!--                      Value="0,0,0,5" />-->
-      <!--              <Setter Property="Template">-->
-      <!--                <Setter.Value>-->
-      <!--                  <ControlTemplate TargetType="{x:Type GroupItem}">-->
-      <!--                    <HeaderedContentControl BorderBrush="#FFA4B97F"-->
-      <!--                                            BorderThickness="0,0,0,1">-->
-      <!--                      <HeaderedContentControl.Header>-->
-      <!--                        <TextBlock FontWeight="Bold"-->
-      <!--                                   FontSize="12"-->
-      <!--                                   Foreground="{DynamicResource TextBrush}"-->
-      <!--                                   Text="{Binding Path=Name, Mode=OneWay}"-->
-      <!--                                   Margin="5,0,0,0" />-->
-      <!--                      </HeaderedContentControl.Header>-->
-      <!--                      <HeaderedContentControl.Content>-->
-      <!--                        <ItemsPresenter />-->
-      <!--                      </HeaderedContentControl.Content>-->
-      <!--                    </HeaderedContentControl>-->
-      <!--                  </ControlTemplate>-->
-      <!--                </Setter.Value>-->
-      <!--              </Setter>-->
-      <!--            </Style>-->
-      <!--          </GroupStyle.ContainerStyle>-->
-      <!--        </GroupStyle>-->
-      <!--      </ListView.GroupStyle>-->
-    </Base:BaseListView>
+                       Text="{Binding Mode=OneWay}" />
+        </DataTemplate>
 
-    <StackPanel Grid.Row="3"
-                DataContext="{Binding FileSearchWorker, Mode=OneWay}"
-                Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
-                Orientation="Horizontal">
-      <WPFSpark:SprocketControl VerticalAlignment="Center"
-                                Width="25"
-                                Height="25"
-                                TickWidth="2"
-                                TickColor="{DynamicResource AccentColor}"
-                                IsIndeterminate="True" />
-      <TextBlock VerticalAlignment="Center"
-                 Text="Search for Files..." />
-      <Grid>
-        <Grid.Resources>
-          <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-              <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
-              <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-          </ResourceDictionary>
-        </Grid.Resources>
-        <Button VerticalAlignment="Center"
-                Margin="5,0,0,0"
-                Content="Cancel"
-                Style="{StaticResource LinkButton}"
-                Command="{Binding StopSearchCmd, Mode=OneWay}" />
-      </Grid>
-    </StackPanel>
+    </Controls:MetroWindow.Resources>
 
-  </Grid>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0"
+              Margin="4,0,4,0">
+            <!-- show media library -->
+            <Button Command="{Binding AddDirectoryCommand, Mode=OneWay}"
+                    ToolTip="Add Directory to Medialib"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Height="38"
+                    Width="38">
+                <Rectangle Width="12"
+                           Height="12">
+                    <Rectangle.Fill>
+                        <VisualBrush Stretch="Fill"
+                                     Visual="{StaticResource appbar_add}" />
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Button>
+
+            <TextBox Margin="5"
+                     VerticalAlignment="Center"
+                     HorizontalAlignment="Right"
+                     Width="200"
+                     Controls:TextboxHelper.Watermark="Search"
+                     Style="{DynamicResource SearchMetroTextBox}" />
+        </Grid>
+
+        <Grid Grid.Row="1"
+              Margin="4,0,4,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- genre filter listbox -->
+            <DockPanel RenderOptions.ClearTypeHint="Enabled"
+                       TextOptions.TextFormattingMode="Display"
+                       Grid.Column="0"
+                       Margin="2"
+                       LastChildFill="True"
+                       Background="{StaticResource ListBoxHeaderBrush}">
+                <TextBlock DockPanel.Dock="Top"
+                           Margin="10,2,0,2"
+                           Text="Genres" />
+                <ListBox x:Name="GenreListBox"
+                         Base:SelectorHelper.ScrollingLines="1"
+                         SelectedItem="{Binding SelectedGenre}"
+                         ItemsSource="{Binding GenreList, Mode=OneWay}"
+                         ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
+                         Background="{StaticResource ListBoxBrush}" />
+            </DockPanel>
+
+            <!-- artis filter listbox -->
+            <DockPanel RenderOptions.ClearTypeHint="Enabled"
+                       TextOptions.TextFormattingMode="Display"
+                       Grid.Column="1"
+                       Margin="2"
+                       LastChildFill="True"
+                       Background="{StaticResource ListBoxHeaderBrush}">
+                <TextBlock DockPanel.Dock="Top"
+                           Margin="10,2,0,2"
+                           Text="Artists" />
+                <ListBox x:Name="ArtistListBox"
+                         Base:SelectorHelper.ScrollingLines="1"
+                         SelectedItem="{Binding SelectedArtist}"
+                         ItemsSource="{Binding ArtistList, Mode=OneWay}"
+                         ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
+                         Background="{StaticResource ListBoxBrush}" />
+            </DockPanel>
+
+            <!-- album filter listbox -->
+            <DockPanel RenderOptions.ClearTypeHint="Enabled"
+                       TextOptions.TextFormattingMode="Display"
+                       Grid.Column="2"
+                       Margin="2"
+                       LastChildFill="True"
+                       Background="{StaticResource ListBoxHeaderBrush}">
+                <TextBlock DockPanel.Dock="Top"
+                           Margin="10,2,0,2"
+                           Text="Albums" />
+                <ListBox x:Name="AlbumListBox"
+                         Base:SelectorHelper.ScrollingLines="1"
+                         SelectedItem="{Binding SelectedAlbum}"
+                         ItemsSource="{Binding AlbumList, Mode=OneWay}"
+                         ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
+                         Background="{StaticResource ListBoxBrush}" />
+            </DockPanel>
+
+        </Grid>
+
+        <Base:BaseListView RenderOptions.ClearTypeHint="Enabled"
+                           TextOptions.TextFormattingMode="Display"
+                           Base:SelectorHelper.ScrollingLines="1"
+                           Grid.Row="2"
+                           Margin="4"
+                           ScrollViewer.IsDeferredScrollingEnabled="False"
+                           DataType="{x:Type models:MediaFile}"
+                           ItemsSource="{Binding MediaFiles, Mode=OneWay}">
+            <!--      <ListView.GroupStyle>-->
+            <!--        <GroupStyle>-->
+            <!--          <GroupStyle.ContainerStyle>-->
+            <!--            <Style TargetType="{x:Type GroupItem}">-->
+            <!--              <Setter Property="Margin"-->
+            <!--                      Value="0,0,0,5" />-->
+            <!--              <Setter Property="Template">-->
+            <!--                <Setter.Value>-->
+            <!--                  <ControlTemplate TargetType="{x:Type GroupItem}">-->
+            <!--                    <HeaderedContentControl BorderBrush="#FFA4B97F"-->
+            <!--                                            BorderThickness="0,0,0,1">-->
+            <!--                      <HeaderedContentControl.Header>-->
+            <!--                        <TextBlock FontWeight="Bold"-->
+            <!--                                   FontSize="12"-->
+            <!--                                   Foreground="{DynamicResource TextBrush}"-->
+            <!--                                   Text="{Binding Path=Name, Mode=OneWay}"-->
+            <!--                                   Margin="5,0,0,0" />-->
+            <!--                      </HeaderedContentControl.Header>-->
+            <!--                      <HeaderedContentControl.Content>-->
+            <!--                        <ItemsPresenter />-->
+            <!--                      </HeaderedContentControl.Content>-->
+            <!--                    </HeaderedContentControl>-->
+            <!--                  </ControlTemplate>-->
+            <!--                </Setter.Value>-->
+            <!--              </Setter>-->
+            <!--            </Style>-->
+            <!--          </GroupStyle.ContainerStyle>-->
+            <!--        </GroupStyle>-->
+            <!--      </ListView.GroupStyle>-->
+        </Base:BaseListView>
+
+        <StackPanel Grid.Row="3"
+                    DataContext="{Binding FileSearchWorker, Mode=OneWay}"
+                    Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
+                    Orientation="Horizontal">
+            <WPFSpark:SprocketControl VerticalAlignment="Center"
+                                      Width="25"
+                                      Height="25"
+                                      TickWidth="2"
+                                      TickColor="{DynamicResource AccentColor}"
+                                      IsIndeterminate="True" />
+            <TextBlock VerticalAlignment="Center"
+                       Text="Search for Files..." />
+            <Grid>
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <ResourceDictionary.MergedDictionaries>
+                            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
+                        </ResourceDictionary.MergedDictionaries>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Button VerticalAlignment="Center"
+                        Margin="5,0,0,0"
+                        Content="Cancel"
+                        Style="{StaticResource LinkButton}"
+                        Command="{Binding StopSearchCmd, Mode=OneWay}" />
+            </Grid>
+        </StackPanel>
+
+    </Grid>
 </Controls:MetroWindow>

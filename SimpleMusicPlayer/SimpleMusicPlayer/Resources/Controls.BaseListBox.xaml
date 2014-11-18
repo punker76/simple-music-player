@@ -2,17 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:base="clr-namespace:SimpleMusicPlayer.Base">
 
-  <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListBox.xaml" />
-  </ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-  <Style x:Key="BaseMetroListBox"
-         TargetType="base:BaseListBox"
-         BasedOn="{StaticResource VirtualisedMetroListBox}">
-    <Setter Property="IsTextSearchEnabled"
-            Value="False" />
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-  </Style>
+    <Style x:Key="BaseMetroListBox"
+           TargetType="base:BaseListBox"
+           BasedOn="{StaticResource VirtualisedMetroListBox}">
+        <Setter Property="IsTextSearchEnabled"
+                Value="False" />
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+    </Style>
 
 </ResourceDictionary>

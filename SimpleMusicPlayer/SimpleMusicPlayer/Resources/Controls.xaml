@@ -2,94 +2,94 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Base="clr-namespace:SimpleMusicPlayer.Base">
 
-  <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
 
-    <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListView.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListBox.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Slider.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Tooltip.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Slider.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Tooltip.xaml" />
 
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
-  </ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-  <Style x:Key="SimpleMPMetroCircleButtonStyle"
-         TargetType="{x:Type Button}"
-         BasedOn="{StaticResource MetroCircleButtonStyle}">
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-  </Style>
+    <Style x:Key="SimpleMPMetroCircleButtonStyle"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource MetroCircleButtonStyle}">
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+    </Style>
 
-  <Style x:Key="SimpleMPMetroVolumeButtonStyle"
-         TargetType="{x:Type Button}"
-         BasedOn="{StaticResource SimpleMPMetroCircleButtonStyle}">
-    <Setter Property="Background"
-            Value="Transparent" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type Button}">
-          <ContentPresenter x:Name="content"
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            Margin="{TemplateBinding Padding}"
-                            RecognizesAccessKey="True"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-          <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver"
-                     Value="True">
-              <Setter TargetName="content"
-                      Property="Opacity"
-                      Value="1" />
-            </Trigger>
-            <Trigger Property="IsMouseOver"
-                     Value="False">
-              <Setter TargetName="content"
-                      Property="Opacity"
-                      Value=".5" />
-            </Trigger>
-            <Trigger Property="IsKeyboardFocused"
-                     Value="true" />
-            <Trigger Property="ToggleButton.IsChecked"
-                     Value="true" />
-            <Trigger Property="IsEnabled"
-                     Value="false">
-              <Setter Property="Foreground"
-                      Value="#ADADAD" />
-            </Trigger>
-          </ControlTemplate.Triggers>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-  </Style>
+    <Style x:Key="SimpleMPMetroVolumeButtonStyle"
+           TargetType="{x:Type Button}"
+           BasedOn="{StaticResource SimpleMPMetroCircleButtonStyle}">
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ContentPresenter x:Name="content"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}"
+                                      RecognizesAccessKey="True"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="content"
+                                    Property="Opacity"
+                                    Value="1" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver"
+                                 Value="False">
+                            <Setter TargetName="content"
+                                    Property="Opacity"
+                                    Value=".5" />
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocused"
+                                 Value="true" />
+                        <Trigger Property="ToggleButton.IsChecked"
+                                 Value="true" />
+                        <Trigger Property="IsEnabled"
+                                 Value="false">
+                            <Setter Property="Foreground"
+                                    Value="#ADADAD" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+    </Style>
 
-  <Style TargetType="Slider"
-         BasedOn="{StaticResource BaseMetroSlider}">
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-  </Style>
+    <Style TargetType="Slider"
+           BasedOn="{StaticResource BaseMetroSlider}">
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+    </Style>
 
-  <Style TargetType="Base:FormattedSlider"
-         BasedOn="{StaticResource BaseMetroSlider}">
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-  </Style>
+    <Style TargetType="Base:FormattedSlider"
+           BasedOn="{StaticResource BaseMetroSlider}">
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
+    </Style>
 
-  <Style TargetType="Base:BaseListView"
-         BasedOn="{StaticResource BaseMetroListView}">
-  </Style>
+    <Style TargetType="Base:BaseListView"
+           BasedOn="{StaticResource BaseMetroListView}">
+    </Style>
 
-  <Style TargetType="GridViewColumnHeader"
-         BasedOn="{StaticResource BaseGridViewColumnHeader}">
-  </Style>
+    <Style TargetType="GridViewColumnHeader"
+           BasedOn="{StaticResource BaseGridViewColumnHeader}">
+    </Style>
 
-  <Style TargetType="Base:BaseListBox"
-         BasedOn="{StaticResource BaseMetroListBox}">
-  </Style>
+    <Style TargetType="Base:BaseListBox"
+           BasedOn="{StaticResource BaseMetroListBox}">
+    </Style>
 
-  <Style TargetType="ToolTip"
-         BasedOn="{StaticResource BaseMetroToolTip}">
-  </Style>
+    <Style TargetType="ToolTip"
+           BasedOn="{StaticResource BaseMetroToolTip}">
+    </Style>
 
 </ResourceDictionary>

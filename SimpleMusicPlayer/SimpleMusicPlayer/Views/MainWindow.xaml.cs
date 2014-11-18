@@ -9,35 +9,38 @@ using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
 {
-  /// <summary>
-  /// Interaction logic for MainWindow.xaml
-  /// </summary>
-  public partial class MainWindow : MetroWindow
-  {
-    public MainWindow() {
-      var vm = new MainViewModel(this.Dispatcher);
-      this.DataContext = vm;
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : MetroWindow
+    {
+        public MainWindow()
+        {
+            var vm = new MainViewModel(this.Dispatcher);
+            this.DataContext = vm;
 
-      this.InitializeComponent();
+            this.InitializeComponent();
 
-      this.PreviewKeyDown += (sender, e) => (this.DataContext as IKeyHandler).HandlePreviewKeyDown(sender, e);
+            this.PreviewKeyDown += (sender, e) => (this.DataContext as IKeyHandler).HandlePreviewKeyDown(sender, e);
 
-      this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
+            this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
 
-      this.SourceInitialized += (sender, e) => this.FitIntoScreen();
+            this.SourceInitialized += (sender, e) => this.FitIntoScreen();
 
-      this.Closed += (sender, e) => {
-                       foreach (var w in Application.Current.Windows.OfType<Window>()) {
-                         w.Close();
-                       }
-                       var mainWindowViewModel = ((MainViewModel)this.DataContext);
-                       if (mainWindowViewModel.PlayListsViewModel.FileSearchWorker.CanStopSearch()) {
-                         mainWindowViewModel.PlayListsViewModel.FileSearchWorker.StopSearch();
-                       }
-                       mainWindowViewModel.SaveSettings();
-                       mainWindowViewModel.PlayListsViewModel.SavePlayList();
-                       PlayerEngine.Instance.CleanUp();
-                     };
+            this.Closed += (sender, e) => {
+                foreach (var w in Application.Current.Windows.OfType<Window>())
+                {
+                    w.Close();
+                }
+                var mainWindowViewModel = ((MainViewModel)this.DataContext);
+                if (mainWindowViewModel.PlayListsViewModel.FileSearchWorker.CanStopSearch())
+                {
+                    mainWindowViewModel.PlayListsViewModel.FileSearchWorker.StopSearch();
+                }
+                mainWindowViewModel.SaveSettings();
+                mainWindowViewModel.PlayListsViewModel.SavePlayList();
+                PlayerEngine.Instance.CleanUp();
+            };
+        }
     }
-  }
 }

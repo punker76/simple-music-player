@@ -3,20 +3,20 @@ using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.Interfaces
 {
-  public interface IMediaFile
-  {
-    string FullFileName { get; set; }
-    int PlayListIndex { get; set; }
-    //object PlayList { get; set; }
+    public interface IMediaFile
+    {
+        string FullFileName { get; set; }
+        int PlayListIndex { get; set; }
+        //object PlayList { get; set; }
 
-    PlayerState State { get; set; }
+        PlayerState State { get; set; }
 
-    string Title { get; set; }
-    BitmapImage Cover { get; }
-    string Album { get; set; }
-    string FirstPerformer { get; set; }
-    string FirstGenre { get; set; }
+        string Title { get; set; }
+        BitmapImage Cover { get; }
+        string Album { get; set; }
+        string FirstPerformer { get; set; }
+        string FirstGenre { get; set; }
 
-    bool IsVBR { get; }
-  }
+        bool IsVBR { get; }
+    }
 }

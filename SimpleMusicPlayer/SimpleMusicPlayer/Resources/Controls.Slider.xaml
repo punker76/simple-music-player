@@ -2,20 +2,20 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:System="clr-namespace:System;assembly=mscorlib">
 
-  <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.CustomSlider.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Slider.xaml" />
-  </ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.CustomSlider.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Slider.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-  <System:Double x:Key="HorizontalThumbHeight">12</System:Double>
-  <System:Double x:Key="HorizontalThumbWidth">22</System:Double>
-  <System:Double x:Key="VerticalThumbWidth">12</System:Double>
-  <System:Double x:Key="VerticalThumbHeight">22</System:Double>
+    <System:Double x:Key="HorizontalThumbHeight">12</System:Double>
+    <System:Double x:Key="HorizontalThumbWidth">22</System:Double>
+    <System:Double x:Key="VerticalThumbWidth">12</System:Double>
+    <System:Double x:Key="VerticalThumbHeight">22</System:Double>
 
-  <Style x:Key="BaseMetroSlider"
-         TargetType="Slider"
-         BasedOn="{StaticResource MetroSlider}">
-    <Setter Property="SnapsToDevicePixels"
-            Value="True" />
-  </Style>
+    <Style x:Key="BaseMetroSlider"
+           TargetType="Slider"
+           BasedOn="{StaticResource MetroSlider}">
+        <Setter Property="SnapsToDevicePixels"
+                Value="True" />
+    </Style>
 </ResourceDictionary>

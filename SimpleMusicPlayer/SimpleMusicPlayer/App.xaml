@@ -2,43 +2,43 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="Views\MainWindow.xaml">
-  <Application.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
 
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
 
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
-      </ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-      <DataTemplate x:Key="WindowTitleDataTemplate">
-        <TextBlock RenderOptions.ClearTypeHint="Enabled"
-                   TextOptions.TextFormattingMode="Display"
-                   Text="{TemplateBinding Content}"
-                   TextTrimming="CharacterEllipsis"
-                   VerticalAlignment="Center"
-                   Margin="8 -1 0 0"
-                   FontSize="{DynamicResource WindowTitleFontSize}"
-                   FontFamily="{DynamicResource DefaultFont}" />
-      </DataTemplate>
+            <DataTemplate x:Key="WindowTitleDataTemplate">
+                <TextBlock RenderOptions.ClearTypeHint="Enabled"
+                           TextOptions.TextFormattingMode="Display"
+                           Text="{TemplateBinding Content}"
+                           TextTrimming="CharacterEllipsis"
+                           VerticalAlignment="Center"
+                           Margin="8 -1 0 0"
+                           FontSize="{DynamicResource WindowTitleFontSize}"
+                           FontFamily="{DynamicResource DefaultFont}" />
+            </DataTemplate>
 
-      <!-- text brush for additional title information -->
-      <SolidColorBrush x:Key="SemiTextColorBrush"
-                       Color="#A8A8A8" />
-      <!-- text brush for play list index -->
-      <SolidColorBrush x:Key="SemiTextColorBrush2"
-                       Color="#D1DDE1" />
-      <!-- tooltip background with a little opacity -->
-      <SolidColorBrush x:Key="PlayListToolTipBackground"
-                       Color="{DynamicResource WhiteColor}"
-                       Opacity="0.9" />
+            <!-- text brush for additional title information -->
+            <SolidColorBrush x:Key="SemiTextColorBrush"
+                             Color="#A8A8A8" />
+            <!-- text brush for play list index -->
+            <SolidColorBrush x:Key="SemiTextColorBrush2"
+                             Color="#D1DDE1" />
+            <!-- tooltip background with a little opacity -->
+            <SolidColorBrush x:Key="PlayListToolTipBackground"
+                             Color="{DynamicResource WhiteColor}"
+                             Opacity="0.9" />
 
-    </ResourceDictionary>
-  </Application.Resources>
+        </ResourceDictionary>
+    </Application.Resources>
 </Application>

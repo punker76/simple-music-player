@@ -4,36 +4,43 @@ using SimpleMusicPlayer.Common;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-  public class EqualizerViewModel : ViewModelBase
-  {
-    private Equalizer equalizer;
-    private ICommand setToDefaultCommand;
+    public class EqualizerViewModel : ViewModelBase
+    {
+        private Equalizer equalizer;
+        private ICommand setToDefaultCommand;
 
-    public EqualizerViewModel(Equalizer equalizer) {
-      this.Equalizer = equalizer;
-    }
-
-    public Equalizer Equalizer {
-      get { return this.equalizer; }
-      set {
-        if (Equals(value, this.equalizer)) {
-          return;
+        public EqualizerViewModel(Equalizer equalizer)
+        {
+            this.Equalizer = equalizer;
         }
-        this.equalizer = value;
-        this.OnPropertyChanged(() => this.Equalizer);
-      }
-    }
 
-    public ICommand SetToDefaultCommand {
-      get { return this.setToDefaultCommand ?? (this.setToDefaultCommand = new DelegateCommand(this.SetToDefault, this.CanSetToDefault)); }
-    }
+        public Equalizer Equalizer
+        {
+            get { return this.equalizer; }
+            set
+            {
+                if (Equals(value, this.equalizer))
+                {
+                    return;
+                }
+                this.equalizer = value;
+                this.OnPropertyChanged(() => this.Equalizer);
+            }
+        }
 
-    private bool CanSetToDefault() {
-      return this.Equalizer.IsEnabled;
-    }
+        public ICommand SetToDefaultCommand
+        {
+            get { return this.setToDefaultCommand ?? (this.setToDefaultCommand = new DelegateCommand(this.SetToDefault, this.CanSetToDefault)); }
+        }
 
-    private void SetToDefault() {
-      this.Equalizer.SetToDefault();
+        private bool CanSetToDefault()
+        {
+            return this.Equalizer.IsEnabled;
+        }
+
+        private void SetToDefault()
+        {
+            this.Equalizer.SetToDefault();
+        }
     }
-  }
 }

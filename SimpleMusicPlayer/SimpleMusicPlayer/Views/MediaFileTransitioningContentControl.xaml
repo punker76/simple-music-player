@@ -5,26 +5,26 @@
                                       VerticalAlignment="Top"
                                       Transition="Custom"
                                       RestartTransitionOnContentChange="True">
-  <controls:TransitioningContentControl.CustomVisualStates>
-    <VisualState x:Name="CustomTransition">
-      <Storyboard>
-        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                       Storyboard.TargetName="CurrentContentPresentationSite"
-                                       Storyboard.TargetProperty="(UIElement.Opacity)">
-          <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                Value="0" />
-          <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                Value="1" />
-        </DoubleAnimationUsingKeyFrames>
-        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                       Storyboard.TargetName="PreviousContentPresentationSite"
-                                       Storyboard.TargetProperty="(UIElement.Opacity)">
-          <SplineDoubleKeyFrame KeyTime="00:00:00"
-                                Value="1" />
-          <SplineDoubleKeyFrame KeyTime="00:00:01.000"
-                                Value="0" />
-        </DoubleAnimationUsingKeyFrames>
-      </Storyboard>
-    </VisualState>
-  </controls:TransitioningContentControl.CustomVisualStates>
+    <controls:TransitioningContentControl.CustomVisualStates>
+        <VisualState x:Name="CustomTransition">
+            <Storyboard>
+                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                               Storyboard.TargetName="CurrentContentPresentationSite"
+                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                    <SplineDoubleKeyFrame KeyTime="00:00:00"
+                                          Value="0" />
+                    <SplineDoubleKeyFrame KeyTime="00:00:01.000"
+                                          Value="1" />
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                               Storyboard.TargetName="PreviousContentPresentationSite"
+                                               Storyboard.TargetProperty="(UIElement.Opacity)">
+                    <SplineDoubleKeyFrame KeyTime="00:00:00"
+                                          Value="1" />
+                    <SplineDoubleKeyFrame KeyTime="00:00:01.000"
+                                          Value="0" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </VisualState>
+    </controls:TransitioningContentControl.CustomVisualStates>
 </controls:TransitioningContentControl>

@@ -2,8 +2,8 @@
 
 namespace SimpleMusicPlayer.Interfaces
 {
-  public interface IKeyHandler
-  {
-    bool HandleKeyDown(Key key);
-  }
+    public interface IKeyHandler
+    {
+        bool HandleKeyDown(Key key);
+    }
 }
