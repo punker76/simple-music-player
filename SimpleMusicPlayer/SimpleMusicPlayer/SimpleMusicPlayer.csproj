@@ -85,7 +85,7 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ReactiveUI">
@@ -328,11 +328,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll">
-      <Link>DllsAsResource\Newtonsoft.Json.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\reactiveui-core.6.0.6\lib\Net45\ReactiveUI.dll">
       <Link>DllsAsResource\ReactiveUI.dll</Link>
     </EmbeddedResource>
@@ -366,6 +361,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\MahApps.Metro.0.15.0-ALPHA99\lib\net45\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll">
+      <Link>DllsAsResource\Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
