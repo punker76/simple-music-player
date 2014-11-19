@@ -75,7 +75,7 @@
                      VerticalAlignment="Center"
                      HorizontalAlignment="Right"
                      Width="200"
-                     Controls:TextboxHelper.Watermark="Search"
+                     Controls:TextBoxHelper.Watermark="Search"
                      Style="{DynamicResource SearchMetroTextBox}" />
         </Grid>
 

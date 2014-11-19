@@ -70,7 +70,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.0.15.0-ALPHA99\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.15.0-ALPHA101\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -127,7 +127,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.0.15.0-ALPHA99\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.0.15.0-ALPHA101\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xaml">
@@ -346,14 +346,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.0.15.0-ALPHA99\lib\net45\MahApps.Metro.dll">
-      <Link>DllsAsResource\MahApps.Metro.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.0.15.0-ALPHA99\lib\net45\System.Windows.Interactivity.dll">
-      <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll">
       <Link>DllsAsResource\Newtonsoft.Json.dll</Link>
     </EmbeddedResource>
@@ -367,6 +359,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\Splat.1.5.1\lib\Net45\Splat.dll">
       <Link>DllsAsResource\Splat.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.0.15.0-ALPHA101\lib\net45\MahApps.Metro.dll">
+      <Link>DllsAsResource\MahApps.Metro.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.0.15.0-ALPHA101\lib\net45\System.Windows.Interactivity.dll">
+      <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
