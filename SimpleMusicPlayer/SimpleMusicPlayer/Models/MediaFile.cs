@@ -9,6 +9,7 @@ using SimpleMusicPlayer.Base;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
 using TagLib;
+using File = TagLib.File;
 
 namespace SimpleMusicPlayer.Models
 {
@@ -606,48 +607,62 @@ namespace SimpleMusicPlayer.Models
 
         private static BitmapImage GetImageFromPictureTag(string fileName)
         {
-            using (var file = TagLib.File.Create(fileName))
+            try
             {
-                var pictures = file.Tag.Pictures;
-                if (pictures != null)
+                using (var file = File.Create(fileName))
                 {
-                    var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover);
-                    if (pic != null)
+                    var pictures = file.Tag.Pictures;
+                    if (pictures != null)
                     {
-                        var bi = new BitmapImage();
-                        bi.BeginInit();
-                        bi.CreateOptions = BitmapCreateOptions.DelayCreation;
-                        bi.CacheOption = BitmapCacheOption.OnDemand;
-                        bi.StreamSource = new MemoryStream(pic.Data.Data);
-                        bi.EndInit();
-                        bi.Freeze();
-                        return bi;
+                        var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover);
+                        if (pic != null)
+                        {
+                            var bi = new BitmapImage();
+                            bi.BeginInit();
+                            bi.CreateOptions = BitmapCreateOptions.DelayCreation;
+                            bi.CacheOption = BitmapCacheOption.OnDemand;
+                            bi.StreamSource = new MemoryStream(pic.Data.Data);
+                            bi.EndInit();
+                            bi.Freeze();
+                            return bi;
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Fail to load cover from picture tag: {0}, {1}", fileName, e);
             }
             return null;
         }
 
         private static BitmapImage GetImageFromDirectory(string fileName)
         {
-            var path2Image = Path.GetDirectoryName(fileName);
-            var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp" };
-            var cover = !string.IsNullOrEmpty(path2Image)
-                ? Directory.EnumerateFiles(path2Image, "*folder*")
-                           .Concat(Directory.EnumerateFiles(path2Image, "*cover*"))
-                           .Distinct()
-                           .FirstOrDefault(f => extensions.Contains(Path.GetExtension(f)))
-                : null;
-            if (!string.IsNullOrEmpty(cover))
+            try
             {
-                var bi = new BitmapImage();
-                bi.BeginInit();
-                bi.CreateOptions = BitmapCreateOptions.DelayCreation;
-                bi.CacheOption = BitmapCacheOption.OnDemand;
-                bi.UriSource = new Uri(cover, UriKind.RelativeOrAbsolute);
-                bi.EndInit();
-                bi.Freeze();
-                return bi;
+                var path2Image = Path.GetDirectoryName(fileName);
+                var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp" };
+                var cover = !string.IsNullOrEmpty(path2Image)
+                    ? Directory.EnumerateFiles(path2Image, "*folder*")
+                               .Concat(Directory.EnumerateFiles(path2Image, "*cover*"))
+                               .Distinct()
+                               .FirstOrDefault(f => extensions.Contains(Path.GetExtension(f)))
+                    : null;
+                if (!string.IsNullOrEmpty(cover))
+                {
+                    var bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.CreateOptions = BitmapCreateOptions.DelayCreation;
+                    bi.CacheOption = BitmapCacheOption.OnDemand;
+                    bi.UriSource = new Uri(cover, UriKind.RelativeOrAbsolute);
+                    bi.EndInit();
+                    bi.Freeze();
+                    return bi;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Fail to load cover from directory: {0}, {1}", fileName, e);
             }
             return null;
         }
@@ -662,18 +677,10 @@ namespace SimpleMusicPlayer.Models
                 {
                     return null;
                 }
-                try
-                {
-                    // try getting the cover by picture tag
-                    var image = GetImageFromPictureTag(this.FullFileName);
-                    // if no cover was found try getting the cover from disk
-                    return image ?? GetImageFromDirectory(this.FullFileName);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Fail to load cover: {0}, {1}", this.FullFileName, e);
-                }
-                return null;
+                // try getting the cover by picture tag
+                var image = GetImageFromPictureTag(this.FullFileName);
+                // if no cover was found try getting the cover from disk
+                return image ?? GetImageFromDirectory(this.FullFileName);
             }
         }
 
