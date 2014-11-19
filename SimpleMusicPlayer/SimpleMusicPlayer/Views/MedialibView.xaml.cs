@@ -45,7 +45,7 @@ namespace SimpleMusicPlayer.Views
             };
             this.PreviewDragOver += previewDragOver;
             this.PreviewDragEnter += previewDragOver;
-            this.PreviewDrop += (sender, e) => {
+            this.PreviewDrop += async (sender, e) => {
                 if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 {
                     var viewModel = (MedialibViewModel)this.DataContext;
@@ -53,7 +53,7 @@ namespace SimpleMusicPlayer.Views
                     var dataObject = e.Data as DataObject;
                     if (dataObject != null && dataObject.ContainsFileDropList())
                     {
-                        viewModel.HandleDropAction(dataObject.GetFileDropList());
+                        await viewModel.HandleDropActionAsync(dataObject.GetFileDropList());
                     }
                 }
             };

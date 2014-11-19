@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AsyncVoidMethodsTest.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="PlayListCollectionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

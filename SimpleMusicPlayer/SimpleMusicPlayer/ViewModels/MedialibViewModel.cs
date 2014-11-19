@@ -3,6 +3,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -111,20 +112,20 @@ namespace SimpleMusicPlayer.ViewModels
 
         public ICommand AddDirectoryCommand
         {
-            get { return this.addDirectoryCommand ?? (this.addDirectoryCommand = new DelegateCommand(this.AddDirectory, () => true)); }
+            get { return this.addDirectoryCommand ?? (this.addDirectoryCommand = new DelegateCommand(async () => await this.AddDirectoryAsync(), () => true)); }
         }
 
-        private void AddDirectory()
+        private async Task AddDirectoryAsync()
         {
             var owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(x => x.DataContext == this);
             var directories = FolderBrowserHelper.GetFolders(owner);
             if (directories.Any())
             {
-                this.HandleDropAction(directories.ToList());
+                await this.HandleDropActionAsync(directories.ToList());
             }
         }
 
-        public async void HandleDropAction(IList fileOrDirDropList)
+        public async Task HandleDropActionAsync(IList fileOrDirDropList)
         {
             if (this.FileSearchWorker.CanStartSearch())
             {

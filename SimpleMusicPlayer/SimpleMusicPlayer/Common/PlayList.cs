@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using ReactiveUI;
 using SimpleMusicPlayer.Models;
 
 namespace SimpleMusicPlayer.Common
@@ -50,36 +52,44 @@ namespace SimpleMusicPlayer.Common
             return null;
         }
 
-        public static async void SavePlayListAsync(IEnumerable files)
+        public static async Task SavePlayListAsync(IEnumerable files)
         {
-            var pl = new PlayList { Files = files.OfType<MediaFile>().ToList() };
-            try
-            {
-                using (var fs = File.Open(PlayListFileName, FileMode.OpenOrCreate))
+            var saveCmd = ReactiveCommand.CreateAsyncTask(async _ => {
+                var pl = new PlayList { Files = files.OfType<MediaFile>().ToList() };
+                try
                 {
-                    using (var sw = new StreamWriter(fs))
+                    using (var fs = await Task.Run(() => File.Open(PlayListFileName, FileMode.OpenOrCreate)))
                     {
-                        using (var jw = new JsonTextWriter(sw))
+                        using (var sw = new StreamWriter(fs))
                         {
-                            jw.Formatting = Formatting.None;
-                            var serializer = new JsonSerializer();
-                            serializer.Serialize(jw, pl);
+                            using (var jw = new JsonTextWriter(sw))
+                            {
+                                jw.Formatting = Formatting.None;
+                                var serializer = new JsonSerializer();
+                                serializer.Serialize(jw, pl);
 
-                            jw.Flush();
-                            await sw.FlushAsync();
-                            await fs.FlushAsync();
+                                jw.Flush();
+                                await sw.FlushAsync();
+                                await fs.FlushAsync();
 
-                            jw.Close();
-                            sw.Close();
-                            fs.Close();
+                                jw.Close();
+                                sw.Close();
+                                fs.Close();
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-            }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            });
+
+            saveCmd.ThrownExceptions
+                   .Select(ex => new UserError(ex.ToString()))
+                   .Subscribe(x => UserError.Throw(x));
+
+            await saveCmd.ExecuteAsync();
         }
     }
 }

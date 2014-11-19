@@ -420,12 +420,12 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public void SavePlayList()
+        public async void SavePlayListAsync()
         {
             var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
             if (currentFilesCollView != null)
             {
-                PlayList.SavePlayListAsync(currentFilesCollView.SourceCollection);
+                await PlayList.SavePlayListAsync(currentFilesCollView.SourceCollection);
             }
         }
 

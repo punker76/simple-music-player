@@ -38,7 +38,7 @@ namespace SimpleMusicPlayer.Views
                     mainWindowViewModel.PlayListsViewModel.FileSearchWorker.StopSearch();
                 }
                 mainWindowViewModel.SaveSettings();
-                mainWindowViewModel.PlayListsViewModel.SavePlayList();
+                mainWindowViewModel.PlayListsViewModel.SavePlayListAsync();
                 PlayerEngine.Instance.CleanUp();
             };
         }
