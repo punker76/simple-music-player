@@ -5,17 +5,16 @@ namespace SimpleMusicPlayer.Interfaces
 {
     public interface IMediaFile
     {
-        string FullFileName { get; set; }
+        string FullFileName { get; }
         int PlayListIndex { get; set; }
-        //object PlayList { get; set; }
 
         PlayerState State { get; set; }
 
-        string Title { get; set; }
+        string Title { get; }
         BitmapImage Cover { get; }
-        string Album { get; set; }
-        string FirstPerformer { get; set; }
-        string FirstGenre { get; set; }
+        string Album { get; }
+        string FirstPerformer { get; }
+        string FirstGenre { get; }
 
         bool IsVBR { get; }
     }

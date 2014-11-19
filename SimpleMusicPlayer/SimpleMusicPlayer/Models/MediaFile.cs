@@ -5,611 +5,267 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
-using SimpleMusicPlayer.Base;
+using ReactiveUI;
 using SimpleMusicPlayer.Common;
 using SimpleMusicPlayer.Interfaces;
 using TagLib;
-using File = TagLib.File;
 
 namespace SimpleMusicPlayer.Models
 {
-    public class MediaFile : ViewModelBase, IMediaFile
+    public class MediaFile : ReactiveObject, IMediaFile
     {
-        private const string UnknownTag = "<Unknown>";
-        private string fullFileName;
-        private string fileName;
-        private string grouping;
-        private string title;
-        private string titleSort;
-        private string conductor;
-        private string album;
-        private string albumSort;
-        private string comment;
-        private string copyright;
-        private uint bpm;
-        private uint year;
-        private uint track;
-        private uint trackCount;
-        private uint disc;
-        private uint discCount;
-        private TimeSpan duration;
-        private bool isVBR;
-        private int audioBitrate;
-        private int audioSampleRate;
-        private string firstAlbumArtist;
-        private string firstPerformerAndTitle;
-        private string firstPerformerAndAlbum;
-        private string firstAlbumArtistSort;
-        private string firstComposer;
-        private string firstComposerSort;
-        private string firstGenre;
-        private string firstPerformer;
-        private string firstPerformerSort;
-        private int playListIndex;
-        private PlayerState state;
+        private const string UNKNOWN_STRING = "<Unknown>";
 
         public MediaFile(string fileName)
         {
             this.FullFileName = fileName;
             this.FileName = Path.GetFileName(fileName);
+            this.UpdateFromTag(false);
         }
 
-        public static IMediaFile GetMediaFileViewModel(string fileName)
+        public void UpdateFromTag(bool raisePropertyChanged = true)
         {
+            var fileName = this.FullFileName;
+            if (string.IsNullOrWhiteSpace(fileName) || !System.IO.File.Exists(fileName))
+            {
+                return;
+            }
+
             try
             {
-                using (TagLib.File file = TagLib.File.Create(fileName))
+                using (var file = TagLib.File.Create(fileName))
                 {
-                    var mf = new MediaFile(fileName);
-
                     // ALBUM -> iTunes=Album, WMP10=Album, Winamp=Album
-                    mf.album = file.Tag.Album;
-                    if (string.IsNullOrWhiteSpace(mf.album))
+                    this.Album = file.Tag.Album;
+                    if (string.IsNullOrWhiteSpace(this.Album))
                     {
-                        mf.album = UnknownTag;
+                        this.Album = UNKNOWN_STRING;
                     }
-                    mf.albumSort = file.Tag.AlbumSort;
+                    this.AlbumSort = file.Tag.AlbumSort;
 
                     // ALBUMARTIST
                     var albumArtists = file.Tag.AlbumArtists.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
                     var albumArtistsSort = file.Tag.AlbumArtistsSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-                    mf.firstAlbumArtist = albumArtists.Count > 1 ? string.Join("/", albumArtists) : file.Tag.FirstAlbumArtist;
-                    mf.firstAlbumArtistSort = albumArtistsSort.Count > 1 ? string.Join("/", albumArtistsSort) : file.Tag.FirstAlbumArtistSort;
+                    this.FirstAlbumArtist = albumArtists.Count > 1 ? string.Join("/", albumArtists) : file.Tag.FirstAlbumArtist;
+                    this.FirstAlbumArtistSort = albumArtistsSort.Count > 1 ? string.Join("/", albumArtistsSort) : file.Tag.FirstAlbumArtistSort;
 
                     // ARTIST/Performer
                     var performers = file.Tag.Performers.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
                     var performersSort = file.Tag.PerformersSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-                    mf.firstPerformer = performers.Count > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
-                    if (string.IsNullOrWhiteSpace(mf.firstPerformer))
+                    this.FirstPerformer = performers.Count > 1 ? string.Join("/", performers) : file.Tag.FirstPerformer;
+                    if (string.IsNullOrWhiteSpace(this.FirstPerformer))
                     {
-                        mf.firstPerformer = UnknownTag;
+                        this.FirstPerformer = UNKNOWN_STRING;
                     }
-                    mf.firstPerformerSort = performersSort.Count > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
-                    if (string.IsNullOrWhiteSpace(mf.firstPerformerSort))
+                    this.FirstPerformerSort = performersSort.Count > 1 ? string.Join("/", performersSort) : file.Tag.FirstPerformerSort;
+                    if (string.IsNullOrWhiteSpace(this.FirstPerformerSort))
                     {
-                        mf.firstPerformerSort = UnknownTag;
+                        this.FirstPerformerSort = UNKNOWN_STRING;
                     }
 
                     // BPM
-                    mf.bpm = file.Tag.BeatsPerMinute;
+                    this.BPM = file.Tag.BeatsPerMinute;
 
                     // COMMENT
-                    mf.comment = file.Tag.Comment;
+                    this.Comment = file.Tag.Comment;
 
                     // COMPOSER
                     var composers = file.Tag.Composers.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
                     var composersSort = file.Tag.ComposersSort.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-                    mf.firstComposer = composers.Count > 1 ? string.Join("/", composers) : file.Tag.FirstComposer;
-                    mf.firstComposerSort = composersSort.Count > 1 ? string.Join("/", composersSort) : file.Tag.FirstComposerSort;
+                    this.FirstComposer = composers.Count > 1 ? string.Join("/", composers) : file.Tag.FirstComposer;
+                    this.FirstComposerSort = composersSort.Count > 1 ? string.Join("/", composersSort) : file.Tag.FirstComposerSort;
 
                     // CONDUCTOR
-                    mf.conductor = file.Tag.Conductor;
+                    this.Conductor = file.Tag.Conductor;
 
                     // COPYRIGHT
-                    mf.copyright = file.Tag.Copyright;
+                    this.Copyright = file.Tag.Copyright;
 
                     // TITLE
-                    mf.title = file.Tag.Title;
-                    mf.titleSort = file.Tag.TitleSort;
+                    this.Title = file.Tag.Title;
+                    this.TitleSort = file.Tag.TitleSort;
 
                     // GENRE
                     var genres = file.Tag.Genres.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
-                    mf.firstGenre = genres.Count > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
-                    if (string.IsNullOrWhiteSpace(mf.firstGenre))
+                    this.FirstGenre = genres.Count > 1 ? string.Join("/", genres) : file.Tag.FirstGenre;
+                    if (string.IsNullOrWhiteSpace(this.FirstGenre))
                     {
-                        mf.firstGenre = UnknownTag;
+                        this.FirstGenre = UNKNOWN_STRING;
                     }
 
-                    mf.track = file.Tag.Track;
-                    mf.trackCount = file.Tag.TrackCount;
-                    mf.disc = file.Tag.Disc;
-                    mf.discCount = file.Tag.DiscCount;
-                    mf.year = file.Tag.Year;
-                    mf.grouping = file.Tag.Grouping;
+                    this.Track = file.Tag.Track;
+                    this.TrackCount = file.Tag.TrackCount;
+                    this.Disc = file.Tag.Disc;
+                    this.DiscCount = file.Tag.DiscCount;
+                    this.Year = file.Tag.Year;
+                    this.Grouping = file.Tag.Grouping;
 
-                    var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(mf.firstPerformer);
-                    var isTitleEmpty = string.IsNullOrWhiteSpace(mf.title);
+                    var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(this.FirstPerformer);
+                    var isTitleEmpty = string.IsNullOrWhiteSpace(this.Title);
                     if (!isFirstPerformerEmpty && !isTitleEmpty)
                     {
-                        mf.firstPerformerAndTitle = string.Concat(mf.firstPerformer, " - ", mf.title);
+                        this.FirstPerformerAndTitle = string.Concat(this.FirstPerformer, " - ", this.Title);
                     }
                     else if (!isFirstPerformerEmpty)
                     {
-                        mf.firstPerformerAndTitle = mf.firstPerformer;
+                        this.FirstPerformerAndTitle = this.FirstPerformer;
                     }
                     else if (!isTitleEmpty)
                     {
-                        mf.firstPerformerAndTitle = mf.title;
+                        this.FirstPerformerAndTitle = this.Title;
                     }
                     else
                     {
-                        mf.firstPerformerAndTitle = Path.GetFileNameWithoutExtension(mf.fileName);
+                        this.FirstPerformerAndTitle = Path.GetFileNameWithoutExtension(this.FileName);
                     }
 
-                    var isAlbumEmpty = string.IsNullOrWhiteSpace(mf.album);
+                    var isAlbumEmpty = string.IsNullOrWhiteSpace(this.Album);
                     if (!isFirstPerformerEmpty && !isAlbumEmpty)
                     {
-                        mf.firstPerformerAndAlbum = string.Concat(mf.firstPerformer, " - ", mf.album);
+                        this.FirstPerformerAndAlbum = string.Concat(this.FirstPerformer, " - ", this.Album);
                     }
                     else if (!isFirstPerformerEmpty)
                     {
-                        mf.firstPerformerAndAlbum = mf.firstPerformer;
+                        this.FirstPerformerAndAlbum = this.FirstPerformer;
                     }
                     else if (!isAlbumEmpty)
                     {
-                        mf.firstPerformerAndAlbum = mf.album;
+                        this.FirstPerformerAndAlbum = this.Album;
                     }
                     else
                     {
-                        mf.firstPerformerAndAlbum = Path.GetFileNameWithoutExtension(mf.fileName);
+                        this.FirstPerformerAndAlbum = Path.GetFileNameWithoutExtension(this.FileName);
                     }
 
                     if (file.Properties.MediaTypes != TagLib.MediaTypes.None)
                     {
-                        mf.duration = file.Properties.Duration;
+                        this.Duration = file.Properties.Duration;
                         var codec = file.Properties.Codecs.FirstOrDefault(c => c is TagLib.Mpeg.AudioHeader);
-                        mf.isVBR = codec != null && (((TagLib.Mpeg.AudioHeader)codec).VBRIHeader.Present || ((TagLib.Mpeg.AudioHeader)codec).XingHeader.Present);
+                        this.IsVBR = codec != null && (((TagLib.Mpeg.AudioHeader)codec).VBRIHeader.Present || ((TagLib.Mpeg.AudioHeader)codec).XingHeader.Present);
 
-                        mf.audioBitrate = file.Properties.AudioBitrate;
-                        mf.audioSampleRate = file.Properties.AudioSampleRate;
+                        this.AudioBitrate = file.Properties.AudioBitrate;
+                        this.AudioSampleRate = file.Properties.AudioSampleRate;
                     }
-
-                    return mf;
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine("Fail to parse file: {0}, {1}", fileName, e);
-                return null;
+                Console.WriteLine("Exception while parsing file: {0}, {1}", fileName, e);
             }
-        }
 
-        public string FirstPerformerSort
-        {
-            get { return this.firstPerformerSort; }
-            set
+            if (raisePropertyChanged)
             {
-                if (Equals(value, this.firstPerformerSort))
-                {
-                    return;
-                }
-                this.firstPerformerSort = value;
-                this.OnPropertyChanged(() => this.FirstPerformerSort);
+                this.RaisePropertyChanged();
             }
         }
 
-        public string FirstPerformer
+        public static IMediaFile GetMediaFileViewModel(string fileName)
         {
-            get { return this.firstPerformer; }
-            set
-            {
-                if (Equals(value, this.firstPerformer))
-                {
-                    return;
-                }
-                this.firstPerformer = value;
-                this.OnPropertyChanged(() => this.FirstPerformer);
-            }
+            var mediaFile = new MediaFile(fileName);
+            return mediaFile;
         }
 
-        public string FirstGenre
-        {
-            get { return this.firstGenre; }
-            set
-            {
-                if (Equals(value, this.firstGenre))
-                {
-                    return;
-                }
-                this.firstGenre = value;
-                this.OnPropertyChanged(() => this.FirstGenre);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstPerformerSort { get; private set; }
 
-        public string FirstComposerSort
-        {
-            get { return this.firstComposerSort; }
-            set
-            {
-                if (Equals(value, this.firstComposerSort))
-                {
-                    return;
-                }
-                this.firstComposerSort = value;
-                this.OnPropertyChanged(() => this.FirstComposerSort);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstPerformer { get; private set; }
 
-        public string FirstComposer
-        {
-            get { return this.firstComposer; }
-            set
-            {
-                if (Equals(value, this.firstComposer))
-                {
-                    return;
-                }
-                this.firstComposer = value;
-                this.OnPropertyChanged(() => this.FirstComposer);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstGenre { get; private set; }
 
-        public string FirstAlbumArtistSort
-        {
-            get { return this.firstAlbumArtistSort; }
-            set
-            {
-                if (Equals(value, this.firstAlbumArtistSort))
-                {
-                    return;
-                }
-                this.firstAlbumArtistSort = value;
-                this.OnPropertyChanged(() => this.FirstAlbumArtistSort);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstComposerSort { get; private set; }
 
-        public string FirstAlbumArtist
-        {
-            get { return this.firstAlbumArtist; }
-            set
-            {
-                if (Equals(value, this.firstAlbumArtist))
-                {
-                    return;
-                }
-                this.firstAlbumArtist = value;
-                this.OnPropertyChanged(() => this.FirstAlbumArtist);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstComposer { get; private set; }
 
-        public string FirstPerformerAndTitle
-        {
-            get { return this.firstPerformerAndTitle; }
-            set
-            {
-                if (Equals(value, this.firstPerformerAndTitle))
-                {
-                    return;
-                }
-                this.firstPerformerAndTitle = value;
-                this.OnPropertyChanged(() => this.FirstPerformerAndTitle);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstAlbumArtistSort { get; private set; }
 
-        public string FirstPerformerAndAlbum
-        {
-            get { return this.firstPerformerAndAlbum; }
-            set
-            {
-                if (Equals(value, this.firstPerformerAndAlbum))
-                {
-                    return;
-                }
-                this.firstPerformerAndAlbum = value;
-                this.OnPropertyChanged(() => this.FirstPerformerAndAlbum);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstAlbumArtist { get; private set; }
 
-        public TimeSpan Duration
-        {
-            get { return this.duration; }
-            set
-            {
-                if (Equals(value, this.duration))
-                {
-                    return;
-                }
-                this.duration = value;
-                this.OnPropertyChanged(() => this.Duration);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstPerformerAndTitle { get; private set; }
 
-        public bool IsVBR
-        {
-            get { return this.isVBR; }
-            set
-            {
-                if (Equals(value, this.isVBR))
-                {
-                    return;
-                }
-                this.isVBR = value;
-                this.OnPropertyChanged(() => this.IsVBR);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FirstPerformerAndAlbum { get; private set; }
 
-        public int AudioBitrate
-        {
-            get { return this.audioBitrate; }
-            set
-            {
-                if (Equals(value, this.audioBitrate))
-                {
-                    return;
-                }
-                this.audioBitrate = value;
-                this.OnPropertyChanged(() => this.AudioBitrate);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public TimeSpan Duration { get; private set; }
 
-        public int AudioSampleRate
-        {
-            get { return this.audioSampleRate; }
-            set
-            {
-                if (Equals(value, this.audioSampleRate))
-                {
-                    return;
-                }
-                this.audioSampleRate = value;
-                this.OnPropertyChanged(() => this.AudioSampleRate);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public bool IsVBR { get; private set; }
 
-        public uint DiscCount
-        {
-            get { return this.discCount; }
-            set
-            {
-                if (Equals(value, this.discCount))
-                {
-                    return;
-                }
-                this.discCount = value;
-                this.OnPropertyChanged(() => this.DiscCount);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public int AudioBitrate { get; private set; }
 
-        public uint Disc
-        {
-            get { return this.disc; }
-            set
-            {
-                if (Equals(value, this.disc))
-                {
-                    return;
-                }
-                this.disc = value;
-                this.OnPropertyChanged(() => this.Disc);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public int AudioSampleRate { get; private set; }
 
-        public uint TrackCount
-        {
-            get { return this.trackCount; }
-            set
-            {
-                if (Equals(value, this.trackCount))
-                {
-                    return;
-                }
-                this.trackCount = value;
-                this.OnPropertyChanged(() => this.TrackCount);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public uint DiscCount { get; private set; }
 
-        public uint Track
-        {
-            get { return this.track; }
-            set
-            {
-                if (Equals(value, this.track))
-                {
-                    return;
-                }
-                this.track = value;
-                this.OnPropertyChanged(() => this.Track);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public uint Disc { get; private set; }
 
-        public uint Year
-        {
-            get { return this.year; }
-            set
-            {
-                if (Equals(value, this.year))
-                {
-                    return;
-                }
-                this.year = value;
-                this.OnPropertyChanged(() => this.Year);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public uint TrackCount { get; private set; }
 
-        public uint BPM
-        {
-            get { return this.bpm; }
-            set
-            {
-                if (Equals(value, this.bpm))
-                {
-                    return;
-                }
-                this.bpm = value;
-                this.OnPropertyChanged(() => this.BPM);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public uint Track { get; private set; }
 
-        public string Copyright
-        {
-            get { return this.copyright; }
-            set
-            {
-                if (Equals(value, this.copyright))
-                {
-                    return;
-                }
-                this.copyright = value;
-                this.OnPropertyChanged(() => this.Copyright);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public uint Year { get; private set; }
 
-        public string Comment
-        {
-            get { return this.comment; }
-            set
-            {
-                if (Equals(value, this.comment))
-                {
-                    return;
-                }
-                this.comment = value;
-                this.OnPropertyChanged(() => this.Comment);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public uint BPM { get; private set; }
 
-        public string AlbumSort
-        {
-            get { return this.albumSort; }
-            set
-            {
-                if (Equals(value, this.albumSort))
-                {
-                    return;
-                }
-                this.albumSort = value;
-                this.OnPropertyChanged(() => this.AlbumSort);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Copyright { get; private set; }
 
-        public string Album
-        {
-            get { return this.album; }
-            set
-            {
-                if (Equals(value, this.album))
-                {
-                    return;
-                }
-                this.album = value;
-                this.OnPropertyChanged(() => this.Album);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Comment { get; private set; }
 
-        public string Conductor
-        {
-            get { return this.conductor; }
-            set
-            {
-                if (Equals(value, this.conductor))
-                {
-                    return;
-                }
-                this.conductor = value;
-                this.OnPropertyChanged(() => this.Conductor);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string AlbumSort { get; private set; }
 
-        public string TitleSort
-        {
-            get { return this.titleSort; }
-            set
-            {
-                if (Equals(value, this.titleSort))
-                {
-                    return;
-                }
-                this.titleSort = value;
-                this.OnPropertyChanged(() => this.TitleSort);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Album { get; private set; }
 
-        public string Title
-        {
-            get { return this.title; }
-            set
-            {
-                if (Equals(value, this.title))
-                {
-                    return;
-                }
-                this.title = value;
-                this.OnPropertyChanged(() => this.Title);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Conductor { get; private set; }
 
-        public string Grouping
-        {
-            get { return this.grouping; }
-            set
-            {
-                if (Equals(value, this.grouping))
-                {
-                    return;
-                }
-                this.grouping = value;
-                this.OnPropertyChanged(() => this.Grouping);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string TitleSort { get; private set; }
 
-        public string FullFileName
-        {
-            get { return this.fullFileName; }
-            set
-            {
-                if (Equals(value, this.fullFileName))
-                {
-                    return;
-                }
-                this.fullFileName = value;
-                this.OnPropertyChanged(() => this.FullFileName);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Title { get; private set; }
 
-        public string FileName
-        {
-            get { return this.fileName; }
-            set
-            {
-                if (Equals(value, this.fileName))
-                {
-                    return;
-                }
-                this.fileName = value;
-                this.OnPropertyChanged(() => this.FileName);
-            }
-        }
+        [JsonProperty(Required = Required.AllowNull)]
+        public string Grouping { get; private set; }
 
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FullFileName { get; private set; }
+
+        [JsonProperty(Required = Required.AllowNull)]
+        public string FileName { get; private set; }
+
+        private PlayerState state;
+        [Browsable(false)]
         [JsonIgnore]
         public PlayerState State
         {
             get { return this.state; }
-            set
-            {
-                if (Equals(value, this.state))
-                {
-                    return;
-                }
-                this.state = value;
-                this.OnPropertyChanged(() => this.State);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.state, value); }
         }
 
         private static BitmapImage GetImageFromPictureTag(string fileName)
         {
             try
             {
-                using (var file = File.Create(fileName))
+                using (var file = TagLib.File.Create(fileName))
                 {
                     var pictures = file.Tag.Pictures;
                     if (pictures != null)
@@ -684,19 +340,13 @@ namespace SimpleMusicPlayer.Models
             }
         }
 
+        private int playListIndex;
+        [Browsable(false)]
         [JsonIgnore]
         public int PlayListIndex
         {
             get { return this.playListIndex; }
-            set
-            {
-                if (Equals(value, this.playListIndex))
-                {
-                    return;
-                }
-                this.playListIndex = value;
-                this.OnPropertyChanged(() => this.PlayListIndex);
-            }
+            set { this.RaiseAndSetIfChanged(ref this.playListIndex, value); }
         }
 
         public override string ToString()
