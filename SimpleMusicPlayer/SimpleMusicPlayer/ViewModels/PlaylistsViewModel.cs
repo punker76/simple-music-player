@@ -148,12 +148,12 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public bool IsFirstOrLastPlayListFile()
+        public bool IsLastPlayListFile()
         {
             var fileCollView = this.FirstSimplePlaylistFiles as ICollectionView;
             if (fileCollView != null)
             {
-                return fileCollView.CurrentPosition == 0 || fileCollView.CurrentPosition == fileCollView.SourceCollection.OfType<IMediaFile>().Count() - 1;
+                return fileCollView.CurrentPosition == fileCollView.SourceCollection.OfType<IMediaFile>().Count() - 1;
             }
             return false;
         }

@@ -33,7 +33,7 @@ namespace SimpleMusicPlayer.ViewModels
                                                        {
                                                            playerMustBeStoped = !this.PlayerSettings.PlayerEngine.ShuffleMode
                                                                                 && !this.PlayerSettings.PlayerEngine.RepeatMode
-                                                                                && this.playListsViewModel.IsFirstOrLastPlayListFile();
+                                                                                && this.playListsViewModel.IsLastPlayListFile();
                                                            if (!playerMustBeStoped)
                                                            {
                                                                this.PlayNext();
