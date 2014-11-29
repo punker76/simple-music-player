@@ -15,6 +15,36 @@ namespace SimpleMusicPlayer.Common
         {
             public FMOD.Channel Channel { get; set; }
             public IMediaFile File { get; set; }
+            public DSP FaderDSP { get; set; }
+
+            public void CleanUp()
+            {
+                if (Channel != null)
+                {
+                    var result = Channel.setVolume(0f);
+                    if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
+                    {
+                        result.ERRCHECK();
+                    }
+                    if (FaderDSP != null)
+                    {
+                        result = Channel.removeDSP(FaderDSP);
+                        if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
+                        {
+                            result.ERRCHECK();
+                        }
+                    }
+                    result = Channel.setCallback(null);
+                    if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
+                    {
+                        result.ERRCHECK();
+                    }
+                    Channel = null;
+                }
+
+                File.State = PlayerState.Stop;
+                File = null;
+            }
         }
 
         private FMOD.System system = null;
@@ -149,11 +179,9 @@ namespace SimpleMusicPlayer.Common
                 this.volume = value;
                 this.playerSettings.PlayerEngine.Volume = value;
 
-                if (this.channelInfo != null && this.channelInfo.Channel != null)
-                {
-                    var result = this.channelInfo.Channel.setVolume(value / 100f);
-                    result.ERRCHECK();
-                }
+                ChannelGroup masterChannelGroup;
+                this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
+                masterChannelGroup.setVolume(value / 100f).ERRCHECK();
 
                 this.OnPropertyChanged("Volume");
             }
@@ -280,28 +308,21 @@ namespace SimpleMusicPlayer.Common
             {
                 mode |= FMOD.MODE.ACCURATETIME;
             }
-//            if (this.Equalizer != null)
-//            {
-//                mode |= MODE.SOFTWARE;
-//            }
-//            else
-//            {
-//                mode |= MODE.HARDWARE;
-//            }
-            var result = this.system.createSound(file.FullFileName, mode, out this.sound);
-            if (!result.ERRCHECK())
+
+            if (!this.system.createSound(file.FullFileName, mode, out this.sound).ERRCHECK())
             {
                 return;
             }
 
             uint lenms;
-            result = this.sound.getLength(out lenms, FMOD.TIMEUNIT.MS);
-            result.ERRCHECK();
+            this.sound.getLength(out lenms, FMOD.TIMEUNIT.MS).ERRCHECK();
             this.LengthMs = lenms;
 
+            uint length;
+            this.sound.getLength(out length, FMOD.TIMEUNIT.PCM).ERRCHECK();
+
             FMOD.Channel channel = null;
-            result = this.system.playSound(this.sound, null, false, out channel);
-            if (!result.ERRCHECK())
+            if (!this.system.playSound(this.sound, null, false, out channel).ERRCHECK())
             {
                 return;
             }
@@ -312,11 +333,45 @@ namespace SimpleMusicPlayer.Common
             if (channel != null)
             {
                 this.channelInfo = new ChannelInfo() { Channel = channel, File = file };
-                result = this.channelInfo.Channel.setCallback(this.channelEndCallback);
-                result.ERRCHECK();
 
-                result = this.channelInfo.Channel.setVolume(this.Volume / 100f);
-                result.ERRCHECK();
+                channel.setCallback(this.channelEndCallback).ERRCHECK();
+
+                channel.setVolume(1f).ERRCHECK();
+
+                ChannelGroup masterChannelGroup;
+                this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
+                masterChannelGroup.setVolume(this.Volume / 100f).ERRCHECK();
+
+                this.system.update().ERRCHECK();
+
+                FMOD.DSP faderDSP;
+                this.system.createDSPByType(FMOD.DSP_TYPE.FADER, out faderDSP).ERRCHECK();
+
+                this.channelInfo.FaderDSP = faderDSP;
+
+                int numDSPs;
+                channel.getNumDSPs(out numDSPs).ERRCHECK();
+
+                channel.addDSP(numDSPs, faderDSP).ERRCHECK();
+
+                ulong dspclock;
+                ulong parentclock;
+                channel.getDSPClock(out dspclock, out parentclock).ERRCHECK();
+
+                int samplerate;
+                SPEAKERMODE speakermode;
+                int numrawspeakers;
+                this.system.getSoftwareFormat(out samplerate, out speakermode, out numrawspeakers).ERRCHECK();
+
+                var samples = (uint)Math.Round(5000f * samplerate / 1000f);
+
+                channel.addFadePoint(parentclock, 0f).ERRCHECK();
+                channel.addFadePoint(parentclock + samples, 1f).ERRCHECK();
+
+                //channel.addFadePoint(parentclock + length - samples, 1f).ERRCHECK();
+                //channel.addFadePoint(parentclock + length, 0f).ERRCHECK();
+
+                system.update().ERRCHECK();
             }
         }
 
@@ -378,12 +433,9 @@ namespace SimpleMusicPlayer.Common
             this.State = PlayerState.Stop;
             this.CurrentMediaFile = null;
 
-            if (this.channelInfo != null && this.channelInfo.Channel != null)
+            if (this.channelInfo != null)
             {
-                this.channelInfo.File.State = PlayerState.Stop;
-                this.channelInfo.Channel.setCallback(null);
-                this.channelInfo.Channel = null;
-                this.channelInfo.File = null;
+                this.channelInfo.CleanUp();
                 this.channelInfo = null;
             }
 

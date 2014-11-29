@@ -188,7 +188,6 @@ namespace SimpleMusicPlayer.Common
                     return null;
                 }
 
-
                 int numDSPs;
                 result = masterChannelGroup.getNumDSPs(out numDSPs);
                 if (!result.ERRCHECK())
@@ -244,10 +243,10 @@ namespace SimpleMusicPlayer.Common
 
                 result = masterChannelGroup.removeDSP(this.dspEQ);
                 result.ERRCHECK();
-                
+
                 result = this.dspEQ.release();
                 result.ERRCHECK();
-                
+
                 this.dspEQ = null;
                 this.fmodSystem = null;
             }
