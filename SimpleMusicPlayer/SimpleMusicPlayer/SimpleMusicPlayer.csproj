@@ -146,17 +146,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\libs\FMODEx\csharp\fmod.cs">
-      <Link>FMODEx\fmod.cs</Link>
+    <Compile Include="..\libs\FMODStudio\csharp\fmod.cs">
+      <Link>FMODStudio\fmod.cs</Link>
     </Compile>
-    <Compile Include="..\libs\FMODEx\csharp\fmod_dsp.cs">
-      <Link>FMODEx\fmod_dsp.cs</Link>
+    <Compile Include="..\libs\FMODStudio\csharp\fmod_dsp.cs">
+      <Link>FMODStudio\fmod_dsp.cs</Link>
     </Compile>
-    <Compile Include="..\libs\FMODEx\csharp\fmod_errors.cs">
-      <Link>FMODEx\fmod_errors.cs</Link>
-    </Compile>
-    <Compile Include="..\libs\FMODEx\csharp\fmod_memoryinfo.cs">
-      <Link>FMODEx\fmod_memoryinfo.cs</Link>
+    <Compile Include="..\libs\FMODStudio\csharp\fmod_errors.cs">
+      <Link>FMODStudio\fmod_errors.cs</Link>
     </Compile>
     <Compile Include="Base\AssemblyExtensions.cs" />
     <Compile Include="Base\AttachedCommandBehavior.cs" />
@@ -314,12 +311,12 @@
     <Resource Include="simplemp.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\libs\FMODEx\fmodex.dll" Condition="'$(Configuration)|$(Platform)' == 'Debug|x86' or '$(Configuration)|$(Platform)' == 'Release|x86'">
-      <Link>fmodex.dll</Link>
+    <None Include="..\libs\FMODStudio\fmod.dll" Condition="'$(Configuration)|$(Platform)' == 'Debug|x86' or '$(Configuration)|$(Platform)' == 'Release|x86'">
+      <Link>fmod.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="..\libs\FMODEx\fmodex64.dll" Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU' or '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-      <Link>fmodex64.dll</Link>
+    <None Include="..\libs\FMODStudio\fmod64.dll" Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU' or '$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+      <Link>fmod64.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
