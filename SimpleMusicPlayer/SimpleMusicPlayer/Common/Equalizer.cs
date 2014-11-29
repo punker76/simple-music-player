@@ -8,21 +8,23 @@ namespace SimpleMusicPlayer.Common
 {
     public class Equalizer : ViewModelBase
     {
-        // Center: Frequency center. 20.0 to 22000.0. Default = 8000.0
-        // Bandwith: Octave range around the center frequency to filter. 0.2 to 5.0. Default = 1.0
-        // Gain: Frequency Gain. 0.05 to 3.0. Default = 1.0
+        /// <summary>
+        /// FMOD_DSP_PARAMEQ_CENTER -> (Type:float) - Frequency center. 20.0 to 22000.0. Default = 8000.0. 
+        /// FMOD_DSP_PARAMEQ_BANDWIDTH -> (Type:float) - Octave range around the center frequency to filter. 0.2 to 5.0. Default = 1.0. 
+        /// FMOD_DSP_PARAMEQ_GAIN -> (Type:float) - Frequency Gain in dB. -30 to 30. Default = 0. 
+        /// </summary>
         private static readonly float[][] EqDefaultValues = new[]
                                                             {
-                                                                new[] { 32f, 1f, 1f },
-                                                                new[] { 64f, 1f, 1f },
-                                                                new[] { 125f, 1f, 1f },
-                                                                new[] { 250f, 1f, 1f },
-                                                                new[] { 500f, 1f, 1f },
-                                                                new[] { 1000f, 1f, 1f },
-                                                                new[] { 2000f, 1f, 1f },
-                                                                new[] { 4000f, 1f, 1f },
-                                                                new[] { 8000f, 1f, 1f },
-                                                                new[] { 16000f, 1f, 1f }
+                                                                new[] { 32f, 1f, 0f },
+                                                                new[] { 64f, 1f, 0f },
+                                                                new[] { 125f, 1f, 0f },
+                                                                new[] { 250f, 1f, 0f },
+                                                                new[] { 500f, 1f, 0f },
+                                                                new[] { 1000f, 1f, 0f },
+                                                                new[] { 2000f, 1f, 0f },
+                                                                new[] { 4000f, 1f, 0f },
+                                                                new[] { 8000f, 1f, 0f },
+                                                                new[] { 16000f, 1f, 0f }
                                                             };
 
         private FMOD.System fmodSystem;
@@ -145,12 +147,15 @@ namespace SimpleMusicPlayer.Common
 
     public class EqualizerBand : ViewModelBase
     {
+        private FMOD.System fmodSystem;
         private FMOD.DSP dspEQ;
         private float gain;
         private bool isActive;
 
-        private EqualizerBand(DSP dspParamEq, float centerValue, float gainValue, bool active)
+        private EqualizerBand(FMOD.System system, DSP dspParamEq, float centerValue, float gainValue, bool active)
         {
+            this.fmodSystem = system;
+
             this.dspEQ = dspParamEq;
             if (centerValue >= 1000)
             {
@@ -166,36 +171,50 @@ namespace SimpleMusicPlayer.Common
 
         public static EqualizerBand GetEqualizerBand(FMOD.System system, bool isActive, float centerValue, float bandwithValue, float gainValue)
         {
-            FMOD.DSPConnection dspConnTemp = null;
             FMOD.DSP dspParamEq = null;
+            FMOD.ChannelGroup masterChannelGroup = null;
 
             if (isActive)
             {
-                var result = system.createDSPByType(FMOD.DSP_TYPE.PARAMEQ, ref dspParamEq);
+                var result = system.createDSPByType(FMOD.DSP_TYPE.PARAMEQ, out dspParamEq);
                 if (!result.ERRCHECK())
                 {
                     return null;
                 }
 
-                result = system.addDSP(dspParamEq, ref dspConnTemp);
+                result = system.getMasterChannelGroup(out masterChannelGroup);
                 if (!result.ERRCHECK())
                 {
                     return null;
                 }
 
-                result = dspParamEq.setParameter((int)FMOD.DSP_PARAMEQ.CENTER, centerValue);
+
+                int numDSPs;
+                result = masterChannelGroup.getNumDSPs(out numDSPs);
                 if (!result.ERRCHECK())
                 {
                     return null;
                 }
 
-                result = dspParamEq.setParameter((int)FMOD.DSP_PARAMEQ.BANDWIDTH, bandwithValue);
+                result = masterChannelGroup.addDSP(numDSPs, dspParamEq);
                 if (!result.ERRCHECK())
                 {
                     return null;
                 }
 
-                result = dspParamEq.setParameter((int)FMOD.DSP_PARAMEQ.GAIN, gainValue);
+                result = dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.CENTER, centerValue);
+                if (!result.ERRCHECK())
+                {
+                    return null;
+                }
+
+                result = dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.BANDWIDTH, bandwithValue);
+                if (!result.ERRCHECK())
+                {
+                    return null;
+                }
+
+                result = dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, gainValue);
                 if (!result.ERRCHECK())
                 {
                     return null;
@@ -208,7 +227,7 @@ namespace SimpleMusicPlayer.Common
                 }
             }
 
-            var band = new EqualizerBand(dspParamEq, centerValue, gainValue, isActive);
+            var band = new EqualizerBand(system, dspParamEq, centerValue, gainValue, isActive);
             return band;
         }
 
@@ -216,9 +235,21 @@ namespace SimpleMusicPlayer.Common
         {
             if (this.dspEQ != null)
             {
-                var result = this.dspEQ.remove();
+                var result = this.dspEQ.setActive(false);
                 result.ERRCHECK();
+
+                FMOD.ChannelGroup masterChannelGroup = null;
+                result = this.fmodSystem.getMasterChannelGroup(out masterChannelGroup);
+                result.ERRCHECK();
+
+                result = masterChannelGroup.removeDSP(this.dspEQ);
+                result.ERRCHECK();
+                
+                result = this.dspEQ.release();
+                result.ERRCHECK();
+                
                 this.dspEQ = null;
+                this.fmodSystem = null;
             }
             this.IsActive = false;
         }
@@ -238,13 +269,14 @@ namespace SimpleMusicPlayer.Common
                     return;
                 }
                 this.gain = value;
+                System.Diagnostics.Debug.WriteLine(">> Gain value: " + value);
 
                 if (this.dspEQ != null)
                 {
                     var result = this.dspEQ.setActive(false);
                     result.ERRCHECK();
 
-                    result = this.dspEQ.setParameter((int)FMOD.DSP_PARAMEQ.GAIN, value);
+                    result = this.dspEQ.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, value);
                     result.ERRCHECK();
 
                     result = this.dspEQ.setActive(true);

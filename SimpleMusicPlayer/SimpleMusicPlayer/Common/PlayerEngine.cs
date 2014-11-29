@@ -38,14 +38,14 @@ namespace SimpleMusicPlayer.Common
             /*
                 Global Settings
             */
-            var result = FMOD.Factory.System_Create(ref this.system);
+            var result = FMOD.Factory.System_Create(out this.system);
             if (!result.ERRCHECK())
             {
                 return false;
             }
 
-            uint version = 0;
-            result = this.system.getVersion(ref version);
+            uint version;
+            result = this.system.getVersion(out version);
             result.ERRCHECK();
             if (version < FMOD.VERSION.number)
             {
@@ -54,7 +54,7 @@ namespace SimpleMusicPlayer.Common
                 return false;
             }
 
-            result = this.system.init(1, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
+            result = this.system.init(16, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
             if (!result.ERRCHECK())
             {
                 return false;
@@ -90,19 +90,19 @@ namespace SimpleMusicPlayer.Common
 
             if (this.channelInfo != null && this.channelInfo.Channel != null)
             {
-                result = this.channelInfo.Channel.isPlaying(ref playing);
+                result = this.channelInfo.Channel.isPlaying(out playing);
                 if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
                 {
                     result.ERRCHECK();
                 }
 
-                result = this.channelInfo.Channel.getPaused(ref paused);
+                result = this.channelInfo.Channel.getPaused(out paused);
                 if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
                 {
                     result.ERRCHECK();
                 }
 
-                result = this.channelInfo.Channel.getPosition(ref ms, FMOD.TIMEUNIT.MS);
+                result = this.channelInfo.Channel.getPosition(out ms, FMOD.TIMEUNIT.MS);
                 if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
                 {
                     result.ERRCHECK();
@@ -275,32 +275,32 @@ namespace SimpleMusicPlayer.Common
 
             this.CurrentMediaFile = file;
 
-            var mode = FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_OFF | FMOD.MODE.UNICODE;
+            var mode = FMOD.MODE.DEFAULT | FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_OFF;
             if (file.IsVBR)
             {
                 mode |= FMOD.MODE.ACCURATETIME;
             }
-            if (this.Equalizer != null)
-            {
-                mode |= MODE.SOFTWARE;
-            }
-            else
-            {
-                mode |= MODE.HARDWARE;
-            }
-            var result = this.system.createSound(file.FullFileName, mode, ref this.sound);
+//            if (this.Equalizer != null)
+//            {
+//                mode |= MODE.SOFTWARE;
+//            }
+//            else
+//            {
+//                mode |= MODE.HARDWARE;
+//            }
+            var result = this.system.createSound(file.FullFileName, mode, out this.sound);
             if (!result.ERRCHECK())
             {
                 return;
             }
 
-            uint lenms = 0;
-            result = this.sound.getLength(ref lenms, FMOD.TIMEUNIT.MS);
+            uint lenms;
+            result = this.sound.getLength(out lenms, FMOD.TIMEUNIT.MS);
             result.ERRCHECK();
             this.LengthMs = lenms;
 
             FMOD.Channel channel = null;
-            result = this.system.playSound(FMOD.CHANNELINDEX.FREE, this.sound, false, ref channel);
+            result = this.system.playSound(this.sound, null, false, out channel);
             if (!result.ERRCHECK())
             {
                 return;
@@ -322,9 +322,9 @@ namespace SimpleMusicPlayer.Common
 
         public Action PlayNextFileAction { get; set; }
 
-        private static RESULT ChannelEndCallback(IntPtr channelraw, CHANNEL_CALLBACKTYPE type, IntPtr commanddata1, IntPtr commanddata2)
+        private static RESULT ChannelEndCallback(IntPtr channelraw, CHANNELCONTROL_TYPE controltype, CHANNELCONTROL_CALLBACK_TYPE type, IntPtr commanddata1, IntPtr commanddata2)
         {
-            if (type == CHANNEL_CALLBACKTYPE.END)
+            if (type == CHANNELCONTROL_CALLBACK_TYPE.END)
             {
                 // this must be thread safe
                 var currentSynchronizationContext = TaskScheduler.FromCurrentSynchronizationContext();
@@ -341,10 +341,10 @@ namespace SimpleMusicPlayer.Common
 
         public void Pause()
         {
-            var paused = false;
             if (this.channelInfo != null && this.channelInfo.Channel != null)
             {
-                var result = this.channelInfo.Channel.getPaused(ref paused);
+                bool paused;
+                var result = this.channelInfo.Channel.getPaused(out paused);
                 result.ERRCHECK();
 
                 var newPaused = !paused;
