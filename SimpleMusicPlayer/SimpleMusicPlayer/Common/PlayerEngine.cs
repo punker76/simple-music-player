@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Threading;
-using FMOD;
 using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.FMODStudio;
 using SimpleMusicPlayer.Interfaces;
+
+using FMOD;
 
 namespace SimpleMusicPlayer.Common
 {
@@ -21,24 +22,12 @@ namespace SimpleMusicPlayer.Common
             {
                 if (Channel != null)
                 {
-                    var result = Channel.setVolume(0f);
-                    if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                    {
-                        result.ERRCHECK();
-                    }
+                    Channel.setVolume(0f).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
                     if (FaderDSP != null)
                     {
-                        result = Channel.removeDSP(FaderDSP);
-                        if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                        {
-                            result.ERRCHECK();
-                        }
+                        Channel.removeDSP(FaderDSP).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
                     }
-                    result = Channel.setCallback(null);
-                    if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                    {
-                        result.ERRCHECK();
-                    }
+                    Channel.setCallback(null).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
                     Channel = null;
                 }
 
@@ -68,15 +57,13 @@ namespace SimpleMusicPlayer.Common
             /*
                 Global Settings
             */
-            var result = FMOD.Factory.System_Create(out this.system);
-            if (!result.ERRCHECK())
+            if (!FMOD.Factory.System_Create(out this.system).ERRCHECK())
             {
                 return false;
             }
 
             uint version;
-            result = this.system.getVersion(out version);
-            result.ERRCHECK();
+            this.system.getVersion(out version).ERRCHECK();
             if (version < FMOD.VERSION.number)
             {
                 //MessageBox.Show("Error!  You are using an old version of FMOD " + version.ToString("X") + ".  This program requires " + FMOD.VERSION.number.ToString("X") + ".");
@@ -84,14 +71,12 @@ namespace SimpleMusicPlayer.Common
                 return false;
             }
 
-            result = this.system.init(16, FMOD.INITFLAGS.NORMAL, (IntPtr)null);
-            if (!result.ERRCHECK())
+            if (!this.system.init(16, FMOD.INITFLAGS.NORMAL, (IntPtr)null).ERRCHECK())
             {
                 return false;
             }
 
-            result = this.system.setStreamBufferSize(64 * 1024, FMOD.TIMEUNIT.RAWBYTES);
-            if (!result.ERRCHECK())
+            if (!this.system.setStreamBufferSize(64 * 1024, FMOD.TIMEUNIT.RAWBYTES).ERRCHECK())
             {
                 return false;
             }
@@ -113,30 +98,17 @@ namespace SimpleMusicPlayer.Common
 
         private void PlayTimerCallback(object sender, EventArgs e)
         {
-            FMOD.RESULT result;
             uint ms = 0;
             var playing = false;
             var paused = false;
 
             if (this.channelInfo != null && this.channelInfo.Channel != null)
             {
-                result = this.channelInfo.Channel.isPlaying(out playing);
-                if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                {
-                    result.ERRCHECK();
-                }
+                this.channelInfo.Channel.isPlaying(out playing).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
 
-                result = this.channelInfo.Channel.getPaused(out paused);
-                if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                {
-                    result.ERRCHECK();
-                }
+                this.channelInfo.Channel.getPaused(out paused).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
 
-                result = this.channelInfo.Channel.getPosition(out ms, FMOD.TIMEUNIT.MS);
-                if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                {
-                    result.ERRCHECK();
-                }
+                this.channelInfo.Channel.getPosition(out ms, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
             }
 
             if (!this.DontUpdatePosition)
@@ -183,6 +155,8 @@ namespace SimpleMusicPlayer.Common
                 this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
                 masterChannelGroup.setVolume(value / 100f).ERRCHECK();
 
+                this.system.update().ERRCHECK();
+
                 this.OnPropertyChanged("Volume");
             }
         }
@@ -217,11 +191,9 @@ namespace SimpleMusicPlayer.Common
 
                 if (this.channelInfo != null && this.channelInfo.Channel != null)
                 {
-                    var result = this.channelInfo.Channel.setPosition(this.currentPositionMs, FMOD.TIMEUNIT.MS);
-                    if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                    {
-                        result.ERRCHECK();
-                    }
+                    this.channelInfo.Channel.setPosition(this.currentPositionMs, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+
+                    this.system.update().ERRCHECK();
                 }
 
                 this.OnPropertyChanged("CurrentPositionMs");
@@ -242,11 +214,9 @@ namespace SimpleMusicPlayer.Common
 
                 if (this.channelInfo != null && this.channelInfo.Channel != null)
                 {
-                    var result = this.channelInfo.Channel.setMute(value);
-                    if ((result != FMOD.RESULT.OK) && (result != FMOD.RESULT.ERR_INVALID_HANDLE))
-                    {
-                        result.ERRCHECK();
-                    }
+                    this.channelInfo.Channel.setMute(value).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+
+                    this.system.update().ERRCHECK();
                 }
 
                 this.OnPropertyChanged("IsMute");
@@ -399,12 +369,12 @@ namespace SimpleMusicPlayer.Common
             if (this.channelInfo != null && this.channelInfo.Channel != null)
             {
                 bool paused;
-                var result = this.channelInfo.Channel.getPaused(out paused);
-                result.ERRCHECK();
+                this.channelInfo.Channel.getPaused(out paused).ERRCHECK();
 
                 var newPaused = !paused;
-                result = this.channelInfo.Channel.setPaused(newPaused);
-                result.ERRCHECK();
+                this.channelInfo.Channel.setPaused(newPaused).ERRCHECK();
+
+                this.system.update().ERRCHECK();
 
                 this.channelInfo.File.State = newPaused ? PlayerState.Pause : PlayerState.Play;
                 this.State = newPaused ? PlayerState.Pause : PlayerState.Play;
@@ -441,8 +411,7 @@ namespace SimpleMusicPlayer.Common
 
             if (fmodSound != null)
             {
-                var result = fmodSound.release();
-                result.ERRCHECK();
+                fmodSound.release().ERRCHECK();
                 fmodSound = null;
             }
 
@@ -466,10 +435,8 @@ namespace SimpleMusicPlayer.Common
         {
             if (fmodSystem != null)
             {
-                var result = fmodSystem.close();
-                result.ERRCHECK();
-                result = fmodSystem.release();
-                result.ERRCHECK();
+                fmodSystem.close().ERRCHECK();
+                fmodSystem.release().ERRCHECK();
                 fmodSystem = null;
             }
         }
@@ -489,22 +456,6 @@ namespace SimpleMusicPlayer.Common
         public static PlayerEngine Instance
         {
             get { return instance ?? (instance = new PlayerEngine()); }
-        }
-    }
-
-    public static class PlayerEngineExtensions
-    {
-        public static bool ERRCHECK(this FMOD.RESULT result)
-        {
-            if (result != FMOD.RESULT.OK)
-            {
-                //this.timer.Stop();
-                MessageBox.Show("FMOD error! " + result + " - " + FMOD.Error.String(result));
-                // todo : show error info dialog
-                //Environment.Exit(-1);
-                return false;
-            }
-            return true;
         }
     }
 }

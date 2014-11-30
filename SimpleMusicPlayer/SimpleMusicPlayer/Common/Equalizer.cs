@@ -3,6 +3,7 @@ using System.Globalization;
 using FMOD;
 using SimpleMusicPlayer.Base;
 using System.Linq;
+using SimpleMusicPlayer.FMODStudio;
 
 namespace SimpleMusicPlayer.Common
 {
@@ -49,8 +50,7 @@ namespace SimpleMusicPlayer.Common
 
         private void Init(FMOD.System system, bool setToDefaultValues = false)
         {
-            var result = system.lockDSP();
-            result.ERRCHECK();
+            system.lockDSP().ERRCHECK();
 
             this.Bands.Clear();
             var gainValues = !setToDefaultValues && this.playerSettings.PlayerEngine.EqualizerSettings != null ? this.playerSettings.PlayerEngine.EqualizerSettings.GainValues : null;
@@ -68,22 +68,21 @@ namespace SimpleMusicPlayer.Common
                 }
             }
 
-            result = system.unlockDSP();
-            result.ERRCHECK();
+            system.unlockDSP().ERRCHECK();
+            system.update().ERRCHECK();
         }
 
         private void DeInit(FMOD.System system)
         {
-            var result = system.lockDSP();
-            result.ERRCHECK();
+            system.lockDSP().ERRCHECK();
 
             foreach (var band in this.Bands)
             {
                 band.Remove();
             }
 
-            result = system.unlockDSP();
-            result.ERRCHECK();
+            system.unlockDSP().ERRCHECK();
+            system.update().ERRCHECK();
         }
 
         public void CleanUp()
@@ -172,55 +171,47 @@ namespace SimpleMusicPlayer.Common
         public static EqualizerBand GetEqualizerBand(FMOD.System system, bool isActive, float centerValue, float bandwithValue, float gainValue)
         {
             FMOD.DSP dspParamEq = null;
-            FMOD.ChannelGroup masterChannelGroup = null;
 
             if (isActive)
             {
-                var result = system.createDSPByType(FMOD.DSP_TYPE.PARAMEQ, out dspParamEq);
-                if (!result.ERRCHECK())
+                if (!system.createDSPByType(FMOD.DSP_TYPE.PARAMEQ, out dspParamEq).ERRCHECK())
                 {
                     return null;
                 }
 
-                result = system.getMasterChannelGroup(out masterChannelGroup);
-                if (!result.ERRCHECK())
+                FMOD.ChannelGroup masterChannelGroup;
+                if (!system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK())
                 {
                     return null;
                 }
 
                 int numDSPs;
-                result = masterChannelGroup.getNumDSPs(out numDSPs);
-                if (!result.ERRCHECK())
+                if (!masterChannelGroup.getNumDSPs(out numDSPs).ERRCHECK())
                 {
                     return null;
                 }
 
-                result = masterChannelGroup.addDSP(numDSPs, dspParamEq);
-                if (!result.ERRCHECK())
+                if (!masterChannelGroup.addDSP(numDSPs, dspParamEq).ERRCHECK())
                 {
                     return null;
                 }
 
-                result = dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.CENTER, centerValue);
-                if (!result.ERRCHECK())
+                if (!dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.CENTER, centerValue).ERRCHECK())
                 {
                     return null;
                 }
 
-                result = dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.BANDWIDTH, bandwithValue);
-                if (!result.ERRCHECK())
+                if (!dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.BANDWIDTH, bandwithValue).ERRCHECK())
                 {
                     return null;
                 }
 
-                result = dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, gainValue);
-                if (!result.ERRCHECK())
+                if (!dspParamEq.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, gainValue).ERRCHECK())
                 {
                     return null;
                 }
 
-                result = dspParamEq.setActive(true);
-                if (!result.ERRCHECK())
+                if (!dspParamEq.setActive(true).ERRCHECK())
                 {
                     return null;
                 }
@@ -234,18 +225,14 @@ namespace SimpleMusicPlayer.Common
         {
             if (this.dspEQ != null)
             {
-                var result = this.dspEQ.setActive(false);
-                result.ERRCHECK();
+                this.dspEQ.setActive(false).ERRCHECK();
 
                 FMOD.ChannelGroup masterChannelGroup = null;
-                result = this.fmodSystem.getMasterChannelGroup(out masterChannelGroup);
-                result.ERRCHECK();
+                this.fmodSystem.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
 
-                result = masterChannelGroup.removeDSP(this.dspEQ);
-                result.ERRCHECK();
+                masterChannelGroup.removeDSP(this.dspEQ).ERRCHECK();
 
-                result = this.dspEQ.release();
-                result.ERRCHECK();
+                this.dspEQ.release().ERRCHECK();
 
                 this.dspEQ = null;
                 this.fmodSystem = null;
@@ -272,14 +259,13 @@ namespace SimpleMusicPlayer.Common
 
                 if (this.dspEQ != null)
                 {
-                    var result = this.dspEQ.setActive(false);
-                    result.ERRCHECK();
+                    this.dspEQ.setActive(false).ERRCHECK();
 
-                    result = this.dspEQ.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, value);
-                    result.ERRCHECK();
+                    this.dspEQ.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, value).ERRCHECK();
 
-                    result = this.dspEQ.setActive(true);
-                    result.ERRCHECK();
+                    this.dspEQ.setActive(true).ERRCHECK();
+
+                    this.fmodSystem.update().ERRCHECK();
                 }
 
                 this.OnPropertyChanged(() => this.Gain);

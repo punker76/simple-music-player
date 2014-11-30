@@ -185,6 +185,7 @@
     <Compile Include="Common\PlayList.cs" />
     <Compile Include="Common\PlayListCollection.cs" />
     <Compile Include="Common\PlayerSettings.cs" />
+    <Compile Include="FMODStudio\FMODExtensions.cs" />
     <Compile Include="Interfaces\IKeyHandler.cs" />
     <Compile Include="Interfaces\IMediaFile.cs" />
     <Compile Include="Interfaces\IWindowPlacementSetting.cs" />
