@@ -10,30 +10,6 @@ namespace SimpleMusicPlayer.Core.Player
 {
     public class PlayerEngine : ViewModelBase, IPlayerEngine
     {
-        private class ChannelInfo
-        {
-            public FMOD.Channel Channel { get; set; }
-            public IMediaFile File { get; set; }
-            public DSP FaderDSP { get; set; }
-
-            public void CleanUp()
-            {
-                if (this.Channel != null)
-                {
-                    this.Channel.setVolume(0f).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-                    if (this.FaderDSP != null)
-                    {
-                        this.Channel.removeDSP(this.FaderDSP).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-                    }
-                    this.Channel.setCallback(null).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-                    this.Channel = null;
-                }
-
-                this.File.State = PlayerState.Stop;
-                this.File = null;
-            }
-        }
-
         private FMOD.System system = null;
         private FMOD.Sound sound = null;
         private ChannelInfo channelInfo = null;
