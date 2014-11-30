@@ -11,6 +11,7 @@ using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
 
 namespace SimpleMusicPlayer.ViewModels
 {

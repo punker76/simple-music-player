@@ -6,7 +6,7 @@ using FMOD;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.FMODStudio;
 
-namespace SimpleMusicPlayer.Core
+namespace SimpleMusicPlayer.Core.Player
 {
     public class PlayerEngine : ViewModelBase, IPlayerEngine
     {

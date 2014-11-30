@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Newtonsoft.Json;
 
-namespace SimpleMusicPlayer.Core
+namespace SimpleMusicPlayer.Core.Player
 {
     public static class PlayerSettingsExtensions
     {

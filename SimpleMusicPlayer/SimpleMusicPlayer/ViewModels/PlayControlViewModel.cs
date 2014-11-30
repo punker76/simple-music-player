@@ -3,6 +3,7 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
 
 namespace SimpleMusicPlayer.ViewModels
 {

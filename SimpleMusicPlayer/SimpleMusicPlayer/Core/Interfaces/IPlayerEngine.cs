@@ -1,7 +1,7 @@
 ﻿using System;
-using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
 
-namespace SimpleMusicPlayer.Core
+namespace SimpleMusicPlayer.Core.Interfaces
 {
     public interface IPlayerEngine
     {

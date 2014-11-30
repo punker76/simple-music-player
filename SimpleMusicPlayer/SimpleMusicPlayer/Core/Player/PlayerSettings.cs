@@ -2,7 +2,7 @@
 using MahApps.Metro.Native;
 using SimpleMusicPlayer.Core.Interfaces;
 
-namespace SimpleMusicPlayer.Core
+namespace SimpleMusicPlayer.Core.Player
 {
     public class PlayerSettings
     {

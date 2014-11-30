@@ -4,7 +4,7 @@ using System.Linq;
 using FMOD;
 using SimpleMusicPlayer.FMODStudio;
 
-namespace SimpleMusicPlayer.Core
+namespace SimpleMusicPlayer.Core.Player
 {
     public class Equalizer : ViewModelBase
     {

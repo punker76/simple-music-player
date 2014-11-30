@@ -2,6 +2,7 @@
 using System.Windows.Threading;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
