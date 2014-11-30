@@ -1,6 +1,8 @@
 ![icon](https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png) Simple Music Player
 ===================
 
+[![Build status](https://ci.appveyor.com/api/projects/status/kvdccylonj7qjnkw/branch/master?svg=true)](https://ci.appveyor.com/project/punker76/simple-music-player/branch/master)
+
 This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
 
 **SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
@@ -22,7 +24,8 @@ First simple functions
 + Drag&Drop your files or directories into the player (on the play list)
 + Drag&Drop files within the playlist
 + Add directories to the medialib (not yet finished)
-+ Simple equalizer
++ Simple 10 band equalizer
++ Simple volume fade in (5 sec hardcoded for now)
 + Shortcut keys if the player is on top and has the focus
 	+ **[Space]** play or pause current file (if none is playing, the first selected file starts)
 	+ **[Enter]** play selected files
@@ -39,7 +42,7 @@ First simple functions
 + Working as single instance, that means
 	+ if you try start the player twice you get always the first started player
 	+ if you link with supported media files, the player loads the new files and play the first file from the added files
-+ Tooltip on playlist files  
++ Tooltip on playlist files
 
 Ideas? Bugs?
 ============
