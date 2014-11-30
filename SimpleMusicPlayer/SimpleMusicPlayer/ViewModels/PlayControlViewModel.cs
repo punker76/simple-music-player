@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Windows.Input;
 using System.Windows.Threading;
-using SimpleMusicPlayer.Base;
-using SimpleMusicPlayer.Common;
-using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
 
 namespace SimpleMusicPlayer.ViewModels
 {

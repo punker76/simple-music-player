@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
-using SimpleMusicPlayer.Base;
-using SimpleMusicPlayer.Common;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Player;
 
 namespace SimpleMusicPlayer.ViewModels
 {

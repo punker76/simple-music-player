@@ -5,12 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
-             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
-             xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
-             xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
              xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
              xmlns:behavior="clr-namespace:SimpleMusicPlayer.Behavior"
              xmlns:views="clr-namespace:SimpleMusicPlayer.Views"
+             xmlns:models="clr-namespace:SimpleMusicPlayer.Core"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -119,7 +117,7 @@
                  BorderBrush="{DynamicResource GrayBrush10}"
                  MinWidth="350"
                  Padding="1"
-                 Base:ToolTipHelper.AutoMove="True" />
+                 models:ToolTipHelper.AutoMove="True" />
 
         <Style x:Key="PlayListMetroListBoxItem"
                TargetType="{x:Type ListBoxItem}"
@@ -148,7 +146,7 @@
                       Margin="-1,0,0,1"
                       Opacity="0.8">
                     <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
+                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}">
                         <Ellipse Margin="0,0,2,0"
                                  Stroke="{DynamicResource TextBrush}"
                                  StrokeThickness="1"
@@ -162,7 +160,7 @@
                         </Rectangle>
                     </Grid>
                     <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
+                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}">
                         <Ellipse Margin="0,0,2,0"
                                  Stroke="{DynamicResource TextBrush}"
                                  StrokeThickness="1"
@@ -215,7 +213,7 @@
                       Margin="-1,0,0,1"
                       Opacity="0.8">
                     <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
+                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}">
                         <Ellipse Stroke="{DynamicResource TextBrush}"
                                  StrokeThickness="1"
                                  Height="18"
@@ -228,7 +226,7 @@
                         </Rectangle>
                     </Grid>
                     <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
+                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}">
                         <Ellipse Stroke="{DynamicResource TextBrush}"
                                  StrokeThickness="1"
                                  Height="18"
@@ -295,7 +293,7 @@
                       Margin="-1,0,0,1"
                       Opacity="0.8">
                     <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}">
+                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}">
                         <Ellipse Stroke="{DynamicResource TextBrush}"
                                  StrokeThickness="1"
                                  Height="28"
@@ -308,7 +306,7 @@
                         </Rectangle>
                     </Grid>
                     <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static Common:PlayerState.Pause}}">
+                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}">
                         <Ellipse Stroke="{DynamicResource TextBrush}"
                                  StrokeThickness="1"
                                  Height="28"
@@ -371,23 +369,23 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Base:BaseListBox x:Name="ListBoxPlayList"
+    <models:BaseListBox x:Name="ListBoxPlayList"
                       Grid.IsSharedSizeScope="True"
-                      Base:SelectorHelper.ScrollingLines="1"
+                      models:SelectorHelper.ScrollingLines="1"
                       ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
                       ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
                       SelectionMode="Extended"
                       SelectedItem="{Binding SelectedPlayListFile}"
-                      Base:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
-                      Base:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
+                      models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+                      models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       HorizontalContentAlignment="Stretch"
                       behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                       dd:DragDrop.IsDragSource="True"
                       dd:DragDrop.IsDropTarget="True"
                       dd:DragDrop.DropHandler="{Binding}">
-        <Base:BaseListBox.Style>
-            <Style TargetType="{x:Type Base:BaseListBox}"
+        <models:BaseListBox.Style>
+            <Style TargetType="{x:Type models:BaseListBox}"
                    BasedOn="{StaticResource BaseMetroListBox}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
@@ -407,7 +405,7 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-        </Base:BaseListBox.Style>
-    </Base:BaseListBox>
+        </models:BaseListBox.Style>
+    </models:BaseListBox>
 
 </UserControl>

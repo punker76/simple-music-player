@@ -1,13 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:base="clr-namespace:SimpleMusicPlayer.Base">
+                    xmlns:core="clr-namespace:SimpleMusicPlayer.Core">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ListBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseMetroListBox"
-           TargetType="base:BaseListBox"
+           TargetType="core:BaseListBox"
            BasedOn="{StaticResource VirtualisedMetroListBox}">
         <Setter Property="IsTextSearchEnabled"
                 Value="False" />

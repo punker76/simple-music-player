@@ -1,6 +1,6 @@
-﻿using SimpleMusicPlayer.Base;
-using System.Windows.Threading;
-using SimpleMusicPlayer.Common;
+﻿using System.Windows.Threading;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Player;
 
 namespace SimpleMusicPlayer.ViewModels
 {

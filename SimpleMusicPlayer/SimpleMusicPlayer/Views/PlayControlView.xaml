@@ -5,9 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
-             xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
-             xmlns:base="clr-namespace:SimpleMusicPlayer.Base"
              xmlns:views="clr-namespace:SimpleMusicPlayer.Views"
+             xmlns:Common="clr-namespace:SimpleMusicPlayer.Core"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -339,7 +338,7 @@
                                Fill="{Binding PlayerEngine.IsMute, Mode=OneWay, Converter={StaticResource PlayerMuteToVisualBrushConverter}}" />
                 </Button>
 
-                <base:FormattedSlider Grid.Column="1"
+                <Common:FormattedSlider Grid.Column="1"
                                       Style="{StaticResource MetroCircleSlider}"
                                       Margin="5,2,5,2"
                                       Orientation="Horizontal"

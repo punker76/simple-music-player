@@ -6,10 +6,10 @@
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
                       xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
-                      xmlns:WPFSpark="clr-namespace:WPFSpark"
-                      xmlns:Common="clr-namespace:SimpleMusicPlayer.Common"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
+                      xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
+                      xmlns:player="clr-namespace:SimpleMusicPlayer.Core.Player"
                       Title="Simple Music Player"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
                       ShowTitleBar="True"
@@ -64,7 +64,7 @@
                     DataContext="{Binding PlayListsViewModel.FileSearchWorker, Mode=OneWay}"
                     Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                     Orientation="Horizontal">
-            <WPFSpark:SprocketControl VerticalAlignment="Center"
+            <core:SprocketControl VerticalAlignment="Center"
                                       Width="25"
                                       Height="25"
                                       TickWidth="2"
@@ -156,7 +156,7 @@
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type Common:EqualizerBand}">
+                                <DataTemplate DataType="{x:Type player:EqualizerBand}">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
@@ -166,12 +166,11 @@
                                                 Orientation="Vertical"
                                                 Margin="4"
                                                 Height="150"
-                                                Minimum="0"
-                                                Maximum="2"
-                                                TickFrequency="0.1"
-                                                LargeChange="0.2"
+                                                Minimum="-10"
+                                                Maximum="10"
+                                                TickFrequency="2"
+                                                LargeChange="1"
                                                 SmallChange="0.1"
-                                                Ticks="0,0.2,0.4,0.6,0.8,1,1.2,1.4,1.6,1.8,2"
                                                 TickPlacement="BottomRight"
                                                 Value="{Binding Gain}"
                                                 IsEnabled="{Binding IsActive, Mode=OneWay}" />

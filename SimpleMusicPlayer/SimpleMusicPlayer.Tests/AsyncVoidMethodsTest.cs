@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.ViewModels;
 using Xunit;
 

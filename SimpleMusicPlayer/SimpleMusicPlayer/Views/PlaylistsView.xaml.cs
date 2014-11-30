@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using SimpleMusicPlayer.Base;
-using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
