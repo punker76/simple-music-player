@@ -31,14 +31,14 @@ namespace SimpleMusicPlayer
 
         private static void StartUp()
         {
-            if (SingleInstance<SimpleMusicPlayerApplication.App>.InitializeAsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938"))
+            if (SingleInstance<App>.InitializeAsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938"))
             {
-                var application = new SimpleMusicPlayerApplication.App();
+                var application = new App();
                 application.Init();
                 application.Run();
 
                 // Allow single instance code to perform cleanup operations
-                SingleInstance<SimpleMusicPlayerApplication.App>.Cleanup();
+                SingleInstance<App>.Cleanup();
             }
         }
     }

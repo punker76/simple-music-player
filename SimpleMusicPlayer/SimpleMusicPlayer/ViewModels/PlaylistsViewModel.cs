@@ -9,9 +9,8 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
-using SimpleMusicPlayer.Base;
-using SimpleMusicPlayer.Common;
-using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
 
 namespace SimpleMusicPlayer.ViewModels
 {

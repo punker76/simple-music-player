@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Interop;
 using MahApps.Metro.Controls;
-using SimpleMusicPlayer.Base;
+using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views

@@ -1,9 +1,7 @@
 ﻿using System.Windows.Input;
 using System.Windows.Threading;
-using SimpleMusicPlayer.Base;
-using SimpleMusicPlayer.Common;
-using SimpleMusicPlayer.Common.Extensions;
-using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
@@ -23,8 +21,8 @@ namespace SimpleMusicPlayer.ViewModels
 
             this.PlayerEngine.Configure(dispatcher, this.PlayerSettings);
 
-            this.PlayListFileSearchWorker = new FileSearchWorker();
-            this.MedialibFileSearchWorker = new FileSearchWorker();
+            this.PlayListFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
+            this.MedialibFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
 
             this.MedialibViewModel = new MedialibViewModel(dispatcher, this);
             this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this);

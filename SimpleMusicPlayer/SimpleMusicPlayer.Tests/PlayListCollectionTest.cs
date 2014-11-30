@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using SimpleMusicPlayer.Common;
-using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
 using Xunit;
 
 namespace SimpleMusicPlayer.Tests

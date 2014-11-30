@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using SimpleMusicPlayer.Common;
+using SimpleMusicPlayer.Core;
 
 namespace SimpleMusicPlayer.ValueConverters
 {

@@ -2,9 +2,8 @@
 using System.Reflection;
 using System.Windows;
 using MahApps.Metro.Controls;
-using SimpleMusicPlayer.Base;
-using SimpleMusicPlayer.Common;
-using SimpleMusicPlayer.Interfaces;
+using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views

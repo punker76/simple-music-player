@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Windows;
 using Microsoft.Shell;
+using SimpleMusicPlayer.Core;
 
-namespace SimpleMusicPlayerApplication
+namespace SimpleMusicPlayer
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -19,13 +20,13 @@ namespace SimpleMusicPlayerApplication
         {
             if (this.MainWindow.WindowState == WindowState.Minimized)
             {
-                SimpleMusicPlayer.Base.WindowExtensions.Unminimize(this.MainWindow);
+                WindowExtensions.Unminimize(this.MainWindow);
             }
             else
             {
-                SimpleMusicPlayer.Base.WindowExtensions.ShowAndActivate(this.MainWindow);
+                WindowExtensions.ShowAndActivate(this.MainWindow);
             }
-            return ProcessCommandLineArgs(this.MainWindow as SimpleMusicPlayer.Views.MainWindow, args);
+            return this.ProcessCommandLineArgs(this.MainWindow as SimpleMusicPlayer.Views.MainWindow, args);
         }
 
         private bool ProcessCommandLineArgs(SimpleMusicPlayer.Views.MainWindow window, IEnumerable<string> args)

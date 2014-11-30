@@ -5,10 +5,8 @@
                       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
-                      xmlns:Base="clr-namespace:SimpleMusicPlayer.Base"
-                      xmlns:models="clr-namespace:SimpleMusicPlayer.Models"
-                      xmlns:WPFSpark="clr-namespace:WPFSpark"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
+                      xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
                       Title="Media Library"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
                       ShowTitleBar="True"
@@ -98,7 +96,7 @@
                            Margin="10,2,0,2"
                            Text="Genres" />
                 <ListBox x:Name="GenreListBox"
-                         Base:SelectorHelper.ScrollingLines="1"
+                         core:SelectorHelper.ScrollingLines="1"
                          SelectedItem="{Binding SelectedGenre}"
                          ItemsSource="{Binding GenreList, Mode=OneWay}"
                          ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
@@ -116,7 +114,7 @@
                            Margin="10,2,0,2"
                            Text="Artists" />
                 <ListBox x:Name="ArtistListBox"
-                         Base:SelectorHelper.ScrollingLines="1"
+                         core:SelectorHelper.ScrollingLines="1"
                          SelectedItem="{Binding SelectedArtist}"
                          ItemsSource="{Binding ArtistList, Mode=OneWay}"
                          ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
@@ -134,7 +132,7 @@
                            Margin="10,2,0,2"
                            Text="Albums" />
                 <ListBox x:Name="AlbumListBox"
-                         Base:SelectorHelper.ScrollingLines="1"
+                         core:SelectorHelper.ScrollingLines="1"
                          SelectedItem="{Binding SelectedAlbum}"
                          ItemsSource="{Binding AlbumList, Mode=OneWay}"
                          ItemTemplate="{StaticResource GroupingListBoxDataTemplate}"
@@ -143,13 +141,13 @@
 
         </Grid>
 
-        <Base:BaseListView RenderOptions.ClearTypeHint="Enabled"
+        <core:BaseListView RenderOptions.ClearTypeHint="Enabled"
                            TextOptions.TextFormattingMode="Display"
-                           Base:SelectorHelper.ScrollingLines="1"
+                           core:SelectorHelper.ScrollingLines="1"
                            Grid.Row="2"
                            Margin="4"
                            ScrollViewer.IsDeferredScrollingEnabled="False"
-                           DataType="{x:Type models:MediaFile}"
+                           DataType="{x:Type core:MediaFile}"
                            ItemsSource="{Binding MediaFiles, Mode=OneWay}">
             <!--      <ListView.GroupStyle>-->
             <!--        <GroupStyle>-->
@@ -180,13 +178,13 @@
             <!--          </GroupStyle.ContainerStyle>-->
             <!--        </GroupStyle>-->
             <!--      </ListView.GroupStyle>-->
-        </Base:BaseListView>
+        </core:BaseListView>
 
         <StackPanel Grid.Row="3"
                     DataContext="{Binding FileSearchWorker, Mode=OneWay}"
                     Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                     Orientation="Horizontal">
-            <WPFSpark:SprocketControl VerticalAlignment="Center"
+            <core:SprocketControl VerticalAlignment="Center"
                                       Width="25"
                                       Height="25"
                                       TickWidth="2"
