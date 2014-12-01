@@ -296,7 +296,6 @@ namespace SimpleMusicPlayer.Core.Player
 
                 int numDSPs;
                 channel.getNumDSPs(out numDSPs).ERRCHECK();
-
                 channel.addDSP(numDSPs, faderDSP).ERRCHECK();
 
                 // get the reference clock, which is the parent channel group
@@ -309,13 +308,10 @@ namespace SimpleMusicPlayer.Core.Player
                 int numrawspeakers;
                 this.system.getSoftwareFormat(out samplerate, out speakermode, out numrawspeakers).ERRCHECK();
 
-                var samples = (uint)Math.Round(5000f * samplerate / 1000f);
-                var samplesCompl = (uint)Math.Round(lengthMs * samplerate / 1000f);
-
                 // add a fade point at 'now' with zero volume
                 channel.addFadePoint(parentclock, 0f).ERRCHECK();
                 // add a fade point 5 seconds later at 1 volume
-                channel.addFadePoint(parentclock + (uint)samplerate * 5 /*samples*/, 1f).ERRCHECK();
+                channel.addFadePoint(parentclock + (ulong)(samplerate * 5), 1f).ERRCHECK();
 
                 // add a fade point at 'now' with full volume
                 //channel.addFadePoint(samplesCompl - (uint)samplerate * 5, 1f).ERRCHECK();
