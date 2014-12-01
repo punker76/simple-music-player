@@ -265,8 +265,9 @@ namespace SimpleMusicPlayer.Core.Player
             uint length;
             this.sound.getLength(out length, FMOD.TIMEUNIT.PCM).ERRCHECK();
 
-            FMOD.Channel channel = null;
-            if (!this.system.playSound(this.sound, null, false, out channel).ERRCHECK())
+            // start paused for better results
+            FMOD.Channel channel;
+            if (!this.system.playSound(this.sound, null, true, out channel).ERRCHECK())
             {
                 return;
             }
@@ -298,6 +299,7 @@ namespace SimpleMusicPlayer.Core.Player
 
                 channel.addDSP(numDSPs, faderDSP).ERRCHECK();
 
+                // get the reference clock, which is the parent channel group
                 ulong dspclock;
                 ulong parentclock;
                 channel.getDSPClock(out dspclock, out parentclock).ERRCHECK();
@@ -308,12 +310,22 @@ namespace SimpleMusicPlayer.Core.Player
                 this.system.getSoftwareFormat(out samplerate, out speakermode, out numrawspeakers).ERRCHECK();
 
                 var samples = (uint)Math.Round(5000f * samplerate / 1000f);
+                var samplesCompl = (uint)Math.Round(lengthMs * samplerate / 1000f);
 
+                // add a fade point at 'now' with zero volume
                 channel.addFadePoint(parentclock, 0f).ERRCHECK();
-                channel.addFadePoint(parentclock + samples, 1f).ERRCHECK();
+                // add a fade point 5 seconds later at 1 volume
+                channel.addFadePoint(parentclock + (uint)samplerate * 5 /*samples*/, 1f).ERRCHECK();
 
-                //channel.addFadePoint(parentclock + length - samples, 1f).ERRCHECK();
-                //channel.addFadePoint(parentclock + length, 0f).ERRCHECK();
+                // add a fade point at 'now' with full volume
+                //channel.addFadePoint(samplesCompl - (uint)samplerate * 5, 1f).ERRCHECK();
+                // add a fade point 5 seconds later at 0 volume
+                //channel.addFadePoint(samplesCompl, 0f).ERRCHECK();
+                // add a delayed stop command at 5 seconds ('stopchannels = true')
+                //channel.setDelay(0, samplesCompl, true).ERRCHECK();
+
+                // now start the music
+                channel.setPaused(false).ERRCHECK();
 
                 this.system.update().ERRCHECK();
             }
