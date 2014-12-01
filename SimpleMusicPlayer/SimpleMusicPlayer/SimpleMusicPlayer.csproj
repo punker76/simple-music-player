@@ -88,12 +88,13 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ReactiveUI">
-      <HintPath>..\packages\reactiveui-core.6.2.0\lib\Net45\ReactiveUI.dll</HintPath>
+    <Reference Include="ReactiveUI, Version=6.2.1.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\reactiveui-core.6.2.1.1\lib\Net45\ReactiveUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ReactiveUI.Events">
-      <HintPath>..\packages\reactiveui-events.6.2.0\lib\net45\ReactiveUI.Events.dll</HintPath>
+      <HintPath>..\packages\reactiveui-events.6.2.1.1\lib\net45\ReactiveUI.Events.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Splat">
@@ -351,12 +352,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\reactiveui-core.6.2.0\lib\Net45\ReactiveUI.dll">
-      <Link>DllsAsResource\ReactiveUI.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\reactiveui-events.6.2.0\lib\net45\ReactiveUI.Events.dll">
-      <Link>DllsAsResource\ReactiveUI.Events.dll</Link>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\packages\Splat.1.5.1\lib\Net45\Splat.dll">
       <Link>DllsAsResource\Splat.dll</Link>
     </EmbeddedResource>
@@ -367,6 +362,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\MahApps.Metro.1.0.0-ALPHA007\lib\net45\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\reactiveui-core.6.2.1.1\lib\Net45\ReactiveUI.dll">
+      <Link>DllsAsResource\ReactiveUI.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\reactiveui-events.6.2.1.1\lib\net45\ReactiveUI.Events.dll">
+      <Link>DllsAsResource\ReactiveUI.Events.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
