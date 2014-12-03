@@ -265,6 +265,12 @@ namespace SimpleMusicPlayer.Core.Player
             uint length;
             this.sound.getLength(out length, FMOD.TIMEUNIT.PCM).ERRCHECK();
 
+            SOUND_TYPE soundType;
+            SOUND_FORMAT soundFormat;
+            int soundChannels;
+            int soundBits;
+            this.sound.getFormat(out soundType, out soundFormat, out soundChannels, out soundBits);
+
             // start paused for better results
             FMOD.Channel channel;
             if (!this.system.playSound(this.sound, null, true, out channel).ERRCHECK())
@@ -308,17 +314,21 @@ namespace SimpleMusicPlayer.Core.Player
                 int numrawspeakers;
                 this.system.getSoftwareFormat(out samplerate, out speakermode, out numrawspeakers).ERRCHECK();
 
-                // add a fade point at 'now' with zero volume
-                channel.addFadePoint(parentclock, 0f).ERRCHECK();
-                // add a fade point 5 seconds later at 1 volume
-                channel.addFadePoint(parentclock + (ulong)(samplerate * 5), 1f).ERRCHECK();
+                if (samplerate > 0 && soundBits > 0)
+                {
+                    // add a fade point at 'now' with zero volume
+                    channel.addFadePoint(parentclock, 0f).ERRCHECK();
+                    // add a fade point 5 seconds later at 1 volume
+                    channel.addFadePoint(parentclock + (ulong)(samplerate * 5), 1f).ERRCHECK();
 
-                // add a fade point at 'now' with full volume
-                //channel.addFadePoint(samplesCompl - (uint)samplerate * 5, 1f).ERRCHECK();
-                // add a fade point 5 seconds later at 0 volume
-                //channel.addFadePoint(samplesCompl, 0f).ERRCHECK();
-                // add a delayed stop command at 5 seconds ('stopchannels = true')
-                //channel.setDelay(0, samplesCompl, true).ERRCHECK();
+                    //var convertedLength = Convert.ToUInt64(Math.Round(soundChannels * lengthMs * samplerate * 0.001f / (float)soundBits));
+                    // add a start fade point 5 seconds before end with full volume
+                    //channel.addFadePoint(parentclock + convertedLength - (ulong)samplerate * 5, 1f).ERRCHECK();
+                    // add a fade point at the end of the track
+                    //channel.addFadePoint(parentclock + convertedLength, 0f).ERRCHECK();
+                    // add a delayed stop command at the end of the track ('stopchannels = true')
+                    //channel.setDelay(0, parentclock + convertedLength, true).ERRCHECK();
+                }
 
                 // now start the music
                 channel.setPaused(false).ERRCHECK();
