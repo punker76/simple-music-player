@@ -165,8 +165,12 @@ namespace SimpleMusicPlayer.Core.Player
 
                 if (this.channelInfo != null && this.channelInfo.Channel != null)
                 {
+                    bool paused;
+                    this.channelInfo.Channel.getPaused(out paused).ERRCHECK();
+                    this.channelInfo.Channel.setPaused(true).ERRCHECK();
+                    this.system.update().ERRCHECK();
                     this.channelInfo.Channel.setPosition(this.currentPositionMs, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-
+                    this.channelInfo.Channel.setPaused(paused).ERRCHECK();
                     this.system.update().ERRCHECK();
                 }
 
