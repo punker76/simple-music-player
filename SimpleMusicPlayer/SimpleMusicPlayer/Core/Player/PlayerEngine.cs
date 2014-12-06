@@ -40,8 +40,6 @@ namespace SimpleMusicPlayer.Core.Player
             this.system.getVersion(out version).ERRCHECK();
             if (version < FMOD.VERSION.number)
             {
-                //MessageBox.Show("Error!  You are using an old version of FMOD " + version.ToString("X") + ".  This program requires " + FMOD.VERSION.number.ToString("X") + ".");
-                //Application.Exit();
                 return false;
             }
 
