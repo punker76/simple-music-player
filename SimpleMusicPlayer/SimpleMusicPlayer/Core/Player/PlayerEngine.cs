@@ -14,7 +14,7 @@ namespace SimpleMusicPlayer.Core.Player
         private FMOD.Sound sound = null;
         private ChannelInfo channelInfo = null;
         private DispatcherTimer timer;
-        private float volume;
+        private float volume = -1;
         private uint lengthMs;
         private uint currentPositionMs;
         private bool isMute;
@@ -91,10 +91,7 @@ namespace SimpleMusicPlayer.Core.Player
 
             //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
 
-            if (this.system != null)
-            {
-                this.system.update();
-            }
+            this.system.update();
         }
 
         public bool Initializied
@@ -245,8 +242,6 @@ namespace SimpleMusicPlayer.Core.Player
         {
             this.CleanUpSound(ref this.sound);
 
-            this.timer.Start();
-
             this.CurrentMediaFile = file;
 
             var mode = FMOD.MODE.DEFAULT | FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_OFF;
@@ -279,64 +274,62 @@ namespace SimpleMusicPlayer.Core.Player
             {
                 return;
             }
+            if (channel == null)
+            {
+                return;
+            }
+
+            this.channelInfo = new ChannelInfo() { Channel = channel, File = file };
+
+            channel.setCallback(this.channelEndCallback).ERRCHECK();
+            channel.setVolume(1f).ERRCHECK();
+
+            this.system.update().ERRCHECK();
+
+            FMOD.DSP faderDSP;
+            this.system.createDSPByType(FMOD.DSP_TYPE.FADER, out faderDSP).ERRCHECK();
+
+            this.channelInfo.FaderDSP = faderDSP;
+
+            int numDSPs;
+            channel.getNumDSPs(out numDSPs).ERRCHECK();
+            channel.addDSP(numDSPs, faderDSP).ERRCHECK();
+
+            // get the reference clock, which is the parent channel group
+            ulong dspclock;
+            ulong parentclock;
+            channel.getDSPClock(out dspclock, out parentclock).ERRCHECK();
+
+            int samplerate;
+            SPEAKERMODE speakermode;
+            int numrawspeakers;
+            this.system.getSoftwareFormat(out samplerate, out speakermode, out numrawspeakers).ERRCHECK();
+
+            if (samplerate > 0 && soundBits > 0)
+            {
+                // add a fade point at 'now' with zero volume
+                channel.addFadePoint(parentclock, 0f).ERRCHECK();
+                // add a fade point 5 seconds later at 1 volume
+                channel.addFadePoint(parentclock + (ulong)(samplerate * 5), 1f).ERRCHECK();
+
+                //var convertedLength = Convert.ToUInt64(Math.Round(soundChannels * lengthMs * samplerate * 0.001f / (float)soundBits));
+                // add a start fade point 5 seconds before end with full volume
+                //channel.addFadePoint(parentclock + convertedLength - (ulong)samplerate * 5, 1f).ERRCHECK();
+                // add a fade point at the end of the track
+                //channel.addFadePoint(parentclock + convertedLength, 0f).ERRCHECK();
+                // add a delayed stop command at the end of the track ('stopchannels = true')
+                //channel.setDelay(0, parentclock + convertedLength, true).ERRCHECK();
+            }
+
+            // now start the music
+            this.timer.Start();
 
             this.State = PlayerState.Play;
             file.State = PlayerState.Play;
 
-            if (channel != null)
-            {
-                this.channelInfo = new ChannelInfo() { Channel = channel, File = file };
+            channel.setPaused(false).ERRCHECK();
 
-                channel.setCallback(this.channelEndCallback).ERRCHECK();
-
-                channel.setVolume(1f).ERRCHECK();
-
-                ChannelGroup masterChannelGroup;
-                this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
-                masterChannelGroup.setVolume(this.Volume / 100f).ERRCHECK();
-
-                this.system.update().ERRCHECK();
-
-                FMOD.DSP faderDSP;
-                this.system.createDSPByType(FMOD.DSP_TYPE.FADER, out faderDSP).ERRCHECK();
-
-                this.channelInfo.FaderDSP = faderDSP;
-
-                int numDSPs;
-                channel.getNumDSPs(out numDSPs).ERRCHECK();
-                channel.addDSP(numDSPs, faderDSP).ERRCHECK();
-
-                // get the reference clock, which is the parent channel group
-                ulong dspclock;
-                ulong parentclock;
-                channel.getDSPClock(out dspclock, out parentclock).ERRCHECK();
-
-                int samplerate;
-                SPEAKERMODE speakermode;
-                int numrawspeakers;
-                this.system.getSoftwareFormat(out samplerate, out speakermode, out numrawspeakers).ERRCHECK();
-
-                if (samplerate > 0 && soundBits > 0)
-                {
-                    // add a fade point at 'now' with zero volume
-                    channel.addFadePoint(parentclock, 0f).ERRCHECK();
-                    // add a fade point 5 seconds later at 1 volume
-                    channel.addFadePoint(parentclock + (ulong)(samplerate * 5), 1f).ERRCHECK();
-
-                    //var convertedLength = Convert.ToUInt64(Math.Round(soundChannels * lengthMs * samplerate * 0.001f / (float)soundBits));
-                    // add a start fade point 5 seconds before end with full volume
-                    //channel.addFadePoint(parentclock + convertedLength - (ulong)samplerate * 5, 1f).ERRCHECK();
-                    // add a fade point at the end of the track
-                    //channel.addFadePoint(parentclock + convertedLength, 0f).ERRCHECK();
-                    // add a delayed stop command at the end of the track ('stopchannels = true')
-                    //channel.setDelay(0, parentclock + convertedLength, true).ERRCHECK();
-                }
-
-                // now start the music
-                channel.setPaused(false).ERRCHECK();
-
-                this.system.update().ERRCHECK();
-            }
+            this.system.update().ERRCHECK();
         }
 
         public Action PlayNextFileAction { get; set; }
