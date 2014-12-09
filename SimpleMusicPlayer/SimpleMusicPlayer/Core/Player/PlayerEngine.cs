@@ -83,11 +83,12 @@ namespace SimpleMusicPlayer.Core.Player
 
                 this.channelInfo.Channel.getPosition(out ms, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
 
-                if (isPlaying && !isPaused && LengthMs > 10000)
+                var completeFadeLength = this.playerSettings.PlayerEngine.FadeIn + this.playerSettings.PlayerEngine.FadeOut;
+                if (completeFadeLength > 0 && isPlaying && !isPaused && LengthMs > completeFadeLength)
                 {
-                    var isFading = this.channelInfo.FadeVolume(0, 1, 0, 5000, ms);
-                    isFading |= this.channelInfo.FadeVolume(1, 0, LengthMs - 5000, 5000, ms);
-                    if (!isFading && this.channelInfo.Volume != 1f)
+                    var isFading = this.channelInfo.FadeVolume(0f, 1f, 0f, this.playerSettings.PlayerEngine.FadeIn, ms);
+                    isFading |= this.channelInfo.FadeVolume(1f, 0f, LengthMs - this.playerSettings.PlayerEngine.FadeOut, this.playerSettings.PlayerEngine.FadeOut, ms);
+                    if (!isFading)
                     {
                         this.channelInfo.Volume = 1f;
                     }

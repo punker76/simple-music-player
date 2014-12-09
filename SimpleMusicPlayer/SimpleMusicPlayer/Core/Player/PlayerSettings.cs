@@ -37,10 +37,16 @@ namespace SimpleMusicPlayer.Core.Player
 
         public PlayerEngineSettings()
         {
-            this.Volume = 100f;
+            Volume = 100f;
+            FadeIn = 5000f;
+            FadeOut = 5000f;
+            EqualizerSettings = new EqualizerSettings() { GainValues = new Dictionary<string, float>() };
         }
 
         public float Volume { get; set; }
+
+        public float FadeIn { get; set; }
+        public float FadeOut { get; set; }
 
         public bool Mute { get; set; }
 
