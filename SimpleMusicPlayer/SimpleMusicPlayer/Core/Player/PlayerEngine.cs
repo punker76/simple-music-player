@@ -14,7 +14,7 @@ namespace SimpleMusicPlayer.Core.Player
         private FMOD.Sound sound = null;
         private ChannelInfo channelInfo = null;
         private DispatcherTimer timer;
-        private float volume = -1;
+        private float volume = -1f;
         private uint lengthMs;
         private uint currentPositionMs;
         private bool isMute;
@@ -84,8 +84,12 @@ namespace SimpleMusicPlayer.Core.Player
 
                 if (isPlaying && !isPaused && LengthMs > 10000)
                 {
-                    FadeVolume(0, 1, 0, 5000, ms);
-                    FadeVolume(1, 0, LengthMs - 5000, 5000, ms);
+                    var isFading = this.channelInfo.FadeVolume(0, 1, 0, 5000, ms);
+                    isFading |= this.channelInfo.FadeVolume(1, 0, LengthMs - 5000, 5000, ms);
+                    if (!isFading && this.channelInfo.Volume != 1f)
+                    {
+                        this.channelInfo.Volume = 1f;
+                    }
                 }
             }
 
@@ -98,23 +102,6 @@ namespace SimpleMusicPlayer.Core.Player
             //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
 
             this.system.update();
-        }
-
-        private void FadeVolume(float startVol, float endVol, float startPoint, float fadeLength, float currentTime)
-        {
-            if ((currentTime >= startPoint) && (currentTime <= startPoint + fadeLength))
-            {
-                var chVolume = 1.0f;
-                if (startVol < endVol)
-                {
-                    chVolume = ((endVol - startVol) / fadeLength) * (currentTime - startPoint) + startVol;
-                }
-                else
-                {
-                    chVolume = Math.Abs(Math.Abs(((endVol - startVol) / fadeLength) * (currentTime - startPoint)) - 1.0f);
-                }
-                this.channelInfo.Volume = chVolume;
-            }
         }
 
         public bool Initializied
