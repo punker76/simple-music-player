@@ -12,18 +12,17 @@ namespace SimpleMusicPlayer.Core.Player
 
         public bool FadeVolume(float startVol, float endVol, float startPoint, float fadeLength, float currentTime)
         {
-            if ((currentTime >= startPoint) && (currentTime <= startPoint + fadeLength))
+            if ((fadeLength > 0f) && (currentTime >= startPoint) && (currentTime <= startPoint + fadeLength))
             {
-                var chVolume = 1.0f;
+                var calcVolume = Math.Abs(((endVol - startVol) / fadeLength) * (currentTime - startPoint));
                 if (startVol < endVol)
                 {
-                    chVolume = ((endVol - startVol) / fadeLength) * (currentTime - startPoint) + startVol;
+                    this.Volume = calcVolume + startVol;
                 }
                 else
                 {
-                    chVolume = Math.Abs(Math.Abs(((endVol - startVol) / fadeLength) * (currentTime - startPoint)) - 1.0f);
+                    this.Volume = startVol - calcVolume;
                 }
-                this.Volume = chVolume;
                 return true;
             }
             return false;
