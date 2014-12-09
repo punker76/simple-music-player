@@ -71,11 +71,12 @@ namespace SimpleMusicPlayer.Core.Player
         private void PlayTimerCallback(object sender, EventArgs e)
         {
             uint ms = 0;
-            var isPlaying = false;
-            var isPaused = false;
 
             if (this.channelInfo != null && this.channelInfo.Channel != null)
             {
+                var isPlaying = false;
+                var isPaused = false;
+
                 this.channelInfo.Channel.isPlaying(out isPlaying).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
 
                 this.channelInfo.Channel.getPaused(out isPaused).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
@@ -269,15 +270,6 @@ namespace SimpleMusicPlayer.Core.Player
             this.sound.getLength(out lenms, FMOD.TIMEUNIT.MS).ERRCHECK();
             this.LengthMs = lenms;
 
-            uint length;
-            this.sound.getLength(out length, FMOD.TIMEUNIT.PCM).ERRCHECK();
-
-            SOUND_TYPE soundType;
-            SOUND_FORMAT soundFormat;
-            int soundChannels;
-            int soundBits;
-            this.sound.getFormat(out soundType, out soundFormat, out soundChannels, out soundBits);
-
             // start paused for better results
             FMOD.Channel channel;
             if (!this.system.playSound(this.sound, null, true, out channel).ERRCHECK())
@@ -361,6 +353,8 @@ namespace SimpleMusicPlayer.Core.Player
 
         private void CleanUpSound(ref FMOD.Sound fmodSound)
         {
+            this.timer.Stop();
+
             this.State = PlayerState.Stop;
             this.CurrentMediaFile = null;
 
@@ -375,8 +369,6 @@ namespace SimpleMusicPlayer.Core.Player
                 fmodSound.release().ERRCHECK();
                 fmodSound = null;
             }
-
-            this.timer.Stop();
 
             this.currentPositionMs = 0;
             this.OnPropertyChanged("CurrentPositionMs");
