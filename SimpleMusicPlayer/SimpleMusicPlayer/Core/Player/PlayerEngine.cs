@@ -14,7 +14,7 @@ namespace SimpleMusicPlayer.Core.Player
         private FMOD.Sound sound = null;
         private ChannelInfo channelInfo = null;
         private DispatcherTimer timer;
-        private float volume;
+        private float volume = -1f;
         private uint lengthMs;
         private uint currentPositionMs;
         private bool isMute;
@@ -40,8 +40,6 @@ namespace SimpleMusicPlayer.Core.Player
             this.system.getVersion(out version).ERRCHECK();
             if (version < FMOD.VERSION.number)
             {
-                //MessageBox.Show("Error!  You are using an old version of FMOD " + version.ToString("X") + ".  This program requires " + FMOD.VERSION.number.ToString("X") + ".");
-                //Application.Exit();
                 return false;
             }
 
@@ -73,16 +71,28 @@ namespace SimpleMusicPlayer.Core.Player
         private void PlayTimerCallback(object sender, EventArgs e)
         {
             uint ms = 0;
-            var playing = false;
-            var paused = false;
 
             if (this.channelInfo != null && this.channelInfo.Channel != null)
             {
-                this.channelInfo.Channel.isPlaying(out playing).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+                var isPlaying = false;
+                var isPaused = false;
 
-                this.channelInfo.Channel.getPaused(out paused).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+                this.channelInfo.Channel.isPlaying(out isPlaying).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+
+                this.channelInfo.Channel.getPaused(out isPaused).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
 
                 this.channelInfo.Channel.getPosition(out ms, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+
+                var completeFadeLength = this.playerSettings.PlayerEngine.FadeIn + this.playerSettings.PlayerEngine.FadeOut;
+                if (completeFadeLength > 0 && isPlaying && !isPaused && LengthMs > completeFadeLength)
+                {
+                    var isFading = this.channelInfo.FadeVolume(0f, 1f, 0f, this.playerSettings.PlayerEngine.FadeIn, ms);
+                    isFading |= this.channelInfo.FadeVolume(1f, 0f, LengthMs - this.playerSettings.PlayerEngine.FadeOut, this.playerSettings.PlayerEngine.FadeOut, ms);
+                    if (!isFading)
+                    {
+                        this.channelInfo.Volume = 1f;
+                    }
+                }
             }
 
             if (!this.DontUpdatePosition)
@@ -93,10 +103,7 @@ namespace SimpleMusicPlayer.Core.Player
 
             //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
 
-            if (this.system != null)
-            {
-                this.system.update();
-            }
+            this.system.update();
         }
 
         public bool Initializied
@@ -165,8 +172,12 @@ namespace SimpleMusicPlayer.Core.Player
 
                 if (this.channelInfo != null && this.channelInfo.Channel != null)
                 {
+                    bool paused;
+                    this.channelInfo.Channel.getPaused(out paused).ERRCHECK();
+                    this.channelInfo.Channel.setPaused(true).ERRCHECK();
+                    this.system.update().ERRCHECK();
                     this.channelInfo.Channel.setPosition(this.currentPositionMs, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-
+                    this.channelInfo.Channel.setPaused(paused).ERRCHECK();
                     this.system.update().ERRCHECK();
                 }
 
@@ -243,8 +254,6 @@ namespace SimpleMusicPlayer.Core.Player
         {
             this.CleanUpSound(ref this.sound);
 
-            this.timer.Start();
-
             this.CurrentMediaFile = file;
 
             var mode = FMOD.MODE.DEFAULT | FMOD.MODE._2D | FMOD.MODE.CREATESTREAM | FMOD.MODE.LOOP_OFF;
@@ -262,69 +271,32 @@ namespace SimpleMusicPlayer.Core.Player
             this.sound.getLength(out lenms, FMOD.TIMEUNIT.MS).ERRCHECK();
             this.LengthMs = lenms;
 
-            uint length;
-            this.sound.getLength(out length, FMOD.TIMEUNIT.PCM).ERRCHECK();
-
             // start paused for better results
             FMOD.Channel channel;
             if (!this.system.playSound(this.sound, null, true, out channel).ERRCHECK())
             {
                 return;
             }
+            if (channel == null)
+            {
+                return;
+            }
+
+            this.channelInfo = new ChannelInfo() { Channel = channel, File = file };
+            channelInfo.Volume = 0f;
+            channel.setCallback(this.channelEndCallback).ERRCHECK();
+
+            this.system.update().ERRCHECK();
+
+            // now start the music
+            this.timer.Start();
 
             this.State = PlayerState.Play;
             file.State = PlayerState.Play;
 
-            if (channel != null)
-            {
-                this.channelInfo = new ChannelInfo() { Channel = channel, File = file };
+            channel.setPaused(false).ERRCHECK();
 
-                channel.setCallback(this.channelEndCallback).ERRCHECK();
-
-                channel.setVolume(1f).ERRCHECK();
-
-                ChannelGroup masterChannelGroup;
-                this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
-                masterChannelGroup.setVolume(this.Volume / 100f).ERRCHECK();
-
-                this.system.update().ERRCHECK();
-
-                FMOD.DSP faderDSP;
-                this.system.createDSPByType(FMOD.DSP_TYPE.FADER, out faderDSP).ERRCHECK();
-
-                this.channelInfo.FaderDSP = faderDSP;
-
-                int numDSPs;
-                channel.getNumDSPs(out numDSPs).ERRCHECK();
-                channel.addDSP(numDSPs, faderDSP).ERRCHECK();
-
-                // get the reference clock, which is the parent channel group
-                ulong dspclock;
-                ulong parentclock;
-                channel.getDSPClock(out dspclock, out parentclock).ERRCHECK();
-
-                int samplerate;
-                SPEAKERMODE speakermode;
-                int numrawspeakers;
-                this.system.getSoftwareFormat(out samplerate, out speakermode, out numrawspeakers).ERRCHECK();
-
-                // add a fade point at 'now' with zero volume
-                channel.addFadePoint(parentclock, 0f).ERRCHECK();
-                // add a fade point 5 seconds later at 1 volume
-                channel.addFadePoint(parentclock + (ulong)(samplerate * 5), 1f).ERRCHECK();
-
-                // add a fade point at 'now' with full volume
-                //channel.addFadePoint(samplesCompl - (uint)samplerate * 5, 1f).ERRCHECK();
-                // add a fade point 5 seconds later at 0 volume
-                //channel.addFadePoint(samplesCompl, 0f).ERRCHECK();
-                // add a delayed stop command at 5 seconds ('stopchannels = true')
-                //channel.setDelay(0, samplesCompl, true).ERRCHECK();
-
-                // now start the music
-                channel.setPaused(false).ERRCHECK();
-
-                this.system.update().ERRCHECK();
-            }
+            this.system.update().ERRCHECK();
         }
 
         public Action PlayNextFileAction { get; set; }
@@ -382,6 +354,8 @@ namespace SimpleMusicPlayer.Core.Player
 
         private void CleanUpSound(ref FMOD.Sound fmodSound)
         {
+            this.timer.Stop();
+
             this.State = PlayerState.Stop;
             this.CurrentMediaFile = null;
 
@@ -396,8 +370,6 @@ namespace SimpleMusicPlayer.Core.Player
                 fmodSound.release().ERRCHECK();
                 fmodSound = null;
             }
-
-            this.timer.Stop();
 
             this.currentPositionMs = 0;
             this.OnPropertyChanged("CurrentPositionMs");

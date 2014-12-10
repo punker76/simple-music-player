@@ -7,23 +7,14 @@
   },
   "PlayerEngine": {
     "Volume": 100.0,
+    "FadeIn": 5000.0,
+    "FadeOut": 5000.0,
     "Mute": false,
     "ShuffleMode": false,
     "RepeatMode": false,
     "EqualizerSettings": {
-      "Name": "DefaultEqualizer",
-      "GainValues": {
-        "32": 0.0,
-        "64": 0.0,
-        "125": 0.0,
-        "250": 0.0,
-        "500": 0.0,
-        "1K": 0.0,
-        "2K": 0.0,
-        "4K": 0.0,
-        "8K": 0.0,
-        "16K": 0.0
-      },
+      "Name": null,
+      "GainValues": {},
       "IsEnabled": false
     }
   }

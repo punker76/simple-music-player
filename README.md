@@ -1,5 +1,4 @@
-![icon](https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png) Simple Music Player
-===================
+# ![icon](https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png) Simple Music Player
 
 [![Build status](https://ci.appveyor.com/api/projects/status/kvdccylonj7qjnkw/branch/master?svg=true)](https://ci.appveyor.com/project/punker76/simple-music-player/branch/master)
 
@@ -8,7 +7,7 @@ This is the next version of simple music player ([SimpleMP](http://jkarger.de/si
 **SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
 
 Why another music player? When I decided to make my first player back in 2005, the Winamp 3 player was to buggy and very slow! I stopped developing in 2007.
-I used my favorite programming language Delphi 5 and I learned a lot of  new stuff. It was a great time and a few people in the Delphi community honoured my work :-)
+I used my favorite programming language Delphi 5 and I learned a lot of  new stuff. It was a great time and a few people in the Delphi community honored my work :-)
 Unfortunately, the interface of the FMOD sound library was no longer supported for Delphi and I decided to stop working on it.
 
 After long time, now it's time to make a new one!
@@ -17,15 +16,14 @@ It's not perfect and many function not yet implemented.
 
 ***Use it with your own risk!***
 
-First simple functions
-======================
+## First simple functions
 
 + Plays **mp3**, **ogg**, **wma** and **wav** files (should be enough... or not?)
 + Drag&Drop your files or directories into the player (on the play list)
 + Drag&Drop files within the playlist
 + Add directories to the medialib (not yet finished)
 + Simple 10 band equalizer
-+ Simple volume fade in (5 sec hardcoded for now)
++ Simple volume fade in and out (5 sec per default, can be changed in the settings file)
 + Shortcut keys if the player is on top and has the focus
 	+ **[Space]** play or pause current file (if none is playing, the first selected file starts)
 	+ **[Enter]** play selected files
@@ -44,18 +42,15 @@ First simple functions
 	+ if you link with supported media files, the player loads the new files and play the first file from the added files
 + Tooltip on playlist files
 
-Ideas? Bugs?
-============
+## Ideas? Bugs?
 
 [![Gitter chat](https://badges.gitter.im/punker76/simple-music-player.png)](https://gitter.im/punker76/simple-music-player)
 
-Download
-========
+## Download
 
-[here](https://github.com/punker76/simple-music-player/releases/download/v1.9.0.13/smp_1.9.0.13.zip) as zip  
+- [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/download/v1.9.0.13/smp_1.9.0.13.zip)
 
-Screen shots (from oldest to current, it's in progress, you know?)
-============
+## Screen shots (milestones)
 
 ![very early screenshot 15](./screenshots/2014-11-02_12h11_31.png)  
 
@@ -87,10 +82,9 @@ Screen shots (from oldest to current, it's in progress, you know?)
 
 ![very early screenshot 01](./screenshots/2012-12-13_23h14_25.png)  
 
-##License and copyright
+## License and copyright
 
-Simple Music Player
-===================
+### Simple Music Player
 
 Copyright (c) 2012 Jan Karger
 
@@ -102,8 +96,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 <http://opensource.org/licenses/MIT/>
 
-FMOD Ex SoundSystem
-===================
+### FMOD Ex SoundSystem
 
 FMOD, FMOD Ex, FMOD Designer and FMOD Studio are 
 Copyright © 2005-2014 Firelight Technologies Pty, Ltd.
