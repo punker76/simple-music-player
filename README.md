@@ -52,35 +52,35 @@ It's not perfect and many function not yet implemented.
 
 ## Screen shots (milestones)
 
-![very early screenshot 15](./screenshots/2014-11-02_12h11_31.png)  
+![very early screenshot 15](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-11-02_12h11_31.png)  
 
-![very early screenshot 14](./screenshots/2014-07-14_22h42_19.png)  
+![very early screenshot 14](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-07-14_22h42_19.png)  
 
-![very early screenshot 13](./screenshots/2013-11-26_20h58_04.png)  
+![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_04.png)  
 
-![very early screenshot 12](./screenshots/2013-11-26_20h58_17.png)  
+![very early screenshot 12](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_17.png)  
 
-![very early screenshot 11](./screenshots/2013-11-10_23h42_10.png)  
+![very early screenshot 11](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-10_23h42_10.png)  
 
-![very early screenshot 10](./screenshots/2013-11-10_23h42_24.png)  
+![very early screenshot 10](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-10_23h42_24.png)  
 
-![very early screenshot 09](./screenshots/2013-09-16_09h40_08.png)  
+![very early screenshot 09](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-09-16_09h40_08.png)  
 
-![very early screenshot 08](./screenshots/2013-09-16_09h40_02.png)  
+![very early screenshot 08](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-09-16_09h40_02.png)  
 
-![very early screenshot 07](./screenshots/2013-02-07_22h49_52.png)  
+![very early screenshot 07](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-02-07_22h49_52.png)  
 
-![very early screenshot 06](./screenshots/2013-01-05_23h26_18.png)  
+![very early screenshot 06](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-01-05_23h26_18.png)  
 
-![very early screenshot 05](./screenshots/2012-12-19_21h55_18.png)  
+![very early screenshot 05](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_21h55_18.png)  
 
-![very early screenshot 04](./screenshots/2012-12-19_21h54_53.png)  
+![very early screenshot 04](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_21h54_53.png)  
 
-![very early screenshot 03](./screenshots/2012-12-19_14h48_05.png)  
+![very early screenshot 03](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_14h48_05.png)  
 
-![very early screenshot 02](./screenshots/2012-12-16_17h14_57.png)  
+![very early screenshot 02](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-16_17h14_57.png)  
 
-![very early screenshot 01](./screenshots/2012-12-13_23h14_25.png)  
+![very early screenshot 01](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-13_23h14_25.png)  
 
 ## License and copyright
 
