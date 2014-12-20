@@ -19,6 +19,7 @@ namespace SimpleMusicPlayer.ViewModels
         private ICommand repeatCommand;
         private ICommand muteCommand;
         private ICommand showMediaLibraryCommand;
+        private ICommand showEqualizerCommand;
 
         public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
         {
@@ -28,22 +29,22 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayerSettings = mainViewModel.PlayerSettings;
 
             this.PlayerEngine.PlayNextFileAction = () => {
-                                                       var playerMustBeStoped = !this.CanPlayNext();
-                                                       if (!playerMustBeStoped)
-                                                       {
-                                                           playerMustBeStoped = !this.PlayerSettings.PlayerEngine.ShuffleMode
-                                                                                && !this.PlayerSettings.PlayerEngine.RepeatMode
-                                                                                && this.playListsViewModel.IsLastPlayListFile();
-                                                           if (!playerMustBeStoped)
-                                                           {
-                                                               this.PlayNext();
-                                                           }
-                                                       }
-                                                       if (playerMustBeStoped)
-                                                       {
-                                                           this.Stop();
-                                                       }
-                                                   };
+                var playerMustBeStoped = !this.CanPlayNext();
+                if (!playerMustBeStoped)
+                {
+                    playerMustBeStoped = !this.PlayerSettings.PlayerEngine.ShuffleMode
+                                         && !this.PlayerSettings.PlayerEngine.RepeatMode
+                                         && this.playListsViewModel.IsLastPlayListFile();
+                    if (!playerMustBeStoped)
+                    {
+                        this.PlayNext();
+                    }
+                }
+                if (playerMustBeStoped)
+                {
+                    this.Stop();
+                }
+            };
         }
 
         public PlayerEngine PlayerEngine { get; private set; }
@@ -195,6 +196,21 @@ namespace SimpleMusicPlayer.ViewModels
             return true;
         }
 
+        public ICommand ShowEqualizerCommand
+        {
+            get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(this.ShowEqualizer, this.CanShowEqualizer)); }
+        }
+
+        private bool CanShowEqualizer()
+        {
+            return this.PlayerEngine.Initializied;
+        }
+
+        private void ShowEqualizer()
+        {
+            //this.EqualizerViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer);
+        }
+
         public bool HandleKeyDown(Key key)
         {
             var handled = false;
@@ -247,6 +263,13 @@ namespace SimpleMusicPlayer.ViewModels
                     if (handled)
                     {
                         this.ShowMediaLibraryCommand.Execute(null);
+                    }
+                    break;
+                case Key.E:
+                    handled = this.ShowEqualizerCommand.CanExecute(null);
+                    if (handled)
+                    {
+                        this.ShowEqualizerCommand.Execute(null);
                     }
                     break;
             }

@@ -8,6 +8,7 @@ namespace SimpleMusicPlayer.ViewModels
     {
         private Equalizer equalizer;
         private ICommand setToDefaultCommand;
+        private ICommand closeEqualizerCommand;
 
         public EqualizerViewModel(Equalizer equalizer)
         {
@@ -41,6 +42,24 @@ namespace SimpleMusicPlayer.ViewModels
         private void SetToDefault()
         {
             this.Equalizer.SetToDefault();
+        }
+
+        public ICommand CloseEqualizerCommand
+        {
+            get { return this.closeEqualizerCommand ?? (this.closeEqualizerCommand = new DelegateCommand(this.CloseEqualizer, this.CanCloseEqualizer)); }
+        }
+
+        private bool CanCloseEqualizer()
+        {
+            return true;
+        }
+
+        private void CloseEqualizer()
+        {
+            if (this.Equalizer.IsEnabled)
+            {
+                this.Equalizer.SaveEqualizerSettings();
+            }
         }
     }
 }

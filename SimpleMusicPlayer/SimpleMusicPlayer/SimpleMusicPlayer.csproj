@@ -73,6 +73,10 @@
       <HintPath>..\packages\MahApps.Metro.1.0.0.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="MahApps.Metro.SimpleChildWindow">
+      <HintPath>..\packages\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\Windows API Code Pack 1.1\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -211,6 +215,9 @@
     <Compile Include="ViewModels\MedialibViewModel.cs" />
     <Compile Include="ViewModels\PlayControlViewModel.cs" />
     <Compile Include="ViewModels\PlaylistsViewModel.cs" />
+    <Compile Include="Views\EqualizerView.xaml.cs">
+      <DependentUpon>EqualizerView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PlayControlInfoView.xaml.cs">
       <DependentUpon>PlayControlInfoView.xaml</DependentUpon>
     </Compile>
@@ -233,6 +240,10 @@
     <Page Include="Resources\Controls.Tooltip.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EqualizerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlayControlInfoView.xaml">
       <SubType>Designer</SubType>
@@ -370,6 +381,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\MahApps.Metro.1.0.0.0\lib\net45\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll">
+      <Link>DllsAsResource\MahApps.Metro.SimpleChildWindow.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
