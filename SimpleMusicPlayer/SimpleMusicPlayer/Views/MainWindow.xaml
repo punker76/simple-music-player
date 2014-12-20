@@ -7,9 +7,7 @@
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
                       xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
-                      xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                       xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
-                      xmlns:player="clr-namespace:SimpleMusicPlayer.Core.Player"
                       Title="Simple Music Player"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
                       ShowTitleBar="True"
@@ -65,11 +63,11 @@
                     Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                     Orientation="Horizontal">
             <core:SprocketControl VerticalAlignment="Center"
-                                      Width="25"
-                                      Height="25"
-                                      TickWidth="2"
-                                      TickColor="{DynamicResource AccentColor}"
-                                      IsIndeterminate="True" />
+                                  Width="25"
+                                  Height="25"
+                                  TickWidth="2"
+                                  TickColor="{DynamicResource AccentColor}"
+                                  IsIndeterminate="True" />
             <TextBlock VerticalAlignment="Center"
                        Text="Search for Files..." />
             <Grid>
@@ -88,114 +86,6 @@
                         Command="{Binding StopSearchCmd, Mode=OneWay}" />
             </Grid>
         </StackPanel>
-
-        <!-- equalizer view -->
-        <Grid DataContext="{Binding EqualizerViewModel, Mode=OneWay}"
-              Visibility="{Binding RelativeSource={RelativeSource Self}, Path=DataContext, Converter={StaticResource NullToCollapsedVisibilityConverter}, Mode=OneWay}"
-              Grid.Row="0"
-              Grid.RowSpan="3">
-            <Grid.Background>
-                <SolidColorBrush Color="{DynamicResource Gray2}"
-                                 Opacity="0.8" />
-            </Grid.Background>
-
-            <Grid UseLayoutRounding="True"
-                  VerticalAlignment="Center"
-                  HorizontalAlignment="Center">
-
-                <Grid.Effect>
-                    <DropShadowEffect ShadowDepth="0"
-                                      Color="Black"
-                                      BlurRadius="20"
-                                      PresentationOptions:Freeze="true" />
-                </Grid.Effect>
-
-                <Grid Background="{DynamicResource WhiteColorBrush}">
-
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <TextBlock Grid.Row="0"
-                               Height="30"
-                               Text="EQUALIZER"
-                               TextAlignment="Left"
-                               TextTrimming="CharacterEllipsis"
-                               VerticalAlignment="Center"
-                               Padding="4"
-                               FontSize="16"
-                               FontFamily="{DynamicResource HeaderFontFamily}"
-                               Foreground="White">
-                        <TextBlock.Background>
-                            <SolidColorBrush Color="{DynamicResource AccentColor}" />
-                        </TextBlock.Background>
-                    </TextBlock>
-
-                    <Grid Grid.Row="1"
-                          Margin="4,0,4,4">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Controls:ToggleSwitch Grid.Column="0"
-                                               HorizontalAlignment="Left"
-                                               Margin="0,0,0,4"
-                                               MinWidth="120"
-                                               OnLabel="On"
-                                               OffLabel="Off"
-                                               IsChecked="{Binding Equalizer.IsEnabled}" />
-
-                        <ItemsControl Grid.Row="1"
-                                      ItemsSource="{Binding Equalizer.Bands, Mode=OneWay}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <VirtualizingStackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate DataType="{x:Type player:EqualizerBand}">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto" />
-                                            <RowDefinition Height="Auto" />
-                                        </Grid.RowDefinitions>
-                                        <Slider Grid.Row="0"
-                                                Orientation="Vertical"
-                                                Margin="4"
-                                                Height="150"
-                                                Minimum="-10"
-                                                Maximum="10"
-                                                TickFrequency="2"
-                                                LargeChange="1"
-                                                SmallChange="0.1"
-                                                TickPlacement="BottomRight"
-                                                Value="{Binding Gain}"
-                                                IsEnabled="{Binding IsActive, Mode=OneWay}" />
-                                        <TextBlock Grid.Row="1"
-                                                   Margin="4"
-                                                   Text="{Binding BandCaption}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-
-                        <UniformGrid Grid.Row="2"
-                                     Columns="2">
-                            <Button Content="_Default"
-                                    Margin="0,0,2,0"
-                                    Command="{Binding SetToDefaultCommand, Mode=OneWay}" />
-                            <Button Content="_Close"
-                                    Margin="2,0,0,0"
-                                    Command="{Binding RelativeSource={RelativeSource AncestorType=Views:MainWindow}, Path=DataContext.CloseEqualizerCommand, Mode=OneWay}" />
-                        </UniformGrid>
-                    </Grid>
-
-                </Grid>
-            </Grid>
-        </Grid>
 
     </Grid>
 </Controls:MetroWindow>

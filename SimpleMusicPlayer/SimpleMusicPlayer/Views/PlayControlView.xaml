@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
-             xmlns:views="clr-namespace:SimpleMusicPlayer.Views"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Core"
              mc:Ignorable="d"
              d:DesignHeight="300"
@@ -226,7 +225,7 @@
 
             <!-- show equalizer -->
             <Button Grid.Column="4"
-                    Command="{Binding RelativeSource={RelativeSource AncestorType=views:MainWindow}, Path=DataContext.ShowEqualizerCommand, Mode=OneWay}"
+                    Command="{Binding ShowEqualizerCommand, Mode=OneWay}"
                     ToolTip="Equalizer (e)"
                     VerticalAlignment="Bottom"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"

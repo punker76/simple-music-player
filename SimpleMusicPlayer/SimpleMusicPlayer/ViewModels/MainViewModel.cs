@@ -9,10 +9,7 @@ namespace SimpleMusicPlayer.ViewModels
 {
     public class MainViewModel : ViewModelBase, IKeyHandler
     {
-        private EqualizerViewModel equalizerViewModel;
         private ICommand showOnGitHubCmd;
-        private ICommand showEqualizerCommand;
-        private ICommand closeEqualizerCommand;
         private MedialibView medialibView;
 
         public MainViewModel(Dispatcher dispatcher)
@@ -69,20 +66,6 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public EqualizerViewModel EqualizerViewModel
-        {
-            get { return this.equalizerViewModel; }
-            set
-            {
-                if (Equals(value, this.equalizerViewModel))
-                {
-                    return;
-                }
-                this.equalizerViewModel = value;
-                this.OnPropertyChanged(() => this.EqualizerViewModel);
-            }
-        }
-
         public ICommand ShowOnGitHubCmd
         {
             get { return this.showOnGitHubCmd ?? (this.showOnGitHubCmd = new DelegateCommand(this.ShowOnGitHub, () => true)); }
@@ -93,50 +76,10 @@ namespace SimpleMusicPlayer.ViewModels
             System.Diagnostics.Process.Start("https://github.com/punker76/simple-music-player");
         }
 
-        public ICommand ShowEqualizerCommand
-        {
-            get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(this.ShowEqualizer, this.CanShowEqualizer)); }
-        }
-
-        private bool CanShowEqualizer()
-        {
-            return this.PlayerEngine.Initializied;
-        }
-
-        private void ShowEqualizer()
-        {
-            this.EqualizerViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer);
-        }
-
-        public ICommand CloseEqualizerCommand
-        {
-            get { return this.closeEqualizerCommand ?? (this.closeEqualizerCommand = new DelegateCommand(this.CloseEqualizer, this.CanCloseEqualizer)); }
-        }
-
-        private bool CanCloseEqualizer()
-        {
-            return true;
-        }
-
-        private void CloseEqualizer()
-        {
-            if (this.EqualizerViewModel.Equalizer.IsEnabled)
-            {
-                this.EqualizerViewModel.Equalizer.SaveEqualizerSettings();
-            }
-            this.EqualizerViewModel.Equalizer = null;
-            this.EqualizerViewModel = null;
-        }
-
         public bool HandleKeyDown(Key key)
         {
             if (this.PlayControlInfoViewModel.PlayControlViewModel.HandleKeyDown(key))
             {
-                return true;
-            }
-            if (key == Key.E && this.ShowEqualizerCommand.CanExecute(null))
-            {
-                this.ShowEqualizerCommand.Execute(null);
                 return true;
             }
             return false;

@@ -1,9 +1,15 @@
 ﻿using System.Linq;
+using System.Net.Mime;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using MahApps.Metro.Controls;
+using MahApps.Metro.SimpleChildWindow;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
+using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -19,6 +25,7 @@ namespace SimpleMusicPlayer.ViewModels
         private ICommand repeatCommand;
         private ICommand muteCommand;
         private ICommand showMediaLibraryCommand;
+        private ICommand showEqualizerCommand;
 
         public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
         {
@@ -28,22 +35,22 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayerSettings = mainViewModel.PlayerSettings;
 
             this.PlayerEngine.PlayNextFileAction = () => {
-                                                       var playerMustBeStoped = !this.CanPlayNext();
-                                                       if (!playerMustBeStoped)
-                                                       {
-                                                           playerMustBeStoped = !this.PlayerSettings.PlayerEngine.ShuffleMode
-                                                                                && !this.PlayerSettings.PlayerEngine.RepeatMode
-                                                                                && this.playListsViewModel.IsLastPlayListFile();
-                                                           if (!playerMustBeStoped)
-                                                           {
-                                                               this.PlayNext();
-                                                           }
-                                                       }
-                                                       if (playerMustBeStoped)
-                                                       {
-                                                           this.Stop();
-                                                       }
-                                                   };
+                var playerMustBeStoped = !this.CanPlayNext();
+                if (!playerMustBeStoped)
+                {
+                    playerMustBeStoped = !this.PlayerSettings.PlayerEngine.ShuffleMode
+                                         && !this.PlayerSettings.PlayerEngine.RepeatMode
+                                         && this.playListsViewModel.IsLastPlayListFile();
+                    if (!playerMustBeStoped)
+                    {
+                        this.PlayNext();
+                    }
+                }
+                if (playerMustBeStoped)
+                {
+                    this.Stop();
+                }
+            };
         }
 
         public PlayerEngine PlayerEngine { get; private set; }
@@ -195,6 +202,25 @@ namespace SimpleMusicPlayer.ViewModels
             return true;
         }
 
+        public ICommand ShowEqualizerCommand
+        {
+            get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(async () => await this.ShowEqualizer(), this.CanShowEqualizer)); }
+        }
+
+        private EqualizerView equalizerView;
+
+        private bool CanShowEqualizer()
+        {
+            return equalizerView == null && this.PlayerEngine.Initializied;
+        }
+
+        private async Task ShowEqualizer()
+        {
+            this.equalizerView = new EqualizerView() { DataContext = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
+            this.equalizerView.ClosingFinished += (sender, args) => this.equalizerView = null;
+            await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(equalizerView);
+        }
+
         public bool HandleKeyDown(Key key)
         {
             var handled = false;
@@ -247,6 +273,13 @@ namespace SimpleMusicPlayer.ViewModels
                     if (handled)
                     {
                         this.ShowMediaLibraryCommand.Execute(null);
+                    }
+                    break;
+                case Key.E:
+                    handled = this.ShowEqualizerCommand.CanExecute(null);
+                    if (handled)
+                    {
+                        this.ShowEqualizerCommand.Execute(null);
                     }
                     break;
             }
