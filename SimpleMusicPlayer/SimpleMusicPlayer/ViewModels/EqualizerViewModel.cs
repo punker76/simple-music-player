@@ -1,12 +1,12 @@
 ﻿using System.Windows.Input;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Player;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class EqualizerViewModel : ViewModelBase
+    public class EqualizerViewModel : ReactiveObject
     {
-        private Equalizer equalizer;
         private ICommand setToDefaultCommand;
         private ICommand closeEqualizerCommand;
 
@@ -15,19 +15,7 @@ namespace SimpleMusicPlayer.ViewModels
             this.Equalizer = equalizer;
         }
 
-        public Equalizer Equalizer
-        {
-            get { return this.equalizer; }
-            set
-            {
-                if (Equals(value, this.equalizer))
-                {
-                    return;
-                }
-                this.equalizer = value;
-                this.OnPropertyChanged(() => this.Equalizer);
-            }
-        }
+        public Equalizer Equalizer { get; private set; }
 
         public ICommand SetToDefaultCommand
         {

@@ -1,9 +1,15 @@
 ﻿using System.Linq;
+using System.Net.Mime;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using MahApps.Metro.Controls;
+using MahApps.Metro.SimpleChildWindow;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
+using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -198,17 +204,21 @@ namespace SimpleMusicPlayer.ViewModels
 
         public ICommand ShowEqualizerCommand
         {
-            get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(this.ShowEqualizer, this.CanShowEqualizer)); }
+            get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(async () => await this.ShowEqualizer(), this.CanShowEqualizer)); }
         }
+
+        private EqualizerView equalizerView;
 
         private bool CanShowEqualizer()
         {
-            return this.PlayerEngine.Initializied;
+            return equalizerView == null && this.PlayerEngine.Initializied;
         }
 
-        private void ShowEqualizer()
+        private async Task ShowEqualizer()
         {
-            //this.EqualizerViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer);
+            this.equalizerView = new EqualizerView() { DataContext = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
+            this.equalizerView.ClosingFinished += (sender, args) => this.equalizerView = null;
+            await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(equalizerView);
         }
 
         public bool HandleKeyDown(Key key)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using MahApps.Metro.SimpleChildWindow;
 
 namespace SimpleMusicPlayer.Views
@@ -11,6 +12,12 @@ namespace SimpleMusicPlayer.Views
         public EqualizerView()
         {
             InitializeComponent();
+            this.FocusedElement = this.CloseButton;
+        }
+
+        private void CloseButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
