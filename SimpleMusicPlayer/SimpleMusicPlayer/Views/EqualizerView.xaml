@@ -67,7 +67,7 @@
                                 IsEnabled="{Binding IsActive, Mode=OneWay}" />
                         <TextBlock Grid.Row="1"
                                    Margin="4"
-                                   Text="{Binding BandCaption}" />
+                                   Text="{Binding BandCaption, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -81,7 +81,6 @@
             <Button x:Name="CloseButton"
                     Content="_Close"
                     Margin="2,0,0,0"
-                    Click="CloseButton_OnClick"
                     Command="{Binding CloseEqualizerCommand, Mode=OneWay}" />
         </UniformGrid>
     </Grid>

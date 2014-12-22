@@ -216,7 +216,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         private async Task ShowEqualizer()
         {
-            this.equalizerView = new EqualizerView() { DataContext = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
+            this.equalizerView = new EqualizerView() { ViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
             this.equalizerView.ClosingFinished += (sender, args) => this.equalizerView = null;
             await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(equalizerView);
         }

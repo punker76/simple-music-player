@@ -1,53 +1,31 @@
-﻿using System.Windows.Input;
+﻿using System;
 using ReactiveUI;
-using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Player;
 
 namespace SimpleMusicPlayer.ViewModels
 {
     public class EqualizerViewModel : ReactiveObject
     {
-        private ICommand setToDefaultCommand;
-        private ICommand closeEqualizerCommand;
-
         public EqualizerViewModel(Equalizer equalizer)
         {
             this.Equalizer = equalizer;
+
+            SetToDefaultCommand = ReactiveCommand.Create(this.WhenAnyValue(x => x.Equalizer.IsEnabled));
+            SetToDefaultCommand.Subscribe(_ => Equalizer.SetToDefault());
+
+            CloseEqualizerCommand = ReactiveCommand.Create();
+            CloseEqualizerCommand.Subscribe(_ => {
+                if (this.Equalizer.IsEnabled)
+                {
+                    this.Equalizer.SaveEqualizerSettings();
+                }
+            });
         }
 
         public Equalizer Equalizer { get; private set; }
 
-        public ICommand SetToDefaultCommand
-        {
-            get { return this.setToDefaultCommand ?? (this.setToDefaultCommand = new DelegateCommand(this.SetToDefault, this.CanSetToDefault)); }
-        }
+        public ReactiveCommand<object> SetToDefaultCommand { get; protected set; }
 
-        private bool CanSetToDefault()
-        {
-            return this.Equalizer.IsEnabled;
-        }
-
-        private void SetToDefault()
-        {
-            this.Equalizer.SetToDefault();
-        }
-
-        public ICommand CloseEqualizerCommand
-        {
-            get { return this.closeEqualizerCommand ?? (this.closeEqualizerCommand = new DelegateCommand(this.CloseEqualizer, this.CanCloseEqualizer)); }
-        }
-
-        private bool CanCloseEqualizer()
-        {
-            return true;
-        }
-
-        private void CloseEqualizer()
-        {
-            if (this.Equalizer.IsEnabled)
-            {
-                this.Equalizer.SaveEqualizerSettings();
-            }
-        }
+        public ReactiveCommand<object> CloseEqualizerCommand { get; protected set; }
     }
 }
