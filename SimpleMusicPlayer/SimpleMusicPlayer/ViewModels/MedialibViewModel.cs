@@ -46,7 +46,7 @@ namespace SimpleMusicPlayer.ViewModels
               .DistinctUntilChanged()
               .Subscribe(x => FilterByAlbumSelection());
 
-            this.AddDirectoryCommand = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(x => x.FileSearchWorker.CanStartSearch),
+            this.AddDirectoryCommand = ReactiveCommand.CreateAsyncTask(this.WhenAny(x => x.FileSearchWorker.IsWorking, isworking => !isworking.Value),
                                                                        x => AddDirectoryAsync());
         }
 
@@ -124,7 +124,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public void OnDragOverAction(DragEventArgs e)
         {
-            e.Effects = this.FileSearchWorker.CanStartSearch && e.Data.GetDataPresent(DataFormats.FileDrop)
+            e.Effects = !this.FileSearchWorker.IsWorking && e.Data.GetDataPresent(DataFormats.FileDrop)
                 ? DragDropEffects.Copy
                 : DragDropEffects.None;
             Console.WriteLine(">> drag over >> {0}", DateTime.Now);

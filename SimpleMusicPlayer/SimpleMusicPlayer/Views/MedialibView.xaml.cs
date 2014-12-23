@@ -24,11 +24,11 @@ namespace SimpleMusicPlayer.Views
 
             this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
 
-            this.WhenActivated(s => this.WhenAnyValue(x => x.ViewModel)
-                                        .Subscribe(_ => {
-                                            this.Events().Closed.InvokeCommand(this.ViewModel.FileSearchWorker.StopSearchCmd);
-                                            this.Events().PreviewDragEnter.Merge(this.Events().PreviewDragOver).Subscribe(this.ViewModel.OnDragOverAction);
-                                            this.Events().PreviewDrop.Subscribe(async e => await this.ViewModel.OnDropAction(e));
+            this.WhenActivated(d => this.WhenAnyValue(x => x.ViewModel)
+                                        .Subscribe(vm => {
+                                            this.Events().Closed.InvokeCommand(vm.FileSearchWorker.StopSearchCmd);
+                                            this.Events().PreviewDragEnter.Merge(this.Events().PreviewDragOver).Subscribe(vm.OnDragOverAction);
+                                            this.Events().PreviewDrop.Subscribe(async e => await vm.OnDropAction(e));
                                         }));
         }
 

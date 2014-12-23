@@ -301,7 +301,7 @@ namespace SimpleMusicPlayer.ViewModels
             // look for drag&drop new files
             if (dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop))
             {
-                dropInfo.Effects = this.FileSearchWorker.CanStartSearch ? DragDropEffects.Copy : DragDropEffects.None;
+                dropInfo.Effects = !this.FileSearchWorker.IsWorking ? DragDropEffects.Copy : DragDropEffects.None;
             }
             else
             {
@@ -330,7 +330,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         private async void HandleDropActionAsync(IDropInfo dropInfo, IList fileOrDirDropList)
         {
-            if (this.FileSearchWorker.CanStartSearch)
+            if (!this.FileSearchWorker.IsWorking)
             {
                 var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
 
@@ -360,7 +360,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
 
             // TODO take another search worker for multiple added files via command line (possible lost the command line files while searching...)
-            if (this.FileSearchWorker.CanStartSearch)
+            if (!this.FileSearchWorker.IsWorking)
             {
                 var files = await this.FileSearchWorker.StartSearchAsync(args);
 

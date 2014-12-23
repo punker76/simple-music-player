@@ -21,16 +21,8 @@ namespace SimpleMusicPlayer.Core
         {
             this.createMediaFileFunc = createMediaFileFunc;
 
-            this.canStartSearch = this.WhenAny(x => x.MainTask, x => x.MainTask.IsCompleted,
-                                               (task, iscompleted) => task.Value == null || iscompleted.Value)
-                                      .ToProperty(this, x => x.CanStartSearch);
-
-            this.isBusy = this.WhenAny(x => x.MainTask, x => x.MainTask.IsCompleted,
-                                       (task, iscompleted) => task.Value != null && !iscompleted.Value)
-                              .ToProperty(this, x => x.IsBusy);
-
-            this.StopSearchCmd = ReactiveCommand.Create(this.WhenAny(x => x.IsBusy, x => x.CancelToken,
-                                                                     (isbusy, canceltoken) => isbusy.Value && canceltoken.Value != null));
+            this.StopSearchCmd = ReactiveCommand.Create(this.WhenAny(x => x.IsWorking, x => x.CancelToken,
+                                                                      (isworking, canceltoken) => isworking.Value && canceltoken.Value != null));
             this.StopSearchCmd.Subscribe(_ => this.CancelToken.Cancel());
         }
 
@@ -53,18 +45,6 @@ namespace SimpleMusicPlayer.Core
         {
             get { return this.cancelToken; }
             private set { this.RaiseAndSetIfChanged(ref cancelToken, value); }
-        }
-
-        private ObservableAsPropertyHelper<bool> isBusy;
-        public bool IsBusy
-        {
-            get { return isBusy.Value; }
-        }
-
-        private ObservableAsPropertyHelper<bool> canStartSearch;
-        public bool CanStartSearch
-        {
-            get { return canStartSearch.Value; }
         }
 
         public ReactiveCommand<object> StopSearchCmd { get; private set; }
@@ -115,10 +95,10 @@ namespace SimpleMusicPlayer.Core
                   return results;
               }, token, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
-            //this.OnPropertyChanged(() => this.CanStartSearch);
-
             var mediaFiles = await this.MainTask;
+
             this.IsWorking = false;
+
             return mediaFiles;
         }
 
