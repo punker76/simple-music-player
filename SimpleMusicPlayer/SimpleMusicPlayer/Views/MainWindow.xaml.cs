@@ -24,26 +24,23 @@ namespace SimpleMusicPlayer.Views
 
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, x => x.DataContext);
 
-            this.WhenActivated(d => this.WhenAnyValue(x => x.ViewModel)
-                                        .Subscribe(vm => {
-                                            this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
-
-                                            this.Events().PreviewKeyDown.Subscribe(vm.HandlePreviewKeyDown);
-
-                                            this.Events().Closed.InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
-
-                                            this.Events().Closed.Subscribe(async e => {
-                                                foreach (var w in Application.Current.Windows.OfType<Window>())
-                                                {
-                                                    w.Close();
-                                                }
-                                                vm.SaveSettings();
-                                                await vm.PlayListsViewModel.SavePlayListAsync();
-                                                PlayerEngine.Instance.CleanUp();
-                                            });
-                                        }));
+            this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
 
             this.ViewModel = new MainViewModel(this.Dispatcher);
+
+            this.Events().PreviewKeyDown.Subscribe(this.ViewModel.HandlePreviewKeyDown);
+
+            this.Events().Closed.InvokeCommand(this.ViewModel.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
+
+            this.Events().Closed.Subscribe(async e => {
+                foreach (var w in Application.Current.Windows.OfType<Window>())
+                {
+                    w.Close();
+                }
+                this.ViewModel.SaveSettings();
+                await this.ViewModel.PlayListsViewModel.SavePlayListAsync();
+                PlayerEngine.Instance.CleanUp();
+            });
         }
 
         public MainViewModel ViewModel
