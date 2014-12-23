@@ -1,11 +1,12 @@
 ﻿using System.Linq;
-using System.Net.Mime;
+using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using MahApps.Metro.SimpleChildWindow;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
@@ -13,7 +14,7 @@ using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class PlayControlViewModel : ViewModelBase, IKeyHandler
+    public class PlayControlViewModel : ReactiveObject, IKeyHandler
     {
         private readonly MainViewModel mainViewModel;
         private readonly PlayListsViewModel playListsViewModel;
@@ -25,7 +26,6 @@ namespace SimpleMusicPlayer.ViewModels
         private ICommand repeatCommand;
         private ICommand muteCommand;
         private ICommand showMediaLibraryCommand;
-        private ICommand showEqualizerCommand;
 
         public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
         {
@@ -51,6 +51,10 @@ namespace SimpleMusicPlayer.ViewModels
                     this.Stop();
                 }
             };
+
+            this.ShowEqualizerCommand = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(x => x.IsEqualizerOpen, x => x.PlayerEngine.Initializied,
+                                                                                          (isopen, initialized) => !isopen && initialized),
+                                                                        o => ShowEqualizer());
         }
 
         public PlayerEngine PlayerEngine { get; private set; }
@@ -202,23 +206,22 @@ namespace SimpleMusicPlayer.ViewModels
             return true;
         }
 
-        public ICommand ShowEqualizerCommand
-        {
-            get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(async () => await this.ShowEqualizer(), this.CanShowEqualizer)); }
-        }
+        public ReactiveCommand<Unit> ShowEqualizerCommand { get; private set; }
 
-        private EqualizerView equalizerView;
+        private bool isEqualizerOpen;
 
-        private bool CanShowEqualizer()
+        public bool IsEqualizerOpen
         {
-            return equalizerView == null && this.PlayerEngine.Initializied;
+            get { return this.isEqualizerOpen; }
+            set { this.RaiseAndSetIfChanged(ref isEqualizerOpen, value); }
         }
 
         private async Task ShowEqualizer()
         {
-            this.equalizerView = new EqualizerView() { ViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
-            this.equalizerView.ClosingFinished += (sender, args) => this.equalizerView = null;
-            await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(equalizerView);
+            this.IsEqualizerOpen = true;
+            var view = new EqualizerView() { ViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
+            view.ClosingFinished += (sender, args) => this.IsEqualizerOpen = false;
+            await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(view);
         }
 
         public bool HandleKeyDown(Key key)
