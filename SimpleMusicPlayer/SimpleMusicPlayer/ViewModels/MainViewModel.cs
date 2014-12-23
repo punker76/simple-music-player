@@ -1,5 +1,6 @@
 ﻿using System.Windows.Input;
 using System.Windows.Threading;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
@@ -7,7 +8,7 @@ using SimpleMusicPlayer.Views;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class MainViewModel : ViewModelBase, IKeyHandler
+    public class MainViewModel : ReactiveObject, IKeyHandler
     {
         private ICommand showOnGitHubCmd;
         private MedialibView medialibView;

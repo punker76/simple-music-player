@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows;
 using MahApps.Metro.Controls;
@@ -26,8 +27,11 @@ namespace SimpleMusicPlayer.Views
             this.WhenActivated(d => this.WhenAnyValue(x => x.ViewModel)
                                         .Subscribe(vm => {
                                             this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
+
                                             this.Events().PreviewKeyDown.Subscribe(vm.HandlePreviewKeyDown);
+
                                             this.Events().Closed.InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
+
                                             this.Events().Closed.Subscribe(async e => {
                                                 foreach (var w in Application.Current.Windows.OfType<Window>())
                                                 {
