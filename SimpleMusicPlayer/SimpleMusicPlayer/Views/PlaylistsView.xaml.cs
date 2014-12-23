@@ -17,7 +17,7 @@ namespace SimpleMusicPlayer.Views
         {
             this.InitializeComponent();
 
-            this.PreviewKeyDown += (sender, e) => (this.DataContext as IKeyHandler).HandlePreviewKeyDown(sender, e);
+            this.PreviewKeyDown += (sender, e) => (this.DataContext as IKeyHandler).HandlePreviewKeyDown(e);
 
             this.DataContextChanged += this.PlaylistsView_DataContextChanged;
         }

@@ -6,74 +6,78 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using ReactiveUI;
 using SimpleMusicPlayer.Core.Interfaces;
 
 namespace SimpleMusicPlayer.Core
 {
-    public class FileSearchWorker : ViewModelBase
+    public class FileSearchWorker : ReactiveObject
     {
         private readonly string[] extensions = new[] { ".mp3", ".wma", ".ogg", ".wav" };
-        private Task<IEnumerable<IMediaFile>> mainTask;
-        private CancellationTokenSource cancelToken;
-        private bool isWorking;
-        private ICommand stopSearchCmd;
         // action for media file creation
         private readonly Func<string, IMediaFile> createMediaFileFunc;
 
         public FileSearchWorker(Func<string, IMediaFile> createMediaFileFunc)
         {
             this.createMediaFileFunc = createMediaFileFunc;
+
+            this.canStartSearch = this.WhenAny(x => x.MainTask, x => x.MainTask.IsCompleted,
+                                               (task, iscompleted) => task.Value == null || iscompleted.Value)
+                                      .ToProperty(this, x => x.CanStartSearch);
+
+            this.isBusy = this.WhenAny(x => x.MainTask, x => x.MainTask.IsCompleted,
+                                       (task, iscompleted) => task.Value != null && !iscompleted.Value)
+                              .ToProperty(this, x => x.IsBusy);
+
+            this.StopSearchCmd = ReactiveCommand.Create(this.WhenAny(x => x.IsBusy, x => x.CancelToken,
+                                                                     (isbusy, canceltoken) => isbusy.Value && canceltoken.Value != null));
+            this.StopSearchCmd.Subscribe(_ => this.CancelToken.Cancel());
         }
 
+        private Task<IEnumerable<IMediaFile>> mainTask;
+        public Task<IEnumerable<IMediaFile>> MainTask
+        {
+            get { return this.mainTask; }
+            private set { this.RaiseAndSetIfChanged(ref mainTask, value); }
+        }
+
+        private bool isWorking;
         public bool IsWorking
         {
             get { return this.isWorking; }
-            set
-            {
-                if (Equals(value, this.isWorking))
-                {
-                    return;
-                }
-                this.isWorking = value;
-                this.OnPropertyChanged(() => this.IsWorking);
-            }
+            private set { this.RaiseAndSetIfChanged(ref isWorking, value); }
         }
 
+        private CancellationTokenSource cancelToken;
+        public CancellationTokenSource CancelToken
+        {
+            get { return this.cancelToken; }
+            private set { this.RaiseAndSetIfChanged(ref cancelToken, value); }
+        }
+
+        private ObservableAsPropertyHelper<bool> isBusy;
         public bool IsBusy
         {
-            get { return this.mainTask != null && !this.mainTask.IsCompleted; }
+            get { return isBusy.Value; }
         }
 
-        public bool CanStartSearch()
+        private ObservableAsPropertyHelper<bool> canStartSearch;
+        public bool CanStartSearch
         {
-            return this.mainTask == null || this.mainTask.IsCompleted;
+            get { return canStartSearch.Value; }
         }
 
-        public ICommand StopSearchCmd
-        {
-            get { return this.stopSearchCmd ?? (this.stopSearchCmd = new DelegateCommand(this.StopSearch, this.CanStopSearch)); }
-        }
-
-        public bool CanStopSearch()
-        {
-            return this.mainTask != null && this.cancelToken != null && !this.mainTask.IsCompleted;
-        }
-
-        public void StopSearch()
-        {
-            this.cancelToken.Cancel();
-        }
+        public ReactiveCommand<object> StopSearchCmd { get; private set; }
 
         public async Task<IEnumerable<IMediaFile>> StartSearchAsync(IList filesOrDirsCollection)
         {
             this.IsWorking = true;
             // create the cancellation token source
-            this.cancelToken = new CancellationTokenSource();
+            this.CancelToken = new CancellationTokenSource();
             // create the cancellation token
-            var token = this.cancelToken.Token;
+            var token = this.CancelToken.Token;
 
-            this.mainTask = Task<IEnumerable<IMediaFile>>.Factory
+            this.MainTask = Task<IEnumerable<IMediaFile>>.Factory
               .StartNew(() => {
                   var results = new ConcurrentQueue<IMediaFile>();
 
@@ -111,7 +115,9 @@ namespace SimpleMusicPlayer.Core
                   return results;
               }, token, TaskCreationOptions.LongRunning, TaskScheduler.Current);
 
-            var mediaFiles = await this.mainTask;
+            //this.OnPropertyChanged(() => this.CanStartSearch);
+
+            var mediaFiles = await this.MainTask;
             this.IsWorking = false;
             return mediaFiles;
         }

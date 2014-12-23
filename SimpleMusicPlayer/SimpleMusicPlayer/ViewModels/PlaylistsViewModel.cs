@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -300,7 +301,7 @@ namespace SimpleMusicPlayer.ViewModels
             // look for drag&drop new files
             if (dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop))
             {
-                dropInfo.Effects = this.FileSearchWorker.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
+                dropInfo.Effects = this.FileSearchWorker.CanStartSearch ? DragDropEffects.Copy : DragDropEffects.None;
             }
             else
             {
@@ -329,7 +330,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         private async void HandleDropActionAsync(IDropInfo dropInfo, IList fileOrDirDropList)
         {
-            if (this.FileSearchWorker.CanStartSearch())
+            if (this.FileSearchWorker.CanStartSearch)
             {
                 var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
 
@@ -353,13 +354,13 @@ namespace SimpleMusicPlayer.ViewModels
 
         public async void HandleCommandLineArgsAsync(IList args)
         {
-            if (args == null || args.Count == 0)
+            if (args == null || args.Count == 1)
             {
                 return;
             }
 
             // TODO take another search worker for multiple added files via command line (possible lost the command line files while searching...)
-            if (this.FileSearchWorker.CanStartSearch())
+            if (this.FileSearchWorker.CanStartSearch)
             {
                 var files = await this.FileSearchWorker.StartSearchAsync(args);
 
@@ -420,7 +421,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public async void SavePlayListAsync()
+        public async Task SavePlayListAsync()
         {
             var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
             if (currentFilesCollView != null)

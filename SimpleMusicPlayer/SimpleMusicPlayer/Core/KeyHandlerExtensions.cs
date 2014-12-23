@@ -6,7 +6,7 @@ namespace SimpleMusicPlayer.Core
 {
     public static class KeyHandlerExtensions
     {
-        public static void HandlePreviewKeyDown(this IKeyHandler keyHandler, object sender, System.Windows.Input.KeyEventArgs e)
+        public static void HandlePreviewKeyDown(this IKeyHandler keyHandler, System.Windows.Input.KeyEventArgs e)
         {
             //bool fFocusedControlIsTextBox = FocusManager.GetFocusedElement(this).GetType().Equals(typeof(TextBox));
             var fFocusedControlIsTextBox = Keyboard.FocusedElement != null && Keyboard.FocusedElement.GetType() == typeof(TextBox);
