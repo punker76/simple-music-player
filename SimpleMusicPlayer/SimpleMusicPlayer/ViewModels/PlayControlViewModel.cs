@@ -54,7 +54,7 @@ namespace SimpleMusicPlayer.ViewModels
 
             this.ShowEqualizerCommand = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(x => x.IsEqualizerOpen, x => x.PlayerEngine.Initializied,
                                                                                           (isopen, initialized) => !isopen && initialized),
-                                                                        o => ShowEqualizer());
+                                                                        x => ShowEqualizer());
         }
 
         public PlayerEngine PlayerEngine { get; private set; }

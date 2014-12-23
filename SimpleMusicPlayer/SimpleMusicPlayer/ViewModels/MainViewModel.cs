@@ -1,4 +1,8 @@
-﻿using System.Windows.Input;
+﻿using System.Linq;
+using System.Reactive;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
@@ -27,6 +31,8 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this);
 
             this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher, this);
+
+            this.ShutDownCommand = ReactiveCommand.CreateAsyncTask(x => this.ShutDown());
         }
 
         public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
@@ -75,6 +81,19 @@ namespace SimpleMusicPlayer.ViewModels
         private void ShowOnGitHub()
         {
             System.Diagnostics.Process.Start("https://github.com/punker76/simple-music-player");
+        }
+
+        public ReactiveCommand<Unit> ShutDownCommand { get; private set; }
+
+        private async Task ShutDown()
+        {
+            foreach (var w in Application.Current.Windows.OfType<Window>())
+            {
+                w.Close();
+            }
+            this.SaveSettings();
+            await this.PlayListsViewModel.SavePlayListAsync();
+            this.PlayerEngine.CleanUp();
         }
 
         public bool HandleKeyDown(Key key)

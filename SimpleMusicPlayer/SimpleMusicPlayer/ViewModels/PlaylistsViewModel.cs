@@ -401,7 +401,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public async void LoadPlayListAsync()
         {
-            var playList = await PlayList.LoadPlayListAsync();
+            var playList = await PlayList.LoadAsync();
             if (playList != null)
             {
                 var filesColl = new PlayListCollection(playList.Files);
@@ -426,7 +426,8 @@ namespace SimpleMusicPlayer.ViewModels
             var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
             if (currentFilesCollView != null)
             {
-                await PlayList.SavePlayListAsync(currentFilesCollView.SourceCollection);
+                var pl = new PlayList { Files = currentFilesCollView.SourceCollection.OfType<MediaFile>().ToList() };
+                await pl.SaveAsync();
             }
         }
 

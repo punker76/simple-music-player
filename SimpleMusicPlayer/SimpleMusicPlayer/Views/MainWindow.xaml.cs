@@ -32,15 +32,7 @@ namespace SimpleMusicPlayer.Views
 
             this.Events().Closed.InvokeCommand(this.ViewModel.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
 
-            this.Events().Closed.Subscribe(async e => {
-                foreach (var w in Application.Current.Windows.OfType<Window>())
-                {
-                    w.Close();
-                }
-                this.ViewModel.SaveSettings();
-                await this.ViewModel.PlayListsViewModel.SavePlayListAsync();
-                PlayerEngine.Instance.CleanUp();
-            });
+            this.Events().Closed.InvokeCommand(this.ViewModel.ShutDownCommand);
         }
 
         public MainViewModel ViewModel
