@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,9 +23,6 @@ namespace SimpleMusicPlayer.ViewModels
         private ICommand stopCommand;
         private ICommand playPrevCommand;
         private ICommand playNextCommand;
-        private ICommand shuffleCommand;
-        private ICommand repeatCommand;
-        private ICommand muteCommand;
         private ICommand showMediaLibraryCommand;
 
         public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
@@ -51,6 +49,23 @@ namespace SimpleMusicPlayer.ViewModels
                     this.Stop();
                 }
             };
+
+            var playerInitialized = this.WhenAnyValue(x => x.PlayerEngine.Initializied);
+
+            this.ShuffleCommand = ReactiveCommand.Create(playerInitialized);
+            this.ShuffleCommand.Subscribe(x => {
+                this.PlayerSettings.PlayerEngine.ShuffleMode = !this.PlayerSettings.PlayerEngine.ShuffleMode;
+            });
+
+            this.RepeatCommand = ReactiveCommand.Create(playerInitialized);
+            this.RepeatCommand.Subscribe(x => {
+                this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
+            });
+
+            this.MuteCommand = ReactiveCommand.Create(playerInitialized);
+            this.MuteCommand.Subscribe(x => {
+                this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
+            });
 
             this.ShowEqualizerCommand = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(x => x.IsEqualizerOpen, x => x.PlayerEngine.Initializied,
                                                                                           (isopen, initialized) => !isopen && initialized),
@@ -150,51 +165,11 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ICommand ShuffleCommand
-        {
-            get { return this.shuffleCommand ?? (this.shuffleCommand = new DelegateCommand(this.SetShuffelMode, this.CanSetShuffelMode)); }
-        }
+        public ReactiveCommand<object> ShuffleCommand { get; private set; }
 
-        private bool CanSetShuffelMode()
-        {
-            return this.PlayerEngine.Initializied;
-        }
+        public ReactiveCommand<object> RepeatCommand { get; private set; }
 
-        private void SetShuffelMode()
-        {
-            this.PlayerSettings.PlayerEngine.ShuffleMode = !this.PlayerSettings.PlayerEngine.ShuffleMode;
-        }
-
-        public ICommand RepeatCommand
-        {
-            get { return this.repeatCommand ?? (this.repeatCommand = new DelegateCommand(this.SetRepeatMode, this.CanSetRepeatMode)); }
-        }
-
-        public bool CanSetRepeatMode()
-        {
-            return this.PlayerEngine.Initializied;
-        }
-
-        public void SetRepeatMode()
-        {
-            this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
-        }
-
-        public ICommand MuteCommand
-        {
-            get { return this.muteCommand ?? (this.muteCommand = new DelegateCommand(this.SetMute, this.CanSetMute)); }
-        }
-
-        public bool CanSetMute()
-        {
-            return this.PlayerEngine.Initializied;
-        }
-
-        public void SetMute()
-        {
-            //this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
-            this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
-        }
+        public ReactiveCommand<object> MuteCommand { get; private set; }
 
         public ICommand ShowMediaLibraryCommand
         {
