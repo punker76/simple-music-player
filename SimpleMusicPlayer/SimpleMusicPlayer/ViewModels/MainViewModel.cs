@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,6 +34,9 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher, this);
 
             this.ShutDownCommand = ReactiveCommand.CreateAsyncTask(x => this.ShutDown());
+
+            this.PlayControlInfoViewModel.PlayControlViewModel.ShowMediaLibraryCommand.Subscribe(x => this.ShowMediaLibrary());
+
         }
 
         public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }

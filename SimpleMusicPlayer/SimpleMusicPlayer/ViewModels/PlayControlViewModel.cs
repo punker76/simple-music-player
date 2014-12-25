@@ -23,7 +23,6 @@ namespace SimpleMusicPlayer.ViewModels
         private ICommand stopCommand;
         private ICommand playPrevCommand;
         private ICommand playNextCommand;
-        private ICommand showMediaLibraryCommand;
 
         public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
         {
@@ -66,6 +65,8 @@ namespace SimpleMusicPlayer.ViewModels
             this.MuteCommand.Subscribe(x => {
                 this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
             });
+
+            this.ShowMediaLibraryCommand = ReactiveCommand.Create(playerInitialized);
 
             this.ShowEqualizerCommand = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(x => x.IsEqualizerOpen, x => x.PlayerEngine.Initializied,
                                                                                           (isopen, initialized) => !isopen && initialized),
@@ -171,15 +172,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public ReactiveCommand<object> MuteCommand { get; private set; }
 
-        public ICommand ShowMediaLibraryCommand
-        {
-            get { return this.showMediaLibraryCommand ?? (this.showMediaLibraryCommand = new DelegateCommand(this.mainViewModel.ShowMediaLibrary, this.CanShowMediaLibrary)); }
-        }
-
-        public bool CanShowMediaLibrary()
-        {
-            return true;
-        }
+        public ReactiveCommand<object> ShowMediaLibraryCommand { get; private set; }
 
         public ReactiveCommand<Unit> ShowEqualizerCommand { get; private set; }
 
