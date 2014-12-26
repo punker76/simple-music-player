@@ -28,10 +28,10 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayListFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
             this.MedialibFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
 
-            this.MedialibViewModel = new MedialibViewModel(dispatcher, this);
-            this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this);
+            this.MedialibViewModel = new MedialibViewModel(this);
+            this.PlayListsViewModel = new PlayListsViewModel(this);
 
-            this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher, this);
+            this.PlayControlInfoViewModel = new PlayControlInfoViewModel(this);
 
             this.ShutDownCommand = ReactiveCommand.CreateAsyncTask(x => this.ShutDown());
 

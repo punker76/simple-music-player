@@ -6,10 +6,10 @@ namespace SimpleMusicPlayer.ViewModels
 {
     public class PlayControlInfoViewModel : ViewModelBase
     {
-        public PlayControlInfoViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
+        public PlayControlInfoViewModel(MainViewModel mainViewModel)
         {
             this.PlayerEngine = mainViewModel.PlayerEngine;
-            this.PlayControlViewModel = new PlayControlViewModel(dispatcher, mainViewModel);
+            this.PlayControlViewModel = new PlayControlViewModel(mainViewModel);
         }
 
         public PlayerEngine PlayerEngine { get; private set; }

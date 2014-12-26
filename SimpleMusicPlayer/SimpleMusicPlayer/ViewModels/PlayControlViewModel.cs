@@ -4,7 +4,6 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using MahApps.Metro.SimpleChildWindow;
 using ReactiveUI;
@@ -17,16 +16,14 @@ namespace SimpleMusicPlayer.ViewModels
 {
     public class PlayControlViewModel : ReactiveObject, IKeyHandler
     {
-        private readonly MainViewModel mainViewModel;
         private readonly PlayListsViewModel playListsViewModel;
         private ICommand playOrPauseCommand;
         private ICommand stopCommand;
         private ICommand playPrevCommand;
         private ICommand playNextCommand;
 
-        public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
+        public PlayControlViewModel(MainViewModel mainViewModel)
         {
-            this.mainViewModel = mainViewModel;
             this.playListsViewModel = mainViewModel.PlayListsViewModel;
             this.PlayerEngine = mainViewModel.PlayerEngine;
             this.PlayerSettings = mainViewModel.PlayerSettings;

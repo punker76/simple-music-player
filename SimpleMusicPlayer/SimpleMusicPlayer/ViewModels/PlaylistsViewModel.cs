@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
@@ -27,7 +26,7 @@ namespace SimpleMusicPlayer.ViewModels
         private readonly PlayerSettings playerSettings;
         private string playListItemTemplateKey;
 
-        public PlayListsViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
+        public PlayListsViewModel(MainViewModel mainViewModel)
         {
             this.playerEngine = mainViewModel.PlayerEngine;
             this.playerSettings = mainViewModel.PlayerSettings;

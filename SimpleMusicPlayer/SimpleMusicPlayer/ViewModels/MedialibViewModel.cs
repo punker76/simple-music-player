@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Threading;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
@@ -16,7 +15,7 @@ namespace SimpleMusicPlayer.ViewModels
 {
     public class MedialibViewModel : ReactiveObject
     {
-        public MedialibViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
+        public MedialibViewModel(MainViewModel mainViewModel)
         {
             this.FileSearchWorker = mainViewModel.MedialibFileSearchWorker;
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(mainViewModel.PlayerSettings.Medialib);
