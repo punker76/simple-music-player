@@ -3,6 +3,9 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Shell;
 using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.ViewModels;
+using SimpleMusicPlayer.Views;
+using TinyIoC;
 
 namespace SimpleMusicPlayer
 {
@@ -40,6 +43,16 @@ namespace SimpleMusicPlayer
                 }
             }
             return true;
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            var container = TinyIoCContainer.Current;
+
+            MainWindow = container.Resolve<MainWindow>();
+            MainWindow.Show();
         }
     }
 }
