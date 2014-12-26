@@ -4,7 +4,6 @@ using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
@@ -18,12 +17,12 @@ namespace SimpleMusicPlayer.ViewModels
         private ICommand showOnGitHubCmd;
         private MedialibView medialibView;
 
-        public MainViewModel(Dispatcher dispatcher)
+        public MainViewModel()
         {
             this.PlayerSettings = PlayerSettingsExtensions.ReadSettings();
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
 
-            this.PlayerEngine.Configure(dispatcher, this.PlayerSettings);
+            this.PlayerEngine.Configure(this.PlayerSettings);
 
             this.PlayListFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
             this.MedialibFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);

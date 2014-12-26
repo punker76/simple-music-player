@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
-using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows;
 using MahApps.Metro.Controls;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
-using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
@@ -16,7 +13,7 @@ namespace SimpleMusicPlayer.Views
     /// </summary>
     public partial class MainWindow : MetroWindow, IViewFor<MainViewModel>
     {
-        public MainWindow()
+        public MainWindow(MainViewModel mainViewModel)
         {
             this.InitializeComponent();
 
@@ -24,9 +21,9 @@ namespace SimpleMusicPlayer.Views
 
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, x => x.DataContext);
 
-            this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
+            this.ViewModel = mainViewModel;
 
-            this.ViewModel = new MainViewModel(this.Dispatcher);
+            this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
 
             this.Events().PreviewKeyDown.Subscribe(this.ViewModel.HandlePreviewKeyDown);
 

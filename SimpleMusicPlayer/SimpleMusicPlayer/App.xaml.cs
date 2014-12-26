@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows;
 using Microsoft.Shell;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.ViewModels;
 using SimpleMusicPlayer.Views;
@@ -51,8 +52,10 @@ namespace SimpleMusicPlayer
 
             var container = TinyIoCContainer.Current;
 
-            MainWindow = container.Resolve<MainWindow>();
-            MainWindow.Show();
+            container.Register<IReactiveObject, MainViewModel>();
+
+            var mainWindow = container.Resolve<MainWindow>();
+            mainWindow.Show();
         }
     }
 }

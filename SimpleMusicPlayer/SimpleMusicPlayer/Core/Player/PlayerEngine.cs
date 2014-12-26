@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 using FMOD;
 using SimpleMusicPlayer.Core.Interfaces;
@@ -25,7 +26,7 @@ namespace SimpleMusicPlayer.Core.Player
         private IMediaFile currentMediaFile;
         private PlayerSettings playerSettings;
 
-        public bool Configure(Dispatcher dispatcher, PlayerSettings settings)
+        public bool Configure(PlayerSettings settings)
         {
             this.playerSettings = settings;
             /*
@@ -61,7 +62,10 @@ namespace SimpleMusicPlayer.Core.Player
             this.State = PlayerState.Stop;
             this.LengthMs = 0;
 
-            this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10), DispatcherPriority.Normal, this.PlayTimerCallback, dispatcher);
+            this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10),
+                                             DispatcherPriority.Normal,
+                                             this.PlayTimerCallback,
+                                             Application.Current.Dispatcher);
             this.timer.Stop();
 
             this.Initializied = true;
