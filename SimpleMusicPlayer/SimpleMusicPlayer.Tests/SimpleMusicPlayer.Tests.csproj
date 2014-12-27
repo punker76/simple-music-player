@@ -32,11 +32,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.1.0.0.0\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.0.1.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA008\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro.SimpleChildWindow">
-      <HintPath>..\packages\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+    <Reference Include="MahApps.Metro.SimpleChildWindow, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI, Version=6.2.1.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -63,7 +65,7 @@
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.0.0.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA008\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

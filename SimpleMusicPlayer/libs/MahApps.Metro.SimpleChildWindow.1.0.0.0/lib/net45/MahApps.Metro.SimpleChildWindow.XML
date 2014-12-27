@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MahApps.Metro.SimpleChildWindow</name>
+    </assembly>
+    <members>
+        <member name="M:MahApps.Metro.SimpleChildWindow.ChildWindowManager.ShowChildWindowAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.SimpleChildWindow.ChildWindow,MahApps.Metro.SimpleChildWindow.ChildWindowManager.OverlayFillBehavior)">
+            <summary>
+            Shows the given child window asynchronous.
+            </summary>
+            <param name="window">The owning window with a container of the child window.</param>
+            <param name="dialog">A child window instance.</param>
+            <param name="overlayFillBehavior">The overlay fill behavior.</param>
+            <returns>
+            A task representing the operation.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+            The provided child window can not add, the container can not be found.
+            or
+            The provided child window is already visible in the specified window.
+            </exception>
+        </member>
+        <member name="T:MahApps.Metro.SimpleChildWindow.ChildWindowManager.OverlayFillBehavior">
+            <summary>
+            An enumeration to control the fill behavior of the behavior
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.SimpleChildWindow.ChildWindowManager.OverlayFillBehavior.FullWindow">
+            <summary>
+            The overlay covers the full window
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.SimpleChildWindow.ChildWindowManager.OverlayFillBehavior.WindowContent">
+            <summary>
+            The overlay covers only then window content, so the window taskbar is useable
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.SimpleChildWindow.Utils.SingletonBase`1">
+            <summary>
+            To recap, in order to create a singleton class using the singleton base class, you need to do the following:
+            
+            1) Define a sealed class which derives from SingletonBase[T], where T is the class name you are defining. It ensures that you cannot create subclasses from this singleton class.
+            2) Define a single parameterless private constructor inside the class. It ensures that no instances of this class can be created externally.
+            3) Access the class’ singleton instance and public members by calling the Instance property.
+            
+            got this implementation from http://liquidsilver.codeplex.com
+            http://codebender.denniland.com/a-singleton-base-class-to-implement-the-singleton-pattern-in-c/
+            
+            also show http://www.yoda.arachsys.com/csharp/singleton.html
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:MahApps.Metro.SimpleChildWindow.Utils.SingletonBase`1.#ctor">
+            <summary>
+            A protected constructor which is accessible only to the sub classes.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.Utils.SingletonBase`1.Instance">
+            <summary>
+            Gets the singleton instance of this class.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.SimpleChildWindow.Utils.SingletonBase`1.SingletonFactory">
+            <summary>
+            The singleton class factory to create the singleton instance.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.SimpleChildWindow.Utils.UnsafeNativeMethods">
+            <devdoc>http://msdn.microsoft.com/en-us/library/ms182161.aspx</devdoc>
+        </member>
+        <member name="M:MahApps.Metro.SimpleChildWindow.Utils.UnsafeNativeMethods.LoadString(MahApps.Metro.SimpleChildWindow.Utils.SafeLibraryHandle,System.UInt32,System.Text.StringBuilder,System.Int32)">
+            <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/ms647486%28v=vs.85%29.aspx</devdoc>
+        </member>
+        <member name="M:MahApps.Metro.SimpleChildWindow.Utils.UnsafeNativeMethods.LoadLibrary(System.String)">
+            <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/ms684175%28v=vs.85%29.aspx</devdoc>
+        </member>
+        <member name="M:MahApps.Metro.SimpleChildWindow.Utils.UnsafeNativeMethods.FreeLibrary(System.IntPtr)">
+            <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/ms683152%28v=vs.85%29.aspx</devdoc>
+        </member>
+        <member name="F:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleFontSizeProperty">
+            <summary>
+            DependencyProperty for <see cref="P:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleFontSize"/> property.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleFontFamilyProperty">
+            <summary>
+            DependencyProperty for <see cref="P:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleFontFamily"/> property.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.SimpleChildWindow.ChildWindow.IsOpenChangedEvent">
+            <summary>
+            An event that is raised when IsOpen changes.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.SimpleChildWindow.ChildWindow.ClosingFinishedEvent">
+            <summary>
+            An event that is raised when the closing animation has finished.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.SimpleChildWindow.ChildWindow.Close">
+            <summary>
+            Closes this instance.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.AllowMove">
+            <summary>
+            Gets or sets a value indicating whether the child window can be moved inside the overlay container.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.IsModal">
+            <summary>
+            Gets or sets a value indicating whether the child window is modal.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.OverlayBrush">
+            <summary>
+            Gets or sets the overlay brush.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.CloseOnOverlay">
+            <summary>
+            Gets or sets a value indicating whether the child window can be closed by clicking the overlay container.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.ShowTitleBar">
+            <summary>
+            Gets or sets whether the title bar is visible or not.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleBarHeight">
+            <summary>
+            Gets or sets the height of the title bar.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleBarBackground">
+            <summary>
+            Gets or sets the title bar background.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleForeground">
+            <summary>
+            Gets or sets the title foreground.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.Title">
+            <summary>
+            Gets or sets the title.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleFontSize">
+            <summary> 
+            The FontSize property specifies the size of the title.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.TitleFontFamily">
+            <summary> 
+            The FontFamily property specifies the font family of the title.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.Icon">
+            <summary>
+            Gets or sets the icon content template to show a icon or something else.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.IconTemplate">
+            <summary>
+            Gets or sets the icon content template to show a custom icon or something else.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.ShowCloseButton">
+            <summary>
+            Gets or sets if the close button is visible.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.CloseButtonStyle">
+            <summary>
+            Gets or sets the close button style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.CloseButtonCommand">
+            <summary>
+            Gets or sets the command that is executed when the Close Button is clicked.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.CloseButtonCommandParameter">
+            <summary>
+            Gets or sets the command parameter that is used by the CloseButtonCommand when the Close Button is clicked.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.IsOpen">
+            <summary>
+            Gets or sets a value indicating whether this instance is open or closed.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.ChildWindowWidth">
+            <summary>
+            Gets or sets the width of the child window.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.ChildWindowHeight">
+            <summary>
+            Gets or sets the height of the child window.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.ChildWindowImage">
+            <summary>
+            Gets or sets which image is shown on the left side of the window content.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.EnableDropShadow">
+            <summary>
+            Gets or sets a value indicating whether the window has a drop shadow (glow brush).
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.AllowFocusElement">
+            <summary>
+            Gets or sets a value indicating whether the child window should try focus an element.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.FocusedElement">
+            <summary>
+            Gets or sets the focused element.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.GlowBrush">
+            <summary>
+            Gets or sets the glow brush (drop shadow).
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.SimpleChildWindow.ChildWindow.CloseButtonToolTip">
+            <summary>
+            Gets the close button tool tip.
+            </summary>
+        </member>
+    </members>
+</doc>
