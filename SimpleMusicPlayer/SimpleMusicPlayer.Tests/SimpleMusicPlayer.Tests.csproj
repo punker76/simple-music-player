@@ -32,11 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MahApps.Metro, Version=1.0.1.8, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA008\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
-    <Reference Include="MahApps.Metro.SimpleChildWindow, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="MahApps.Metro.SimpleChildWindow">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
     </Reference>
