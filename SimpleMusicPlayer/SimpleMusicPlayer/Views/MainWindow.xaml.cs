@@ -15,13 +15,13 @@ namespace SimpleMusicPlayer.Views
     {
         public MainWindow(MainViewModel mainViewModel)
         {
+            this.ViewModel = mainViewModel;
+
             this.InitializeComponent();
 
             this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
 
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, x => x.DataContext);
-
-            this.ViewModel = mainViewModel;
 
             this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
 
@@ -30,6 +30,11 @@ namespace SimpleMusicPlayer.Views
             this.Events().Closed.InvokeCommand(this.ViewModel.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
 
             this.Events().Closed.InvokeCommand(this.ViewModel.ShutDownCommand);
+        }
+
+        public override IWindowPlacementSettings GetWindowPlacementSettings()
+        {
+            return this.ViewModel.CustomWindowPlacementSettings;
         }
 
         public MainViewModel ViewModel

@@ -14,8 +14,10 @@ namespace SimpleMusicPlayer.Views
     /// </summary>
     public partial class MedialibView : MetroWindow, System.Windows.Forms.IWin32Window, IViewFor<MedialibViewModel>
     {
-        public MedialibView()
+        public MedialibView(MedialibViewModel medialibViewModel)
         {
+            this.ViewModel = medialibViewModel;
+
             this.InitializeComponent();
 
             this.AllowDrop = true;
@@ -30,6 +32,11 @@ namespace SimpleMusicPlayer.Views
                                             this.Events().PreviewDragEnter.Merge(this.Events().PreviewDragOver).Subscribe(vm.OnDragOverAction);
                                             this.Events().PreviewDrop.Subscribe(async e => await vm.OnDropAction(e));
                                         }));
+        }
+
+        public override IWindowPlacementSettings GetWindowPlacementSettings()
+        {
+            return this.ViewModel.CustomWindowPlacementSettings;
         }
 
         // only for ShowDialog from FolderBrowserDialog

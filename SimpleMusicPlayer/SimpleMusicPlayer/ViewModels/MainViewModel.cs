@@ -9,6 +9,7 @@ using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.Views;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -70,7 +71,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
             else
             {
-                this.medialibView = new MedialibView { ViewModel = this.MedialibViewModel };
+                this.medialibView = new MedialibView(this.MedialibViewModel);
                 this.medialibView.Closed += (sender, args) => this.medialibView = null;
                 this.medialibView.Show();
             }
