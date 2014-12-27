@@ -1,44 +1,16 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using MahApps.Metro.Native;
-using Newtonsoft.Json;
-using ReactiveUI;
 using SimpleMusicPlayer.Core.Interfaces;
 
 namespace SimpleMusicPlayer.Core.Player
 {
-    public static class PlayerSettingsExtensions
-    {
-        public static void WriteSettings(this PlayerSettings settings)
-        {
-            if (settings == null)
-            {
-                return;
-            }
-            var settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
-            File.WriteAllText(PlayerSettings.SettingsFileName, settingsAsJson);
-        }
-    }
-
     public class PlayerSettings
     {
-        public const string SettingsFileName = "settings.json";
-
         public MainWindowSettings MainWindow { get; set; }
         public MedialibSettings Medialib { get; set; }
         public PlayerEngineSettings PlayerEngine { get; set; }
 
-        public static PlayerSettings ReadSettings()
-        {
-            if (!File.Exists(SettingsFileName))
-            {
-                return GetEmptySettings();
-            }
-            var jsonString = File.ReadAllText(SettingsFileName);
-            return JsonConvert.DeserializeObject<PlayerSettings>(jsonString);
-        }
-
-        private static PlayerSettings GetEmptySettings()
+        public static PlayerSettings GetEmptySettings()
         {
             return new PlayerSettings {
                 MainWindow = new MainWindowSettings(),
@@ -58,8 +30,11 @@ namespace SimpleMusicPlayer.Core.Player
         public WINDOWPLACEMENT? Placement { get; set; }
     }
 
-    public class PlayerEngineSettings : ReactiveObject
+    public class PlayerEngineSettings : ViewModelBase
     {
+        private bool shuffleMode;
+        private bool repeatMode;
+
         public PlayerEngineSettings()
         {
             Volume = 100f;
@@ -75,20 +50,32 @@ namespace SimpleMusicPlayer.Core.Player
 
         public bool Mute { get; set; }
 
-        private bool shuffleMode;
-
         public bool ShuffleMode
         {
             get { return this.shuffleMode; }
-            set { this.RaiseAndSetIfChanged(ref shuffleMode, value); }
+            set
+            {
+                if (Equals(value, this.shuffleMode))
+                {
+                    return;
+                }
+                this.shuffleMode = value;
+                this.OnPropertyChanged(() => this.ShuffleMode);
+            }
         }
-
-        private bool repeatMode;
 
         public bool RepeatMode
         {
             get { return this.repeatMode; }
-            set { this.RaiseAndSetIfChanged(ref repeatMode, value); }
+            set
+            {
+                if (Equals(value, this.repeatMode))
+                {
+                    return;
+                }
+                this.repeatMode = value;
+                this.OnPropertyChanged(() => this.RepeatMode);
+            }
         }
 
         public EqualizerSettings EqualizerSettings { get; set; }

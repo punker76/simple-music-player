@@ -19,7 +19,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public MainViewModel()
         {
-            this.PlayerSettings = PlayerSettings.ReadSettings();
+            this.PlayerSettings = PlayerSettingsExtensions.ReadSettings();
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
 
             this.PlayerEngine.Configure(this.PlayerSettings);
@@ -46,6 +46,11 @@ namespace SimpleMusicPlayer.ViewModels
         }
 
         public PlayerSettings PlayerSettings { get; private set; }
+
+        public void SaveSettings()
+        {
+            this.PlayerSettings.WriteSettings();
+        }
 
         public FileSearchWorker PlayListFileSearchWorker { get; private set; }
 
@@ -89,7 +94,7 @@ namespace SimpleMusicPlayer.ViewModels
             {
                 w.Close();
             }
-            this.PlayerSettings.WriteSettings();
+            this.SaveSettings();
             await this.PlayListsViewModel.SavePlayListAsync();
             this.PlayerEngine.CleanUp();
         }
