@@ -9,7 +9,6 @@ using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.Views;
-using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -20,7 +19,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public MainViewModel()
         {
-            this.PlayerSettings = PlayerSettingsExtensions.ReadSettings();
+            this.PlayerSettings = new PlayerSettings().Update();
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
 
             this.PlayerEngine.Configure(this.PlayerSettings);
@@ -36,7 +35,6 @@ namespace SimpleMusicPlayer.ViewModels
             this.ShutDownCommand = ReactiveCommand.CreateAsyncTask(x => this.ShutDown());
 
             this.PlayControlInfoViewModel.PlayControlViewModel.ShowMediaLibraryCommand.Subscribe(x => this.ShowMediaLibrary());
-
         }
 
         public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
@@ -47,11 +45,6 @@ namespace SimpleMusicPlayer.ViewModels
         }
 
         public PlayerSettings PlayerSettings { get; private set; }
-
-        public void SaveSettings()
-        {
-            this.PlayerSettings.WriteSettings();
-        }
 
         public FileSearchWorker PlayListFileSearchWorker { get; private set; }
 
@@ -95,7 +88,7 @@ namespace SimpleMusicPlayer.ViewModels
             {
                 w.Close();
             }
-            this.SaveSettings();
+            this.PlayerSettings.Save();
             await this.PlayListsViewModel.SavePlayListAsync();
             this.PlayerEngine.CleanUp();
         }

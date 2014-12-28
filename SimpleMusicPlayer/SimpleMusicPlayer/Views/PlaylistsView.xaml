@@ -370,20 +370,20 @@
     </UserControl.Resources>
 
     <models:BaseListBox x:Name="ListBoxPlayList"
-                      Grid.IsSharedSizeScope="True"
-                      models:SelectorHelper.ScrollingLines="1"
-                      ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-                      ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
-                      SelectionMode="Extended"
-                      SelectedItem="{Binding SelectedPlayListFile}"
-                      models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
-                      models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      HorizontalContentAlignment="Stretch"
-                      behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      dd:DragDrop.IsDragSource="True"
-                      dd:DragDrop.IsDropTarget="True"
-                      dd:DragDrop.DropHandler="{Binding}">
+                        Grid.IsSharedSizeScope="True"
+                        models:SelectorHelper.ScrollingLines="1"
+                        ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                        ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
+                        SelectionMode="Extended"
+                        SelectedItem="{Binding SelectedPlayListFile}"
+                        models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+                        models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                        HorizontalContentAlignment="Stretch"
+                        behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                        dd:DragDrop.IsDragSource="True"
+                        dd:DragDrop.IsDropTarget="True"
+                        dd:DragDrop.DropHandler="{Binding}">
         <models:BaseListBox.Style>
             <Style TargetType="{x:Type models:BaseListBox}"
                    BasedOn="{StaticResource BaseMetroListBox}">

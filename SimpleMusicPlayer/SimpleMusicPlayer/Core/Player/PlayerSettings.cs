@@ -1,11 +1,63 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using MahApps.Metro.Native;
+using Newtonsoft.Json;
 using SimpleMusicPlayer.Core.Interfaces;
 
 namespace SimpleMusicPlayer.Core.Player
 {
+    public static class PlayerSettingsExtensions
+    {
+        public static PlayerSettings Update(this PlayerSettings settings)
+        {
+            if (settings == null || !File.Exists(PlayerSettings.SettingsFileName))
+            {
+                return settings;
+            }
+            try
+            {
+                var jsonString = File.ReadAllText(PlayerSettings.SettingsFileName);
+                var fromThis = JsonConvert.DeserializeObject<PlayerSettings>(jsonString);
+
+                settings.MainWindow = fromThis.MainWindow;
+                settings.Medialib = fromThis.Medialib;
+                settings.PlayerEngine = fromThis.PlayerEngine;
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+            return settings;
+        }
+    }
+
     public class PlayerSettings
     {
+        [JsonIgnore]
+        public const string SettingsFileName = "settings.json";
+
+        public PlayerSettings()
+        {
+            this.MainWindow = new MainWindowSettings();
+            this.Medialib = new MedialibSettings();
+            this.PlayerEngine = new PlayerEngineSettings();
+        }
+
+        public void Save()
+        {
+            try
+            {
+                var settingsAsJson = JsonConvert.SerializeObject(this, Formatting.Indented);
+                File.WriteAllText(SettingsFileName, settingsAsJson);
+            }
+            catch (Exception exception)
+            {
+                Debug.WriteLine(exception);
+            }
+        }
+
         public MainWindowSettings MainWindow { get; set; }
         public MedialibSettings Medialib { get; set; }
         public PlayerEngineSettings PlayerEngine { get; set; }
