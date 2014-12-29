@@ -27,12 +27,12 @@ namespace SimpleMusicPlayer.ViewModels
         private readonly PlayerSettings playerSettings;
         private string playListItemTemplateKey;
 
-        public PlayListsViewModel(MainViewModel mainViewModel)
+        public PlayListsViewModel()
         {
+            this.FileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
             var container = TinyIoCContainer.Current;
             this.playerEngine = container.Resolve<PlayerEngine>();
             this.playerSettings = container.Resolve<PlayerSettings>();
-            this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
         }
 

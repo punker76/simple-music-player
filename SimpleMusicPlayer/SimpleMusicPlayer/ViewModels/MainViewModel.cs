@@ -21,17 +21,14 @@ namespace SimpleMusicPlayer.ViewModels
         public MainViewModel()
         {
             var container = TinyIoCContainer.Current;
-            
+
             this.PlayerSettings = container.Resolve<PlayerSettings>().Update();
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
 
             this.PlayerEngine = container.Resolve<PlayerEngine>().Configure();
 
-            this.PlayListFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
-            this.MedialibFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
-
-            this.MedialibViewModel = new MedialibViewModel(this);
-            this.PlayListsViewModel = new PlayListsViewModel(this);
+            this.PlayListsViewModel = new PlayListsViewModel();
+            this.MedialibViewModel = new MedialibViewModel();
 
             this.PlayControlInfoViewModel = new PlayControlInfoViewModel(this);
 
@@ -45,10 +42,6 @@ namespace SimpleMusicPlayer.ViewModels
         public PlayerEngine PlayerEngine { get; private set; }
 
         public PlayerSettings PlayerSettings { get; private set; }
-
-        public FileSearchWorker PlayListFileSearchWorker { get; private set; }
-
-        public FileSearchWorker MedialibFileSearchWorker { get; private set; }
 
         public PlayControlInfoViewModel PlayControlInfoViewModel { get; private set; }
 

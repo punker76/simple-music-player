@@ -18,11 +18,11 @@ namespace SimpleMusicPlayer.ViewModels
     public class MedialibViewModel : ReactiveObject
     {
         private PlayerSettings playerSettings;
-        
-        public MedialibViewModel(MainViewModel mainViewModel)
+
+        public MedialibViewModel()
         {
+            this.FileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
             playerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
-            this.FileSearchWorker = mainViewModel.MedialibFileSearchWorker;
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(playerSettings.Medialib);
             this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));
 
