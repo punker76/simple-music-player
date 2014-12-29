@@ -12,6 +12,7 @@ using GongSolutions.Wpf.DragDrop;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -29,7 +30,7 @@ namespace SimpleMusicPlayer.ViewModels
         public PlayListsViewModel(MainViewModel mainViewModel)
         {
             this.playerEngine = mainViewModel.PlayerEngine;
-            this.playerSettings = mainViewModel.PlayerSettings;
+            this.playerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
             this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
         }

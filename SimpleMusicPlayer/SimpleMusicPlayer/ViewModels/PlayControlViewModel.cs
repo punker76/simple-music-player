@@ -11,6 +11,7 @@ using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.Views;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -26,7 +27,7 @@ namespace SimpleMusicPlayer.ViewModels
         {
             this.playListsViewModel = mainViewModel.PlayListsViewModel;
             this.PlayerEngine = mainViewModel.PlayerEngine;
-            this.PlayerSettings = mainViewModel.PlayerSettings;
+            this.PlayerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
 
             this.PlayerEngine.PlayNextFileAction = () => {
                 var playerMustBeStoped = !this.CanPlayNext();

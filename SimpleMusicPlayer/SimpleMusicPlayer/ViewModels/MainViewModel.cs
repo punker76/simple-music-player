@@ -9,6 +9,7 @@ using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.Views;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -19,7 +20,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public MainViewModel()
         {
-            this.PlayerSettings = new PlayerSettings().Update();
+            this.PlayerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>().Update();
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
 
             this.PlayerEngine.Configure(this.PlayerSettings);

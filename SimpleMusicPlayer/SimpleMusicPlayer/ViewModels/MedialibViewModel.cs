@@ -10,15 +10,20 @@ using System.Windows.Input;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
     public class MedialibViewModel : ReactiveObject
     {
+        private PlayerSettings playerSettings;
+        
         public MedialibViewModel(MainViewModel mainViewModel)
         {
+            playerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
             this.FileSearchWorker = mainViewModel.MedialibFileSearchWorker;
-            this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(mainViewModel.PlayerSettings.Medialib);
+            this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(playerSettings.Medialib);
             this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));
 
             // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
