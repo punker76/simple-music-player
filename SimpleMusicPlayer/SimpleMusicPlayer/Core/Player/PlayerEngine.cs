@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Threading;
 using FMOD;
+using ReactiveUI;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.FMODStudio;
 
@@ -19,20 +20,12 @@ namespace SimpleMusicPlayer.Core.Player
         }
     }
 
-    public class PlayerEngine : ViewModelBase, IPlayerEngine
+    public class PlayerEngine : ReactiveObject, IPlayerEngine
     {
         private FMOD.System system = null;
         private FMOD.Sound sound = null;
         private ChannelInfo channelInfo = null;
         private DispatcherTimer timer;
-        private float volume = -1f;
-        private uint lengthMs;
-        private uint currentPositionMs;
-        private bool isMute;
-        private PlayerState state;
-        private Equalizer equalizer;
-        private bool initializied;
-        private IMediaFile currentMediaFile;
         private PlayerSettings playerSettings;
 
         public PlayerEngine(PlayerSettings settings)
@@ -76,6 +69,37 @@ namespace SimpleMusicPlayer.Core.Player
                 this.IsMute = this.playerSettings.PlayerEngine.Mute;
                 this.State = PlayerState.Stop;
                 this.LengthMs = 0;
+
+                this.WhenAnyValue(x => x.Volume)
+                    .Subscribe(newVolume => {
+                        this.playerSettings.PlayerEngine.Volume = newVolume;
+
+                        ChannelGroup masterChannelGroup;
+                        this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
+                        masterChannelGroup.setVolume(newVolume / 100f).ERRCHECK();
+                        this.system.update().ERRCHECK();
+                    });
+
+                this.WhenAnyValue(x => x.IsMute)
+                    .Subscribe(mute => {
+                        this.playerSettings.PlayerEngine.Mute = mute;
+
+                        ChannelGroup masterChannelGroup;
+                        this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
+                        masterChannelGroup.setMute(mute).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+                        this.system.update().ERRCHECK();
+                    });
+
+                var canSetCurrentPosition = this.WhenAnyValue(x => x.DontUpdatePosition, x => x.LengthMs, (dontUpdate, length) => dontUpdate && length > 0);
+                this.SetCurrentPositionMs = ReactiveCommand.Create(canSetCurrentPosition);
+                this.SetCurrentPositionMs.Subscribe(x => {
+                    var newPos = this.CurrentPositionMs >= this.LengthMs ? this.LengthMs - 1 : this.CurrentPositionMs;
+                    if (this.channelInfo != null)
+                    {
+                        this.channelInfo.SetCurrentPositionMs(newPos);
+                    }
+                    this.DontUpdatePosition = false;
+                });
 
                 this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10),
                                                  DispatcherPriority.Normal,
@@ -124,7 +148,7 @@ namespace SimpleMusicPlayer.Core.Player
             if (!this.DontUpdatePosition)
             {
                 this.currentPositionMs = ms;
-                this.OnPropertyChanged("CurrentPositionMs");
+                this.RaisePropertyChanged("CurrentPositionMs");
             }
 
             //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
@@ -132,138 +156,72 @@ namespace SimpleMusicPlayer.Core.Player
             this.system.update();
         }
 
+        private bool initializied;
+
         public bool Initializied
         {
             get { return this.initializied; }
-            private set
-            {
-                if (Equals(value, this.initializied))
-                {
-                    return;
-                }
-                this.initializied = value;
-                this.OnPropertyChanged(() => this.Initializied);
-            }
+            set { this.RaiseAndSetIfChanged(ref initializied, value); }
         }
+
+        private float volume = -1f;
 
         public float Volume
         {
             get { return this.volume; }
-            set
-            {
-                if (Equals(value, this.volume))
-                {
-                    return;
-                }
-                this.volume = value;
-                this.playerSettings.PlayerEngine.Volume = value;
-
-                ChannelGroup masterChannelGroup;
-                this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
-                masterChannelGroup.setVolume(value / 100f).ERRCHECK();
-                this.system.update().ERRCHECK();
-
-                this.OnPropertyChanged("Volume");
-            }
+            set { this.RaiseAndSetIfChanged(ref volume, value); }
         }
+
+        private uint lengthMs;
 
         public uint LengthMs
         {
             get { return this.lengthMs; }
-            private set
-            {
-                if (Equals(value, this.lengthMs))
-                {
-                    return;
-                }
-                this.lengthMs = value;
-                this.OnPropertyChanged("LengthMs");
-            }
+            set { this.RaiseAndSetIfChanged(ref lengthMs, value); }
         }
 
-        public bool DontUpdatePosition { get; set; }
+        private bool dontUpdatePosition;
+
+        public bool DontUpdatePosition
+        {
+            get { return this.dontUpdatePosition; }
+            set { this.RaiseAndSetIfChanged(ref dontUpdatePosition, value); }
+        }
+
+        private uint currentPositionMs;
 
         public uint CurrentPositionMs
         {
             get { return this.currentPositionMs; }
-            set
-            {
-                if (Equals(value, this.currentPositionMs))
-                {
-                    return;
-                }
-                this.currentPositionMs = value >= this.LengthMs ? this.LengthMs - 1 : value;
-
-                if (this.channelInfo != null)
-                {
-                    this.channelInfo.SetCurrentPositionMs(this.currentPositionMs);
-                }
-
-                this.OnPropertyChanged("CurrentPositionMs");
-            }
+            set { this.RaiseAndSetIfChanged(ref currentPositionMs, value); }
         }
+
+        public ReactiveCommand<object> SetCurrentPositionMs { get; private set; }
+
+        private bool isMute;
 
         public bool IsMute
         {
             get { return this.isMute; }
-            set
-            {
-                if (Equals(value, this.isMute))
-                {
-                    return;
-                }
-                this.isMute = value;
-                this.playerSettings.PlayerEngine.Mute = value;
-
-                ChannelGroup masterChannelGroup;
-                this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
-                masterChannelGroup.setMute(value).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-                this.system.update().ERRCHECK();
-
-                this.OnPropertyChanged("IsMute");
-            }
+            set { this.RaiseAndSetIfChanged(ref isMute, value); }
         }
+
+        private PlayerState state;
 
         public PlayerState State
         {
             get { return this.state; }
-            set
-            {
-                if (Equals(value, this.state))
-                {
-                    return;
-                }
-                this.state = value;
-                this.OnPropertyChanged("State");
-            }
+            set { this.RaiseAndSetIfChanged(ref state, value); }
         }
 
-        public Equalizer Equalizer
-        {
-            get { return this.equalizer; }
-            set
-            {
-                if (Equals(value, this.equalizer))
-                {
-                    return;
-                }
-                this.equalizer = value;
-                this.OnPropertyChanged("Equalizer");
-            }
-        }
+        public Equalizer Equalizer { get; private set; }
+
+        private IMediaFile currentMediaFile;
 
         public IMediaFile CurrentMediaFile
         {
             get { return this.currentMediaFile; }
-            set
-            {
-                if (Equals(value, this.currentMediaFile))
-                {
-                    return;
-                }
-                this.currentMediaFile = value;
-                this.OnPropertyChanged("CurrentMediaFile");
-            }
+            set { this.RaiseAndSetIfChanged(ref currentMediaFile, value); }
         }
 
         public void Play(IMediaFile file)
@@ -362,9 +320,8 @@ namespace SimpleMusicPlayer.Core.Player
                 this.system.update().ERRCHECK();
             }
 
-            this.currentPositionMs = 0;
-            this.OnPropertyChanged("CurrentPositionMs");
             this.LengthMs = 0;
+            this.CurrentPositionMs = 0;
         }
 
         private void CleanUpEqualizer()

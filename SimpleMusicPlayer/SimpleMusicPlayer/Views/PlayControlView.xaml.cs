@@ -34,7 +34,7 @@ namespace SimpleMusicPlayer.Views
                 {
                     be.UpdateSource();
                 }
-                vm.PlayerEngine.DontUpdatePosition = false;
+                vm.PlayerEngine.SetCurrentPositionMs.Execute(null);
             }
         }
     }
