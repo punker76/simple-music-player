@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 using FMOD;
@@ -9,6 +7,18 @@ using SimpleMusicPlayer.FMODStudio;
 
 namespace SimpleMusicPlayer.Core.Player
 {
+    public static class PlayerEngineExtensions
+    {
+        public static PlayerEngine Configure(this PlayerEngine playerEngine)
+        {
+            if (playerEngine != null)
+            {
+                playerEngine.ConfigureInternal();
+            }
+            return playerEngine;
+        }
+    }
+
     public class PlayerEngine : ViewModelBase, IPlayerEngine
     {
         private FMOD.System system = null;
@@ -21,55 +31,67 @@ namespace SimpleMusicPlayer.Core.Player
         private bool isMute;
         private PlayerState state;
         private Equalizer equalizer;
-        private readonly FMOD.CHANNEL_CALLBACK channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
         private bool initializied;
         private IMediaFile currentMediaFile;
         private PlayerSettings playerSettings;
 
-        public bool Configure(PlayerSettings settings)
+        public PlayerEngine(PlayerSettings settings)
         {
             this.playerSettings = settings;
-            /*
-                Global Settings
-            */
-            if (!FMOD.Factory.System_Create(out this.system).ERRCHECK())
+        }
+
+        internal bool ConfigureInternal()
+        {
+            try
             {
+                this.Initializied = false;
+
+                // Global Settings
+                if (!Factory.System_Create(out this.system).ERRCHECK())
+                {
+                    return false;
+                }
+
+                uint version;
+                this.system.getVersion(out version).ERRCHECK();
+                if (version < VERSION.number)
+                {
+                    return false;
+                }
+
+                if (!this.system.init(16, INITFLAGS.NORMAL, (IntPtr)null).ERRCHECK())
+                {
+                    return false;
+                }
+
+                if (!this.system.setStreamBufferSize(64 * 1024, TIMEUNIT.RAWBYTES).ERRCHECK())
+                {
+                    return false;
+                }
+
+                // equalizer
+                this.Equalizer = Equalizer.GetEqualizer(this.system, this.playerSettings);
+
+                this.Volume = this.playerSettings.PlayerEngine.Volume;
+                this.IsMute = this.playerSettings.PlayerEngine.Mute;
+                this.State = PlayerState.Stop;
+                this.LengthMs = 0;
+
+                this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10),
+                                                 DispatcherPriority.Normal,
+                                                 this.PlayTimerCallback,
+                                                 Application.Current.Dispatcher);
+                this.timer.Stop();
+
+                this.Initializied = true;
+
+                return true;
+            }
+            catch (Exception exception)
+            {
+                System.Diagnostics.Debug.WriteLine(exception);
                 return false;
             }
-
-            uint version;
-            this.system.getVersion(out version).ERRCHECK();
-            if (version < FMOD.VERSION.number)
-            {
-                return false;
-            }
-
-            if (!this.system.init(16, FMOD.INITFLAGS.NORMAL, (IntPtr)null).ERRCHECK())
-            {
-                return false;
-            }
-
-            if (!this.system.setStreamBufferSize(64 * 1024, FMOD.TIMEUNIT.RAWBYTES).ERRCHECK())
-            {
-                return false;
-            }
-
-            // equalizer
-            this.Equalizer = Equalizer.GetEqualizer(this.system, settings);
-
-            this.Volume = this.playerSettings.PlayerEngine.Volume;
-            this.IsMute = this.playerSettings.PlayerEngine.Mute;
-            this.State = PlayerState.Stop;
-            this.LengthMs = 0;
-
-            this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10),
-                                             DispatcherPriority.Normal,
-                                             this.PlayTimerCallback,
-                                             Application.Current.Dispatcher);
-            this.timer.Stop();
-
-            this.Initializied = true;
-            return this.Initializied;
         }
 
         private void PlayTimerCallback(object sender, EventArgs e)
@@ -286,9 +308,7 @@ namespace SimpleMusicPlayer.Core.Player
                 return;
             }
 
-            this.channelInfo = new ChannelInfo() { Channel = channel, File = file };
-            channelInfo.Volume = 0f;
-            channel.setCallback(this.channelEndCallback).ERRCHECK();
+            this.channelInfo = new ChannelInfo(this, channel, file);
 
             this.system.update().ERRCHECK();
 
@@ -304,23 +324,6 @@ namespace SimpleMusicPlayer.Core.Player
         }
 
         public Action PlayNextFileAction { get; set; }
-
-        private static RESULT ChannelEndCallback(IntPtr channelraw, CHANNELCONTROL_TYPE controltype, CHANNELCONTROL_CALLBACK_TYPE type, IntPtr commanddata1, IntPtr commanddata2)
-        {
-            if (type == CHANNELCONTROL_CALLBACK_TYPE.END)
-            {
-                // this must be thread safe
-                var currentSynchronizationContext = TaskScheduler.FromCurrentSynchronizationContext();
-                var uiTask = Task.Factory.StartNew(() => {
-                    var action = PlayerEngine.Instance.PlayNextFileAction;
-                    if (action != null)
-                    {
-                        action();
-                    }
-                }, CancellationToken.None, TaskCreationOptions.None, currentSynchronizationContext);
-            }
-            return FMOD.RESULT.OK;
-        }
 
         public void Pause()
         {
@@ -397,23 +400,6 @@ namespace SimpleMusicPlayer.Core.Player
                 fmodSystem.release().ERRCHECK();
                 fmodSystem = null;
             }
-        }
-
-        private static PlayerEngine instance;
-
-        // Explicit static constructor to tell C# compiler
-        // not to mark type as beforefieldinit
-        static PlayerEngine()
-        {
-        }
-
-        private PlayerEngine()
-        {
-        }
-
-        public static PlayerEngine Instance
-        {
-            get { return instance ?? (instance = new PlayerEngine()); }
         }
     }
 }

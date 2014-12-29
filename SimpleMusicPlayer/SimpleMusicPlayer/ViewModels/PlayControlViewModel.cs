@@ -25,9 +25,10 @@ namespace SimpleMusicPlayer.ViewModels
 
         public PlayControlViewModel(MainViewModel mainViewModel)
         {
+            var container = TinyIoCContainer.Current;
             this.playListsViewModel = mainViewModel.PlayListsViewModel;
-            this.PlayerEngine = mainViewModel.PlayerEngine;
-            this.PlayerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
+            this.PlayerEngine = container.Resolve<PlayerEngine>();
+            this.PlayerSettings = container.Resolve<PlayerSettings>();
 
             this.PlayerEngine.PlayNextFileAction = () => {
                 var playerMustBeStoped = !this.CanPlayNext();

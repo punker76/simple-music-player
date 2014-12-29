@@ -1,6 +1,4 @@
-﻿using System.Windows.Threading;
-using SimpleMusicPlayer.Core;
-using SimpleMusicPlayer.Core.Player;
+﻿using SimpleMusicPlayer.Core;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -8,11 +6,8 @@ namespace SimpleMusicPlayer.ViewModels
     {
         public PlayControlInfoViewModel(MainViewModel mainViewModel)
         {
-            this.PlayerEngine = mainViewModel.PlayerEngine;
             this.PlayControlViewModel = new PlayControlViewModel(mainViewModel);
         }
-
-        public PlayerEngine PlayerEngine { get; private set; }
 
         public PlayControlViewModel PlayControlViewModel { get; private set; }
     }

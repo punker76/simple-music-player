@@ -4,6 +4,7 @@ using System.Windows;
 using Microsoft.Shell;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.ViewModels;
 using SimpleMusicPlayer.Views;
@@ -54,6 +55,7 @@ namespace SimpleMusicPlayer
             var container = TinyIoCContainer.Current;
 
             container.Register<PlayerSettings>().AsSingleton();
+            container.Register<PlayerEngine>().AsSingleton();
             container.Register<IReactiveObject, MainViewModel>();
 
             var mainWindow = container.Resolve<MainWindow>();

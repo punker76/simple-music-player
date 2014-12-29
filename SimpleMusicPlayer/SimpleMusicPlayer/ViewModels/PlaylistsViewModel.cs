@@ -29,8 +29,9 @@ namespace SimpleMusicPlayer.ViewModels
 
         public PlayListsViewModel(MainViewModel mainViewModel)
         {
-            this.playerEngine = mainViewModel.PlayerEngine;
-            this.playerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
+            var container = TinyIoCContainer.Current;
+            this.playerEngine = container.Resolve<PlayerEngine>();
+            this.playerSettings = container.Resolve<PlayerSettings>();
             this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
         }
