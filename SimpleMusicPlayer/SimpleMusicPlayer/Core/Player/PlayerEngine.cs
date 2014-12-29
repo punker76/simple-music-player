@@ -161,7 +161,6 @@ namespace SimpleMusicPlayer.Core.Player
                 ChannelGroup masterChannelGroup;
                 this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
                 masterChannelGroup.setVolume(value / 100f).ERRCHECK();
-
                 this.system.update().ERRCHECK();
 
                 this.OnPropertyChanged("Volume");
@@ -193,18 +192,11 @@ namespace SimpleMusicPlayer.Core.Player
                 {
                     return;
                 }
-
                 this.currentPositionMs = value >= this.LengthMs ? this.LengthMs - 1 : value;
 
-                if (this.channelInfo != null && this.channelInfo.Channel != null)
+                if (this.channelInfo != null)
                 {
-                    bool paused;
-                    this.channelInfo.Channel.getPaused(out paused).ERRCHECK();
-                    this.channelInfo.Channel.setPaused(true).ERRCHECK();
-                    this.system.update().ERRCHECK();
-                    this.channelInfo.Channel.setPosition(this.currentPositionMs, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-                    this.channelInfo.Channel.setPaused(paused).ERRCHECK();
-                    this.system.update().ERRCHECK();
+                    this.channelInfo.SetCurrentPositionMs(this.currentPositionMs);
                 }
 
                 this.OnPropertyChanged("CurrentPositionMs");
@@ -223,12 +215,10 @@ namespace SimpleMusicPlayer.Core.Player
                 this.isMute = value;
                 this.playerSettings.PlayerEngine.Mute = value;
 
-                if (this.channelInfo != null && this.channelInfo.Channel != null)
-                {
-                    this.channelInfo.Channel.setMute(value).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-
-                    this.system.update().ERRCHECK();
-                }
+                ChannelGroup masterChannelGroup;
+                this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
+                masterChannelGroup.setMute(value).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+                this.system.update().ERRCHECK();
 
                 this.OnPropertyChanged("IsMute");
             }
@@ -308,7 +298,7 @@ namespace SimpleMusicPlayer.Core.Player
                 return;
             }
 
-            this.channelInfo = new ChannelInfo(this, channel, file);
+            this.channelInfo = new ChannelInfo(channel, file, this.PlayNextFileAction);
 
             this.system.update().ERRCHECK();
 
@@ -327,18 +317,10 @@ namespace SimpleMusicPlayer.Core.Player
 
         public void Pause()
         {
-            if (this.channelInfo != null && this.channelInfo.Channel != null)
+            if (this.channelInfo != null)
             {
-                bool paused;
-                this.channelInfo.Channel.getPaused(out paused).ERRCHECK();
-
-                var newPaused = !paused;
-                this.channelInfo.Channel.setPaused(newPaused).ERRCHECK();
-
-                this.system.update().ERRCHECK();
-
-                this.channelInfo.File.State = newPaused ? PlayerState.Pause : PlayerState.Play;
-                this.State = newPaused ? PlayerState.Pause : PlayerState.Play;
+                this.channelInfo.Pause();
+                this.State = this.channelInfo.File.State;
             }
         }
 
@@ -370,12 +352,14 @@ namespace SimpleMusicPlayer.Core.Player
             {
                 this.channelInfo.CleanUp();
                 this.channelInfo = null;
+                this.system.update().ERRCHECK();
             }
 
             if (fmodSound != null)
             {
                 fmodSound.release().ERRCHECK();
                 fmodSound = null;
+                this.system.update().ERRCHECK();
             }
 
             this.currentPositionMs = 0;
