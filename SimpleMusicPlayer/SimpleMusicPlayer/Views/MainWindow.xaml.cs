@@ -1,10 +1,9 @@
-﻿using System.Linq;
+﻿using System;
 using System.Reflection;
 using System.Windows;
 using MahApps.Metro.Controls;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
-using SimpleMusicPlayer.Core.Interfaces;
-using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
@@ -12,35 +11,45 @@ namespace SimpleMusicPlayer.Views
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MetroWindow
+    public partial class MainWindow : MetroWindow, IViewFor<MainViewModel>
     {
-        public MainWindow()
+        public MainWindow(MainViewModel mainViewModel)
         {
-            var vm = new MainViewModel(this.Dispatcher);
-            this.DataContext = vm;
+            this.ViewModel = mainViewModel;
 
             this.InitializeComponent();
 
-            this.PreviewKeyDown += (sender, e) => (this.DataContext as IKeyHandler).HandlePreviewKeyDown(sender, e);
-
             this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
 
-            this.SourceInitialized += (sender, e) => this.FitIntoScreen();
+            this.WhenAnyValue(x => x.ViewModel).BindTo(this, x => x.DataContext);
 
-            this.Closed += (sender, e) => {
-                foreach (var w in Application.Current.Windows.OfType<Window>())
-                {
-                    w.Close();
-                }
-                var mainWindowViewModel = ((MainViewModel)this.DataContext);
-                if (mainWindowViewModel.PlayListsViewModel.FileSearchWorker.CanStopSearch())
-                {
-                    mainWindowViewModel.PlayListsViewModel.FileSearchWorker.StopSearch();
-                }
-                mainWindowViewModel.SaveSettings();
-                mainWindowViewModel.PlayListsViewModel.SavePlayListAsync();
-                PlayerEngine.Instance.CleanUp();
-            };
+            this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
+
+            this.Events().PreviewKeyDown.Subscribe(this.ViewModel.HandlePreviewKeyDown);
+
+            this.Events().Closed.InvokeCommand(this.ViewModel.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
+
+            this.Events().Closed.InvokeCommand(this.ViewModel.ShutDownCommand);
+        }
+
+        public override IWindowPlacementSettings GetWindowPlacementSettings()
+        {
+            return this.ViewModel.CustomWindowPlacementSettings;
+        }
+
+        public MainViewModel ViewModel
+        {
+            get { return (MainViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(MainViewModel), typeof(MainWindow), new PropertyMetadata(null));
+
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = (MainViewModel)value; }
         }
     }
 }

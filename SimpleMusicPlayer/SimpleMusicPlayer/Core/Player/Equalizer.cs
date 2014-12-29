@@ -50,7 +50,9 @@ namespace SimpleMusicPlayer.Core.Player
             system.lockDSP().ERRCHECK();
 
             this.Bands.Clear();
-            var gainValues = !setToDefaultValues && this.playerSettings.PlayerEngine.EqualizerSettings != null ? this.playerSettings.PlayerEngine.EqualizerSettings.GainValues : null;
+            var gainValues = !setToDefaultValues && this.playerSettings.PlayerEngine.EqualizerSettings != null
+                ? this.playerSettings.PlayerEngine.EqualizerSettings.GainValues
+                : null;
             foreach (var value in EqDefaultValues)
             {
                 var band = EqualizerBand.GetEqualizerBand(system, this.IsEnabled, value[0], value[1], value[2]);
@@ -75,7 +77,7 @@ namespace SimpleMusicPlayer.Core.Player
 
             foreach (var band in this.Bands)
             {
-                band.Remove();
+                band.Release();
             }
 
             system.unlockDSP().ERRCHECK();

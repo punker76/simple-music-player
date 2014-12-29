@@ -7,19 +7,23 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Threading;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
     public class MedialibViewModel : ReactiveObject
     {
-        public MedialibViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
+        private PlayerSettings playerSettings;
+
+        public MedialibViewModel()
         {
-            this.FileSearchWorker = mainViewModel.MedialibFileSearchWorker;
-            this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(mainViewModel.PlayerSettings.Medialib);
+            this.FileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
+            playerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
+            this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(playerSettings.Medialib);
             this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));
 
             // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
@@ -45,6 +49,9 @@ namespace SimpleMusicPlayer.ViewModels
                 //.Where(x => !string.IsNullOrWhiteSpace(x)/* && !string.IsNullOrEmpty(this.SelectedGenre) && !string.IsNullOrEmpty(this.SelectedArtist)*/)
               .DistinctUntilChanged()
               .Subscribe(x => FilterByAlbumSelection());
+
+            this.AddDirectoryCommand = ReactiveCommand.CreateAsyncTask(this.WhenAny(x => x.FileSearchWorker.IsWorking, isworking => !isworking.Value),
+                                                                       x => AddDirectoryAsync());
         }
 
         public FileSearchWorker FileSearchWorker { get; private set; }
@@ -107,12 +114,7 @@ namespace SimpleMusicPlayer.ViewModels
             set { this.RaiseAndSetIfChanged(ref selectedAlbum, value); }
         }
 
-        private ICommand addDirectoryCommand;
-
-        public ICommand AddDirectoryCommand
-        {
-            get { return this.addDirectoryCommand ?? (this.addDirectoryCommand = new DelegateCommand(async () => await this.AddDirectoryAsync(), () => true)); }
-        }
+        public ICommand AddDirectoryCommand { get; protected set; }
 
         private async Task AddDirectoryAsync()
         {
@@ -124,38 +126,57 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
+        public void OnDragOverAction(DragEventArgs e)
+        {
+            e.Effects = !this.FileSearchWorker.IsWorking && e.Data.GetDataPresent(DataFormats.FileDrop)
+                ? DragDropEffects.Copy
+                : DragDropEffects.None;
+            Console.WriteLine(">> drag over >> {0}", DateTime.Now);
+            e.Handled = true;
+        }
+
+        public async Task OnDropAction(DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                // Get data object
+                var dataObject = e.Data as DataObject;
+                if (dataObject != null && dataObject.ContainsFileDropList())
+                {
+                    await this.HandleDropActionAsync(dataObject.GetFileDropList());
+                }
+            }
+        }
+
         public async Task HandleDropActionAsync(IList fileOrDirDropList)
         {
-            if (this.FileSearchWorker.CanStartSearch())
-            {
-                var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
+            var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
 
-                var collView = CollectionViewSource.GetDefaultView(new MedialibCollection(files));
-                collView.Filter = o => {
-                    var m = (IMediaFile)o;
-                    if (!string.IsNullOrWhiteSpace(this.SelectedGenre) && !Equals(m.FirstGenre, this.SelectedGenre))
-                    {
-                        return false;
-                    }
-                    if (!string.IsNullOrWhiteSpace(this.SelectedArtist) && !Equals(m.FirstPerformer, this.SelectedArtist))
-                    {
-                        return false;
-                    }
-                    if (!string.IsNullOrWhiteSpace(this.SelectedAlbum) && !Equals(m.Album, this.SelectedAlbum))
-                    {
-                        return false;
-                    }
-                    return true;
-                };
-                this.MediaFiles = collView;
+            var collView = CollectionViewSource.GetDefaultView(new MedialibCollection(files));
+            collView.Filter = o => {
+                var m = (IMediaFile)o;
+                if (!string.IsNullOrWhiteSpace(this.SelectedGenre) && !Equals(m.FirstGenre, this.SelectedGenre))
+                {
+                    return false;
+                }
+                if (!string.IsNullOrWhiteSpace(this.SelectedArtist) && !Equals(m.FirstPerformer, this.SelectedArtist))
+                {
+                    return false;
+                }
+                if (!string.IsNullOrWhiteSpace(this.SelectedAlbum) && !Equals(m.Album, this.SelectedAlbum))
+                {
+                    return false;
+                }
+                return true;
+            };
+            this.MediaFiles = collView;
 
-                this.GenreList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.FirstGenre).OrderBy(g => g.Key).Select(g => g.Key));
-                this.ArtistList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.FirstPerformer).OrderBy(g => g.Key).Select(g => g.Key));
-                this.AlbumList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.Album).OrderBy(g => g.Key).Select(g => g.Key));
+            this.GenreList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.FirstGenre).OrderBy(g => g.Key).Select(g => g.Key));
+            this.ArtistList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.FirstPerformer).OrderBy(g => g.Key).Select(g => g.Key));
+            this.AlbumList = new QuickFillObservableCollection<string>(files.GroupBy(m => m.Album).OrderBy(g => g.Key).Select(g => g.Key));
 
-                //        this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(files));
-                //        ((ICollectionView)this.MediaFiles).GroupDescriptions.Add(new PropertyGroupDescription("Album"));
-            }
+            //        this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(files));
+            //        ((ICollectionView)this.MediaFiles).GroupDescriptions.Add(new PropertyGroupDescription("Album"));
         }
 
         public void FilterByGenreSelection(string genre)

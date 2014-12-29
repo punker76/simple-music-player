@@ -2,7 +2,13 @@
 using System.Linq;
 using System.Windows;
 using Microsoft.Shell;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
+using SimpleMusicPlayer.Core.Interfaces;
+using SimpleMusicPlayer.Core.Player;
+using SimpleMusicPlayer.ViewModels;
+using SimpleMusicPlayer.Views;
+using TinyIoC;
 
 namespace SimpleMusicPlayer
 {
@@ -40,6 +46,20 @@ namespace SimpleMusicPlayer
                 }
             }
             return true;
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            var container = TinyIoCContainer.Current;
+
+            container.Register<PlayerSettings>().AsSingleton();
+            container.Register<PlayerEngine>().AsSingleton();
+            container.Register<IReactiveObject, MainViewModel>();
+
+            var mainWindow = container.Resolve<MainWindow>();
+            mainWindow.Show();
         }
     }
 }

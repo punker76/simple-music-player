@@ -1,38 +1,34 @@
-﻿using System.Linq;
-using System.Net.Mime;
+﻿using System;
+using System.Linq;
+using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using MahApps.Metro.SimpleChildWindow;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.Views;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class PlayControlViewModel : ViewModelBase, IKeyHandler
+    public class PlayControlViewModel : ReactiveObject, IKeyHandler
     {
-        private readonly MainViewModel mainViewModel;
         private readonly PlayListsViewModel playListsViewModel;
         private ICommand playOrPauseCommand;
         private ICommand stopCommand;
         private ICommand playPrevCommand;
         private ICommand playNextCommand;
-        private ICommand shuffleCommand;
-        private ICommand repeatCommand;
-        private ICommand muteCommand;
-        private ICommand showMediaLibraryCommand;
-        private ICommand showEqualizerCommand;
 
-        public PlayControlViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
+        public PlayControlViewModel(MainViewModel mainViewModel)
         {
-            this.mainViewModel = mainViewModel;
+            var container = TinyIoCContainer.Current;
             this.playListsViewModel = mainViewModel.PlayListsViewModel;
-            this.PlayerEngine = mainViewModel.PlayerEngine;
-            this.PlayerSettings = mainViewModel.PlayerSettings;
+            this.PlayerEngine = container.Resolve<PlayerEngine>();
+            this.PlayerSettings = container.Resolve<PlayerSettings>();
 
             this.PlayerEngine.PlayNextFileAction = () => {
                 var playerMustBeStoped = !this.CanPlayNext();
@@ -51,6 +47,29 @@ namespace SimpleMusicPlayer.ViewModels
                     this.Stop();
                 }
             };
+
+            var playerInitialized = this.WhenAnyValue(x => x.PlayerEngine.Initializied);
+
+            this.ShuffleCommand = ReactiveCommand.Create(playerInitialized);
+            this.ShuffleCommand.Subscribe(x => {
+                this.PlayerSettings.PlayerEngine.ShuffleMode = !this.PlayerSettings.PlayerEngine.ShuffleMode;
+            });
+
+            this.RepeatCommand = ReactiveCommand.Create(playerInitialized);
+            this.RepeatCommand.Subscribe(x => {
+                this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
+            });
+
+            this.MuteCommand = ReactiveCommand.Create(playerInitialized);
+            this.MuteCommand.Subscribe(x => {
+                this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
+            });
+
+            this.ShowMediaLibraryCommand = ReactiveCommand.Create(playerInitialized);
+
+            this.ShowEqualizerCommand = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(x => x.IsEqualizerOpen, x => x.PlayerEngine.Initializied,
+                                                                                          (isopen, initialized) => !isopen && initialized),
+                                                                        x => ShowEqualizer());
         }
 
         public PlayerEngine PlayerEngine { get; private set; }
@@ -146,79 +165,30 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ICommand ShuffleCommand
-        {
-            get { return this.shuffleCommand ?? (this.shuffleCommand = new DelegateCommand(this.SetShuffelMode, this.CanSetShuffelMode)); }
-        }
+        public ReactiveCommand<object> ShuffleCommand { get; private set; }
 
-        private bool CanSetShuffelMode()
-        {
-            return this.PlayerEngine.Initializied;
-        }
+        public ReactiveCommand<object> RepeatCommand { get; private set; }
 
-        private void SetShuffelMode()
-        {
-            this.PlayerSettings.PlayerEngine.ShuffleMode = !this.PlayerSettings.PlayerEngine.ShuffleMode;
-        }
+        public ReactiveCommand<object> MuteCommand { get; private set; }
 
-        public ICommand RepeatCommand
-        {
-            get { return this.repeatCommand ?? (this.repeatCommand = new DelegateCommand(this.SetRepeatMode, this.CanSetRepeatMode)); }
-        }
+        public ReactiveCommand<object> ShowMediaLibraryCommand { get; private set; }
 
-        public bool CanSetRepeatMode()
-        {
-            return this.PlayerEngine.Initializied;
-        }
+        public ReactiveCommand<Unit> ShowEqualizerCommand { get; private set; }
 
-        public void SetRepeatMode()
-        {
-            this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
-        }
+        private bool isEqualizerOpen;
 
-        public ICommand MuteCommand
+        public bool IsEqualizerOpen
         {
-            get { return this.muteCommand ?? (this.muteCommand = new DelegateCommand(this.SetMute, this.CanSetMute)); }
-        }
-
-        public bool CanSetMute()
-        {
-            return this.PlayerEngine.Initializied;
-        }
-
-        public void SetMute()
-        {
-            //this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
-            this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
-        }
-
-        public ICommand ShowMediaLibraryCommand
-        {
-            get { return this.showMediaLibraryCommand ?? (this.showMediaLibraryCommand = new DelegateCommand(this.mainViewModel.ShowMediaLibrary, this.CanShowMediaLibrary)); }
-        }
-
-        public bool CanShowMediaLibrary()
-        {
-            return true;
-        }
-
-        public ICommand ShowEqualizerCommand
-        {
-            get { return this.showEqualizerCommand ?? (this.showEqualizerCommand = new DelegateCommand(async () => await this.ShowEqualizer(), this.CanShowEqualizer)); }
-        }
-
-        private EqualizerView equalizerView;
-
-        private bool CanShowEqualizer()
-        {
-            return equalizerView == null && this.PlayerEngine.Initializied;
+            get { return this.isEqualizerOpen; }
+            set { this.RaiseAndSetIfChanged(ref isEqualizerOpen, value); }
         }
 
         private async Task ShowEqualizer()
         {
-            this.equalizerView = new EqualizerView() { ViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
-            this.equalizerView.ClosingFinished += (sender, args) => this.equalizerView = null;
-            await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(equalizerView);
+            this.IsEqualizerOpen = true;
+            var view = new EqualizerView() { ViewModel = new EqualizerViewModel(this.PlayerEngine.Equalizer) };
+            view.ClosingFinished += (sender, args) => this.IsEqualizerOpen = false;
+            await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(view);
         }
 
         public bool HandleKeyDown(Key key)

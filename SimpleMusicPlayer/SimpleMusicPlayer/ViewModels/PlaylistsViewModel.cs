@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
-using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -26,11 +27,12 @@ namespace SimpleMusicPlayer.ViewModels
         private readonly PlayerSettings playerSettings;
         private string playListItemTemplateKey;
 
-        public PlayListsViewModel(Dispatcher dispatcher, MainViewModel mainViewModel)
+        public PlayListsViewModel()
         {
-            this.playerEngine = mainViewModel.PlayerEngine;
-            this.playerSettings = mainViewModel.PlayerSettings;
-            this.FileSearchWorker = mainViewModel.PlayListFileSearchWorker;
+            this.FileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
+            var container = TinyIoCContainer.Current;
+            this.playerEngine = container.Resolve<PlayerEngine>();
+            this.playerSettings = container.Resolve<PlayerSettings>();
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
         }
 
@@ -300,7 +302,7 @@ namespace SimpleMusicPlayer.ViewModels
             // look for drag&drop new files
             if (dataObject != null && dataObject.GetDataPresent(DataFormats.FileDrop))
             {
-                dropInfo.Effects = this.FileSearchWorker.CanStartSearch() ? DragDropEffects.Copy : DragDropEffects.None;
+                dropInfo.Effects = !this.FileSearchWorker.IsWorking ? DragDropEffects.Copy : DragDropEffects.None;
             }
             else
             {
@@ -329,7 +331,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         private async void HandleDropActionAsync(IDropInfo dropInfo, IList fileOrDirDropList)
         {
-            if (this.FileSearchWorker.CanStartSearch())
+            if (!this.FileSearchWorker.IsWorking)
             {
                 var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
 
@@ -353,13 +355,13 @@ namespace SimpleMusicPlayer.ViewModels
 
         public async void HandleCommandLineArgsAsync(IList args)
         {
-            if (args == null || args.Count == 0)
+            if (args == null || args.Count == 1)
             {
                 return;
             }
 
             // TODO take another search worker for multiple added files via command line (possible lost the command line files while searching...)
-            if (this.FileSearchWorker.CanStartSearch())
+            if (!this.FileSearchWorker.IsWorking)
             {
                 var files = await this.FileSearchWorker.StartSearchAsync(args);
 
@@ -400,7 +402,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public async void LoadPlayListAsync()
         {
-            var playList = await PlayList.LoadPlayListAsync();
+            var playList = await PlayList.LoadAsync();
             if (playList != null)
             {
                 var filesColl = new PlayListCollection(playList.Files);
@@ -420,12 +422,13 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public async void SavePlayListAsync()
+        public async Task SavePlayListAsync()
         {
             var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
             if (currentFilesCollView != null)
             {
-                await PlayList.SavePlayListAsync(currentFilesCollView.SourceCollection);
+                var pl = new PlayList { Files = currentFilesCollView.SourceCollection.OfType<MediaFile>().ToList() };
+                await pl.SaveAsync();
             }
         }
 

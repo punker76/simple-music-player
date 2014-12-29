@@ -19,7 +19,6 @@
                       MinHeight="400"
                       MinWidth="400"
                       WindowStartupLocation="CenterScreen"
-                      WindowPlacementSettings="{Binding CustomWindowPlacementSettings, Mode=OneTime}"
                       SaveWindowPosition="True"
                       mc:Ignorable="d"
                       d:DataContext="{d:DesignInstance ViewModels:MainViewModel}">

@@ -24,10 +24,15 @@ namespace SimpleMusicPlayer.Core
 
         public BaseListBox()
         {
-            this.Loaded += (s, e) => Observable.Zip(
-              this.ObservableForProperty(x => x.ObserveItemContainerGenerator).Where(x => x.Value == true).Select(_ => Unit.Default),
-              this.ItemContainerGenerator.Events().StatusChanged.Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler).Select(_ => Unit.Default)
-              ).Subscribe(_ => this.FocusSelectedItem());
+            this.Events().Loaded.Subscribe(e => {
+                var observeItemContGenerator = this.ObservableForProperty(x => x.ObserveItemContainerGenerator)
+                                                   .Where(x => x.Value == true)
+                                                   .Select(_ => Unit.Default);
+                var itemContGeneratorStatusChanged = this.ItemContainerGenerator.Events().StatusChanged
+                                                         .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
+                                                         .Select(_ => Unit.Default);
+                Observable.Zip(observeItemContGenerator, itemContGeneratorStatusChanged).Subscribe(_ => this.FocusSelectedItem());
+            });
         }
 
         private void FocusSelectedItem()

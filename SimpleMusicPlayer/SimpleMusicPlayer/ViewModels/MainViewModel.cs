@@ -1,50 +1,47 @@
-﻿using System.Windows.Input;
-using System.Windows.Threading;
+﻿using System;
+using System.Linq;
+using System.Reactive;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.Views;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class MainViewModel : ViewModelBase, IKeyHandler
+    public class MainViewModel : ReactiveObject, IKeyHandler
     {
         private ICommand showOnGitHubCmd;
         private MedialibView medialibView;
 
-        public MainViewModel(Dispatcher dispatcher)
+        public MainViewModel()
         {
-            this.PlayerSettings = PlayerSettingsExtensions.ReadSettings();
+            var container = TinyIoCContainer.Current;
+
+            this.PlayerSettings = container.Resolve<PlayerSettings>().Update();
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
 
-            this.PlayerEngine.Configure(dispatcher, this.PlayerSettings);
+            this.PlayerEngine = container.Resolve<PlayerEngine>().Configure();
 
-            this.PlayListFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
-            this.MedialibFileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
+            this.PlayListsViewModel = new PlayListsViewModel();
+            this.MedialibViewModel = new MedialibViewModel();
 
-            this.MedialibViewModel = new MedialibViewModel(dispatcher, this);
-            this.PlayListsViewModel = new PlayListsViewModel(dispatcher, this);
+            this.PlayControlInfoViewModel = new PlayControlInfoViewModel(this);
 
-            this.PlayControlInfoViewModel = new PlayControlInfoViewModel(dispatcher, this);
+            this.ShutDownCommand = ReactiveCommand.CreateAsyncTask(x => this.ShutDown());
+
+            this.PlayControlInfoViewModel.PlayControlViewModel.ShowMediaLibraryCommand.Subscribe(x => this.ShowMediaLibrary());
         }
 
         public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
 
-        public PlayerEngine PlayerEngine
-        {
-            get { return PlayerEngine.Instance; }
-        }
+        public PlayerEngine PlayerEngine { get; private set; }
 
         public PlayerSettings PlayerSettings { get; private set; }
-
-        public void SaveSettings()
-        {
-            this.PlayerSettings.WriteSettings();
-        }
-
-        public FileSearchWorker PlayListFileSearchWorker { get; private set; }
-
-        public FileSearchWorker MedialibFileSearchWorker { get; private set; }
 
         public PlayControlInfoViewModel PlayControlInfoViewModel { get; private set; }
 
@@ -74,6 +71,19 @@ namespace SimpleMusicPlayer.ViewModels
         private void ShowOnGitHub()
         {
             System.Diagnostics.Process.Start("https://github.com/punker76/simple-music-player");
+        }
+
+        public ReactiveCommand<Unit> ShutDownCommand { get; private set; }
+
+        private async Task ShutDown()
+        {
+            foreach (var w in Application.Current.Windows.OfType<Window>())
+            {
+                w.Close();
+            }
+            this.PlayerSettings.Save();
+            await this.PlayListsViewModel.SavePlayListAsync();
+            this.PlayerEngine.CleanUp();
         }
 
         public bool HandleKeyDown(Key key)

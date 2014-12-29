@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
-using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
@@ -11,36 +14,51 @@ namespace SimpleMusicPlayer.Views
     /// <summary>
     /// Interaction logic for PlayListsView.xaml
     /// </summary>
-    public partial class PlayListsView : UserControl
+    public partial class PlayListsView : UserControl, IViewFor<PlayListsViewModel>
     {
         public PlayListsView()
         {
             this.InitializeComponent();
 
-            this.PreviewKeyDown += (sender, e) => (this.DataContext as IKeyHandler).HandlePreviewKeyDown(sender, e);
+            this.Events().DataContextChanged.Subscribe(args => {
+                var vm = (PlayListsViewModel)args.NewValue;
+                this.ViewModel = vm;
 
-            this.DataContextChanged += this.PlaylistsView_DataContextChanged;
-        }
-
-        private void PlaylistsView_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs dea)
-        {
-            var vm = this.DataContext as PlayListsViewModel;
-            if (vm != null)
-            {
                 // for the first, i need a connection for scrolling to the first playable media file
                 vm.ListBoxPlayList = this.ListBoxPlayList;
 
-                this.Loaded += (o, args) => {
+                //this.Events().PreviewKeyDown.Subscribe(vm.HandlePreviewKeyDown);
+                var previewKeyDown = this.Events().PreviewKeyDown;
+                previewKeyDown.Where(x => x.Key == Key.Enter).InvokeCommand(vm.PlayCommand);
+                previewKeyDown.Where(x => x.Key == Key.Delete).InvokeCommand(vm.DeleteCommand);
+
+                this.Events().Loaded.Subscribe(e => {
                     vm.LoadPlayListAsync();
                     vm.HandleCommandLineArgsAsync(Environment.GetCommandLineArgs().ToList());
-                };
+                });
 
                 var window = Window.GetWindow(this);
                 if (window != null)
                 {
-                    window.SizeChanged += (s, e) => vm.CalcPlayListItemTemplateByActualWidth(window.ActualWidth);
+                    vm.CalcPlayListItemTemplateByActualWidth(window.ActualWidth);
+                    window.Events().SizeChanged.Subscribe(e => vm.CalcPlayListItemTemplateByActualWidth(e.NewSize.Width));
                 }
-            }
+            });
+        }
+
+        public PlayListsViewModel ViewModel
+        {
+            get { return (PlayListsViewModel)GetValue(ViewModelProperty); }
+            set { SetValue(ViewModelProperty, value); }
+        }
+
+        public static readonly DependencyProperty ViewModelProperty =
+            DependencyProperty.Register("ViewModel", typeof(PlayListsViewModel), typeof(PlayListsView), new PropertyMetadata(null));
+
+        object IViewFor.ViewModel
+        {
+            get { return ViewModel; }
+            set { ViewModel = (PlayListsViewModel)value; }
         }
     }
 }
