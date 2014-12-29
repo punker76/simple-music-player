@@ -81,7 +81,7 @@ namespace SimpleMusicPlayer.Core.Player
             return band;
         }
 
-        public void Remove()
+        public void Release()
         {
             if (this.dspEQ != null)
             {
@@ -103,7 +103,7 @@ namespace SimpleMusicPlayer.Core.Player
         public string BandCaption { get; set; }
 
         /// <summary>
-        /// Gain: Frequency Gain. 0.05 to 3.0. Default = 1.0
+        /// Gain: (Type:float) - Frequency Gain in dB. -30 to 30. Default = 0.
         /// </summary>
         public float Gain
         {
