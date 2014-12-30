@@ -23,7 +23,7 @@ namespace SimpleMusicPlayer.Views
                 var vm = this.DataContext as PlayControlViewModel;
                 if (vm != null)
                 {
-                    vm.PlayerEngine.DontUpdatePosition = true;
+                    vm.PlayerEngine.CanSetCurrentPositionMs = true;
                 }
             }
         }

@@ -90,7 +90,8 @@ namespace SimpleMusicPlayer.Core.Player
                         this.system.update().ERRCHECK();
                     });
 
-                var canSetCurrentPosition = this.WhenAny(x => x.DontUpdatePosition, y => y.LengthMs, (dontUpdate, length) => dontUpdate.Value && length.Value > 0);
+                var canSetCurrentPosition = this.WhenAny(x => x.CanSetCurrentPositionMs, y => y.LengthMs,
+                                                         (dontUpdate, length) => dontUpdate.Value && length.Value > 0);
                 this.SetCurrentPositionMs = ReactiveCommand.Create(canSetCurrentPosition);
                 this.SetCurrentPositionMs.Subscribe(x => {
                     var newPos = this.CurrentPositionMs >= this.LengthMs ? this.LengthMs - 1 : this.CurrentPositionMs;
@@ -98,7 +99,7 @@ namespace SimpleMusicPlayer.Core.Player
                     {
                         this.channelInfo.SetCurrentPositionMs(newPos);
                     }
-                    this.DontUpdatePosition = false;
+                    this.CanSetCurrentPositionMs = false;
                 });
 
                 this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10),
@@ -145,7 +146,7 @@ namespace SimpleMusicPlayer.Core.Player
                 }
             }
 
-            if (!this.DontUpdatePosition)
+            if (!this.CanSetCurrentPositionMs)
             {
                 this.CurrentPositionMs = ms;
             }
@@ -179,12 +180,12 @@ namespace SimpleMusicPlayer.Core.Player
             set { this.RaiseAndSetIfChanged(ref lengthMs, value); }
         }
 
-        private bool dontUpdatePosition;
+        private bool canSetCurrentPositionMs;
 
-        public bool DontUpdatePosition
+        public bool CanSetCurrentPositionMs
         {
-            get { return this.dontUpdatePosition; }
-            set { this.RaiseAndSetIfChanged(ref dontUpdatePosition, value); }
+            get { return this.canSetCurrentPositionMs; }
+            set { this.RaiseAndSetIfChanged(ref canSetCurrentPositionMs, value); }
         }
 
         private uint currentPositionMs;
