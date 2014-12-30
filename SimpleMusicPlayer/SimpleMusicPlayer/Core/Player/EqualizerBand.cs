@@ -1,21 +1,21 @@
+using System;
 using System.Globalization;
 using FMOD;
+using ReactiveUI;
 using SimpleMusicPlayer.FMODStudio;
 
 namespace SimpleMusicPlayer.Core.Player
 {
-    public class EqualizerBand : ViewModelBase
+    public class EqualizerBand : ReactiveObject
     {
         private FMOD.System fmodSystem;
         private FMOD.DSP dspEQ;
-        private float gain;
-        private bool isActive;
 
         private EqualizerBand(FMOD.System system, DSP dspParamEq, float centerValue, float gainValue, bool active)
         {
             this.fmodSystem = system;
-
             this.dspEQ = dspParamEq;
+
             if (centerValue >= 1000)
             {
                 this.BandCaption = string.Format("{0}K", (centerValue / 1000));
@@ -24,7 +24,21 @@ namespace SimpleMusicPlayer.Core.Player
             {
                 this.BandCaption = centerValue.ToString(CultureInfo.InvariantCulture);
             }
-            this.gain = gainValue;
+
+            this.WhenAnyValue(x => x.Gain)
+                .Subscribe(newGain => {
+                    if (this.IsActive && this.dspEQ != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine(">> Gain value: " + newGain);
+
+                        this.dspEQ.setActive(false).ERRCHECK();
+                        this.dspEQ.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, newGain).ERRCHECK();
+                        this.dspEQ.setActive(true).ERRCHECK();
+                        this.fmodSystem.update().ERRCHECK();
+                    }
+                });
+
+            this.Gain = gainValue;
             this.IsActive = active;
         }
 
@@ -102,48 +116,22 @@ namespace SimpleMusicPlayer.Core.Player
 
         public string BandCaption { get; set; }
 
+        private float gain;
         /// <summary>
         /// Gain: (Type:float) - Frequency Gain in dB. -30 to 30. Default = 0.
         /// </summary>
         public float Gain
         {
             get { return this.gain; }
-            set
-            {
-                if (Equals(value, this.gain))
-                {
-                    return;
-                }
-                this.gain = value;
-                System.Diagnostics.Debug.WriteLine(">> Gain value: " + value);
-
-                if (this.dspEQ != null)
-                {
-                    this.dspEQ.setActive(false).ERRCHECK();
-
-                    this.dspEQ.setParameterFloat((int)FMOD.DSP_PARAMEQ.GAIN, value).ERRCHECK();
-
-                    this.dspEQ.setActive(true).ERRCHECK();
-
-                    this.fmodSystem.update().ERRCHECK();
-                }
-
-                this.OnPropertyChanged(() => this.Gain);
-            }
+            set { this.RaiseAndSetIfChanged(ref gain, value); }
         }
+
+        private bool isActive;
 
         public bool IsActive
         {
             get { return this.isActive; }
-            set
-            {
-                if (Equals(value, this.isActive))
-                {
-                    return;
-                }
-                this.isActive = value;
-                this.OnPropertyChanged(() => this.IsActive);
-            }
+            set { this.RaiseAndSetIfChanged(ref isActive, value); }
         }
     }
 }

@@ -293,7 +293,7 @@
                         Width="150"
                         Margin="5,2,5,2"
                         Orientation="Horizontal"
-                        Thumb.DragStarted="PositionSlider_DragStarted"
+                        Thumb.DragDelta="PositionSlider_OnDragDelta"
                         Thumb.DragCompleted="PositionSlider_DragCompleted"
                         Maximum="{Binding PlayerEngine.LengthMs, Mode=OneWay}"
                         Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
@@ -338,15 +338,15 @@
                 </Button>
 
                 <Common:FormattedSlider Grid.Column="1"
-                                      Style="{StaticResource MetroCircleSlider}"
-                                      Margin="5,2,5,2"
-                                      Orientation="Horizontal"
-                                      Width="90"
-                                      SmallChange="5"
-                                      LargeChange="25"
-                                      AutoToolTipPlacement="TopLeft"
-                                      AutoToolTipFormat="{}Volume {0}%"
-                                      Value="{Binding PlayerEngine.Volume}" />
+                                        Style="{StaticResource MetroCircleSlider}"
+                                        Margin="5,2,5,2"
+                                        Orientation="Horizontal"
+                                        Width="90"
+                                        SmallChange="5"
+                                        LargeChange="25"
+                                        AutoToolTipPlacement="TopLeft"
+                                        AutoToolTipFormat="{}Volume {0}%"
+                                        Value="{Binding PlayerEngine.Volume}" />
             </Grid>
 
         </Grid>

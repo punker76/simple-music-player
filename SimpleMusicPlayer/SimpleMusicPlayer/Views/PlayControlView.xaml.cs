@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using SimpleMusicPlayer.ViewModels;
@@ -15,16 +16,19 @@ namespace SimpleMusicPlayer.Views
             this.InitializeComponent();
         }
 
-        private void PositionSlider_DragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        private void PositionSlider_OnDragDelta(object sender, DragDeltaEventArgs e)
         {
-            var vm = this.DataContext as PlayControlViewModel;
-            if (vm != null)
+            if (Math.Abs(e.HorizontalChange) > 1 || Math.Abs(e.VerticalChange) > 1)
             {
-                vm.PlayerEngine.DontUpdatePosition = true;
+                var vm = this.DataContext as PlayControlViewModel;
+                if (vm != null)
+                {
+                    vm.PlayerEngine.CanSetCurrentPositionMs = true;
+                }
             }
         }
 
-        private void PositionSlider_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        private void PositionSlider_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             var vm = this.DataContext as PlayControlViewModel;
             if (vm != null)
@@ -34,7 +38,10 @@ namespace SimpleMusicPlayer.Views
                 {
                     be.UpdateSource();
                 }
-                vm.PlayerEngine.DontUpdatePosition = false;
+                if (vm.PlayerEngine.SetCurrentPositionMs.CanExecute(null))
+                {
+                    vm.PlayerEngine.SetCurrentPositionMs.Execute(null);
+                }
             }
         }
     }

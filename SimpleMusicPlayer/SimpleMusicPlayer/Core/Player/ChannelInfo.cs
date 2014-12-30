@@ -9,18 +9,24 @@ namespace SimpleMusicPlayer.Core.Player
 {
     internal class ChannelInfo
     {
-        private PlayerEngine playerEngine;
+        private FMOD.System system = null;
+        private Action playNextFileAction;
         private FMOD.CHANNEL_CALLBACK channelEndCallback;
 
-        public ChannelInfo(PlayerEngine playerEngine, Channel channel, IMediaFile file)
+        public ChannelInfo(Channel channel, IMediaFile file, Action playNextFileAction)
         {
-            this.playerEngine = playerEngine;
-            this.channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
             this.Channel = channel;
+            this.Channel.getSystemObject(out system).ERRCHECK();
             this.File = file;
+            this.playNextFileAction = playNextFileAction;
+            this.channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
+            this.Channel.setCallback(this.channelEndCallback).ERRCHECK();
             this.Volume = 0f;
-            channel.setCallback(this.channelEndCallback).ERRCHECK();
         }
+
+        public FMOD.Channel Channel { get; private set; }
+
+        public IMediaFile File { get; private set; }
 
         private RESULT ChannelEndCallback(IntPtr channelraw, CHANNELCONTROL_TYPE controltype, CHANNELCONTROL_CALLBACK_TYPE type, IntPtr commanddata1, IntPtr commanddata2)
         {
@@ -29,7 +35,7 @@ namespace SimpleMusicPlayer.Core.Player
                 // this must be thread safe
                 var currentSynchronizationContext = TaskScheduler.FromCurrentSynchronizationContext();
                 var uiTask = Task.Factory.StartNew(() => {
-                    var action = this.playerEngine.PlayNextFileAction;
+                    var action = this.playNextFileAction;
                     if (action != null)
                     {
                         action();
@@ -39,9 +45,19 @@ namespace SimpleMusicPlayer.Core.Player
             return FMOD.RESULT.OK;
         }
 
-        public FMOD.Channel Channel { get; private set; }
-
-        public IMediaFile File { get; private set; }
+        public void SetCurrentPositionMs(uint newPosition)
+        {
+            if (this.Channel != null)
+            {
+                bool paused;
+                this.Channel.getPaused(out paused).ERRCHECK();
+                this.Channel.setPaused(true).ERRCHECK();
+                this.system.update().ERRCHECK();
+                this.Channel.setPosition(newPosition, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
+                this.Channel.setPaused(paused).ERRCHECK();
+                this.system.update().ERRCHECK();
+            }
+        }
 
         public bool FadeVolume(float startVol, float endVol, float startPoint, float fadeLength, float currentTime)
         {
@@ -73,8 +89,22 @@ namespace SimpleMusicPlayer.Core.Player
                     return;
                 }
                 this.volume = value;
-
                 this.Channel.setVolume(value).ERRCHECK();
+            }
+        }
+
+        public void Pause()
+        {
+            if (this.Channel != null)
+            {
+                bool paused;
+                this.Channel.getPaused(out paused).ERRCHECK();
+
+                var newPaused = !paused;
+                this.Channel.setPaused(newPaused).ERRCHECK();
+                this.system.update().ERRCHECK();
+
+                this.File.State = newPaused ? PlayerState.Pause : PlayerState.Play;
             }
         }
 
@@ -83,13 +113,15 @@ namespace SimpleMusicPlayer.Core.Player
             if (this.Channel != null)
             {
                 this.Channel.setVolume(0f).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
+                this.Channel.setPaused(true).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
                 this.Channel.setCallback(null).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
                 this.Channel = null;
             }
             this.channelEndCallback = null;
             this.File.State = PlayerState.Stop;
             this.File = null;
-            this.playerEngine = null;
+            this.playNextFileAction = null;
+            this.system = null;
         }
     }
 }
