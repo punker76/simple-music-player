@@ -90,7 +90,7 @@ namespace SimpleMusicPlayer.Core.Player
                         this.system.update().ERRCHECK();
                     });
 
-                var canSetCurrentPosition = this.WhenAnyValue(x => x.DontUpdatePosition, x => x.LengthMs, (dontUpdate, length) => dontUpdate && length > 0);
+                var canSetCurrentPosition = this.WhenAny(x => x.DontUpdatePosition, y => y.LengthMs, (dontUpdate, length) => dontUpdate.Value && length.Value > 0);
                 this.SetCurrentPositionMs = ReactiveCommand.Create(canSetCurrentPosition);
                 this.SetCurrentPositionMs.Subscribe(x => {
                     var newPos = this.CurrentPositionMs >= this.LengthMs ? this.LengthMs - 1 : this.CurrentPositionMs;
@@ -147,8 +147,7 @@ namespace SimpleMusicPlayer.Core.Player
 
             if (!this.DontUpdatePosition)
             {
-                this.currentPositionMs = ms;
-                this.RaisePropertyChanged("CurrentPositionMs");
+                this.CurrentPositionMs = ms;
             }
 
             //statusBar.Text = "Time " + (ms / 1000 / 60) + ":" + (ms / 1000 % 60) + ":" + (ms / 10 % 100) + "/" + (lenms / 1000 / 60) + ":" + (lenms / 1000 % 60) + ":" + (lenms / 10 % 100) + " : " + (paused ? "Paused " : playing ? "Playing" : "Stopped");
