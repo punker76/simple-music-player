@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using MahApps.Metro.Native;
 using Newtonsoft.Json;
+using ReactiveUI;
 using SimpleMusicPlayer.Core.Interfaces;
 
 namespace SimpleMusicPlayer.Core.Player
@@ -59,7 +60,9 @@ namespace SimpleMusicPlayer.Core.Player
         }
 
         public MainWindowSettings MainWindow { get; set; }
+
         public MedialibSettings Medialib { get; set; }
+
         public PlayerEngineSettings PlayerEngine { get; set; }
 
         public static PlayerSettings GetEmptySettings()
@@ -82,11 +85,8 @@ namespace SimpleMusicPlayer.Core.Player
         public WINDOWPLACEMENT? Placement { get; set; }
     }
 
-    public class PlayerEngineSettings : ViewModelBase
+    public class PlayerEngineSettings : ReactiveObject
     {
-        private bool shuffleMode;
-        private bool repeatMode;
-
         public PlayerEngineSettings()
         {
             Volume = 100f;
@@ -98,36 +98,25 @@ namespace SimpleMusicPlayer.Core.Player
         public float Volume { get; set; }
 
         public float FadeIn { get; set; }
+
         public float FadeOut { get; set; }
 
         public bool Mute { get; set; }
 
+        private bool shuffleMode;
+
         public bool ShuffleMode
         {
             get { return this.shuffleMode; }
-            set
-            {
-                if (Equals(value, this.shuffleMode))
-                {
-                    return;
-                }
-                this.shuffleMode = value;
-                this.OnPropertyChanged(() => this.ShuffleMode);
-            }
+            set { this.RaiseAndSetIfChanged(ref shuffleMode, value); }
         }
+
+        private bool repeatMode;
 
         public bool RepeatMode
         {
             get { return this.repeatMode; }
-            set
-            {
-                if (Equals(value, this.repeatMode))
-                {
-                    return;
-                }
-                this.repeatMode = value;
-                this.OnPropertyChanged(() => this.RepeatMode);
-            }
+            set { this.RaiseAndSetIfChanged(ref repeatMode, value); }
         }
 
         public EqualizerSettings EqualizerSettings { get; set; }
