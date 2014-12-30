@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+using ReactiveUI;
 using SimpleMusicPlayer.FMODStudio;
 
 namespace SimpleMusicPlayer.Core.Player
 {
-    public class Equalizer : ViewModelBase
+    public class Equalizer : ReactiveObject
     {
         /// <summary>
         /// FMOD_DSP_PARAMEQ_CENTER -> (Type:float) - Frequency center. 20.0 to 22000.0. Default = 8000.0. 
@@ -26,7 +28,6 @@ namespace SimpleMusicPlayer.Core.Player
                                                             };
 
         private FMOD.System fmodSystem;
-        private bool isEnabled = true;
         private PlayerSettings playerSettings;
 
         private Equalizer(FMOD.System system, PlayerSettings settings)
@@ -34,14 +35,28 @@ namespace SimpleMusicPlayer.Core.Player
             this.playerSettings = settings;
             this.Name = "DefaultEqualizer";
             this.fmodSystem = system;
+            this.Initializied = false;
             this.Bands = new ObservableCollection<EqualizerBand>();
-            this.isEnabled = settings.PlayerEngine.EqualizerSettings == null || settings.PlayerEngine.EqualizerSettings.IsEnabled;
+            this.IsEnabled = settings.PlayerEngine.EqualizerSettings == null || settings.PlayerEngine.EqualizerSettings.IsEnabled;
+
+            this.WhenAnyValue(x => x.IsEnabled)
+                .Subscribe(enabled => {
+                    if (!this.Initializied || enabled)
+                    {
+                        this.Init(this.fmodSystem);
+                    }
+                    else if (this.Initializied)
+                    {
+                        this.SaveEqualizerSettings();
+                        this.DeInit(this.fmodSystem);
+                    }
+                });
         }
 
         public static Equalizer GetEqualizer(FMOD.System system, PlayerSettings settings)
         {
             var eq = new Equalizer(system, settings);
-            eq.Init(system);
+            eq.Initializied = true;
             return eq;
         }
 
@@ -109,29 +124,20 @@ namespace SimpleMusicPlayer.Core.Player
 
         public ObservableCollection<EqualizerBand> Bands { get; private set; }
 
+        private bool initializied;
+
+        public bool Initializied
+        {
+            get { return this.initializied; }
+            set { this.RaiseAndSetIfChanged(ref initializied, value); }
+        }
+
+        private bool isEnabled = true;
+
         public bool IsEnabled
         {
             get { return this.isEnabled; }
-            set
-            {
-                if (Equals(value, this.isEnabled))
-                {
-                    return;
-                }
-                this.isEnabled = value;
-
-                if (value)
-                {
-                    this.Init(this.fmodSystem);
-                }
-                else
-                {
-                    this.SaveEqualizerSettings();
-                    this.DeInit(this.fmodSystem);
-                }
-
-                this.OnPropertyChanged(() => this.IsEnabled);
-            }
+            set { this.RaiseAndSetIfChanged(ref isEnabled, value); }
         }
 
         public string Name { get; private set; }
