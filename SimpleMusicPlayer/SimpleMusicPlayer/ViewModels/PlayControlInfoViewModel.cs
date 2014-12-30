@@ -1,8 +1,8 @@
-﻿using SimpleMusicPlayer.Core;
+﻿using ReactiveUI;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class PlayControlInfoViewModel : ViewModelBase
+    public class PlayControlInfoViewModel : ReactiveObject
     {
         public PlayControlInfoViewModel(MainViewModel mainViewModel)
         {
