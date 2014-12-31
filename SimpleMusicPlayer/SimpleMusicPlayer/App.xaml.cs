@@ -4,7 +4,6 @@ using System.Windows;
 using Microsoft.Shell;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
-using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.ViewModels;
 using SimpleMusicPlayer.Views;
@@ -42,7 +41,7 @@ namespace SimpleMusicPlayer
                 var vm = window.DataContext as SimpleMusicPlayer.ViewModels.MainViewModel;
                 if (vm != null)
                 {
-                    vm.PlayListsViewModel.HandleCommandLineArgsAsync(args.ToList());
+                    vm.PlayListsViewModel.CommandLineArgs = new ReactiveList<string>(args);
                 }
             }
             return true;

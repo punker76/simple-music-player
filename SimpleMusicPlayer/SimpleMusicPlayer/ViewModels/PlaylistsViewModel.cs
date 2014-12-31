@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -31,6 +32,18 @@ namespace SimpleMusicPlayer.ViewModels
             this.playerEngine = container.Resolve<PlayerEngine>();
             this.playerSettings = container.Resolve<PlayerSettings>();
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
+
+            this.WhenAnyValue(x => x.CommandLineArgs, list => list != null && list.Count > 1)
+                            .Where(hasItems => hasItems)
+                            .Subscribe(b => this.HandleCommandLineArgsAsync(this.CommandLineArgs));
+        }
+
+        private ReactiveList<string> commandLineArgs;
+
+        public ReactiveList<string> CommandLineArgs
+        {
+            get { return this.commandLineArgs; }
+            set { this.RaiseAndSetIfChanged(ref commandLineArgs, value); }
         }
 
         public FileSearchWorker FileSearchWorker { get; private set; }
@@ -346,13 +359,8 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public async void HandleCommandLineArgsAsync(IList args)
+        public async Task HandleCommandLineArgsAsync(IList args)
         {
-            if (args == null || args.Count <= 1)
-            {
-                return;
-            }
-
             // TODO take another search worker for multiple added files via command line (possible lost the command line files while searching...)
             if (!this.FileSearchWorker.IsWorking)
             {
