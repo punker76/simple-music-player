@@ -169,14 +169,12 @@
     <Compile Include="Core\FolderBrowserHelper.cs" />
     <Compile Include="Core\FormattedSlider.cs" />
     <Compile Include="Core\KeyHandlerExtensions.cs" />
-    <Compile Include="Core\ListBoxAutoScrollBehavior.cs" />
     <Compile Include="Core\Player\ChannelInfo.cs" />
     <Compile Include="Core\Player\EqualizerBand.cs" />
     <Compile Include="Core\SelectorHelper.cs" />
     <Compile Include="Core\QuickFillObservableCollection.cs" />
     <Compile Include="Core\SprocketControl.cs" />
     <Compile Include="Core\ToolTipHelper.cs" />
-    <Compile Include="Core\ViewModelBase.cs" />
     <Compile Include="Core\VisualExtensions.cs" />
     <Compile Include="Core\WindowExtensions.cs" />
     <Compile Include="Behavior\IListItemConverter.cs" />

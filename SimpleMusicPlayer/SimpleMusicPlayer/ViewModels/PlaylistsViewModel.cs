@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using GongSolutions.Wpf.DragDrop;
+using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
@@ -16,16 +17,12 @@ using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class PlayListsViewModel : ViewModelBase, IDropTarget, IKeyHandler
+    public class PlayListsViewModel : ReactiveObject, IDropTarget, IKeyHandler
     {
-        private IEnumerable firstSimplePlaylistFiles;
-        private IMediaFile selectedPlayListFile;
-        private IEnumerable<IMediaFile> selectedPlayListFiles;
         private ICommand deleteCommand;
         private ICommand playCommand;
         private readonly PlayerEngine playerEngine;
         private readonly PlayerSettings playerSettings;
-        private string playListItemTemplateKey;
 
         public PlayListsViewModel()
         {
@@ -40,46 +37,28 @@ namespace SimpleMusicPlayer.ViewModels
 
         public BaseListBox ListBoxPlayList { get; set; }
 
+        private IEnumerable firstSimplePlaylistFiles;
+
         public IEnumerable FirstSimplePlaylistFiles
         {
             get { return this.firstSimplePlaylistFiles; }
-            set
-            {
-                if (Equals(value, this.firstSimplePlaylistFiles))
-                {
-                    return;
-                }
-                this.firstSimplePlaylistFiles = value;
-                this.OnPropertyChanged(() => this.FirstSimplePlaylistFiles);
-            }
+            set { this.RaiseAndSetIfChanged(ref firstSimplePlaylistFiles, value); }
         }
+
+        private IMediaFile selectedPlayListFile;
 
         public IMediaFile SelectedPlayListFile
         {
             get { return this.selectedPlayListFile; }
-            set
-            {
-                if (Equals(value, this.selectedPlayListFile))
-                {
-                    return;
-                }
-                this.selectedPlayListFile = value;
-                this.OnPropertyChanged(() => this.SelectedPlayListFile);
-            }
+            set { this.RaiseAndSetIfChanged(ref selectedPlayListFile, value); }
         }
+
+        private IEnumerable<IMediaFile> selectedPlayListFiles;
 
         public IEnumerable<IMediaFile> SelectedPlayListFiles
         {
             get { return this.selectedPlayListFiles; }
-            set
-            {
-                if (Equals(value, this.selectedPlayListFiles))
-                {
-                    return;
-                }
-                this.selectedPlayListFiles = value;
-                this.OnPropertyChanged(() => this.SelectedPlayListFiles);
-            }
+            set { this.RaiseAndSetIfChanged(ref selectedPlayListFiles, value); }
         }
 
         public ICommand DeleteCommand
@@ -432,18 +411,12 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
+        private string playListItemTemplateKey;
+
         public string PlayListItemTemplateKey
         {
             get { return this.playListItemTemplateKey; }
-            set
-            {
-                if (Equals(value, this.playListItemTemplateKey))
-                {
-                    return;
-                }
-                this.playListItemTemplateKey = value;
-                this.OnPropertyChanged(() => this.PlayListItemTemplateKey);
-            }
+            set { this.RaiseAndSetIfChanged(ref playListItemTemplateKey, value); }
         }
 
         public void CalcPlayListItemTemplateByActualWidth(double actualWidth)
