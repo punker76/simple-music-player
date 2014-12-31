@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ReactiveUI;
-using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
@@ -23,9 +21,6 @@ namespace SimpleMusicPlayer.Views
             this.Events().DataContextChanged.Subscribe(args => {
                 var vm = (PlayListsViewModel)args.NewValue;
                 this.ViewModel = vm;
-
-                // for the first, i need a connection for scrolling to the first playable media file
-                vm.ListBoxPlayList = this.ListBoxPlayList;
 
                 //this.Events().PreviewKeyDown.Subscribe(vm.HandlePreviewKeyDown);
                 var previewKeyDown = this.Events().PreviewKeyDown;

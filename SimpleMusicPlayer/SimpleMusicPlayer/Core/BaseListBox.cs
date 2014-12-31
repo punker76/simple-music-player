@@ -13,8 +13,11 @@ namespace SimpleMusicPlayer.Core
 {
     public class BaseListBox : ListBox
     {
-        public static readonly DependencyProperty ObserveItemContainerGeneratorProperty = DependencyProperty.Register(
-          "ObserveItemContainerGenerator", typeof(bool), typeof(BaseListBox), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty ObserveItemContainerGeneratorProperty
+            = DependencyProperty.Register("ObserveItemContainerGenerator",
+                                          typeof(bool),
+                                          typeof(BaseListBox),
+                                          new PropertyMetadata(default(bool)));
 
         public bool ObserveItemContainerGenerator
         {
@@ -22,8 +25,29 @@ namespace SimpleMusicPlayer.Core
             set { this.SetValue(ObserveItemContainerGeneratorProperty, value); }
         }
 
+        public static readonly DependencyProperty ScrollIndexProperty
+            = DependencyProperty.Register("ScrollIndex",
+                                          typeof(int),
+                                          typeof(BaseListBox),
+                                          new PropertyMetadata(-1));
+
+        public int ScrollIndex
+        {
+            get { return (int)this.GetValue(ScrollIndexProperty); }
+            set { this.SetValue(ScrollIndexProperty, value); }
+        }
+
         public BaseListBox()
         {
+            this.WhenAnyValue(x => x.Items)
+                .CombineLatest(this.WhenAnyValue(x => x.ScrollIndex), (items, index) => items != null && items.Count > index && index >= 0)
+                .Subscribe(canScroll => {
+                    if (canScroll)
+                    {
+                        this.ScrollIntoView(this.Items[this.ScrollIndex]);
+                    }
+                });
+
             this.Events().Loaded.Subscribe(e => {
                 var observeItemContGenerator = this.ObservableForProperty(x => x.ObserveItemContainerGenerator)
                                                    .Where(x => x.Value == true)
@@ -38,12 +62,12 @@ namespace SimpleMusicPlayer.Core
         private void FocusSelectedItem()
         {
             if (this.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated) return;
-            this.ObserveItemContainerGenerator = false;
             Debug.WriteLine(">>>>>>>status changed");
             if (this.Items.Count == 0) return;
             var index = this.SelectedIndex;
             if (index < 0) return;
             Action focusAction = () => {
+                this.ObserveItemContainerGenerator = false;
                 if (this.Items.Count == 0) return;
                 index = this.SelectedIndex;
                 if (index < 0) return;

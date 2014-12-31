@@ -372,6 +372,8 @@
     <models:BaseListBox x:Name="ListBoxPlayList"
                         Grid.IsSharedSizeScope="True"
                         models:SelectorHelper.ScrollingLines="1"
+                        ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"
+                        ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"
                         ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
                         ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
                         SelectionMode="Extended"

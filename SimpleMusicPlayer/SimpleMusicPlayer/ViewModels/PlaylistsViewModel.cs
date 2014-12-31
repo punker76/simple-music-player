@@ -35,8 +35,6 @@ namespace SimpleMusicPlayer.ViewModels
 
         public FileSearchWorker FileSearchWorker { get; private set; }
 
-        public BaseListBox ListBoxPlayList { get; set; }
-
         private IEnumerable firstSimplePlaylistFiles;
 
         public IEnumerable FirstSimplePlaylistFiles
@@ -61,6 +59,22 @@ namespace SimpleMusicPlayer.ViewModels
             set { this.RaiseAndSetIfChanged(ref selectedPlayListFiles, value); }
         }
 
+        private bool observeListBoxItemContainerGenerator;
+
+        public bool ObserveListBoxItemContainerGenerator
+        {
+            get { return this.observeListBoxItemContainerGenerator; }
+            set { this.RaiseAndSetIfChanged(ref observeListBoxItemContainerGenerator, value); }
+        }
+
+        private int scrollIndex;
+
+        public int ScrollIndex
+        {
+            get { return this.scrollIndex; }
+            set { this.RaiseAndSetIfChanged(ref scrollIndex, value); }
+        }
+
         public ICommand DeleteCommand
         {
             get { return this.deleteCommand ?? (this.deleteCommand = new DelegateCommand(this.DeleteSelectedFiles, this.CanDeleteSelectedFiles)); }
@@ -78,22 +92,22 @@ namespace SimpleMusicPlayer.ViewModels
             var filesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
             if (filesCollView != null)
             {
-                ListBoxPlayList.ObserveItemContainerGenerator = true;
+                this.ObserveListBoxItemContainerGenerator = true;
 
                 var currentPlayingFile = filesCollView.CurrentItem as IMediaFile;
                 var filesColl = ((QuickFillObservableCollection<IMediaFile>)filesCollView.SourceCollection);
                 var files2Delete = this.SelectedPlayListFiles.OrderBy(f => f.PlayListIndex).ToList();
                 ((IList)this.SelectedPlayListFiles).Clear();
-                var scrollIndex = files2Delete.First().PlayListIndex - 1;
+                var selectedIndex = files2Delete.First().PlayListIndex - 1;
                 filesColl.RemoveItems(files2Delete);
                 if (currentPlayingFile != null && files2Delete.Contains(currentPlayingFile))
                 {
                     // mh, nothing yet, maybe the player should be stoped...
                 }
-                scrollIndex = Math.Min(scrollIndex, filesColl.Count - 1);
-                if (scrollIndex >= 0)
+                selectedIndex = Math.Min(selectedIndex, filesColl.Count - 1);
+                if (selectedIndex >= 0)
                 {
-                    var newSelFile = filesColl[scrollIndex];
+                    var newSelFile = filesColl[selectedIndex];
                     ((IList)this.SelectedPlayListFiles).Add(newSelFile);
                 }
             }
@@ -334,7 +348,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public async void HandleCommandLineArgsAsync(IList args)
         {
-            if (args == null || args.Count == 1)
+            if (args == null || args.Count <= 1)
             {
                 return;
             }
@@ -346,7 +360,7 @@ namespace SimpleMusicPlayer.ViewModels
 
                 var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
 
-                var scrollIndex = 0;
+                var newScrollIndex = 0;
 
                 if (currentFilesCollView == null)
                 {
@@ -360,7 +374,7 @@ namespace SimpleMusicPlayer.ViewModels
                 else
                 {
                     var filesColl = (QuickFillObservableCollection<IMediaFile>)currentFilesCollView.SourceCollection;
-                    scrollIndex = filesColl.Count;
+                    newScrollIndex = filesColl.Count;
                     var insertIndex = filesColl.Count;
                     filesColl.AddItems(files, insertIndex);
 
@@ -372,10 +386,7 @@ namespace SimpleMusicPlayer.ViewModels
                     }
                 }
 
-                if (this.ListBoxPlayList != null && this.ListBoxPlayList.Items != null && this.ListBoxPlayList.Items.Count > scrollIndex && scrollIndex >= 0)
-                {
-                    this.ListBoxPlayList.ScrollIntoView(this.ListBoxPlayList.Items[scrollIndex]);
-                }
+                this.ScrollIndex = newScrollIndex;
             }
         }
 
