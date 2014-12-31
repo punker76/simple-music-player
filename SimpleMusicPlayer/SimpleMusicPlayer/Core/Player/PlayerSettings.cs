@@ -85,6 +85,7 @@ namespace SimpleMusicPlayer.Core.Player
         public WINDOWPLACEMENT? Placement { get; set; }
     }
 
+    [JsonObject]
     public class PlayerEngineSettings : ReactiveObject
     {
         public PlayerEngineSettings()
