@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-using Humanizer;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -45,10 +44,10 @@ namespace SimpleMusicPlayer.Core
 
         private void LogMemoryUsageAndInfos(object state)
         {
-            var workingSetInMiB = ByteSizeExtensions.Bytes(Environment.WorkingSet).Humanize(".00");
-            var gcTotalMemoryInMiB = ByteSizeExtensions.Bytes(GC.GetTotalMemory(true)).Humanize(".00");
-            var uptime = (DateTime.UtcNow - this.ApplicationStartedTime).TotalMinutes.Minutes().Humanize();
-            this.Log().Info("{0} Memory-Usage (GC.GetTotalMemory(true)/Environment.WorkingSet): {1}/{2} of instance {3} (uptime: {4}))",
+            var workingSetInMiB = Environment.WorkingSet / 1024f / 1024f;
+            var gcTotalMemoryInMiB = GC.GetTotalMemory(true) / 1024f / 1024f;
+            var uptime = (DateTime.UtcNow - this.ApplicationStartedTime).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s").Replace(":", " ");
+            this.Log().Info("{0} Memory-Usage (GC.GetTotalMemory(true)/Environment.WorkingSet): {1:.00}/{2:.00} MB of instance {3} (uptime: {4}))",
                 this.ApplicationName, workingSetInMiB, gcTotalMemoryInMiB, this.ApplicationStartedTime, uptime);
         }
 
