@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Reflection;
+using System.Runtime.Remoting;
 using Microsoft.Shell;
 
 namespace SimpleMusicPlayer
 {
     public class Program
     {
+        private const int MAXTRIES = 10;
+
         static Program()
         {
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => {
@@ -31,10 +34,32 @@ namespace SimpleMusicPlayer
 
         private static void StartUp()
         {
-            if (SingleInstance<App>.InitializeAsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938"))
+            var isFirstInstance = false;
+
+            for (var i = 1; i <= MAXTRIES; i++)
+            {
+                try
+                {
+                    isFirstInstance = SingleInstance<App>.InitializeAsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938");
+                    break;
+                }
+                catch (RemotingException)
+                {
+                    break;
+                }
+                catch (Exception)
+                {
+                    if (i == MAXTRIES)
+                    {
+                        return;
+                    }
+                }
+            }
+
+            if (isFirstInstance)
             {
                 var application = new App();
-                application.Init();
+                application.InitializeComponent();
                 application.Run();
 
                 // Allow single instance code to perform cleanup operations

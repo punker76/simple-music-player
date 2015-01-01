@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using Microsoft.Shell;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
-using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.ViewModels;
 using SimpleMusicPlayer.Views;
@@ -17,11 +17,6 @@ namespace SimpleMusicPlayer
     /// </summary>
     public partial class App : Application, ISingleInstanceApp
     {
-        public void Init()
-        {
-            this.InitializeComponent();
-        }
-
         public bool SignalExternalCommandLineArgs(IList<string> args)
         {
             if (this.MainWindow.WindowState == WindowState.Minimized)
@@ -54,12 +49,15 @@ namespace SimpleMusicPlayer
 
             var container = TinyIoCContainer.Current;
 
+            container.Register<AppHelper>().AsSingleton();
             container.Register<PlayerSettings>().AsSingleton();
             container.Register<PlayerEngine>().AsSingleton();
             container.Register<IReactiveObject, MainViewModel>();
 
-            var mainWindow = container.Resolve<MainWindow>();
-            mainWindow.Show();
+            container.Resolve<AppHelper>().ConfigureApp(this, Assembly.GetExecutingAssembly().GetName().Name);
+
+            MainWindow = container.Resolve<MainWindow>();
+            MainWindow.Show();
         }
     }
 }

@@ -69,6 +69,9 @@
       <HintPath>..\packages\gong-wpf-dragdrop.0.1.4.3\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Humanizer">
+      <HintPath>..\packages\Humanizer.1.32.0\lib\portable-win+net40+sl50+wp8+wpa81\Humanizer.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA008\lib\net45\MahApps.Metro.dll</HintPath>
@@ -92,6 +95,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="ReactiveUI, Version=6.2.1.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -161,14 +167,17 @@
     <Compile Include="..\libs\FMODStudio\csharp\fmod_errors.cs">
       <Link>FMODStudio\fmod_errors.cs</Link>
     </Compile>
+    <Compile Include="Core\AppHelper.cs" />
     <Compile Include="Core\AssemblyExtensions.cs" />
     <Compile Include="Core\AttachedCommandBehavior.cs" />
     <Compile Include="Core\BaseListBox.cs" />
     <Compile Include="Core\BaseListView.cs" />
     <Compile Include="Core\DelegateCommand.cs" />
+    <Compile Include="Core\ExceptionExtensions.cs" />
     <Compile Include="Core\FolderBrowserHelper.cs" />
     <Compile Include="Core\FormattedSlider.cs" />
     <Compile Include="Core\KeyHandlerExtensions.cs" />
+    <Compile Include="Core\NLogLogger.cs" />
     <Compile Include="Core\Player\ChannelInfo.cs" />
     <Compile Include="Core\Player\EqualizerBand.cs" />
     <Compile Include="Core\SelectorHelper.cs" />
