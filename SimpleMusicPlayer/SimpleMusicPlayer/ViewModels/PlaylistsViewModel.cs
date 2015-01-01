@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,9 +34,13 @@ namespace SimpleMusicPlayer.ViewModels
             this.playerSettings = container.Resolve<PlayerSettings>();
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
 
+            this.LoadPlayListCommand = ReactiveCommand.CreateAsyncTask(x => this.LoadPlayListAsync());
+
+            this.HandleCommandLineArgsCommand = ReactiveCommand.CreateAsyncTask(x => this.HandleCommandLineArgsAsync(this.CommandLineArgs));
+
             this.WhenAnyValue(x => x.CommandLineArgs, list => list != null && list.Count > 1)
                             .Where(hasItems => hasItems)
-                            .Subscribe(b => this.HandleCommandLineArgsAsync(this.CommandLineArgs));
+                            .InvokeCommand(this.HandleCommandLineArgsCommand);
         }
 
         private ReactiveList<string> commandLineArgs;
@@ -45,6 +50,8 @@ namespace SimpleMusicPlayer.ViewModels
             get { return this.commandLineArgs; }
             set { this.RaiseAndSetIfChanged(ref commandLineArgs, value); }
         }
+
+        private ReactiveCommand<Unit> HandleCommandLineArgsCommand { get; set; }
 
         public FileSearchWorker FileSearchWorker { get; private set; }
 
@@ -398,7 +405,9 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public async void LoadPlayListAsync()
+        public ReactiveCommand<Unit> LoadPlayListCommand { get; private set; }
+
+        public async Task LoadPlayListAsync()
         {
             var playList = await PlayList.LoadAsync();
             if (playList != null)
@@ -407,16 +416,6 @@ namespace SimpleMusicPlayer.ViewModels
                 var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
                 this.FirstSimplePlaylistFiles = filesCollView;
                 ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
-
-                //        await Task.Factory
-                //                  .StartNew(() => {
-                //                    return filesCollView;
-                //                  })
-                //                  .ContinueWith(task => {
-                //                  },
-                //                                CancellationToken.None,
-                //                                TaskContinuationOptions.LongRunning,
-                //                                TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
 

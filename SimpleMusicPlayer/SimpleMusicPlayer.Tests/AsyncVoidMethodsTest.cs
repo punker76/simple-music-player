@@ -21,7 +21,7 @@ namespace SimpleMusicPlayer.Tests
                 .GetAsyncVoidMethods()
                 .Select(method =>
                     String.Format("'{0}.{1}' is an async void method.",
-                        method.DeclaringType.Name,
+                        method.DeclaringType.FullName,
                         method.Name))
                 .ToList();
             Assert.False(messages.Any(),
