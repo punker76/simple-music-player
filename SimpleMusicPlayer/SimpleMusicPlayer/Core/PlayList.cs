@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.Core
 {
@@ -16,13 +17,14 @@ namespace SimpleMusicPlayer.Core
 
         public static async Task<PlayList> LoadAsync()
         {
-            if (!File.Exists(PlayListFileName))
+            var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName);
+            if (!File.Exists(fileName))
             {
                 return null;
             }
             try
             {
-                using (StreamReader file = await Task.Run(() => File.OpenText(PlayListFileName)))
+                using (StreamReader file = await Task.Run(() => File.OpenText(fileName)))
                 {
                     var serializer = new JsonSerializer();
                     return (PlayList)serializer.Deserialize(file, typeof(PlayList));
@@ -39,7 +41,8 @@ namespace SimpleMusicPlayer.Core
         {
             try
             {
-                using (StreamWriter file = await Task.Run(() => File.CreateText(PlayListFileName)))
+                var fileName = await Task.Run(() => Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName));
+                using (StreamWriter file = await Task.Run(() => File.CreateText(fileName)))
                 {
                     file.AutoFlush = true;
                     var serializer = new JsonSerializer();

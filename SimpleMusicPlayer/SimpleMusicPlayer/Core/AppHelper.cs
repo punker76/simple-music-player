@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -26,6 +27,22 @@ namespace SimpleMusicPlayer.Core
             this.ApplicationStartedTime = DateTime.UtcNow;
             this.ApplicationName = appName;
 
+            // check where we can write
+            if (CanCreateFile("."))
+            {
+                var codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                var uri = new UriBuilder(codeBase);
+                var path = Uri.UnescapeDataString(uri.Path);
+                ApplicationPath = Path.GetDirectoryName(path);
+
+                NLogFileName = "${basedir}/logs/" + this.ApplicationName + ".${shortdate}.log";
+            }
+            else
+            {
+                ApplicationPath = ApplicationDataPath();
+                NLogFileName = Path.Combine(ApplicationDataPath(), "logs/") + this.ApplicationName + ".${shortdate}.log";
+            }
+
             this.ConfigureLogging();
 
             this.Log().Info("========================== {0} started ==========================", this.ApplicationName);
@@ -40,7 +57,11 @@ namespace SimpleMusicPlayer.Core
 
         public string ApplicationName { get; private set; }
 
+        public string ApplicationPath { get; private set; }
+
         public DateTime ApplicationStartedTime { get; private set; }
+
+        public string NLogFileName { get; private set; }
 
         private void LogMemoryUsageAndInfos(object state)
         {
@@ -150,15 +171,7 @@ namespace SimpleMusicPlayer.Core
 #endif
 
             // Step 3. Set target properties 
-            // check where we can write
-            if (CanCreateFile("."))
-            {
-                fileTarget.FileName = "${basedir}/logs/" + this.ApplicationName + ".${shortdate}.log";
-            }
-            else
-            {
-                fileTarget.FileName = Path.Combine(ApplicationDataPath(), "logs/") + this.ApplicationName + ".${shortdate}.log";
-            }
+            fileTarget.FileName = this.NLogFileName;
             fileTarget.KeepFileOpen = false;
             fileTarget.CreateDirs = true;
             fileTarget.ConcurrentWrites = true;
@@ -194,7 +207,7 @@ namespace SimpleMusicPlayer.Core
             return canCreate;
         }
 
-        public string ApplicationDataPath()
+        private string ApplicationDataPath()
         {
             var appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), this.ApplicationName);
             return appData;

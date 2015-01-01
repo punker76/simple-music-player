@@ -6,6 +6,7 @@ using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SimpleMusicPlayer.Core.Interfaces;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.Core.Player
 {
@@ -13,13 +14,14 @@ namespace SimpleMusicPlayer.Core.Player
     {
         public static PlayerSettings Update(this PlayerSettings settings)
         {
-            if (settings == null || !File.Exists(PlayerSettings.SettingsFileName))
+            var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayerSettings.SettingsFileName);
+            if (settings == null || !File.Exists(fileName))
             {
                 return settings;
             }
             try
             {
-                var jsonString = File.ReadAllText(PlayerSettings.SettingsFileName);
+                var jsonString = File.ReadAllText(fileName);
                 var fromThis = JsonConvert.DeserializeObject<PlayerSettings>(jsonString);
 
                 settings.MainWindow = fromThis.MainWindow;
@@ -50,8 +52,9 @@ namespace SimpleMusicPlayer.Core.Player
         {
             try
             {
+                var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, SettingsFileName);
                 var settingsAsJson = JsonConvert.SerializeObject(this, Formatting.Indented);
-                File.WriteAllText(SettingsFileName, settingsAsJson);
+                File.WriteAllText(fileName, settingsAsJson);
             }
             catch (Exception exception)
             {
