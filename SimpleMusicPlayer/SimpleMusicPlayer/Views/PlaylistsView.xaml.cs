@@ -29,7 +29,7 @@ namespace SimpleMusicPlayer.Views
 
                 this.Events().Loaded.Subscribe(e => {
                     vm.LoadPlayListAsync();
-                    vm.HandleCommandLineArgsAsync(Environment.GetCommandLineArgs().ToList());
+                    vm.CommandLineArgs = new ReactiveList<string>(Environment.GetCommandLineArgs());
                 });
 
                 var window = Window.GetWindow(this);

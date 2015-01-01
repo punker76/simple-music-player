@@ -37,7 +37,7 @@ namespace SimpleMusicPlayer
                 var vm = window.DataContext as SimpleMusicPlayer.ViewModels.MainViewModel;
                 if (vm != null)
                 {
-                    vm.PlayListsViewModel.HandleCommandLineArgsAsync(args.ToList());
+                    vm.PlayListsViewModel.CommandLineArgs = new ReactiveList<string>(args);
                 }
             }
             return true;
