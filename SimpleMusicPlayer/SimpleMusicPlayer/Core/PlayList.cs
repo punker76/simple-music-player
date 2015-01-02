@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Splat;
 using TinyIoC;
 
 namespace SimpleMusicPlayer.Core
@@ -17,13 +17,14 @@ namespace SimpleMusicPlayer.Core
 
         public static async Task<PlayList> LoadAsync()
         {
-            var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName);
-            if (!File.Exists(fileName))
-            {
-                return null;
-            }
             try
             {
+                var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName);
+                if (!File.Exists(fileName))
+                {
+                    return null;
+                }
+                LogHost.Default.Info("try loading play list from {0}", fileName);
                 using (StreamReader file = await Task.Run(() => File.OpenText(fileName)))
                 {
                     var serializer = new JsonSerializer();
@@ -32,27 +33,31 @@ namespace SimpleMusicPlayer.Core
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                return null;
+                LogHost.Default.ErrorException("could not load play list", ex);
             }
+            return null;
         }
 
-        public async Task SaveAsync()
+        public static bool Save(PlayList playList)
         {
             try
             {
-                var fileName = await Task.Run(() => Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName));
-                using (StreamWriter file = await Task.Run(() => File.CreateText(fileName)))
+                var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName);
+                LogHost.Default.Info("try saving play list to {0}", fileName);
+                using (StreamWriter file = File.CreateText(fileName))
                 {
                     file.AutoFlush = true;
                     var serializer = new JsonSerializer();
-                    serializer.Serialize(file, this);
+                    serializer.Serialize(file, playList);
                 }
+                LogHost.Default.Info("play list saved with {0} files", playList.Files.Count);
             }
-            catch (Exception ex)
+            catch (Exception exception)
             {
-                Debug.WriteLine(ex);
+                LogHost.Default.Error("could not save play list", exception);
+                return false;
             }
+            return true;
         }
     }
 }

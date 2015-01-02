@@ -28,8 +28,7 @@ namespace SimpleMusicPlayer.Views
             this.Events().PreviewKeyDown.Subscribe(this.ViewModel.HandlePreviewKeyDown);
 
             this.Events().Closed.InvokeCommand(this.ViewModel.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
-
-            this.Events().Closed.InvokeCommand(this.ViewModel.ShutDownCommand);
+            this.Events().Closed.Subscribe(x=>this.ViewModel.ShutDown());
         }
 
         public override IWindowPlacementSettings GetWindowPlacementSettings()

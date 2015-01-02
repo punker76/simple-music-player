@@ -34,25 +34,30 @@ namespace SimpleMusicPlayer.Core
                 var uri = new UriBuilder(codeBase);
                 var path = Uri.UnescapeDataString(uri.Path);
                 ApplicationPath = Path.GetDirectoryName(path);
-
-                NLogFileName = "${basedir}/logs/" + this.ApplicationName + ".${shortdate}.log";
             }
             else
             {
                 ApplicationPath = ApplicationDataPath();
-                NLogFileName = Path.Combine(ApplicationDataPath(), "logs/") + this.ApplicationName + ".${shortdate}.log";
             }
+            //this.NLogFileName = "${specialfolder:dir=logs:file=" + this.ApplicationName + ".${shortdate}.log:folder=" + this.ApplicationPath + "}";
+            this.NLogFileName = Path.Combine(this.ApplicationPath, "logs", this.ApplicationName + ".${shortdate}.log").Replace("\\", "/");
 
             this.ConfigureLogging();
 
             this.Log().Info("========================== {0} started ==========================", this.ApplicationName);
-            app.Exit += (sender, args) => this.Log().Info("========================== {0} stopped ==========================", this.ApplicationName);
 
             // setup exception handling
             this.ConfigureHandlingUnhandledExceptions();
 
             // configure timer (log all 10min == 600000ms)
             this.gcTimer = new Timer(this.LogMemoryUsageAndInfos, this.ApplicationStartedTime, 0, GCTimerPeriod);
+        }
+
+        public void OnExitApp(Application app)
+        {
+            this.gcTimer.Dispose();
+            this.LogMemoryUsageAndInfos(this.ApplicationStartedTime);
+            this.Log().Info("========================== {0} stopped ==========================", this.ApplicationName);
         }
 
         public string ApplicationName { get; private set; }
@@ -68,8 +73,8 @@ namespace SimpleMusicPlayer.Core
             var workingSetInMiB = Environment.WorkingSet / 1024f / 1024f;
             var gcTotalMemoryInMiB = GC.GetTotalMemory(true) / 1024f / 1024f;
             var uptime = (DateTime.UtcNow - this.ApplicationStartedTime).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s").Replace(":", " ");
-            this.Log().Info("{0} Memory-Usage (GC.GetTotalMemory(true)/Environment.WorkingSet): {1:.00}/{2:.00} MB of instance {3} (uptime: {4}))",
-                this.ApplicationName, workingSetInMiB, gcTotalMemoryInMiB, this.ApplicationStartedTime, uptime);
+            this.Log().Info("Memory-Usage (GC.GetTotalMemory(true)/Environment.WorkingSet): {0:.00}/{1:.00} MB of instance {2} (uptime: {3}))",
+                workingSetInMiB, gcTotalMemoryInMiB, this.ApplicationStartedTime, uptime);
         }
 
         private void ConfigureHandlingUnhandledExceptions()
@@ -171,9 +176,9 @@ namespace SimpleMusicPlayer.Core
 #endif
 
             // Step 3. Set target properties 
+            fileTarget.CreateDirs = true;
             fileTarget.FileName = this.NLogFileName;
             fileTarget.KeepFileOpen = false;
-            fileTarget.CreateDirs = true;
             fileTarget.ConcurrentWrites = true;
             fileTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
 

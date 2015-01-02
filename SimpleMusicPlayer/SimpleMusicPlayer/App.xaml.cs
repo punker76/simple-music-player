@@ -59,5 +59,13 @@ namespace SimpleMusicPlayer
             MainWindow = container.Resolve<MainWindow>();
             MainWindow.Show();
         }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            var container = TinyIoCContainer.Current;
+            container.Resolve<AppHelper>().OnExitApp(this);
+        }
     }
 }

@@ -32,8 +32,6 @@ namespace SimpleMusicPlayer.ViewModels
 
             this.PlayControlInfoViewModel = new PlayControlInfoViewModel(this);
 
-            this.ShutDownCommand = ReactiveCommand.CreateAsyncTask(x => this.ShutDown());
-
             this.PlayControlInfoViewModel.PlayControlViewModel.ShowMediaLibraryCommand.Subscribe(x => this.ShowMediaLibrary());
         }
 
@@ -73,17 +71,15 @@ namespace SimpleMusicPlayer.ViewModels
             System.Diagnostics.Process.Start("https://github.com/punker76/simple-music-player");
         }
 
-        public ReactiveCommand<Unit> ShutDownCommand { get; private set; }
-
-        private async Task ShutDown()
+        public void ShutDown()
         {
             foreach (var w in Application.Current.Windows.OfType<Window>())
             {
                 w.Close();
             }
             this.PlayerSettings.Save();
-            await this.PlayListsViewModel.SavePlayListAsync();
             this.PlayerEngine.CleanUp();
+            this.PlayListsViewModel.SavePlayList();
         }
 
         public bool HandleKeyDown(Key key)

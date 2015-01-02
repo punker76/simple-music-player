@@ -15,11 +15,12 @@ using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.Core.Player;
+using Splat;
 using TinyIoC;
 
 namespace SimpleMusicPlayer.ViewModels
 {
-    public class PlayListsViewModel : ReactiveObject, IDropTarget, IKeyHandler
+    public class PlayListsViewModel : ReactiveObject, IDropTarget, IKeyHandler, IEnableLogger
     {
         private ICommand deleteCommand;
         private ICommand playCommand;
@@ -34,13 +35,13 @@ namespace SimpleMusicPlayer.ViewModels
             this.playerSettings = container.Resolve<PlayerSettings>();
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
 
-            this.LoadPlayListCommand = ReactiveCommand.CreateAsyncTask(x => this.LoadPlayListAsync());
+            this.StartUpCommand = ReactiveCommand.CreateAsyncTask(x => this.StartUpAsync());
 
             this.HandleCommandLineArgsCommand = ReactiveCommand.CreateAsyncTask(x => this.HandleCommandLineArgsAsync(this.CommandLineArgs));
 
             this.WhenAnyValue(x => x.CommandLineArgs, list => list != null && list.Count > 1)
-                            .Where(hasItems => hasItems)
-                            .InvokeCommand(this.HandleCommandLineArgsCommand);
+                .Where(hasItems => hasItems)
+                .InvokeCommand(this.HandleCommandLineArgsCommand);
         }
 
         private ReactiveList<string> commandLineArgs;
@@ -371,6 +372,8 @@ namespace SimpleMusicPlayer.ViewModels
             // TODO take another search worker for multiple added files via command line (possible lost the command line files while searching...)
             if (!this.FileSearchWorker.IsWorking)
             {
+                this.Log().Info("handle {0} command line args", args.Count);
+
                 var files = await this.FileSearchWorker.StartSearchAsync(args);
 
                 var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
@@ -405,28 +408,31 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ReactiveCommand<Unit> LoadPlayListCommand { get; private set; }
+        public ReactiveCommand<Unit> StartUpCommand { get; private set; }
 
-        public async Task LoadPlayListAsync()
+        public async Task StartUpAsync()
         {
             var playList = await PlayList.LoadAsync();
             if (playList != null)
             {
+                this.Log().Info("show loaded play list with {0} files", playList.Files.Count);
                 var filesColl = new PlayListCollection(playList.Files);
                 var filesCollView = CollectionViewSource.GetDefaultView(filesColl);
                 this.FirstSimplePlaylistFiles = filesCollView;
                 ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
             }
+            await this.HandleCommandLineArgsAsync(Environment.GetCommandLineArgs().ToList());
         }
 
-        public async Task SavePlayListAsync()
+        public bool SavePlayList()
         {
             var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
             if (currentFilesCollView != null)
             {
                 var pl = new PlayList { Files = currentFilesCollView.SourceCollection.OfType<MediaFile>().ToList() };
-                await pl.SaveAsync();
+                return PlayList.Save(pl);
             }
+            return false;
         }
 
         private string playListItemTemplateKey;

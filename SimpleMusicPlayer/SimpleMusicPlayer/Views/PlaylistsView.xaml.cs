@@ -27,11 +27,7 @@ namespace SimpleMusicPlayer.Views
                 previewKeyDown.Where(x => x.Key == Key.Enter).InvokeCommand(vm.PlayCommand);
                 previewKeyDown.Where(x => x.Key == Key.Delete).InvokeCommand(vm.DeleteCommand);
 
-                var loadedObservable = this.Events().Loaded;
-                loadedObservable.InvokeCommand(vm.LoadPlayListCommand);
-                loadedObservable.Subscribe(e => {
-                    vm.CommandLineArgs = new ReactiveList<string>(Environment.GetCommandLineArgs());
-                });
+                this.Events().Loaded.InvokeCommand(vm.StartUpCommand);
 
                 var window = Window.GetWindow(this);
                 if (window != null)
