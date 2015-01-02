@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -29,7 +30,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public PlayListsViewModel()
         {
-            this.FileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
+            this.FileSearchWorker = new FileSearchWorker("PlayList", MediaFile.GetMediaFileViewModel);
             var container = TinyIoCContainer.Current;
             this.playerEngine = container.Resolve<PlayerEngine>();
             this.playerSettings = container.Resolve<PlayerSettings>();
@@ -37,11 +38,12 @@ namespace SimpleMusicPlayer.ViewModels
 
             this.StartUpCommand = ReactiveCommand.CreateAsyncTask(x => this.StartUpAsync());
 
-            this.HandleCommandLineArgsCommand = ReactiveCommand.CreateAsyncTask(x => this.HandleCommandLineArgsAsync(this.CommandLineArgs));
-
-            this.WhenAnyValue(x => x.CommandLineArgs, list => list != null && list.Count > 1)
-                .Where(hasItems => hasItems)
-                .InvokeCommand(this.HandleCommandLineArgsCommand);
+            // handle command line args from another instance
+            this.WhenAnyValue(x => x.CommandLineArgs)
+                .Where(list => list != null && list.Skip(1).Any())
+                .Select(list => list.Skip(1).ToList())
+                .SelectMany(list => this.HandleCommandLineArgsAsync(list).ToObservable())
+                .Subscribe();
         }
 
         private ReactiveList<string> commandLineArgs;
@@ -51,8 +53,6 @@ namespace SimpleMusicPlayer.ViewModels
             get { return this.commandLineArgs; }
             set { this.RaiseAndSetIfChanged(ref commandLineArgs, value); }
         }
-
-        private ReactiveCommand<Unit> HandleCommandLineArgsCommand { get; set; }
 
         public FileSearchWorker FileSearchWorker { get; private set; }
 
@@ -324,13 +324,13 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public void Drop(IDropInfo dropInfo)
+        public async void Drop(IDropInfo dropInfo)
         {
             var dataObject = dropInfo.Data as DataObject;
             // look for drag&drop new files
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
-                this.HandleDropActionAsync(dropInfo, dataObject.GetFileDropList());
+                await this.HandleDropActionAsync(dropInfo, dataObject.GetFileDropList());
             }
             else
             {
@@ -343,7 +343,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        private async void HandleDropActionAsync(IDropInfo dropInfo, IList fileOrDirDropList)
+        private async Task HandleDropActionAsync(IDropInfo dropInfo, IList fileOrDirDropList)
         {
             if (!this.FileSearchWorker.IsWorking)
             {
@@ -404,7 +404,10 @@ namespace SimpleMusicPlayer.ViewModels
                     }
                 }
 
+                this.Log().Debug("set scroll index to {0}", newScrollIndex);
                 this.ScrollIndex = newScrollIndex;
+
+                this.CommandLineArgs = null;
             }
         }
 
@@ -421,7 +424,11 @@ namespace SimpleMusicPlayer.ViewModels
                 this.FirstSimplePlaylistFiles = filesCollView;
                 ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
             }
-            await this.HandleCommandLineArgsAsync(Environment.GetCommandLineArgs().ToList());
+            var args = await Task.Run(() => Environment.GetCommandLineArgs().Skip(1).ToList());
+            if (args.Any())
+            {
+                await this.HandleCommandLineArgsAsync(args);
+            }
         }
 
         public bool SavePlayList()

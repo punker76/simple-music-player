@@ -21,7 +21,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public MedialibViewModel()
         {
-            this.FileSearchWorker = new FileSearchWorker(MediaFile.GetMediaFileViewModel);
+            this.FileSearchWorker = new FileSearchWorker("Medialib", MediaFile.GetMediaFileViewModel);
             playerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(playerSettings.Medialib);
             this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));

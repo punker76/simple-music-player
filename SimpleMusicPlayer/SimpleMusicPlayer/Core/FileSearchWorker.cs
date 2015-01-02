@@ -8,21 +8,27 @@ using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
 using SimpleMusicPlayer.Core.Interfaces;
+using Splat;
 
 namespace SimpleMusicPlayer.Core
 {
-    public class FileSearchWorker : ReactiveObject
+    public class FileSearchWorker : ReactiveObject, IEnableLogger
     {
         private readonly string[] extensions = new[] { ".mp3", ".wma", ".ogg", ".wav" };
+        private readonly string name;
         // action for media file creation
         private readonly Func<string, IMediaFile> createMediaFileFunc;
 
-        public FileSearchWorker(Func<string, IMediaFile> createMediaFileFunc)
+        public FileSearchWorker(string aName, Func<string, IMediaFile> createMediaFileFunc)
         {
+            this.name = aName;
             this.createMediaFileFunc = createMediaFileFunc;
 
+            this.WhenAnyValue(x => x.IsWorking)
+                .Subscribe(b => this.Log().Debug("({0}) IsWorking={1}", this.name, b));
+
             this.StopSearchCmd = ReactiveCommand.Create(this.WhenAny(x => x.IsWorking, x => x.CancelToken,
-                                                                      (isworking, canceltoken) => isworking.Value && canceltoken.Value != null));
+                                                                     (isworking, canceltoken) => isworking.Value && canceltoken.Value != null));
             this.StopSearchCmd.Subscribe(_ => this.CancelToken.Cancel());
         }
 
@@ -84,7 +90,7 @@ namespace SimpleMusicPlayer.Core
                       catch (Exception e)
                       {
                           // System.UnauthorizedAccessException
-                          Console.WriteLine(e);
+                          this.Log().ErrorException("EnumerateDirectories", e);
                       }
                   }
                   foreach (var rawDir in directories.Distinct().OrderBy(s => s).TakeWhile(rawDir => !token.IsCancellationRequested))
@@ -117,10 +123,14 @@ namespace SimpleMusicPlayer.Core
                         }
                     }
                 }
+                catch (System.UnauthorizedAccessException e)
+                {
+                    this.Log().ErrorException("EnumerateFiles", e);
+                    break;
+                }
                 catch (Exception e)
                 {
-                    // System.UnauthorizedAccessException
-                    Console.WriteLine(e);
+                    this.Log().ErrorException("EnumerateFiles", e);
                 }
             }
         }
@@ -135,14 +145,10 @@ namespace SimpleMusicPlayer.Core
                 }
                 catch (Exception e)
                 {
-                    var em = e.Message;
-                    return null;
+                    this.Log().ErrorException("GetMediaFile for " + fileName, e);
                 }
             }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         private bool IsAudioFile(string fileName)

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Windows;
@@ -8,10 +7,11 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 using ReactiveUI;
+using Splat;
 
 namespace SimpleMusicPlayer.Core
 {
-    public class BaseListBox : ListBox
+    public class BaseListBox : ListBox, IEnableLogger
     {
         public static readonly DependencyProperty ObserveItemContainerGeneratorProperty
             = DependencyProperty.Register("ObserveItemContainerGenerator",
@@ -44,7 +44,11 @@ namespace SimpleMusicPlayer.Core
                 .Subscribe(canScroll => {
                     if (canScroll)
                     {
-                        this.ScrollIntoView(this.Items[this.ScrollIndex]);
+                        Action scrollAction = () => {
+                            this.Log().Debug("scroll into view for {0}", this.ScrollIndex);
+                            this.ScrollIntoView(this.Items[this.ScrollIndex]);
+                        };
+                        this.Dispatcher.BeginInvoke(DispatcherPriority.Background, scrollAction);
                     }
                 });
 
@@ -62,7 +66,7 @@ namespace SimpleMusicPlayer.Core
         private void FocusSelectedItem()
         {
             if (this.ItemContainerGenerator.Status != GeneratorStatus.ContainersGenerated) return;
-            Debug.WriteLine(">>>>>>>status changed");
+            this.Log().Debug("ItemContainerGenerator status changed");
             if (this.Items.Count == 0) return;
             var index = this.SelectedIndex;
             if (index < 0) return;
@@ -76,7 +80,7 @@ namespace SimpleMusicPlayer.Core
                 var item = this.ItemContainerGenerator.ContainerFromIndex(index) as ListBoxItem;
                 if (item == null) return;
                 item.Focus();
-                Debug.WriteLine(">>>>>>>focus selected item");
+                this.Log().Debug("focus selected item {0} / {1}", index, item);
             };
             this.Dispatcher.BeginInvoke(DispatcherPriority.Background, focusAction);
         }
