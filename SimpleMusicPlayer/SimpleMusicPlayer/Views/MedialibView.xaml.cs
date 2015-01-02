@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using MahApps.Metro.Controls;
@@ -30,7 +31,7 @@ namespace SimpleMusicPlayer.Views
                                         .Subscribe(vm => {
                                             this.Events().Closed.InvokeCommand(vm.FileSearchWorker.StopSearchCmd);
                                             this.Events().PreviewDragEnter.Merge(this.Events().PreviewDragOver).Subscribe(vm.OnDragOverAction);
-                                            this.Events().PreviewDrop.Subscribe(async e => await vm.OnDropAction(e));
+                                            this.Events().PreviewDrop.SelectMany(x => vm.OnDropAction(x).ToObservable()).Subscribe();
                                         }));
         }
 

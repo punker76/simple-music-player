@@ -2,11 +2,11 @@
 using System.Collections;
 using System.ComponentModel;
 using System.Linq;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Input;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
@@ -114,7 +114,7 @@ namespace SimpleMusicPlayer.ViewModels
             set { this.RaiseAndSetIfChanged(ref selectedAlbum, value); }
         }
 
-        public ICommand AddDirectoryCommand { get; protected set; }
+        public ReactiveCommand<Unit> AddDirectoryCommand { get; protected set; }
 
         private async Task AddDirectoryAsync()
         {
