@@ -2,6 +2,8 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/kvdccylonj7qjnkw/branch/master?svg=true)](https://ci.appveyor.com/project/punker76/simple-music-player/branch/master)
 
+[![Gitter chat](https://badges.gitter.im/punker76/simple-music-player.png)](https://gitter.im/punker76/simple-music-player)
+
 This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
 
 **SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
@@ -42,13 +44,23 @@ It's not perfect and many function not yet implemented.
 	+ if you link with supported media files, the player loads the new files and play the first file from the added files
 + Tooltip on playlist files
 
-## Ideas? Bugs?
-
-[![Gitter chat](https://badges.gitter.im/punker76/simple-music-player.png)](https://gitter.im/punker76/simple-music-player)
-
 ## Download
 
-- [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/download/v1.9.0.13/smp_1.9.0.13.zip)
+- [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.13)
+- [v1.9.0.14](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.14)
+
+## Used libs
+
+- [gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)
+- [MahApps.Metro](https://github.com/MahApps/MahApps.Metro)
+- [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
+- [NLog](https://github.com/NLog/NLog)
+- [QuickIO.NET](http://quickio.azurewebsites.net/)
+- [ReactiveUI](https://github.com/reactiveui/ReactiveUI)
+- [Rx (Reactive Extensions)](http://rx.codeplex.com/)
+- [Splat](https://github.com/paulcbetts/splat)
+- [TinyIoC](https://github.com/grumpydev/TinyIoC)
+- [xunit](https://github.com/xunit/xunit)
 
 ## Screen shots (milestones)
 
