@@ -106,6 +106,10 @@
       <HintPath>..\packages\reactiveui-events.6.2.1.1\lib\net45\ReactiveUI.Events.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SchwabenCode.QuickIO">
+      <HintPath>..\packages\QuickIO.NET.2.0.1.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.5.1\lib\Net45\Splat.dll</HintPath>
       <Private>False</Private>
@@ -395,6 +399,11 @@
   <ItemGroup>
     <EmbeddedResource Include="..\packages\NLog.3.1.0.0\lib\net45\NLog.dll">
       <Link>DllsAsResource\NLog.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\QuickIO.NET.2.0.1.0\lib\net45\SchwabenCode.QuickIO.dll">
+      <Link>DllsAsResource\SchwabenCode.QuickIO.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

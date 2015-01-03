@@ -4,9 +4,11 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using ReactiveUI;
+using SchwabenCode.QuickIO;
 using SimpleMusicPlayer.Core.Interfaces;
 using Splat;
 
@@ -14,7 +16,7 @@ namespace SimpleMusicPlayer.Core
 {
     public class FileSearchWorker : ReactiveObject, IEnableLogger
     {
-        private readonly string[] extensions = new[] { ".mp3", ".wma", ".ogg", ".wav" };
+        private readonly Regex searchPattern = new Regex(@"\.mp3|\.wma|\.ogg|\.wav", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private readonly string name;
         // action for media file creation
         private readonly Func<string, IMediaFile> createMediaFileFunc;
@@ -82,20 +84,15 @@ namespace SimpleMusicPlayer.Core
                   var directories = new List<string>();
                   foreach (var source in filesOrDirsCollection.OfType<string>().Except(rawFiles).Where(IsDirectory).TakeWhile(source => !token.IsCancellationRequested))
                   {
-                      directories.Add(source);
-                      try
-                      {
-                          directories.AddRange(Directory.EnumerateDirectories(source, "*", SearchOption.AllDirectories).TakeWhile(dir => !token.IsCancellationRequested));
-                      }
-                      catch (Exception e)
-                      {
-                          // System.UnauthorizedAccessException
-                          this.Log().ErrorException("EnumerateDirectories", e);
-                      }
+                      directories.AddRange(GetSubFolders(token, source));
                   }
-                  foreach (var rawDir in directories.Distinct().OrderBy(s => s).TakeWhile(rawDir => !token.IsCancellationRequested))
+
+                  var orderedDirs = directories.Distinct().OrderBy(s => s);
+                  this.Log().Debug("search for files in {0} directories (sub directories included)", orderedDirs.Count());
+
+                  foreach (var rawDir in orderedDirs.TakeWhile(rawDir => !token.IsCancellationRequested))
                   {
-                      this.doFindFiles(token, rawDir, results);
+                      this.DoFindFiles(token, rawDir, results);
                   }
 
                   return results;
@@ -108,36 +105,49 @@ namespace SimpleMusicPlayer.Core
             return mediaFiles;
         }
 
-        private void doFindFiles(CancellationToken token, string dir, ConcurrentQueue<IMediaFile> results)
+        private IEnumerable<string> GetSubFolders(CancellationToken token, string source)
         {
-            foreach (var extension in this.extensions.TakeWhile(rawDir => !token.IsCancellationRequested))
+            var directories = new List<string>();
+            try
             {
-                try
+                directories.Add(source);
+                var allSubFolders = QuickIODirectory.EnumerateDirectories(source);
+                foreach (var subFolder in allSubFolders.TakeWhile(rawDir => !token.IsCancellationRequested))
                 {
-                    foreach (var file in Directory.EnumerateFiles(dir, "*" + extension).TakeWhile(rawDir => !token.IsCancellationRequested))
+                    directories.AddRange(GetSubFolders(token, subFolder.FullName));
+                }
+            }
+            catch (Exception e)
+            {
+                this.Log().ErrorException("EnumerateDirectories", e);
+            }
+            return directories;
+        }
+
+        private void DoFindFiles(CancellationToken token, string dir, ConcurrentQueue<IMediaFile> results)
+        {
+            try
+            {
+                var allFiles = QuickIODirectory.EnumerateFiles(dir, "*", SearchOption.TopDirectoryOnly)
+                                               .Where(f => this.IsAudioFile(f.Name));
+                foreach (var file in allFiles.TakeWhile(rawDir => !token.IsCancellationRequested))
+                {
+                    var mf = this.GetMediaFile(file.FullName);
+                    if (mf != null)
                     {
-                        var mf = this.GetMediaFile(file);
-                        if (mf != null)
-                        {
-                            results.Enqueue(mf);
-                        }
+                        results.Enqueue(mf);
                     }
                 }
-                catch (System.UnauthorizedAccessException e)
-                {
-                    this.Log().ErrorException("EnumerateFiles", e);
-                    break;
-                }
-                catch (Exception e)
-                {
-                    this.Log().ErrorException("EnumerateFiles", e);
-                }
+            }
+            catch (Exception exception)
+            {
+                this.Log().ErrorException("EnumerateFiles", exception);
             }
         }
 
         private IMediaFile GetMediaFile(string fileName)
         {
-            if (this.IsAudioFile(fileName) && this.createMediaFileFunc != null)
+            if (this.createMediaFileFunc != null)
             {
                 try
                 {
@@ -154,12 +164,12 @@ namespace SimpleMusicPlayer.Core
         private bool IsAudioFile(string fileName)
         {
             var ext = Path.GetExtension(fileName);
-            return !string.IsNullOrEmpty(ext) && this.extensions.Contains(ext.ToLower());
+            return !string.IsNullOrEmpty(ext) && searchPattern.IsMatch(ext);
         }
 
         private static bool IsDirectory(string dirName)
         {
-            return Directory.Exists(dirName);
+            return QuickIODirectory.Exists(dirName);
         }
     }
 }
