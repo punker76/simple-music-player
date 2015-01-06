@@ -27,7 +27,7 @@ namespace SimpleMusicPlayer.Views
                 previewKeyDown.Where(x => x.Key == Key.Enter).InvokeCommand(vm.PlayCommand);
                 previewKeyDown.Where(x => x.Key == Key.Delete).InvokeCommand(vm.DeleteCommand);
 
-                this.Events().Loaded.InvokeCommand(vm.StartUpCommand);
+                this.Events().Loaded.Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler).InvokeCommand(vm.StartUpCommand);
 
                 var window = Window.GetWindow(this);
                 if (window != null)
