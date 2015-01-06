@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using ReactiveUI;
+using SchwabenCode.QuickIO;
 using SimpleMusicPlayer.Core.Interfaces;
+using Splat;
 using TinyIoC;
 
 namespace SimpleMusicPlayer.Core.Player
@@ -14,14 +15,15 @@ namespace SimpleMusicPlayer.Core.Player
     {
         public static PlayerSettings Update(this PlayerSettings settings)
         {
-            var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayerSettings.SettingsFileName);
-            if (settings == null || !File.Exists(fileName))
-            {
-                return settings;
-            }
             try
             {
-                var jsonString = File.ReadAllText(fileName);
+                var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayerSettings.SettingsFileName);
+                if (settings == null || !QuickIOFile.Exists(fileName))
+                {
+                    return settings;
+                }
+                LogHost.Default.Info("loading player settings from {0}", fileName);
+                var jsonString = QuickIOFile.ReadAllText(fileName);
                 var fromThis = JsonConvert.DeserializeObject<PlayerSettings>(jsonString);
 
                 settings.MainWindow = fromThis.MainWindow;
@@ -30,7 +32,7 @@ namespace SimpleMusicPlayer.Core.Player
             }
             catch (Exception exception)
             {
-                Debug.WriteLine(exception);
+                LogHost.Default.ErrorException("could not load player settings", exception);
             }
             return settings;
         }
@@ -53,12 +55,13 @@ namespace SimpleMusicPlayer.Core.Player
             try
             {
                 var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, SettingsFileName);
+                LogHost.Default.Info("saving player settings to {0}", fileName);
                 var settingsAsJson = JsonConvert.SerializeObject(this, Formatting.Indented);
-                File.WriteAllText(fileName, settingsAsJson);
+                QuickIOFile.WriteAllText(fileName, settingsAsJson);
             }
             catch (Exception exception)
             {
-                Debug.WriteLine(exception);
+                LogHost.Default.Error("could not save player settings", exception);
             }
         }
 

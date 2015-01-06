@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SchwabenCode.QuickIO;
 using Splat;
 using TinyIoC;
 
@@ -20,12 +21,12 @@ namespace SimpleMusicPlayer.Core
             try
             {
                 var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName);
-                if (!File.Exists(fileName))
+                if (!QuickIOFile.Exists(fileName))
                 {
                     return null;
                 }
                 LogHost.Default.Info("try loading play list from {0}", fileName);
-                using (StreamReader file = await Task.Run(() => File.OpenText(fileName)))
+                using (StreamReader file = await Task.Run(() => QuickIOFile.OpenText(fileName)))
                 {
                     var serializer = new JsonSerializer();
                     return (PlayList)serializer.Deserialize(file, typeof(PlayList));
@@ -44,7 +45,7 @@ namespace SimpleMusicPlayer.Core
             {
                 var fileName = Path.Combine(TinyIoCContainer.Current.Resolve<AppHelper>().ApplicationPath, PlayListFileName);
                 LogHost.Default.Info("try saving play list to {0}", fileName);
-                using (StreamWriter file = File.CreateText(fileName))
+                using (StreamWriter file = QuickIOFile.CreateText(fileName))
                 {
                     file.AutoFlush = true;
                     var serializer = new JsonSerializer();
