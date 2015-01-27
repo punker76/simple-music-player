@@ -33,12 +33,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MahApps.Metro">
+      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA028\lib\net45\MahApps.Metro.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA008\lib\net45\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro.SimpleChildWindow">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\libs\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
@@ -70,8 +70,9 @@
     <Reference Include="System.Reactive.Windows.Threading">
       <HintPath>..\packages\Rx-XAML.2.2.5\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA008\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    <Reference Include="System.Windows.Interactivity">
+      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA028\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -98,7 +99,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SimpleMusicPlayer\SimpleMusicPlayer.csproj">
       <Project>{06e30367-00ac-4fc1-8a4f-13a98cbd441d}</Project>
-      <Name>SimpleMusicPlayer</Name>
+        <Name>SimpleMusicPlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
