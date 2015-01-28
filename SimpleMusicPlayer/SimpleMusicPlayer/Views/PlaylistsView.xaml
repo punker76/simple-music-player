@@ -19,24 +19,10 @@
 
         <VisualBrush x:Key="VisualBrushPlay"
                      Stretch="Fill"
-                     Visual="{StaticResource appbar_play}" />
+                     Visual="{StaticResource appbar_play_new}" />
         <VisualBrush x:Key="VisualBrushPause"
-                     Stretch="Fill">
-            <VisualBrush.Visual>
-                <Canvas Width="48"
-                        Height="48"
-                        Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
-                        UseLayoutRounding="False">
-                    <Path Width="12"
-                          Height="18"
-                          Canvas.Left="18"
-                          Canvas.Top="15"
-                          Stretch="Fill"
-                          Fill="{DynamicResource BlackBrush}"
-                          Data="M0,0 L4,0 4,18 0,18 0,0 z M8,0 L12,0 12,18 8,18 8,0 z" />
-                </Canvas>
-            </VisualBrush.Visual>
-        </VisualBrush>
+                     Stretch="Fill"
+                     Visual="{StaticResource appbar_pause_new}" />
 
         <DataTemplate x:Key="PlayListToolTipDataTemplate"
                       DataType="{x:Type models:MediaFile}">
@@ -143,36 +129,23 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0"
-                      Margin="-1,0,0,1"
-                      Opacity="0.8">
-                    <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}">
-                        <Ellipse Margin="0,0,2,0"
-                                 Stroke="{DynamicResource TextBrush}"
-                                 StrokeThickness="1"
-                                 Height="18"
-                                 Width="18" />
-                        <Rectangle Margin="0,0,0,0"
-                                   Width="8"
-                                   Height="8"
-                                   VerticalAlignment="Center"
-                                   Fill="{StaticResource VisualBrushPlay}">
-                        </Rectangle>
-                    </Grid>
-                    <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}">
-                        <Ellipse Margin="0,0,2,0"
-                                 Stroke="{DynamicResource TextBrush}"
-                                 StrokeThickness="1"
-                                 Height="18"
-                                 Width="18" />
-                        <Rectangle Margin="-2,0,0,0"
-                                   Width="6"
-                                   Height="8"
-                                   VerticalAlignment="Center"
-                                   Fill="{StaticResource VisualBrushPause}">
-                        </Rectangle>
-                    </Grid>
+                      Margin="-1,0,0,1">
+                    <Rectangle Margin="0"
+                               Width="16"
+                               Height="16"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
+                               OpacityMask="{StaticResource VisualBrushPlay}"
+                               Fill="{StaticResource PlayListIconBrush}" />
+                    <Rectangle Margin="0"
+                               Width="16"
+                               Height="16"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
+                               OpacityMask="{StaticResource VisualBrushPause}"
+                               Fill="{DynamicResource PlayListIconBrush}" />
                 </Grid>
 
                 <TextBlock Grid.Column="1"
@@ -210,34 +183,23 @@
 
                 <Grid Grid.Column="0"
                       Grid.RowSpan="2"
-                      Margin="-1,0,0,1"
-                      Opacity="0.8">
-                    <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}">
-                        <Ellipse Stroke="{DynamicResource TextBrush}"
-                                 StrokeThickness="1"
-                                 Height="18"
-                                 Width="18" />
-                        <Rectangle Margin="2,1,0,0"
-                                   Width="8"
-                                   Height="8"
-                                   VerticalAlignment="Center"
-                                   Fill="{StaticResource VisualBrushPlay}">
-                        </Rectangle>
-                    </Grid>
-                    <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}">
-                        <Ellipse Stroke="{DynamicResource TextBrush}"
-                                 StrokeThickness="1"
-                                 Height="18"
-                                 Width="18" />
-                        <Rectangle Margin="0,0,0,0"
-                                   Width="8"
-                                   Height="8"
-                                   VerticalAlignment="Center"
-                                   Fill="{StaticResource VisualBrushPause}">
-                        </Rectangle>
-                    </Grid>
+                      Margin="-1,0,0,0">
+                    <Rectangle Margin="0"
+                               Width="20"
+                               Height="20"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
+                               OpacityMask="{StaticResource VisualBrushPlay}"
+                               Fill="{StaticResource PlayListIconBrush}" />
+                    <Rectangle Margin="0"
+                               Width="20"
+                               Height="20"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
+                               OpacityMask="{StaticResource VisualBrushPause}"
+                               Fill="{DynamicResource PlayListIconBrush}" />
                 </Grid>
 
                 <TextBlock Grid.Column="1"
@@ -290,34 +252,23 @@
 
                 <Grid Grid.Column="0"
                       Grid.RowSpan="2"
-                      Margin="-1,0,0,1"
-                      Opacity="0.8">
-                    <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}">
-                        <Ellipse Stroke="{DynamicResource TextBrush}"
-                                 StrokeThickness="1"
-                                 Height="28"
-                                 Width="28" />
-                        <Rectangle Margin="2,1,0,0"
-                                   Width="10"
-                                   Height="10"
-                                   VerticalAlignment="Center"
-                                   Fill="{StaticResource VisualBrushPlay}">
-                        </Rectangle>
-                    </Grid>
-                    <Grid VerticalAlignment="Center"
-                          Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}">
-                        <Ellipse Stroke="{DynamicResource TextBrush}"
-                                 StrokeThickness="1"
-                                 Height="28"
-                                 Width="28" />
-                        <Rectangle Margin="0,0,0,0"
-                                   Width="10"
-                                   Height="10"
-                                   VerticalAlignment="Center"
-                                   Fill="{StaticResource VisualBrushPause}">
-                        </Rectangle>
-                    </Grid>
+                      Margin="-1,0,0,1">
+                    <Rectangle Margin="0"
+                               Width="32"
+                               Height="32"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
+                               OpacityMask="{StaticResource VisualBrushPlay}"
+                               Fill="{StaticResource PlayListIconBrush}" />
+                    <Rectangle Margin="0"
+                               Width="32"
+                               Height="32"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
+                               OpacityMask="{StaticResource VisualBrushPause}"
+                               Fill="{DynamicResource PlayListIconBrush}" />
                 </Grid>
 
                 <TextBlock Grid.Column="1"
