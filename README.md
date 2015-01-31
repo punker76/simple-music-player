@@ -49,7 +49,7 @@ It's not perfect and many function not yet implemented.
 - [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.13)
 - [v1.9.0.14](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.14)
 
-## Used libs
+## Libs that I used
 
 - [gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)
 - [MahApps.Metro](https://github.com/MahApps/MahApps.Metro)
@@ -61,6 +61,14 @@ It's not perfect and many function not yet implemented.
 - [Splat](https://github.com/paulcbetts/splat)
 - [TinyIoC](https://github.com/grumpydev/TinyIoC)
 - [xunit](https://github.com/xunit/xunit)
+
+## Icons
+
+Most Icons are taken (inspired) from (thx @Templarian)
+
+- [Windows Icons](https://github.com/Templarian/WindowsIcons) -> [modernuiicons](http://modernuiicons.com)
+- [Material Design](https://github.com/Templarian/MaterialDesign) -> [materialdesignicons.com](http://materialdesignicons.com/)
+- [Metrize Icons](http://www.alessioatzeni.com/metrize-icons/) by [Alessio Atzeni](https://twitter.com/Bluxart) @Bluxart
 
 ## Screen shots (milestones)
 
