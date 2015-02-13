@@ -106,7 +106,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="SchwabenCode.QuickIO">
-      <HintPath>..\packages\QuickIO.NET.2.0.1.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
+      <HintPath>..\packages\QuickIO.NET.2.6.1.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Splat">
@@ -390,11 +390,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\QuickIO.NET.2.0.1.0\lib\net45\SchwabenCode.QuickIO.dll">
-      <Link>DllsAsResource\SchwabenCode.QuickIO.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\libs\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll">
       <Link>DllsAsResource\MahApps.Metro.SimpleChildWindow.dll</Link>
     </EmbeddedResource>
@@ -405,6 +400,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\MahApps.Metro.1.0.1-ALPHA028\lib\net45\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\QuickIO.NET.2.6.1.0\lib\net45\SchwabenCode.QuickIO.dll">
+      <Link>DllsAsResource\SchwabenCode.QuickIO.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

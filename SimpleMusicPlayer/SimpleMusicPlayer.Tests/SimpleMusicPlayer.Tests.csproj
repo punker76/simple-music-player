@@ -47,8 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\reactiveui-core.6.2.1.1\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="SchwabenCode.QuickIO">
-      <HintPath>..\packages\QuickIO.NET.2.0.1.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
+    <Reference Include="SchwabenCode.QuickIO, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\QuickIO.NET.2.6.1.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
     </Reference>
     <Reference Include="Splat">
       <HintPath>..\packages\Splat.1.5.1\lib\Net45\Splat.dll</HintPath>
@@ -99,7 +100,7 @@
   <ItemGroup>
     <ProjectReference Include="..\SimpleMusicPlayer\SimpleMusicPlayer.csproj">
       <Project>{06e30367-00ac-4fc1-8a4f-13a98cbd441d}</Project>
-        <Name>SimpleMusicPlayer</Name>
+      <Name>SimpleMusicPlayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
