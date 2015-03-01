@@ -70,11 +70,11 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
-      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA028\lib\net45\MahApps.Metro.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.1.1.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro.SimpleChildWindow">
-      <HintPath>..\libs\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.SimpleChildWindow.1.1.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -139,7 +139,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.0.1-ALPHA028\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.1.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xaml">
@@ -366,19 +366,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\libs\MahApps.Metro.SimpleChildWindow.1.0.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll">
-      <Link>DllsAsResource\MahApps.Metro.SimpleChildWindow.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.1.0.1-ALPHA028\lib\net45\MahApps.Metro.dll">
-      <Link>DllsAsResource\MahApps.Metro.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.1.0.1-ALPHA028\lib\net45\System.Windows.Interactivity.dll">
-      <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\QuickIO.NET.2.6.1.0\lib\net45\SchwabenCode.QuickIO.dll">
       <Link>DllsAsResource\SchwabenCode.QuickIO.dll</Link>
     </EmbeddedResource>
@@ -402,6 +389,17 @@
     </EmbeddedResource>
     <EmbeddedResource Include="..\packages\Splat.1.6.0\lib\Net45\Splat.dll">
       <Link>DllsAsResource\Splat.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.1.1.1.0\lib\net45\MahApps.Metro.dll">
+      <Link>DllsAsResource\MahApps.Metro.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.1.1.1.0\lib\net45\System.Windows.Interactivity.dll">
+      <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.SimpleChildWindow.1.1.0.0\lib\net45\MahApps.Metro.SimpleChildWindow.dll">
+      <Link>DllsAsResource\MahApps.Metro.SimpleChildWindow.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

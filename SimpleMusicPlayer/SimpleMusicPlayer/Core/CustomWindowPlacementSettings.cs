@@ -15,12 +15,18 @@ namespace SimpleMusicPlayer.Core
 
         public WINDOWPLACEMENT? Placement { get; set; }
 
+        public bool UpgradeSettings { get; set; }
+
         public void Reload()
         {
             if (this.windowPlacementSetting != null)
             {
                 this.Placement = this.windowPlacementSetting.Placement;
             }
+        }
+
+        public void Upgrade()
+        {
         }
 
         public void Save()
