@@ -44,10 +44,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\reactiveui-core.6.4.0.1\lib\Net45\ReactiveUI.dll</HintPath>
     </Reference>
-    <Reference Include="SchwabenCode.QuickIO, Version=2.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\QuickIO.NET.2.6.1.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
-    </Reference>
     <Reference Include="Splat, Version=1.6.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Splat.1.6.0\lib\Net45\Splat.dll</HintPath>
