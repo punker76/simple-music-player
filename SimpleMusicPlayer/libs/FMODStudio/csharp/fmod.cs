@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010508;
+        public const int    number = 0x00010514;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -340,7 +340,6 @@ namespace FMOD
         FMOD_Debug_Initialize
     ]
     */
-    [Flags]
     public enum DEBUG_MODE : int
     {
         TTY,        /* Default log location per platform, i.e. Visual Studio output window, stderr, LogCat, etc */
@@ -364,7 +363,7 @@ namespace FMOD
     ]
     */
     [Flags]
-    public enum DEBUG_FLAGS : int
+    public enum DEBUG_FLAGS : uint
     {
         NONE                    = 0x00000000,   /* Disable all messages */
         ERROR                   = 0x00000001,   /* Enable only error messages. */
@@ -564,7 +563,7 @@ namespace FMOD
     ]
     */
     [Flags]
-    public enum CHANNELMASK : int
+    public enum CHANNELMASK : uint
     {
         FRONT_LEFT             = 0x00000001,
         FRONT_RIGHT            = 0x00000002,
@@ -664,19 +663,26 @@ namespace FMOD
     }
 
     /*
-    [ENUM]
+    [DEFINE]
     [
+        [NAME]
+        FMOD_INITFLAGS
+
         [DESCRIPTION]
-        Initialization flags.  Use them with System::init in the flags parameter to change various behaviour.
+        Initialization flags.  Use them with System::init in the *flags* parameter to change various behavior.
 
         [REMARKS]
+        Use System::setAdvancedSettings to adjust settings for some of the features that are enabled by these flags.
 
         [SEE_ALSO]
         System::init
+        System::update
+        System::setAdvancedSettings
+        Channel::set3DOcclusion
     ]
     */
     [Flags]
-    public enum INITFLAGS : int
+    public enum INITFLAGS : uint
     {
         NORMAL                    = 0x00000000, /* Initialize normally */
         STREAM_FROM_UPDATE        = 0x00000001, /* No stream thread is created internally.  Streams are driven from System::update.  Mainly used with non-realtime outputs. */
@@ -814,7 +820,8 @@ namespace FMOD
         Sound::getOpenState
     ]
     */
-    public enum MODE :uint
+    [Flags]
+    public enum MODE : uint
     {
         DEFAULT                = 0x00000000,  /* Default for all modes listed below. FMOD_LOOP_OFF, FMOD_2D, FMOD_3D_WORLDRELATIVE, FMOD_3D_INVERSEROLLOFF */
         LOOP_OFF               = 0x00000001,  /* For non looping sounds. (default).  Overrides FMOD_LOOP_NORMAL / FMOD_LOOP_BIDI. */
@@ -1019,25 +1026,30 @@ namespace FMOD
     }
 
     /*
-    [ENUM]
+    [DEFINE]
     [
+        [NAME]
+        FMOD_SYSTEM_CALLBACK_TYPE
+
         [DESCRIPTION]
         These callback types are used with System::setCallback.
 
         [REMARKS]
-        Each callback has commanddata parameters passed as int unique to the type of callback.<br>
+        Each callback has commanddata parameters passed as void* unique to the type of callback.<br>
         See reference to FMOD_SYSTEM_CALLBACK to determine what they might mean for each type of callback.<br>
         <br>
-        <b>Note!</b>  Currently the user must call System::update for these callbacks to trigger!
+        <b>Note!</b> Using FMOD_SYSTEM_CALLBACK_DEVICELISTCHANGED (on Mac only) requires the application to be running an event loop which will allow external changes to device list to be detected by FMOD.<br>
+        <br>
+        <b>Note!</b> The 'system' object pointer will be null for FMOD_SYSTEM_CALLBACK_THREADCREATED and FMOD_SYSTEM_CALLBACK_MEMORYALLOCATIONFAILED callbacks.
 
         [SEE_ALSO]
         System::setCallback
-        FMOD_SYSTEM_CALLBACK
         System::update
+        DSP::addInput
     ]
     */
     [Flags]
-    public enum SYSTEM_CALLBACK_TYPE : int
+    public enum SYSTEM_CALLBACK_TYPE : uint
     {
         DEVICELISTCHANGED      = 0x00000001,  /* Called from System::update when the enumerated list of devices has changed. */
         DEVICELOST             = 0x00000002,  /* Called from System::update when an output device has been lost due to control panel parameter changes and FMOD cannot automatically recover. */
@@ -1239,12 +1251,16 @@ namespace FMOD
 
 
     /*
-    [ENUM]
+    [DEFINE]
     [
+        [NAME]
+        FMOD_TIMEUNIT
+
         [DESCRIPTION]
         List of time types that can be returned by Sound::getLength and used with Channel::setPosition or Channel::getPosition.
 
         [REMARKS]
+        Do not combine flags except FMOD_TIMEUNIT_BUFFERED.
 
         [SEE_ALSO]
         Sound::getLength
@@ -1252,7 +1268,8 @@ namespace FMOD
         Channel::getPosition
     ]
     */
-    public enum TIMEUNIT
+    [Flags]
+    public enum TIMEUNIT : uint
     {
         MS                = 0x00000001,  /* Milliseconds. */
         PCM               = 0x00000002,  /* PCM Samples, related to milliseconds * samplerate / 1000. */
@@ -1853,6 +1870,12 @@ namespace FMOD
         {
             return FMOD_System_RegisterDSP(rawPtr, ref description, out handle);
         }
+        /*
+        public RESULT registerOutput(ref OUTPUT_DESCRIPTION description, out uint handle)
+        {
+            return FMOD_System_RegisterOutput(rawPtr, ref description, out handle);
+        }
+        */
 
         // Init/Close.
         public RESULT init                   (int maxchannels, INITFLAGS flags, IntPtr extradriverdata)
@@ -2311,6 +2334,8 @@ namespace FMOD
         //[DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_RegisterDSP            (IntPtr system, ref DSP_DESCRIPTION description, out uint handle);
         [DllImport(VERSION.dll)]
+        //private static extern RESULT FMOD_System_RegisterOutput         (IntPtr system, ref OUTPUT_DESCRIPTION description, out uint handle);
+        //[DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_Init                   (IntPtr system, int maxchannels, INITFLAGS flags, IntPtr extradriverdata);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_Close                  (IntPtr system);
@@ -3799,7 +3824,7 @@ namespace FMOD
         {
             return FMOD_DSP_GetUserData(rawPtr, out userdata);
         }
-        
+
         // Metering.
         public RESULT setMeteringEnabled(bool inputEnabled, bool outputEnabled)
         {
