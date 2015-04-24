@@ -1,8 +1,8 @@
 # ![icon](https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png) Simple Music Player
 
 [![Build status](https://ci.appveyor.com/api/projects/status/kvdccylonj7qjnkw/branch/master?svg=true)](https://ci.appveyor.com/project/punker76/simple-music-player/branch/master)
-
 [![Gitter chat](https://badges.gitter.im/punker76/simple-music-player.png)](https://gitter.im/punker76/simple-music-player)
+[![Twitter](https://img.shields.io/badge/twitter-%40punker76-55acee.svg?style=flat-square)](https://twitter.com/punker76)
 
 This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
 
