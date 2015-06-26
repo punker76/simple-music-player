@@ -1,10 +1,10 @@
-/* ============================================================================================= = */
-/* FMOD Ex - Error string header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2014.  */
-/*                                                                                                 */
-/* Use this header if you want to store or display a string version / english explanation of       */
-/* the FMOD error codes.                                                                           */
-/*                                                                                                 */
-/* =============================================================================================== */
+/* =================================================================================================== */
+/* FMOD Studio - Error string header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2015.  */
+/*                                                                                                     */
+/* Use this header if you want to store or display a string version / english explanation of           */
+/* the FMOD error codes.                                                                               */
+/*                                                                                                     */
+/* =================================================================================================== */
 
 namespace FMOD
 {
@@ -66,7 +66,7 @@ namespace FMOD
                 case FMOD.RESULT.ERR_OUTPUT_DRIVERCALL:         return "A call to a standard soundcard driver failed, which could possibly mean a bug in the driver or resources were missing or exhausted.";
                 case FMOD.RESULT.ERR_OUTPUT_FORMAT:             return "Soundcard does not support the specified format.";
                 case FMOD.RESULT.ERR_OUTPUT_INIT:               return "Error initializing output device.";
-                case FMOD.RESULT.ERR_OUTPUT_NODRIVERS:          return "The output device has no drivers installed, so FMOD_OUTPUT_NOSOUND is selected as the output mode.";
+                case FMOD.RESULT.ERR_OUTPUT_NODRIVERS:          return "The output device has no drivers installed.  If pre-init, FMOD_OUTPUT_NOSOUND is selected as the output mode.  If post-init, the function just fails.";
                 case FMOD.RESULT.ERR_PLUGIN:                    return "An unspecified error has been returned from a plugin.";
                 case FMOD.RESULT.ERR_PLUGIN_MISSING:            return "A requested output, dsp unit type or codec was not available.";
                 case FMOD.RESULT.ERR_PLUGIN_RESOURCE:           return "A resource that the plugin requires cannot be found. (ie the DLS file for MIDI playback)";

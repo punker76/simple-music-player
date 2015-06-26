@@ -1,6 +1,6 @@
 /* ========================================================================================== */
 /*                                                                                            */
-/* FMOD Ex - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2014.          */
+/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2015.      */
 /*                                                                                            */
 /* ========================================================================================== */
 
@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010514;
+        public const int    number = 0x00010605;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -24,6 +24,11 @@ namespace FMOD
 #endif
     }
 
+    public class CONSTANTS
+    {
+        public const int MAX_CHANNEL_WIDTH = 32;
+        public const int MAX_LISTENERS = 5;
+    }
 
     /*
         FMOD types
@@ -119,7 +124,6 @@ namespace FMOD
         ERR_EVENT_NOTFOUND,        /* The requested event, bus or vca could not be found. */
         ERR_STUDIO_UNINITIALIZED,  /* The Studio::System object is not yet initialized. */
         ERR_STUDIO_NOT_LOADED,     /* The specified resource is not loaded, so it can't be unloaded. */
-
         ERR_INVALID_STRING,        /* An invalid string was passed to this function. */
         ERR_ALREADY_LOCKED,        /* The specified resource is already locked. */
         ERR_NOT_LOCKED,            /* The specified resource is not locked, so it can't be unlocked. */
@@ -208,28 +212,6 @@ namespace FMOD
     [STRUCTURE]
     [
         [DESCRIPTION]
-        Structure describing a globally unique identifier.
-
-        [REMARKS]
-
-        [SEE_ALSO]
-        System::getDriverInfo
-    ]
-    */
-    [StructLayout(LayoutKind.Sequential)]
-    public struct GUID
-    {
-        public uint   Data1;       /* Specifies the first 8 hexadecimal digits of the GUID */
-        public ushort Data2;       /* Specifies the first group of 4 hexadecimal digits.   */
-        public ushort Data3;       /* Specifies the second group of 4 hexadecimal digits.  */
-        [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
-        public byte[] Data4;       /* Array of 8 bytes. The first 2 bytes contain the third group of 4 hexadecimal digits. The remaining 6 bytes contain the final 12 hexadecimal digits. */
-    }
-
-    /*
-    [STRUCTURE]
-    [
-        [DESCRIPTION]
         Structure that is passed into FMOD_FILE_ASYNCREAD_CALLBACK.  Use the information in this structure to perform
 
         [REMARKS]
@@ -253,16 +235,16 @@ namespace FMOD
     [StructLayout(LayoutKind.Sequential)]
     public struct ASYNCREADINFO
     {
-        public IntPtr   handle;         /* [r] The file handle that was filled out in the open callback. */
-        public uint     offset;         /* [r] Seek position, make sure you read from this file offset. */
-        public uint     sizebytes;      /* [r] how many bytes requested for read. */
-        public int      priority;       /* [r] 0 = low importance.  100 = extremely important (ie 'must read now or stuttering may occur') */
+        public IntPtr   handle;                     /* [r] The file handle that was filled out in the open callback. */
+        public uint     offset;                     /* [r] Seek position, make sure you read from this file offset. */
+        public uint     sizebytes;                  /* [r] how many bytes requested for read. */
+        public int      priority;                   /* [r] 0 = low importance.  100 = extremely important (ie 'must read now or stuttering may occur') */
 
-        public IntPtr   buffer;         /* [w] Buffer to read file data into. */
-        public uint     bytesread;      /* [w] Fill this in before setting result code to tell FMOD how many bytes were read. */
-        public RESULT   result;         /* [r/w] Result code, FMOD_OK tells the system it is ready to consume the data.  Set this last!  Default value = FMOD_ERR_NOTREADY. */
+        public IntPtr   userdata;                   /* [r] User data pointer. */
+        public IntPtr   buffer;                     /* [w] Buffer to read file data into. */
+        public uint     bytesread;                  /* [w] Fill this in before setting result code to tell FMOD how many bytes were read. */
+        public ASYNCREADINFO_DONE_CALLBACK   done;  /* [r] FMOD file system wake up function.  Call this when user file read is finished.  Pass result of file read as a parameter. */
 
-        public IntPtr   userdata;       /* [r] User data pointer. */
     }
 
     /*
@@ -637,30 +619,7 @@ namespace FMOD
         MAX,             /* Maximum number of plugin types supported. */
     }
 
-    /*
-    [STRUCTURE]
-    [
-        [DESCRIPTION]
-        DSP metering info used for retrieving metering info
 
-        [REMARKS]
-        Members marked with [r] mean the variable is modified by FMOD and is for reading purposes only.  Do not change this value.<br>
-        Members marked with [w] mean the variable can be written to.  The user can set the value.<br>
-
-        [SEE_ALSO]
-        FMOD_SPEAKER
-    ]
-    */
-    [StructLayoutAttribute(LayoutKind.Sequential)]
-    public struct DSP_METERING_INFO
-    {
-        public int numsamples;
-        [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 32, ArraySubType = UnmanagedType.R4)]
-        public float[] peaklevel;
-        [MarshalAsAttribute(UnmanagedType.ByValArray, SizeConst = 32, ArraySubType = UnmanagedType.R4)]
-        public float[] rmslevel;
-        public short numchannels;
-    }
 
     /*
     [DEFINE]
@@ -713,35 +672,37 @@ namespace FMOD
     */
     public enum SOUND_TYPE
     {
-        UNKNOWN,          /* 3rd party / unknown plugin format. */
-        AIFF,             /* AIFF. */
-        ASF,              /* Microsoft Advanced Systems Format (ie WMA/ASF/WMV). */
-        AT3,              /* Sony ATRAC 3 format */
-        DLS,              /* Sound font / downloadable sound bank. */
-        FLAC,             /* FLAC lossless codec. */
-        FSB,              /* FMOD Sample Bank. */
-        GCADPCM,          /* GameCube ADPCM */
-        IT,               /* Impulse Tracker. */
-        MIDI,             /* MIDI. */
-        MOD,              /* Protracker / Fasttracker MOD. */
-        MPEG,             /* MP2/MP3 MPEG. */
-        OGGVORBIS,        /* Ogg vorbis. */
-        PLAYLIST,         /* Information only from ASX/PLS/M3U/WAX playlists */
-        RAW,              /* Raw PCM data. */
-        S3M,              /* ScreamTracker 3. */
-        USER,             /* User created sound. */
-        WAV,              /* Microsoft WAV. */
-        XM,               /* FastTracker 2 XM. */
-        XMA,              /* Xbox360 XMA */
-        VAG,              /* PlayStation Portable adpcm VAG format. */
-        AUDIOQUEUE,       /* iPhone hardware decoder, supports AAC, ALAC and MP3. */
-        XWMA,             /* Xbox360 XWMA */
-        BCWAV,            /* 3DS BCWAV container format for DSP ADPCM and PCM */
-        AT9,              /* NGP ATRAC 9 format */
-        VORBIS,           /* Raw vorbis */
-        MEDIA_FOUNDATION, /* Windows Store Application built in system codecs */
-        MEDIACODEC,       /* Android MediaCodec */
-        MAX,              /* Maximum number of sound types supported. */
+        UNKNOWN,         /* 3rd party / unknown plugin format. */
+        AIFF,            /* AIFF. */
+        ASF,             /* Microsoft Advanced Systems Format (ie WMA/ASF/WMV). */
+        AT3,             /* Sony ATRAC 3 format */
+        DLS,             /* Sound font / downloadable sound bank. */
+        FLAC,            /* FLAC lossless codec. */
+        FSB,             /* FMOD Sample Bank. */
+        GCADPCM,         /* Nintendo GameCube/Wii ADPCM */
+        IT,              /* Impulse Tracker. */
+        MIDI,            /* MIDI. extracodecdata is a pointer to an FMOD_MIDI_EXTRACODECDATA structure. */
+        MOD,             /* Protracker / Fasttracker MOD. */
+        MPEG,            /* MP2/MP3 MPEG. */
+        OGGVORBIS,       /* Ogg vorbis. */
+        PLAYLIST,        /* Information only from ASX/PLS/M3U/WAX playlists */
+        RAW,             /* Raw PCM data. */
+        S3M,             /* ScreamTracker 3. */
+        USER,            /* User created sound. */
+        WAV,             /* Microsoft WAV. */
+        XM,              /* FastTracker 2 XM. */
+        XMA,             /* Xbox360 XMA */
+        VAG,             /* PlayStation Portable ADPCM VAG format. */
+        AUDIOQUEUE,      /* iPhone hardware decoder, supports AAC, ALAC and MP3. extracodecdata is a pointer to an FMOD_AUDIOQUEUE_EXTRACODECDATA structure. */
+        XWMA,            /* Xbox360 XWMA */
+        BCWAV,           /* 3DS BCWAV container format for DSP ADPCM and PCM */
+        AT9,             /* PS4 / PSVita ATRAC 9 format */
+        VORBIS,          /* Vorbis */
+        MEDIA_FOUNDATION,/* Windows Store Application built in system codecs */
+        MEDIACODEC,      /* Android MediaCodec */
+        FADPCM,          /* FMOD Adaptive Differential Pulse Code Modulation */
+
+        MAX,             /* Maximum number of sound types supported. */
     }
 
     /*
@@ -760,24 +721,25 @@ namespace FMOD
     */
     public enum SOUND_FORMAT : int
     {
-        NONE,     /* Unitialized / unknown */
-        PCM8,     /* 8bit integer PCM data */
-        PCM16,    /* 16bit integer PCM data  */
-        PCM24,    /* 24bit integer PCM data  */
-        PCM32,    /* 32bit integer PCM data  */
-        PCMFLOAT, /* 32bit floating point PCM data  */
-        GCADPCM,  /* Compressed GameCube DSP data */
-        IMAADPCM, /* Compressed XBox ADPCM data */
-        VAG,      /* Compressed PlayStation 2 ADPCM data */
-        HEVAG,    /* Compressed NGP ADPCM data. */
-        XMA,      /* Compressed Xbox360 data. */
-        MPEG,     /* Compressed MPEG layer 2 or 3 data. */
-        CELT,     /* Compressed CELT data. */
-        AT9,      /* Compressed ATRAC9 data. */
-        XWMA,     /* Compressed Xbox360 xWMA data. */
-        VORBIS,   /* Compressed Vorbis data. */
+        NONE,             /* Unitialized / unknown. */
+        PCM8,             /* 8bit integer PCM data. */
+        PCM16,            /* 16bit integer PCM data. */
+        PCM24,            /* 24bit integer PCM data. */
+        PCM32,            /* 32bit integer PCM data. */
+        PCMFLOAT,         /* 32bit floating point PCM data. */
+        GCADPCM,          /* Compressed Nintendo 3DS/Wii DSP data. */
+        IMAADPCM,         /* Compressed IMA ADPCM data. */
+        VAG,              /* Compressed PlayStation Portable ADPCM data. */
+        HEVAG,            /* Compressed PSVita ADPCM data. */
+        XMA,              /* Compressed Xbox360 XMA data. */
+        MPEG,             /* Compressed MPEG layer 2 or 3 data. */
+        CELT,             /* Not supported. */
+        AT9,              /* Compressed PSVita ATRAC9 data. */
+        XWMA,             /* Compressed Xbox360 xWMA data. */
+        VORBIS,           /* Compressed Vorbis data. */
+        FADPCM,           /* Compressed FADPCM data. */
 
-        MAX       /* Maximum number of sound formats supported. */
+        MAX,              /* Maximum number of sound formats supported. */
     }
 
 
@@ -996,7 +958,8 @@ namespace FMOD
         STUDIO_CUEINSTANCE,
         STUDIO_BUS,
         STUDIO_VCA,
-        STUDIO_BANK
+        STUDIO_BANK,
+        STUDIO_COMMANDREPLAY
     }
 
     /*
@@ -1012,17 +975,17 @@ namespace FMOD
         FMOD_ERRORCALLBACK_INSTANCETYPE
     ]
     */
-    [StructLayoutAttribute(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential)]
     public struct ERRORCALLBACK_INFO
     {
         public  RESULT                      result;                     /* Error code result */
         public  ERRORCALLBACK_INSTANCETYPE  instancetype;               /* Type of instance the error occurred on */
         public  IntPtr                      instance;                   /* Instance pointer */
-        private IntPtr                      functionnamePtr;               /* Function that the error occurred on */
-        private IntPtr                      functionparamsPtr;             /* Function parameters that the error ocurred on */
+        private IntPtr                      functionname_internal;      /* Function that the error occurred on */
+        private IntPtr                      functionparams_internal;    /* Function parameters that the error ocurred on */
 
-        public string functionname   { get { return Marshal.PtrToStringAnsi(functionnamePtr); } }
-        public string functionparams { get { return Marshal.PtrToStringAnsi(functionparamsPtr); } }
+        public string functionname   { get { return Marshal.PtrToStringAnsi(functionname_internal); } }
+        public string functionparams { get { return Marshal.PtrToStringAnsi(functionparams_internal); } }
     }
 
     /*
@@ -1064,10 +1027,44 @@ namespace FMOD
         PREUPDATE              = 0x00000400,  /* Called at start of System::update function. */
         POSTUPDATE             = 0x00000800,  /* Called at end of System::update function. */
     }
+	
+    #region wrapperinternal
+    [StructLayout(LayoutKind.Sequential)]
+    public struct StringWrapper
+    {
+        IntPtr nativeUtf8Ptr;
+
+        public static implicit operator string(StringWrapper fstring)
+        {
+            if (fstring.nativeUtf8Ptr == IntPtr.Zero)
+            {
+                return "";
+            }
+
+            int strlen = 0;
+            while (Marshal.ReadByte(fstring.nativeUtf8Ptr, strlen) != 0)
+            {
+                strlen++;
+            }
+            if (strlen > 0)
+            {
+                byte[] bytes = new byte[strlen];
+                Marshal.Copy(fstring.nativeUtf8Ptr, bytes, 0, strlen);
+                return Encoding.UTF8.GetString(bytes, 0, strlen);
+            }
+            else
+            {
+                return "";
+            }
+        }
+    }
+    #endregion
 
     /*
         FMOD Callbacks
     */
+    public delegate RESULT ASYNCREADINFO_DONE_CALLBACK(IntPtr info, RESULT result);
+
     public delegate RESULT DEBUG_CALLBACK           (DEBUG_FLAGS flags, string file, int line, string func, string message);
 
     public delegate RESULT SYSTEM_CALLBACK          (IntPtr systemraw, SYSTEM_CALLBACK_TYPE type, IntPtr commanddata1, IntPtr commanddata2, IntPtr userdata);
@@ -1078,16 +1075,16 @@ namespace FMOD
     public delegate RESULT SOUND_PCMREADCALLBACK    (IntPtr soundraw, IntPtr data, uint datalen);
     public delegate RESULT SOUND_PCMSETPOSCALLBACK  (IntPtr soundraw, int subsound, uint position, TIMEUNIT postype);
 
-    public delegate RESULT FILE_OPENCALLBACK        ([MarshalAs(UnmanagedType.LPWStr)]string name, ref uint filesize, ref IntPtr handle, IntPtr userdata);
+    public delegate RESULT FILE_OPENCALLBACK        (StringWrapper name, ref uint filesize, ref IntPtr handle, IntPtr userdata);
     public delegate RESULT FILE_CLOSECALLBACK       (IntPtr handle, IntPtr userdata);
     public delegate RESULT FILE_READCALLBACK        (IntPtr handle, IntPtr buffer, uint sizebytes, ref uint bytesread, IntPtr userdata);
     public delegate RESULT FILE_SEEKCALLBACK        (IntPtr handle, int pos, IntPtr userdata);
     public delegate RESULT FILE_ASYNCREADCALLBACK   (IntPtr handle, IntPtr info, IntPtr userdata);
     public delegate RESULT FILE_ASYNCCANCELCALLBACK (IntPtr handle, IntPtr userdata);
 
-    public delegate IntPtr MEMORY_ALLOC_CALLBACK    (uint size, MEMORY_TYPE type, string sourcestr);
-    public delegate IntPtr MEMORY_REALLOC_CALLBACK  (IntPtr ptr, uint size, MEMORY_TYPE type, string sourcestr);
-    public delegate void   MEMORY_FREE_CALLBACK     (IntPtr ptr, MEMORY_TYPE type, string sourcestr);
+    public delegate IntPtr MEMORY_ALLOC_CALLBACK    (uint size, MEMORY_TYPE type, StringWrapper sourcestr);
+    public delegate IntPtr MEMORY_REALLOC_CALLBACK  (IntPtr ptr, uint size, MEMORY_TYPE type, StringWrapper sourcestr);
+    public delegate void   MEMORY_FREE_CALLBACK     (IntPtr ptr, MEMORY_TYPE type, StringWrapper sourcestr);
 
     public delegate float  CB_3D_ROLLOFFCALLBACK    (IntPtr channelraw, float distance);
 
@@ -1241,12 +1238,12 @@ namespace FMOD
     {
         public  TAGTYPE           type;         /* [r] The type of this tag. */
         public  TAGDATATYPE       datatype;     /* [r] The type of data that this tag contains */
-        private IntPtr            namePtr;      /* [r] The name of this tag i.e. "TITLE", "ARTIST" etc. */
+        private IntPtr            name_internal;/* [r] The name of this tag i.e. "TITLE", "ARTIST" etc. */
         public  IntPtr            data;         /* [r] Pointer to the tag data - its format is determined by the datatype member */
         public  uint              datalen;      /* [r] Length of the data contained in this tag */
         public  bool              updated;      /* [r] True if this tag has been updated since last being accessed with Sound::getTag */
 
-        public string name { get { return Marshal.PtrToStringAnsi(namePtr); } }
+        public string name { get { return Marshal.PtrToStringAnsi(name_internal); } }
     }
 
 
@@ -1399,12 +1396,12 @@ namespace FMOD
         public int                         maxpolyphony;           /* [w] Optional. Specify 0 to ingore. For sequenced formats with dynamic channel allocation such as .MID and .IT, this specifies the maximum voice count allowed while playing.  .IT defaults to 64.  .MID defaults to 32. */
         public IntPtr                      userdata;               /* [w] Optional. Specify 0 to ignore. This is user data to be attached to the sound during creation.  Access via Sound::getUserData. */
         public SOUND_TYPE                  suggestedsoundtype;     /* [w] Optional. Specify 0 or FMOD_SOUND_TYPE_UNKNOWN to ignore.  Instead of scanning all codec types, use this to speed up loading by making it jump straight to this codec. */
-        public FILE_OPENCALLBACK           useropen;               /* [w] Optional. Specify 0 to ignore. Callback for opening this file. */
-        public FILE_CLOSECALLBACK          userclose;              /* [w] Optional. Specify 0 to ignore. Callback for closing this file. */
-        public FILE_READCALLBACK           userread;               /* [w] Optional. Specify 0 to ignore. Callback for reading from this file. */
-        public FILE_SEEKCALLBACK           userseek;               /* [w] Optional. Specify 0 to ignore. Callback for seeking within this file. */
-        public FILE_ASYNCREADCALLBACK      userasyncread;          /* [w] Optional. Specify 0 to ignore. Callback for asyncronously reading from this file. */
-        public FILE_ASYNCCANCELCALLBACK    userasynccancel;        /* [w] Optional. Specify 0 to ignore. Callback for cancelling an asyncronous read. */
+        public FILE_OPENCALLBACK           fileuseropen;           /* [w] Optional. Specify 0 to ignore. Callback for opening this file. */
+        public FILE_CLOSECALLBACK          fileuserclose;          /* [w] Optional. Specify 0 to ignore. Callback for closing this file. */
+        public FILE_READCALLBACK           fileuserread;           /* [w] Optional. Specify 0 to ignore. Callback for reading from this file. */
+        public FILE_SEEKCALLBACK           fileuserseek;           /* [w] Optional. Specify 0 to ignore. Callback for seeking within this file. */
+        public FILE_ASYNCREADCALLBACK      fileuserasyncread;      /* [w] Optional. Specify 0 to ignore. Callback for asyncronously reading from this file. */
+        public FILE_ASYNCCANCELCALLBACK    fileuserasynccancel;    /* [w] Optional. Specify 0 to ignore. Callback for cancelling an asyncronous read. */
         public IntPtr                      fileuserdata;           /* [w] Optional. Specify 0 to ignore. User data to be passed into the file callbacks. */
         public CHANNELORDER                channelorder;           /* [w] Optional. Specify 0 to ignore. Use this to differ the way fmod maps multichannel sounds to speakers.  See FMOD_CHANNELORDER for more. */
         public CHANNELMASK                 channelmask;            /* [w] Optional. Specify 0 to ignore. Use this to differ the way fmod maps multichannel sounds to speakers.  See FMOD_CHANNELMASK for more. */
@@ -1499,33 +1496,33 @@ namespace FMOD
     System::setReverbProperties
     ]
     */
-    class PRESET
+    public class PRESET
     {
-        /*                                                                           Instance  Env   Diffus  Room   RoomHF  RmLF DecTm   DecHF  DecLF   Refl  RefDel   Revb  RevDel  ModTm  ModDp   HFRef    LFRef   Diffus  Densty  FLAGS */
-        public REVERB_PROPERTIES OFF()                 { return new REVERB_PROPERTIES(  1000,    7,  11, 5000, 100, 100, 100, 250, 0,    20,  96, -80.0f );}
-        public REVERB_PROPERTIES GENERIC()             { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  83, 100, 100, 250, 0, 14500,  96,  -8.0f );}
-        public REVERB_PROPERTIES PADDEDCELL()          { return new REVERB_PROPERTIES(   170,    1,   2, 5000,  10, 100, 100, 250, 0,   160,  84,  -7.8f );}
-        public REVERB_PROPERTIES ROOM()                { return new REVERB_PROPERTIES(   400,    2,   3, 5000,  83, 100, 100, 250, 0,  6050,  88,  -9.4f );}
-        public REVERB_PROPERTIES BATHROOM()            { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  54, 100,  60, 250, 0,  2900,  83,   0.5f );}
-        public REVERB_PROPERTIES LIVINGROOM()          { return new REVERB_PROPERTIES(   500,    3,   4, 5000,  10, 100, 100, 250, 0,   160,  58, -19.0f );}
-        public REVERB_PROPERTIES STONEROOM()           { return new REVERB_PROPERTIES(  2300,   12,  17, 5000,  64, 100, 100, 250, 0,  7800,  71,  -8.5f );}
-        public REVERB_PROPERTIES AUDITORIUM()          { return new REVERB_PROPERTIES(  4300,   20,  30, 5000,  59, 100, 100, 250, 0,  5850,  64, -11.7f );}
-        public REVERB_PROPERTIES CONCERTHALL()         { return new REVERB_PROPERTIES(  3900,   20,  29, 5000,  70, 100, 100, 250, 0,  5650,  80,  -9.8f );}
-        public REVERB_PROPERTIES CAVE()                { return new REVERB_PROPERTIES(  2900,   15,  22, 5000, 100, 100, 100, 250, 0, 20000,  59, -11.3f );}
-        public REVERB_PROPERTIES ARENA()               { return new REVERB_PROPERTIES(  7200,   20,  30, 5000,  33, 100, 100, 250, 0,  4500,  80,  -9.6f );}
-        public REVERB_PROPERTIES HANGAR()              { return new REVERB_PROPERTIES( 10000,   20,  30, 5000,  23, 100, 100, 250, 0,  3400,  72,  -7.4f );}
-        public REVERB_PROPERTIES CARPETTEDHALLWAY()    { return new REVERB_PROPERTIES(   300,    2,  30, 5000,  10, 100, 100, 250, 0,   500,  56, -24.0f );}
-        public REVERB_PROPERTIES HALLWAY()             { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  59, 100, 100, 250, 0,  7800,  87,  -5.5f );}
-        public REVERB_PROPERTIES STONECORRIDOR()       { return new REVERB_PROPERTIES(   270,   13,  20, 5000,  79, 100, 100, 250, 0,  9000,  86,  -6.0f );}
-        public REVERB_PROPERTIES ALLEY()               { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  86, 100, 100, 250, 0,  8300,  80,  -9.8f );}
-        public REVERB_PROPERTIES FOREST()              { return new REVERB_PROPERTIES(  1500,  162,  88, 5000,  54,  79, 100, 250, 0,   760,  94, -12.3f );}
-        public REVERB_PROPERTIES CITY()                { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  67,  50, 100, 250, 0,  4050,  66, -26.0f );}
-        public REVERB_PROPERTIES MOUNTAINS()           { return new REVERB_PROPERTIES(  1500,  300, 100, 5000,  21,  27, 100, 250, 0,  1220,  82, -24.0f );}
-        public REVERB_PROPERTIES QUARRY()              { return new REVERB_PROPERTIES(  1500,   61,  25, 5000,  83, 100, 100, 250, 0,  3400, 100,  -5.0f );}
-        public REVERB_PROPERTIES PLAIN()               { return new REVERB_PROPERTIES(  1500,  179, 100, 5000,  50,  21, 100, 250, 0,  1670,  65, -28.0f );}
-        public REVERB_PROPERTIES PARKINGLOT()          { return new REVERB_PROPERTIES(  1700,    8,  12, 5000, 100, 100, 100, 250, 0, 20000,  56, -19.5f );}
-        public REVERB_PROPERTIES SEWERPIPE()           { return new REVERB_PROPERTIES(  2800,   14,  21, 5000,  14,  80,  60, 250, 0,  3400,  66,   1.2f );}
-        public REVERB_PROPERTIES UNDERWATER()          { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  10, 100, 100, 250, 0,   500,  92,   7.0f );}
+        /*                                                                                  Instance  Env   Diffus  Room   RoomHF  RmLF DecTm   DecHF  DecLF   Refl  RefDel   Revb  RevDel  ModTm  ModDp   HFRef    LFRef   Diffus  Densty  FLAGS */
+        public static REVERB_PROPERTIES OFF()                 { return new REVERB_PROPERTIES(  1000,    7,  11, 5000, 100, 100, 100, 250, 0,    20,  96, -80.0f );}
+        public static REVERB_PROPERTIES GENERIC()             { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  83, 100, 100, 250, 0, 14500,  96,  -8.0f );}
+        public static REVERB_PROPERTIES PADDEDCELL()          { return new REVERB_PROPERTIES(   170,    1,   2, 5000,  10, 100, 100, 250, 0,   160,  84,  -7.8f );}
+        public static REVERB_PROPERTIES ROOM()                { return new REVERB_PROPERTIES(   400,    2,   3, 5000,  83, 100, 100, 250, 0,  6050,  88,  -9.4f );}
+        public static REVERB_PROPERTIES BATHROOM()            { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  54, 100,  60, 250, 0,  2900,  83,   0.5f );}
+        public static REVERB_PROPERTIES LIVINGROOM()          { return new REVERB_PROPERTIES(   500,    3,   4, 5000,  10, 100, 100, 250, 0,   160,  58, -19.0f );}
+        public static REVERB_PROPERTIES STONEROOM()           { return new REVERB_PROPERTIES(  2300,   12,  17, 5000,  64, 100, 100, 250, 0,  7800,  71,  -8.5f );}
+        public static REVERB_PROPERTIES AUDITORIUM()          { return new REVERB_PROPERTIES(  4300,   20,  30, 5000,  59, 100, 100, 250, 0,  5850,  64, -11.7f );}
+        public static REVERB_PROPERTIES CONCERTHALL()         { return new REVERB_PROPERTIES(  3900,   20,  29, 5000,  70, 100, 100, 250, 0,  5650,  80,  -9.8f );}
+        public static REVERB_PROPERTIES CAVE()                { return new REVERB_PROPERTIES(  2900,   15,  22, 5000, 100, 100, 100, 250, 0, 20000,  59, -11.3f );}
+        public static REVERB_PROPERTIES ARENA()               { return new REVERB_PROPERTIES(  7200,   20,  30, 5000,  33, 100, 100, 250, 0,  4500,  80,  -9.6f );}
+        public static REVERB_PROPERTIES HANGAR()              { return new REVERB_PROPERTIES( 10000,   20,  30, 5000,  23, 100, 100, 250, 0,  3400,  72,  -7.4f );}
+        public static REVERB_PROPERTIES CARPETTEDHALLWAY()    { return new REVERB_PROPERTIES(   300,    2,  30, 5000,  10, 100, 100, 250, 0,   500,  56, -24.0f );}
+        public static REVERB_PROPERTIES HALLWAY()             { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  59, 100, 100, 250, 0,  7800,  87,  -5.5f );}
+        public static REVERB_PROPERTIES STONECORRIDOR()       { return new REVERB_PROPERTIES(   270,   13,  20, 5000,  79, 100, 100, 250, 0,  9000,  86,  -6.0f );}
+        public static REVERB_PROPERTIES ALLEY()               { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  86, 100, 100, 250, 0,  8300,  80,  -9.8f );}
+        public static REVERB_PROPERTIES FOREST()              { return new REVERB_PROPERTIES(  1500,  162,  88, 5000,  54,  79, 100, 250, 0,   760,  94, -12.3f );}
+        public static REVERB_PROPERTIES CITY()                { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  67,  50, 100, 250, 0,  4050,  66, -26.0f );}
+        public static REVERB_PROPERTIES MOUNTAINS()           { return new REVERB_PROPERTIES(  1500,  300, 100, 5000,  21,  27, 100, 250, 0,  1220,  82, -24.0f );}
+        public static REVERB_PROPERTIES QUARRY()              { return new REVERB_PROPERTIES(  1500,   61,  25, 5000,  83, 100, 100, 250, 0,  3400, 100,  -5.0f );}
+        public static REVERB_PROPERTIES PLAIN()               { return new REVERB_PROPERTIES(  1500,  179, 100, 5000,  50,  21, 100, 250, 0,  1670,  65, -28.0f );}
+        public static REVERB_PROPERTIES PARKINGLOT()          { return new REVERB_PROPERTIES(  1700,    8,  12, 5000, 100, 100, 100, 250, 0, 20000,  56, -19.5f );}
+        public static REVERB_PROPERTIES SEWERPIPE()           { return new REVERB_PROPERTIES(  2800,   14,  21, 5000,  14,  80,  60, 250, 0,  3400,  66,   1.2f );}
+        public static REVERB_PROPERTIES UNDERWATER()          { return new REVERB_PROPERTIES(  1500,    7,  11, 5000,  10, 100, 100, 250, 0,   500,  92,   7.0f );}
     }
 
     /*
@@ -1545,33 +1542,55 @@ namespace FMOD
     [StructLayout(LayoutKind.Sequential)]
     public struct ADVANCEDSETTINGS
     {
-        public int     cbSize;                      /* [r] Size of structure.  Use sizeof(FMOD_ADVANCEDSETTINGS) */
-        public int     maxMPEGCodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  MPEG   codecs consume 30,528 bytes per instance and this number will determine how many MPEG   channels can be played simultaneously. Default = 32. */
-        public int     maxADPCMCodecs;              /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  ADPCM  codecs consume  3,128 bytes per instance and this number will determine how many ADPCM  channels can be played simultaneously. Default = 32. */
-        public int     maxXMACodecs;                /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  XMA    codecs consume 14,836 bytes per instance and this number will determine how many XMA    channels can be played simultaneously. Default = 32. */
-        public int     maxCELTCodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  CELT   codecs consume 25,408 bytes per instance and this number will determine how many CELT   channels can be played simultaneously. Default = 32. */
-        public int     maxVorbisCodecs;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  Vorbis codecs consume 23,256 bytes per instance and this number will determine how many Vorbis channels can be played simultaneously. Default = 32. */
-        public int     maxAT9Codecs;                /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  AT9    codecs consume  8,720 bytes per instance and this number will determine how many AT9    channels can be played simultaneously. Default = 32. */
-        public int     maxPCMCodecs;                /* [r/w] Optional. Specify 0 to ignore. For use with PS3 only.                          PCM    codecs consume 12,672 bytes per instance and this number will determine how many streams and PCM voices can be played simultaneously. Default = 16. */
-        public int     ASIONumChannels;             /* [r/w] Optional. Specify 0 to ignore. Number of channels available on the ASIO device. */
-        public IntPtr  ASIOChannelList;             /* [r/w] Optional. Specify 0 to ignore. Pointer to an array of strings (number of entries defined by ASIONumChannels) with ASIO channel names. */
-        public IntPtr  ASIOSpeakerList;             /* [r/w] Optional. Specify 0 to ignore. Pointer to a list of speakers that the ASIO channels map to.  This can be called after System::init to remap ASIO output. */
-        public float   HRTFMinAngle;                /* [r/w] Optional.                      For use with FMOD_INIT_HRTF_LOWPASS.  The angle range (0-360) of a 3D sound in relation to the listener, at which the HRTF function begins to have an effect. 0 = in front of the listener. 180 = from 90 degrees to the left of the listener to 90 degrees to the right. 360 = behind the listener. Default = 180.0. */
-        public float   HRTFMaxAngle;                /* [r/w] Optional.                      For use with FMOD_INIT_HRTF_LOWPASS.  The angle range (0-360) of a 3D sound in relation to the listener, at which the HRTF function has maximum effect. 0 = front of the listener. 180 = from 90 degrees to the left of the listener to 90 degrees to the right. 360 = behind the listener. Default = 360.0. */
-        public float   HRTFFreq;                    /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_HRTF_LOWPASS.  The cutoff frequency of the HRTF's lowpass filter function when at maximum effect. (i.e. at HRTFMaxAngle).  Default = 4000.0. */
-        public float   vol0virtualvol;              /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_VOL0_BECOMES_VIRTUAL.  If this flag is used, and the volume is below this, then the sound will become virtual.  Use this value to raise the threshold to a different point where a sound goes virtual. */
-        public uint    defaultDecodeBufferSize;     /* [r/w] Optional. Specify 0 to ignore. For streams. This determines the default size of the double buffer (in milliseconds) that a stream uses.  Default = 400ms */
-        public ushort  profilePort;                 /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_ENABLE_PROFILE.  Specify the port to listen on for connections by the profiler application. */
-        public uint    geometryMaxFadeTime;         /* [r/w] Optional. Specify 0 to ignore. The maximum time in miliseconds it takes for a channel to fade to the new level when its occlusion changes. */
-        public float   distanceFilterCenterFreq;    /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_DISTANCE_FILTERING.  The default center frequency in Hz for the distance filtering effect. Default = 1500.0. */
-        public int     reverb3Dinstance;            /* [r/w] Optional. Specify 0 to ignore. Out of 0 to 3, 3d reverb spheres will create a phyical reverb unit on this instance slot.  See FMOD_REVERB_PROPERTIES. */
-        public int     DSPBufferPoolSize;           /* [r/w] Optional. Specify 0 to ignore. Number of buffers in DSP buffer pool.  Each buffer will be DSPBlockSize * sizeof(float) * SpeakerModeChannelCount.  ie 7.1 @ 1024 DSP block size = 8 * 1024 * 4 = 32kb.  Default = 8. */
-        public uint    stackSizeStream;             /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD Stream thread in bytes.  Useful for custom codecs that use excess stack.  Default 49,152 (48kb) */
-        public uint    stackSizeNonBlocking;        /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD_NONBLOCKING loading thread.  Useful for custom codecs that use excess stack.  Default 65,536 (64kb) */
-        public uint    stackSizeMixer;              /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD mixer thread.  Useful for custom dsps that use excess stack.  Default 49,152 (48kb) */
-        public uint    resamplerMethod;             /* [r/w] Optional. Specify 0 to ignore. Resampling method used with fmod's software mixer.  See FMOD_DSP_RESAMPLER for details on methods. */
-        public uint    commandQueueSize;            /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for thread safe processing.  Default 2048 (2kb) */
-        public uint    randomSeed;                  /* [r/w] Optional. Specify 0 to ignore. Seed value that FMOD will use to initialize its internal random number generators. */
+        public int                 cbSize;                     /* [w]   Size of this structure.  Use sizeof(FMOD_ADVANCEDSETTINGS) */
+        public int                 maxMPEGCodecs;              /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  MPEG   codecs consume 30,528 bytes per instance and this number will determine how many MPEG   channels can be played simultaneously. Default = 32. */
+        public int                 maxADPCMCodecs;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  ADPCM  codecs consume  3,128 bytes per instance and this number will determine how many ADPCM  channels can be played simultaneously. Default = 32. */
+        public int                 maxXMACodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  XMA    codecs consume 14,836 bytes per instance and this number will determine how many XMA    channels can be played simultaneously. Default = 32. */
+        public int                 maxVorbisCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  Vorbis codecs consume 23,256 bytes per instance and this number will determine how many Vorbis channels can be played simultaneously. Default = 32. */    
+        public int                 maxAT9Codecs;               /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  AT9    codecs consume  8,720 bytes per instance and this number will determine how many AT9    channels can be played simultaneously. Default = 32. */    
+        public int                 maxFADPCMCodecs;            /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_CREATECOMPRESSEDSAMPLE only.  This number will determine how many FADPCM channels can be played simultaneously. Default = 32. */
+        public int                 maxPCMCodecs;               /* [r/w] Optional. Specify 0 to ignore. For use with PS3 only.                          PCM    codecs consume 12,672 bytes per instance and this number will determine how many streams and PCM voices can be played simultaneously. Default = 16. */
+        public int                 ASIONumChannels;            /* [r/w] Optional. Specify 0 to ignore. Number of channels available on the ASIO device. */
+        public IntPtr              ASIOChannelList;            /* [r/w] Optional. Specify 0 to ignore. Pointer to an array of strings (number of entries defined by ASIONumChannels) with ASIO channel names. */
+        public IntPtr              ASIOSpeakerList;            /* [r/w] Optional. Specify 0 to ignore. Pointer to a list of speakers that the ASIO channels map to.  This can be called after System::init to remap ASIO output. */
+        public float               HRTFMinAngle;               /* [r/w] Optional.                      For use with FMOD_INIT_HRTF_LOWPASS.  The angle range (0-360) of a 3D sound in relation to the listener, at which the HRTF function begins to have an effect. 0 = in front of the listener. 180 = from 90 degrees to the left of the listener to 90 degrees to the right. 360 = behind the listener. Default = 180.0. */
+        public float               HRTFMaxAngle;               /* [r/w] Optional.                      For use with FMOD_INIT_HRTF_LOWPASS.  The angle range (0-360) of a 3D sound in relation to the listener, at which the HRTF function has maximum effect. 0 = front of the listener. 180 = from 90 degrees to the left of the listener to 90 degrees to the right. 360 = behind the listener. Default = 360.0. */
+        public float               HRTFFreq;                   /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_HRTF_LOWPASS.  The cutoff frequency of the HRTF's lowpass filter function when at maximum effect. (i.e. at HRTFMaxAngle).  Default = 4000.0. */
+        public float               vol0virtualvol;             /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_VOL0_BECOMES_VIRTUAL.  If this flag is used, and the volume is below this, then the sound will become virtual.  Use this value to raise the threshold to a different point where a sound goes virtual. */
+        public uint                defaultDecodeBufferSize;    /* [r/w] Optional. Specify 0 to ignore. For streams. This determines the default size of the double buffer (in milliseconds) that a stream uses.  Default = 400ms */
+        public ushort              profilePort;                /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_PROFILE_ENABLE.  Specify the port to listen on for connections by the profiler application. */
+        public uint                geometryMaxFadeTime;        /* [r/w] Optional. Specify 0 to ignore. The maximum time in miliseconds it takes for a channel to fade to the new level when its occlusion changes. */
+        public float               distanceFilterCenterFreq;   /* [r/w] Optional. Specify 0 to ignore. For use with FMOD_INIT_DISTANCE_FILTERING.  The default center frequency in Hz for the distance filtering effect. Default = 1500.0. */
+        public int                 reverb3Dinstance;           /* [r/w] Optional. Specify 0 to ignore. Out of 0 to 3, 3d reverb spheres will create a phyical reverb unit on this instance slot.  See FMOD_REVERB_PROPERTIES. */
+        public int                 DSPBufferPoolSize;          /* [r/w] Optional. Specify 0 to ignore. Number of buffers in DSP buffer pool.  Each buffer will be DSPBlockSize * sizeof(float) * SpeakerModeChannelCount.  ie 7.1 @ 1024 DSP block size = 8 * 1024 * 4 = 32kb.  Default = 8. */
+        public uint                stackSizeStream;            /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD Stream thread in bytes.  Useful for custom codecs that use excess stack.  Default 49,152 (48kb) */
+        public uint                stackSizeNonBlocking;       /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD_NONBLOCKING loading thread.  Useful for custom codecs that use excess stack.  Default 65,536 (64kb) */
+        public uint                stackSizeMixer;             /* [r/w] Optional. Specify 0 to ignore. Specify the stack size for the FMOD mixer thread.  Useful for custom dsps that use excess stack.  Default 49,152 (48kb) */
+        public DSP_RESAMPLER       resamplerMethod;            /* [r/w] Optional. Specify 0 to ignore. Resampling method used with fmod's software mixer.  See FMOD_DSP_RESAMPLER for details on methods. */
+        public uint                commandQueueSize;           /* [r/w] Optional. Specify 0 to ignore. Specify the command queue size for thread safe processing.  Default 2048 (2kb) */
+        public uint                randomSeed;                 /* [r/w] Optional. Specify 0 to ignore. Seed value that FMOD will use to initialize its internal random number generators. */
+    }
+
+    /*
+    [DEFINE]
+    [
+        [NAME]
+        FMOD_DRIVER_STATE
+
+        [DESCRIPTION]
+        Flags that provide additional information about a particular driver.
+
+        [REMARKS]
+
+        [SEE_ALSO]
+        System::getRecordDriverInfo
+    ]
+    */
+    [Flags]
+    public enum DRIVER_STATE : uint
+    {
+        CONNECTED = 0x00000001, /* Device is currently plugged in. */
+        DEFAULT   = 0x00000002, /* Device is the users preferred choice. */
     }
 
     /*
@@ -1736,7 +1755,7 @@ namespace FMOD
         {
             return FMOD_System_GetNumDrivers(rawPtr, out numdrivers);
         }
-        public RESULT getDriverInfo          (int id, StringBuilder name, int namelen, out GUID guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels)
+        public RESULT getDriverInfo          (int id, StringBuilder name, int namelen, out Guid guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels)
         {
             IntPtr stringMem = Marshal.AllocHGlobal(name.Capacity);
 
@@ -1946,6 +1965,14 @@ namespace FMOD
         {
             return FMOD_System_MixerResume(rawPtr);
         }
+        public RESULT getDefaultMixMatrix    (SPEAKERMODE sourcespeakermode, SPEAKERMODE targetspeakermode, float[] matrix, int matrixhop)
+        {
+            return FMOD_System_GetDefaultMixMatrix(rawPtr, sourcespeakermode, targetspeakermode, matrix, matrixhop);
+        }
+        public RESULT getSpeakerModeChannels (SPEAKERMODE mode, out int channels)
+        {
+            return FMOD_System_GetSpeakerModeChannels(rawPtr, mode, out channels);
+        }
 
         // System information functions.
         public RESULT getVersion             (out uint version)
@@ -2146,9 +2173,9 @@ namespace FMOD
         }
 
         // Routing to ports.
-        public RESULT attachChannelGroupToPort(uint portType, ulong portIndex, ChannelGroup channelgroup)
+        public RESULT attachChannelGroupToPort(uint portType, ulong portIndex, ChannelGroup channelgroup, bool passThru = false)
         {
-            return FMOD_System_AttachChannelGroupToPort(rawPtr, portType, portIndex, channelgroup.getRaw());
+            return FMOD_System_AttachChannelGroupToPort(rawPtr, portType, portIndex, channelgroup.getRaw(), passThru);
         }
         public RESULT detachChannelGroupFromPort(ChannelGroup channelgroup)
         {
@@ -2176,15 +2203,15 @@ namespace FMOD
         }
 
         // Recording api
-        public RESULT getRecordNumDrivers    (out int numdrivers)
+        public RESULT getRecordNumDrivers    (out int numdrivers, out int numconnected)
         {
-            return FMOD_System_GetRecordNumDrivers(rawPtr, out numdrivers);
+            return FMOD_System_GetRecordNumDrivers(rawPtr, out numdrivers, out numconnected);
         }
-        public RESULT getRecordDriverInfo(int id, StringBuilder name, int namelen, out GUID guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels)
+        public RESULT getRecordDriverInfo(int id, StringBuilder name, int namelen, out Guid guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels, out DRIVER_STATE state)
         {
             IntPtr stringMem = Marshal.AllocHGlobal(name.Capacity);
 
-            RESULT result = FMOD_System_GetRecordDriverInfo(rawPtr, id, stringMem, namelen, out guid, out systemrate, out speakermode, out speakermodechannels);
+            RESULT result = FMOD_System_GetRecordDriverInfo(rawPtr, id, stringMem, namelen, out guid, out systemrate, out speakermode, out speakermodechannels, out state);
 
             StringMarshalHelper.NativeToBuilder(name, stringMem);
             Marshal.FreeHGlobal(stringMem);
@@ -2288,7 +2315,7 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_GetNumDrivers          (IntPtr system, out int numdrivers);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_System_GetDriverInfo          (IntPtr system, int id, IntPtr name, int namelen, out GUID guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels);
+        private static extern RESULT FMOD_System_GetDriverInfo          (IntPtr system, int id, IntPtr name, int namelen, out Guid guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_SetDriver              (IntPtr system, int driver);
         [DllImport(VERSION.dll)]
@@ -2352,6 +2379,10 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_MixerResume            (IntPtr system);
         [DllImport(VERSION.dll)]
+        private static extern RESULT FMOD_System_GetDefaultMixMatrix    (IntPtr system, SPEAKERMODE sourcespeakermode, SPEAKERMODE targetspeakermode, float[] matrix, int matrixhop);
+        [DllImport(VERSION.dll)]
+        private static extern RESULT FMOD_System_GetSpeakerModeChannels (IntPtr system, SPEAKERMODE mode, out int channels);
+        [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_SetCallback            (IntPtr system, SYSTEM_CALLBACK callback, SYSTEM_CALLBACK_TYPE callbackmask);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_SetSpeakerPosition     (IntPtr system, SPEAKER speaker, float x, float y, bool active);
@@ -2408,7 +2439,7 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_GetMasterSoundGroup    (IntPtr system, out IntPtr soundgroup);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_System_AttachChannelGroupToPort  (IntPtr system, uint portType, ulong portIndex, IntPtr channelgroup);
+        private static extern RESULT FMOD_System_AttachChannelGroupToPort  (IntPtr system, uint portType, ulong portIndex, IntPtr channelgroup, bool passThru);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_DetachChannelGroupFromPort(IntPtr system, IntPtr channelgroup);
         [DllImport(VERSION.dll)]
@@ -2420,9 +2451,9 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_UnlockDSP              (IntPtr system);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_System_GetRecordNumDrivers    (IntPtr system, out int numdrivers);
+        private static extern RESULT FMOD_System_GetRecordNumDrivers    (IntPtr system, out int numdrivers, out int numconnected);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_System_GetRecordDriverInfo    (IntPtr system, int id, IntPtr name, int namelen, out GUID guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels);
+        private static extern RESULT FMOD_System_GetRecordDriverInfo    (IntPtr system, int id, IntPtr name, int namelen, out Guid guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels, out DRIVER_STATE state);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_GetRecordPosition      (IntPtr system, int id, out uint position);
         [DllImport(VERSION.dll)]
@@ -3640,19 +3671,19 @@ namespace FMOD
         }
 
         // Connection / disconnection / input and output enumeration.
-        public RESULT addInput(DSP target, out DSPConnection connection)
+        public RESULT addInput(DSP target, out DSPConnection connection, DSPCONNECTION_TYPE type)
         {
             connection = null;
 
             IntPtr dspconnectionraw;
-            RESULT result = FMOD_DSP_AddInput(rawPtr, target.getRaw(), out dspconnectionraw);
+            RESULT result = FMOD_DSP_AddInput(rawPtr, target.getRaw(), out dspconnectionraw, type);
             connection = new DSPConnection(dspconnectionraw);
 
             return result;
         }
-        public RESULT disconnectFrom            (DSP target)
+        public RESULT disconnectFrom            (DSP target, DSPConnection connection)
         {
-            return FMOD_DSP_DisconnectFrom(rawPtr, target.getRaw());
+            return FMOD_DSP_DisconnectFrom(rawPtr, target.getRaw(), connection.getRaw());
         }
         public RESULT disconnectAll             (bool inputs, bool outputs)
         {
@@ -3835,9 +3866,9 @@ namespace FMOD
             return FMOD_DSP_GetMeteringEnabled(rawPtr, out inputEnabled, out outputEnabled);
         }
 
-        public RESULT getMeteringInfo(out DSP_METERING_INFO info)
+        public RESULT getMeteringInfo(ref DSP_METERING_INFO inputInfo, ref DSP_METERING_INFO outputInfo)
         {
-            return FMOD_DSP_GetMeteringInfo(rawPtr, out info);
+            return FMOD_DSP_GetMeteringInfo(rawPtr, ref inputInfo, ref outputInfo);
         }
 
         #region importfunctions
@@ -3847,9 +3878,9 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_DSP_GetSystemObject           (IntPtr dsp, out IntPtr system);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_DSP_AddInput                  (IntPtr dsp, IntPtr target, out IntPtr connection);
+        private static extern RESULT FMOD_DSP_AddInput                  (IntPtr dsp, IntPtr target, out IntPtr connection, DSPCONNECTION_TYPE type);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_DSP_DisconnectFrom            (IntPtr dsp, IntPtr target);
+        private static extern RESULT FMOD_DSP_DisconnectFrom            (IntPtr dsp, IntPtr target, IntPtr connection);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_DSP_DisconnectAll             (IntPtr dsp, bool inputs, bool outputs);
         [DllImport(VERSION.dll)]
@@ -3919,7 +3950,7 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         public static extern RESULT FMOD_DSP_GetMeteringEnabled         (IntPtr dsp, out bool inputEnabled, out bool outputEnabled);
         [DllImport(VERSION.dll)]
-        public static extern RESULT FMOD_DSP_GetMeteringInfo            (IntPtr dsp, out DSP_METERING_INFO dspInfo);
+        public static extern RESULT FMOD_DSP_GetMeteringInfo            (IntPtr dsp, ref DSP_METERING_INFO inputInfo, ref DSP_METERING_INFO outputInfo);
         #endregion
 
         #region wrapperinternal
@@ -4259,8 +4290,12 @@ namespace FMOD
         {
             byte[] bytes = new byte[builder.Capacity];
             Marshal.Copy(nativeMem, bytes, 0, builder.Capacity);
-            String str = Encoding.UTF8.GetString(bytes, 0, Array.IndexOf(bytes, (byte)0));
-            builder.Append(str);
+			int strlen = Array.IndexOf(bytes, (byte)0);
+			if (strlen > 0)
+			{
+				String str = Encoding.UTF8.GetString(bytes, 0, strlen);
+				builder.Append(str);
+			}
         }
     }
 }
