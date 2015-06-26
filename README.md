@@ -120,7 +120,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ### FMOD Ex SoundSystem
 
 FMOD, FMOD Ex, FMOD Designer and FMOD Studio are 
-Copyright © 2005-2014 Firelight Technologies Pty, Ltd.
+Copyright © 2005-2015 Firelight Technologies Pty, Ltd.
 
 GRANT OF LICENSE
 ----------------
@@ -154,9 +154,9 @@ CONDITIONS/LIMITATIONS:
   LOGOS ARE AVAILABLE FOR BOX OR MANUAL ART, BUT ARE NOT MANDATORY. 
   AN EXAMPLE CREDIT COULD BE:
   
-  FMOD Sound System, copyright © Firelight Technologies Pty, Ltd., 1994-2014.
+  FMOD Sound System, copyright © Firelight Technologies Pty, Ltd., 1994-2015.
   OR
-  FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2014.
+  FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2015.
   OR 
   Audio Engine supplied by FMOD by Firelight Technologies.
 
@@ -181,7 +181,7 @@ CONDITIONS/LIMITATIONS
   LOGOS ARE AVAILABLE FOR BOX OR MANUAL ART, BUT ARE NOT MANDATORY. 
   AN EXAMPLE CREDIT COULD BE:
   
-  FMOD STUDIO, COPYRIGHT © FIRELIGHT TECHNOLOGIES PTY, LTD., 1994-2014.
+  FMOD STUDIO, COPYRIGHT © FIRELIGHT TECHNOLOGIES PTY, LTD., 1994-2015.
 
 COMMERCIAL USAGE (FMOD EX AND FMOD STUDIO)
 ------------------------------------------
