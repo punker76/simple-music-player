@@ -54,6 +54,7 @@ It's not perfect and many function not yet implemented.
 
 - [gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)
 - [MahApps.Metro](https://github.com/MahApps/MahApps.Metro)
+- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) @ButchersBoy
 - [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - [NLog](https://github.com/NLog/NLog)
 - [QuickIO.NET](http://quickio.azurewebsites.net/)
@@ -72,6 +73,10 @@ Most Icons are taken (inspired) from (thx @Templarian)
 - [Metrize Icons](http://www.alessioatzeni.com/metrize-icons/) by [Alessio Atzeni](https://twitter.com/Bluxart) @Bluxart
 
 ## Screen shots (milestones)
+
+![very early screenshot 17](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-07-19_22h18_51.png)  
+
+![very early screenshot 16](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-07-19_22h19_10.png)  
 
 ![very early screenshot 15](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-11-02_12h11_31.png)  
 
