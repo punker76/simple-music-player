@@ -10,6 +10,7 @@
                       xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
                       Title="Simple Music Player"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
+                      FontFamily="{DynamicResource SimpleFont}"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="True"
                       BorderBrush="Black"

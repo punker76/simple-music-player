@@ -9,6 +9,7 @@
                       xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
                       Title="Media Library"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
+                      FontFamily="{DynamicResource SimpleFont}"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="False"
                       BorderBrush="Black"

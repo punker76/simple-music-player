@@ -15,72 +15,298 @@
              d:DataContext="{d:DesignInstance ViewModels:PlayListsViewModel}">
 
     <UserControl.Resources>
-        <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-        <VisualBrush x:Key="VisualBrushPlay"
-                     Stretch="Fill"
-                     Visual="{StaticResource appbar_play_new}" />
-        <VisualBrush x:Key="VisualBrushPause"
-                     Stretch="Fill"
-                     Visual="{StaticResource appbar_pause_new}" />
+            <ValueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
 
-        <DataTemplate x:Key="PlayListToolTipDataTemplate"
-                      DataType="{x:Type models:MediaFile}">
-            <StackPanel Orientation="Horizontal">
-                <!-- cover -->
-                <Grid VerticalAlignment="Top"
-                      Margin="0,0,5,0"
-                      Width="96"
-                      Height="96">
-                    <Border BorderBrush="#FF707070"
-                            BorderThickness="1"
-                            SnapsToDevicePixels="True">
-                        <Rectangle Width="60"
-                                   Height="60"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Fill="{DynamicResource CDBrush}" />
-                    </Border>
+            <VisualBrush x:Key="VisualBrushPlay"
+                         Stretch="Fill"
+                         Visual="{StaticResource appbar_play_new}" />
+            <VisualBrush x:Key="VisualBrushPause"
+                         Stretch="Fill"
+                         Visual="{StaticResource appbar_pause_new}" />
 
-                    <Image Stretch="UniformToFill"
-                           RenderOptions.EdgeMode="Aliased"
-                           RenderOptions.BitmapScalingMode="HighQuality"
-                           Source="{Binding Cover, Mode=OneWay}" />
-                </Grid>
+            <DataTemplate x:Key="PlayListToolTipDataTemplate"
+                          DataType="{x:Type models:MediaFile}">
+                <StackPanel Orientation="Horizontal">
+                    <!-- cover -->
+                    <Grid VerticalAlignment="Top"
+                          Margin="0,0,5,0"
+                          Width="96"
+                          Height="96">
+                        <Border BorderBrush="#FF707070"
+                                BorderThickness="1"
+                                SnapsToDevicePixels="True">
+                            <Rectangle Width="60"
+                                       Height="60"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Fill="{DynamicResource CDBrush}" />
+                        </Border>
 
+                        <Image Stretch="UniformToFill"
+                               RenderOptions.EdgeMode="Aliased"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Source="{Binding Cover, Mode=OneWay}" />
+                    </Grid>
+
+                    <Grid RenderOptions.ClearTypeHint="Enabled"
+                          TextOptions.TextFormattingMode="Display">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0"
+                                   FontSize="16"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Text="{Binding Title, Mode=OneWay}" />
+                        <TextBlock Grid.Row="1"
+                                   FontSize="14"
+                                   Foreground="{StaticResource SemiTextColorBrush}"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Text="{Binding Album, Mode=OneWay}" />
+                        <TextBlock Grid.Row="2"
+                                   FontSize="14"
+                                   Foreground="{StaticResource SemiTextColorBrush}"
+                                   TextAlignment="Left"
+                                   TextWrapping="Wrap"
+                                   Text="{Binding FirstPerformer, Mode=OneWay}" />
+                        <TextBlock Grid.Row="3"
+                                   FontSize="14"
+                                   Foreground="{StaticResource SemiTextColorBrush}"
+                                   TextAlignment="Left">
+                            <TextBlock.Text>
+                                <MultiBinding Mode="OneWay"
+                                              StringFormat="{}{0:0,.} kHz, {1} kbps">
+                                    <Binding Path="AudioSampleRate"
+                                             Mode="OneWay" />
+                                    <Binding Path="AudioBitrate"
+                                             Mode="OneWay" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Grid.Row="4"
+                                   FontSize="14"
+                                   TextAlignment="Left"
+                                   Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
+
+            <ToolTip x:Key="PlayListToolTip"
+                     FontFamily="{DynamicResource SimpleFont}"
+                     Content="{Binding}"
+                     ContentTemplate="{StaticResource PlayListToolTipDataTemplate}"
+                     Background="{StaticResource PlayListToolTipBackground}"
+                     BorderBrush="{DynamicResource GrayBrush10}"
+                     MinWidth="350"
+                     Padding="1"
+                     models:ToolTipHelper.AutoMove="True" />
+
+            <Style x:Key="PlayListMetroListBoxItem"
+                   TargetType="{x:Type ListBoxItem}"
+                   BasedOn="{StaticResource MetroListBoxItem}">
+                <Setter Property="ToolTipService.InitialShowDelay"
+                        Value="1000" />
+                <Setter Property="ToolTipService.BetweenShowDelay"
+                        Value="0" />
+                <Setter Property="ToolTip"
+                        Value="{StaticResource PlayListToolTip}" />
+            </Style>
+
+            <DataTemplate x:Key="SmallMediaFileTemplate"
+                          DataType="{x:Type models:MediaFile}">
                 <Grid RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="indexcol" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0"
+                          Margin="-1,0,0,1">
+                        <Rectangle Margin="0"
+                                   Width="16"
+                                   Height="16"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
+                                   OpacityMask="{StaticResource VisualBrushPlay}"
+                                   Fill="{StaticResource PlayListIconBrush}" />
+                        <Rectangle Margin="0"
+                                   Width="16"
+                                   Height="16"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
+                                   OpacityMask="{StaticResource VisualBrushPause}"
+                                   Fill="{DynamicResource PlayListIconBrush}" />
+                    </Grid>
+
+                    <TextBlock Grid.Column="1"
+                               Margin="4,2,6,0"
+                               Foreground="{StaticResource SemiTextColorBrush2}"
+                               TextAlignment="Right"
+                               Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
+                    <TextBlock Grid.Column="2"
+                               Margin="0,2,2,0"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding FirstPerformerAndTitle, Mode=OneWay}" />
+                    <TextBlock Grid.Column="3"
+                               Margin="0,2,5,2"
+                               Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="MediumMediaFileTemplate"
+                          DataType="{x:Type models:MediaFile}">
+                <Grid RenderOptions.ClearTypeHint="Enabled"
+                      TextOptions.TextFormattingMode="Display">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="indexcol" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Column="0"
+                          Grid.RowSpan="2"
+                          Margin="-1,0,0,0">
+                        <Rectangle Margin="0"
+                                   Width="20"
+                                   Height="20"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
+                                   OpacityMask="{StaticResource VisualBrushPlay}"
+                                   Fill="{StaticResource PlayListIconBrush}" />
+                        <Rectangle Margin="0"
+                                   Width="20"
+                                   Height="20"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
+                                   OpacityMask="{StaticResource VisualBrushPause}"
+                                   Fill="{DynamicResource PlayListIconBrush}" />
+                    </Grid>
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="0"
+                               Margin="4,2,6,0"
+                               FontSize="14"
+                               Foreground="{StaticResource SemiTextColorBrush2}"
+                               TextAlignment="Right"
+                               Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="0"
+                               Margin="0,2,2,0"
+                               FontSize="14"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding Title, Mode=OneWay}" />
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="1"
+                               Margin="0,2,2,4"
+                               Foreground="{StaticResource SemiTextColorBrush}"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
+                    <TextBlock Grid.Column="3"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Margin="0,2,5,4"
+                               VerticalAlignment="Center"
+                               Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="LargeMediaFileTemplate"
+                          DataType="{x:Type models:MediaFile}">
+                <Grid RenderOptions.ClearTypeHint="Enabled"
+                      TextOptions.TextFormattingMode="Display">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="indexcol" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="lengthcol" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0"
+
+                    <Grid Grid.Column="0"
+                          Grid.RowSpan="2"
+                          Margin="-1,0,0,1">
+                        <Rectangle Margin="0"
+                                   Width="32"
+                                   Height="32"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
+                                   OpacityMask="{StaticResource VisualBrushPlay}"
+                                   Fill="{StaticResource PlayListIconBrush}" />
+                        <Rectangle Margin="0"
+                                   Width="32"
+                                   Height="32"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
+                                   OpacityMask="{StaticResource VisualBrushPause}"
+                                   Fill="{DynamicResource PlayListIconBrush}" />
+                    </Grid>
+
+                    <TextBlock Grid.Column="1"
+                               Grid.Row="0"
+                               Margin="4,2,6,0"
                                FontSize="16"
-                               TextAlignment="Left"
-                               TextWrapping="Wrap"
+                               Foreground="{StaticResource SemiTextColorBrush2}"
+                               TextAlignment="Right"
+                               Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="0"
+                               Margin="0,2,2,0"
+                               FontSize="16"
+                               TextTrimming="CharacterEllipsis"
                                Text="{Binding Title, Mode=OneWay}" />
-                    <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Column="2"
+                               Grid.Row="1"
+                               Margin="0,2,2,4"
                                FontSize="14"
                                Foreground="{StaticResource SemiTextColorBrush}"
-                               TextAlignment="Left"
-                               TextWrapping="Wrap"
-                               Text="{Binding Album, Mode=OneWay}" />
-                    <TextBlock Grid.Row="2"
+                               TextTrimming="CharacterEllipsis"
+                               Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
+                    <TextBlock Grid.Column="3"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Margin="0,2,4,4"
                                FontSize="14"
                                Foreground="{StaticResource SemiTextColorBrush}"
-                               TextAlignment="Left"
-                               TextWrapping="Wrap"
-                               Text="{Binding FirstPerformer, Mode=OneWay}" />
-                    <TextBlock Grid.Row="3"
-                               FontSize="14"
-                               Foreground="{StaticResource SemiTextColorBrush}"
-                               TextAlignment="Left">
+                               VerticalAlignment="Center">
                         <TextBlock.Text>
                             <MultiBinding Mode="OneWay"
-                                          StringFormat="{}{0:0,.} kHz, {1} kbps">
+                                          StringFormat="{}{0:0,.} kHz {1} kbps">
                                 <Binding Path="AudioSampleRate"
                                          Mode="OneWay" />
                                 <Binding Path="AudioBitrate"
@@ -88,277 +314,114 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <TextBlock Grid.Row="4"
+                    <TextBlock Grid.Column="4"
+                               Grid.Row="0"
+                               Grid.RowSpan="2"
+                               Margin="0,2,5,4"
                                FontSize="14"
-                               TextAlignment="Left"
+                               VerticalAlignment="Center"
                                Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+
                 </Grid>
-            </StackPanel>
-        </DataTemplate>
+            </DataTemplate>
+        </ResourceDictionary>
 
-        <ToolTip x:Key="PlayListToolTip"
-                 Content="{Binding}"
-                 ContentTemplate="{StaticResource PlayListToolTipDataTemplate}"
-                 Background="{StaticResource PlayListToolTipBackground}"
-                 BorderBrush="{DynamicResource GrayBrush10}"
-                 MinWidth="350"
-                 Padding="1"
-                 models:ToolTipHelper.AutoMove="True" />
-
-        <Style x:Key="PlayListMetroListBoxItem"
-               TargetType="{x:Type ListBoxItem}"
-               BasedOn="{StaticResource MetroListBoxItem}">
-            <Setter Property="ToolTipService.InitialShowDelay"
-                    Value="1000" />
-            <Setter Property="ToolTipService.BetweenShowDelay"
-                    Value="0" />
-            <Setter Property="ToolTip"
-                    Value="{StaticResource PlayListToolTip}" />
-        </Style>
-
-        <DataTemplate x:Key="SmallMediaFileTemplate"
-                      DataType="{x:Type models:MediaFile}">
-            <Grid RenderOptions.ClearTypeHint="Enabled"
-                  TextOptions.TextFormattingMode="Display">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto"
-                                      SharedSizeGroup="indexcol" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0"
-                      Margin="-1,0,0,1">
-                    <Rectangle Margin="0"
-                               Width="16"
-                               Height="16"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
-                               OpacityMask="{StaticResource VisualBrushPlay}"
-                               Fill="{StaticResource PlayListIconBrush}" />
-                    <Rectangle Margin="0"
-                               Width="16"
-                               Height="16"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
-                               OpacityMask="{StaticResource VisualBrushPause}"
-                               Fill="{DynamicResource PlayListIconBrush}" />
-                </Grid>
-
-                <TextBlock Grid.Column="1"
-                           Margin="4,2,6,0"
-                           Foreground="{StaticResource SemiTextColorBrush2}"
-                           TextAlignment="Right"
-                           Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
-                <TextBlock Grid.Column="2"
-                           Margin="0,2,2,0"
-                           TextTrimming="CharacterEllipsis"
-                           Text="{Binding FirstPerformerAndTitle, Mode=OneWay}" />
-                <TextBlock Grid.Column="3"
-                           Margin="0,2,5,2"
-                           Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="MediumMediaFileTemplate"
-                      DataType="{x:Type models:MediaFile}">
-            <Grid RenderOptions.ClearTypeHint="Enabled"
-                  TextOptions.TextFormattingMode="Display">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto"
-                                      SharedSizeGroup="indexcol" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Column="0"
-                      Grid.RowSpan="2"
-                      Margin="-1,0,0,0">
-                    <Rectangle Margin="0"
-                               Width="20"
-                               Height="20"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
-                               OpacityMask="{StaticResource VisualBrushPlay}"
-                               Fill="{StaticResource PlayListIconBrush}" />
-                    <Rectangle Margin="0"
-                               Width="20"
-                               Height="20"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
-                               OpacityMask="{StaticResource VisualBrushPause}"
-                               Fill="{DynamicResource PlayListIconBrush}" />
-                </Grid>
-
-                <TextBlock Grid.Column="1"
-                           Grid.Row="0"
-                           Margin="4,2,6,0"
-                           FontSize="14"
-                           Foreground="{StaticResource SemiTextColorBrush2}"
-                           TextAlignment="Right"
-                           Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="0"
-                           Margin="0,2,2,0"
-                           FontSize="14"
-                           TextTrimming="CharacterEllipsis"
-                           Text="{Binding Title, Mode=OneWay}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="1"
-                           Margin="0,2,2,4"
-                           Foreground="{StaticResource SemiTextColorBrush}"
-                           TextTrimming="CharacterEllipsis"
-                           Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
-                <TextBlock Grid.Column="3"
-                           Grid.Row="0"
-                           Grid.RowSpan="2"
-                           Margin="0,2,5,4"
-                           VerticalAlignment="Center"
-                           Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="LargeMediaFileTemplate"
-                      DataType="{x:Type models:MediaFile}">
-            <Grid RenderOptions.ClearTypeHint="Enabled"
-                  TextOptions.TextFormattingMode="Display">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto"
-                                      SharedSizeGroup="indexcol" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto"
-                                      SharedSizeGroup="lengthcol" />
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <Grid Grid.Column="0"
-                      Grid.RowSpan="2"
-                      Margin="-1,0,0,1">
-                    <Rectangle Margin="0"
-                               Width="32"
-                               Height="32"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
-                               OpacityMask="{StaticResource VisualBrushPlay}"
-                               Fill="{StaticResource PlayListIconBrush}" />
-                    <Rectangle Margin="0"
-                               Width="32"
-                               Height="32"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
-                               OpacityMask="{StaticResource VisualBrushPause}"
-                               Fill="{DynamicResource PlayListIconBrush}" />
-                </Grid>
-
-                <TextBlock Grid.Column="1"
-                           Grid.Row="0"
-                           Margin="4,2,6,0"
-                           FontSize="16"
-                           Foreground="{StaticResource SemiTextColorBrush2}"
-                           TextAlignment="Right"
-                           Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="0"
-                           Margin="0,2,2,0"
-                           FontSize="16"
-                           TextTrimming="CharacterEllipsis"
-                           Text="{Binding Title, Mode=OneWay}" />
-                <TextBlock Grid.Column="2"
-                           Grid.Row="1"
-                           Margin="0,2,2,4"
-                           FontSize="14"
-                           Foreground="{StaticResource SemiTextColorBrush}"
-                           TextTrimming="CharacterEllipsis"
-                           Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
-                <TextBlock Grid.Column="3"
-                           Grid.Row="0"
-                           Grid.RowSpan="2"
-                           Margin="0,2,4,4"
-                           FontSize="14"
-                           Foreground="{StaticResource SemiTextColorBrush}"
-                           VerticalAlignment="Center">
-                    <TextBlock.Text>
-                        <MultiBinding Mode="OneWay"
-                                      StringFormat="{}{0:0,.} kHz {1} kbps">
-                            <Binding Path="AudioSampleRate"
-                                     Mode="OneWay" />
-                            <Binding Path="AudioBitrate"
-                                     Mode="OneWay" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <TextBlock Grid.Column="4"
-                           Grid.Row="0"
-                           Grid.RowSpan="2"
-                           Margin="0,2,5,4"
-                           FontSize="14"
-                           VerticalAlignment="Center"
-                           Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-
-            </Grid>
-        </DataTemplate>
     </UserControl.Resources>
 
-    <models:BaseListBox x:Name="ListBoxPlayList"
-                        Grid.IsSharedSizeScope="True"
-                        models:SelectorHelper.ScrollingLines="1"
-                        ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"
-                        ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"
-                        ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-                        ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
-                        SelectionMode="Extended"
-                        SelectedItem="{Binding SelectedPlayListFile}"
-                        models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
-                        models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                        HorizontalContentAlignment="Stretch"
-                        behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                        dd:DragDrop.IsDragSource="True"
-                        dd:DragDrop.IsDropTarget="True"
-                        dd:DragDrop.DropHandler="{Binding}">
-        <models:BaseListBox.Style>
-            <Style TargetType="{x:Type models:BaseListBox}"
-                   BasedOn="{StaticResource BaseMetroListBox}">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
-                                 Value="Small">
-                        <Setter Property="ItemTemplate"
-                                Value="{StaticResource SmallMediaFileTemplate}" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
-                                 Value="Medium">
-                        <Setter Property="ItemTemplate"
-                                Value="{StaticResource MediumMediaFileTemplate}" />
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
-                                 Value="Large">
-                        <Setter Property="ItemTemplate"
-                                Value="{StaticResource LargeMediaFileTemplate}" />
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </models:BaseListBox.Style>
-    </models:BaseListBox>
+    <Grid>
+        <models:BaseListBox x:Name="ListBoxPlayList"
+                            Grid.IsSharedSizeScope="True"
+                            models:SelectorHelper.ScrollingLines="1"
+                            ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"
+                            ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"
+                            ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                            ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
+                            SelectionMode="Extended"
+                            SelectedItem="{Binding SelectedPlayListFile}"
+                            models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+                            models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            HorizontalContentAlignment="Stretch"
+                            behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            dd:DragDrop.IsDragSource="True"
+                            dd:DragDrop.IsDropTarget="True"
+                            dd:DragDrop.DropHandler="{Binding}">
+            <models:BaseListBox.Style>
+                <Style TargetType="{x:Type models:BaseListBox}"
+                       BasedOn="{StaticResource BaseMetroListBox}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Small">
+                            <Setter Property="ItemTemplate"
+                                    Value="{StaticResource SmallMediaFileTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Medium">
+                            <Setter Property="ItemTemplate"
+                                    Value="{StaticResource MediumMediaFileTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:PlayListsView}}, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Large">
+                            <Setter Property="ItemTemplate"
+                                    Value="{StaticResource LargeMediaFileTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </models:BaseListBox.Style>
+        </models:BaseListBox>
+
+        <Button Margin="0 0 0 0"
+                Opacity="0.2"
+                Width="32"
+                Height="32"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom">
+            <Viewbox Width="20"
+                     Height="20">
+                <Canvas Width="20"
+                        Height="20">
+                    <Path Data="M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z"
+                          Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
+                </Canvas>
+            </Viewbox>
+            <Button.Style>
+                <Style TargetType="Button"
+                       BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">
+                    <Style.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="UIElement.IsMouseOver"
+                                           Value="false" />
+                                <Condition Property="UIElement.IsKeyboardFocusWithin"
+                                           Value="false" />
+                            </MultiTrigger.Conditions>
+                            <TriggerBase.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0.2"
+                                                         To="1"
+                                                         Duration="0:0:0.3"
+                                                         EasingFunction="{StaticResource DefaultEaseInOut}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </TriggerBase.ExitActions>
+                            <TriggerBase.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="1"
+                                                         To="0.2"
+                                                         Duration="0:0:1"
+                                                         EasingFunction="{StaticResource DefaultEaseInOut}" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </TriggerBase.EnterActions>
+                        </MultiTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
 
 </UserControl>

@@ -11,6 +11,8 @@
                                d:DesignHeight="300"
                                d:DesignWidth="300"
                                d:DataContext="{d:DesignInstance viewModels:EqualizerViewModel}"
+                               RenderOptions.ClearTypeHint="Enabled"
+                               TextOptions.TextFormattingMode="Display"
                                Title="Equalizer">
 
     <simpleChildWindow:ChildWindow.Icon>
