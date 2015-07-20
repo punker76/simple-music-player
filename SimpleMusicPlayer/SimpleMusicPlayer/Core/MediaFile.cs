@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using ReactiveUI;
+using SchwabenCode.QuickIO;
 using SimpleMusicPlayer.Core.Interfaces;
 using TagLib;
 
@@ -269,7 +272,12 @@ namespace SimpleMusicPlayer.Core
                     var pictures = file.Tag.Pictures;
                     if (pictures != null)
                     {
-                        var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover);
+                        var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover
+                                                               || p.Type == PictureType.BackCover
+                                                               || p.Type == PictureType.FileIcon
+                                                               || p.Type == PictureType.OtherFileIcon
+                                                               || p.Type == PictureType.Media
+                                                               || p.Type == PictureType.Other);
                         if (pic != null)
                         {
                             var bi = new BitmapImage();
@@ -296,20 +304,23 @@ namespace SimpleMusicPlayer.Core
             try
             {
                 var path2Image = Path.GetDirectoryName(fileName);
+                if (string.IsNullOrEmpty(path2Image))
+                {
+                    return null;
+                }
+
                 var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp" };
-                var cover = !string.IsNullOrEmpty(path2Image)
-                    ? Directory.EnumerateFiles(path2Image, "*folder*")
-                               .Concat(Directory.EnumerateFiles(path2Image, "*cover*"))
-                               .Distinct()
-                               .FirstOrDefault(f => extensions.Contains(Path.GetExtension(f)))
-                    : null;
-                if (!string.IsNullOrEmpty(cover))
+                var regexCoverFiles = new Regex(".*(folder|cover|front|back|band|artist).*", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+                var allPossibleCoverFiles = QuickIODirectory.EnumerateFiles(path2Image).Where(f => extensions.Contains(Path.GetExtension(f.Name))).ToList();
+                var cover = allPossibleCoverFiles.FirstOrDefault(f => regexCoverFiles.IsMatch(f.Name));
+                cover = cover ?? allPossibleCoverFiles.FirstOrDefault();
+                if (cover != null)
                 {
                     var bi = new BitmapImage();
                     bi.BeginInit();
                     bi.CreateOptions = BitmapCreateOptions.DelayCreation;
                     bi.CacheOption = BitmapCacheOption.OnDemand;
-                    bi.UriSource = new Uri(cover, UriKind.RelativeOrAbsolute);
+                    bi.UriSource = new Uri(cover.FullName, UriKind.RelativeOrAbsolute);
                     bi.EndInit();
                     bi.Freeze();
                     return bi;
