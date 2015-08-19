@@ -25,7 +25,11 @@
                       d:DataContext="{d:DesignInstance ViewModels:MainViewModel}">
 
     <Controls:MetroWindow.Resources>
-        <ValueConverters:NullToCollapsedVisibilityConverter x:Key="NullToCollapsedVisibilityConverter" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Views/PlayControlInfoViewTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Controls:MetroWindow.Resources>
 
     <Controls:MetroWindow.RightWindowCommands>
@@ -51,8 +55,9 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Views:PlayControlInfoView Grid.Row="0"
-                                   DataContext="{Binding PlayControlInfoViewModel, Mode=OneTime}" />
+        <ContentControl Grid.Row="0"
+                        Style="{StaticResource PlayControlInfoViewStyle}"
+                        Content="{Binding PlayControlInfoViewModel, Mode=OneTime}" />
 
         <Views:PlayListsView Grid.Row="1"
                              DataContext="{Binding PlayListsViewModel, Mode=OneTime}"

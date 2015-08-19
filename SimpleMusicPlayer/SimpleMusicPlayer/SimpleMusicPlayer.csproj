@@ -234,9 +234,6 @@
     <Compile Include="Views\EqualizerView.xaml.cs">
       <DependentUpon>EqualizerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlayControlInfoView.xaml.cs">
-      <DependentUpon>PlayControlInfoView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MediaFileTransitioningContentControl.xaml.cs">
       <DependentUpon>MediaFileTransitioningContentControl.xaml</DependentUpon>
     </Compile>
@@ -262,10 +259,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EqualizerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlayControlInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -306,6 +299,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MedialibView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PlayControlInfoViewTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
