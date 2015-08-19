@@ -28,6 +28,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Views/PlayControlInfoViewTemplates.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Views/PlaylistsViewTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
@@ -59,9 +60,10 @@
                         Style="{StaticResource PlayControlInfoViewStyle}"
                         Content="{Binding PlayControlInfoViewModel, Mode=OneTime}" />
 
-        <Views:PlayListsView Grid.Row="1"
-                             DataContext="{Binding PlayListsViewModel, Mode=OneTime}"
-                             Margin="5,10,5,5" />
+        <ContentControl Grid.Row="1"
+                        Margin="5,10,5,5"
+                        Style="{StaticResource PlaylistsViewStyle}"
+                        Content="{Binding PlayListsViewModel, Mode=OneTime}" />
 
         <StackPanel Grid.Row="2"
                     DataContext="{Binding PlayListsViewModel.FileSearchWorker, Mode=OneWay}"

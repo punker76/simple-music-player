@@ -243,9 +243,6 @@
     <Compile Include="Views\PlayControlView.xaml.cs">
       <DependentUpon>PlayControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PlaylistsView.xaml.cs">
-      <DependentUpon>PlaylistsView.xaml</DependentUpon>
-    </Compile>
     <Page Include="Resources\Controls.CustomSlider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -310,7 +307,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\PlaylistsView.xaml">
+    <Page Include="Views\PlaylistsViewTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

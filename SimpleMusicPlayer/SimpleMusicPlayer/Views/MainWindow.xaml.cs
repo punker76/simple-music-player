@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Input;
 using MahApps.Metro.Controls;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
@@ -25,10 +27,28 @@ namespace SimpleMusicPlayer.Views
 
             this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
 
-            this.Events().PreviewKeyDown.Subscribe(this.ViewModel.HandlePreviewKeyDown);
+            // load playlist and command line stuff
+            this.Events().Loaded.Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler).InvokeCommand(this.ViewModel.PlayListsViewModel.StartUpCommand);
 
-            this.Events().Closed.InvokeCommand(this.ViewModel.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
-            this.Events().Closed.Subscribe(x=>this.ViewModel.ShutDown());
+            this.WhenActivated(d => this.WhenAnyValue(x => x.ViewModel)
+                                        .Subscribe(vm => {
+                                            var previewKeyDown = this.Events().PreviewKeyDown;
+                                            // handle main view keys
+                                            previewKeyDown.Subscribe(vm.HandlePreviewKeyDown);
+                                            // handle playlist keys
+                                            previewKeyDown.Where(x => x.Key == Key.Enter).InvokeCommand(vm.PlayListsViewModel.PlayCommand);
+                                            previewKeyDown.Where(x => x.Key == Key.Delete).InvokeCommand(vm.PlayListsViewModel.DeleteCommand);
+
+                                            var window = Window.GetWindow(this);
+                                            if (window != null)
+                                            {
+                                                vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(window.ActualWidth);
+                                                window.Events().SizeChanged.Throttle(TimeSpan.FromMilliseconds(15), RxApp.MainThreadScheduler).Subscribe(e => vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(e.NewSize.Width));
+                                            }
+
+                                            this.Events().Closed.InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
+                                            this.Events().Closed.Subscribe(x => vm.ShutDown());
+                                        }));
         }
 
         public override IWindowPlacementSettings GetWindowPlacementSettings()
