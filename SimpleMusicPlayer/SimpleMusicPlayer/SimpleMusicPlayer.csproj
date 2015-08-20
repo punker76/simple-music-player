@@ -103,20 +103,20 @@
       <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ReactiveUI">
-      <HintPath>..\packages\reactiveui-core.6.4.0.1\lib\Net45\ReactiveUI.dll</HintPath>
+    <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ReactiveUI.Events">
-      <HintPath>..\packages\reactiveui-events.6.4.0.1\lib\net45\ReactiveUI.Events.dll</HintPath>
+    <Reference Include="ReactiveUI.Events, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\reactiveui-events.6.5.0\lib\net45\ReactiveUI.Events.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="SchwabenCode.QuickIO">
       <HintPath>..\packages\QuickIO.NET.2.6.2.0\lib\net45\SchwabenCode.QuickIO.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Splat">
-      <HintPath>..\packages\Splat.1.6.0\lib\Net45\Splat.dll</HintPath>
+    <Reference Include="Splat, Version=1.6.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Splat.1.6.2\lib\Net45\Splat.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -377,17 +377,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\reactiveui-core.6.4.0.1\lib\Net45\ReactiveUI.dll">
-      <Link>DllsAsResource\ReactiveUI.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\reactiveui-events.6.4.0.1\lib\net45\ReactiveUI.Events.dll">
-      <Link>DllsAsResource\ReactiveUI.Events.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\Splat.1.6.0\lib\Net45\Splat.dll">
-      <Link>DllsAsResource\Splat.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\QuickIO.NET.2.6.2.0\lib\net45\SchwabenCode.QuickIO.dll">
       <Link>DllsAsResource\SchwabenCode.QuickIO.dll</Link>
     </EmbeddedResource>
@@ -418,6 +407,21 @@
   <ItemGroup>
     <EmbeddedResource Include="..\packages\MaterialDesignThemes.0.0.0.90\lib\net45\MaterialDesignThemes.Wpf.dll">
       <Link>DllsAsResource\MaterialDesignThemes.Wpf.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\reactiveui-core.6.5.0\lib\Net45\ReactiveUI.dll">
+      <Link>DllsAsResource\ReactiveUI.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\Splat.1.6.2\lib\Net45\Splat.dll">
+      <Link>DllsAsResource\Splat.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\reactiveui-events.6.5.0\lib\net45\ReactiveUI.Events.dll">
+      <Link>DllsAsResource\ReactiveUI.Events.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
