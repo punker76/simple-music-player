@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using GongSolutions.Wpf.DragDrop;
+using GongSolutions.Wpf.DragDrop.Utilities;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.Core.Interfaces;
@@ -361,7 +362,7 @@ namespace SimpleMusicPlayer.ViewModels
                 else
                 {
                     var insertIndex = dropInfo.InsertIndex;
-                    var destinationList = (QuickFillObservableCollection<IMediaFile>)DefaultDropHandler.GetList(dropInfo.TargetCollection);
+                    var destinationList = (QuickFillObservableCollection<IMediaFile>)(dropInfo.TargetCollection.TryGetList());
                     destinationList.AddItems(files, insertIndex);
                 }
             }
