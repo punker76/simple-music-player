@@ -99,8 +99,8 @@
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.3.2.0.0\lib\net45\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.0.1\lib\net45\NLog.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ReactiveUI, Version=6.5.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -372,11 +372,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\NLog.3.2.0.0\lib\net45\NLog.dll">
-      <Link>DllsAsResource\NLog.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\QuickIO.NET.2.6.2.0\lib\net45\SchwabenCode.QuickIO.dll">
       <Link>DllsAsResource\SchwabenCode.QuickIO.dll</Link>
     </EmbeddedResource>
@@ -422,6 +417,11 @@
   <ItemGroup>
     <EmbeddedResource Include="..\packages\reactiveui-events.6.5.0\lib\net45\ReactiveUI.Events.dll">
       <Link>DllsAsResource\ReactiveUI.Events.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\NLog.4.0.1\lib\net45\NLog.dll">
+      <Link>DllsAsResource\NLog.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

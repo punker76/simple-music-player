@@ -1,11 +1,10 @@
 ﻿using System;
 using NLog;
-using Splat;
 using LogLevel = Splat.LogLevel;
 
 namespace SimpleMusicPlayer.Core
 {
-    internal class NLogLogger : ILogger
+    internal class NLogLogger : Splat.ILogger
     {
         private readonly Logger logger;
 
@@ -31,19 +30,20 @@ namespace SimpleMusicPlayer.Core
                 case LogLevel.Debug:
                     return NLog.LogLevel.Debug;
 
-                case LogLevel.Error:
-                    return NLog.LogLevel.Error;
-
-                case LogLevel.Fatal:
-                    return NLog.LogLevel.Fatal;
-
                 case LogLevel.Info:
                     return NLog.LogLevel.Info;
 
                 case LogLevel.Warn:
                     return NLog.LogLevel.Warn;
+
+                case LogLevel.Error:
+                    return NLog.LogLevel.Error;
+
+                case LogLevel.Fatal:
+                    return NLog.LogLevel.Fatal;
+                default:
+                    throw new ArgumentOutOfRangeException("logLevel", logLevel, "This Splat.LogLevel isn't implemented!");
             }
-            throw new NotImplementedException("LogLevel isn't implemented");
         }
     }
 }

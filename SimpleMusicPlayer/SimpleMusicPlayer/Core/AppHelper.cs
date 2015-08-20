@@ -191,7 +191,7 @@ namespace SimpleMusicPlayer.Core
             // Step 5. Activate the configuration
             LogManager.Configuration = config;
 
-            Locator.CurrentMutable.RegisterConstant(new NLogLogger(NLog.LogManager.GetCurrentClassLogger()), typeof(ILogger));
+            Locator.CurrentMutable.RegisterConstant(new NLogLogger(NLog.LogManager.GetCurrentClassLogger()), typeof(Splat.ILogger));
         }
 
         public static bool CanCreateFile(string dir)
