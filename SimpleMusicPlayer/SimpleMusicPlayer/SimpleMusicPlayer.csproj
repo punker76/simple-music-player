@@ -69,8 +69,8 @@
       <HintPath>..\packages\gong-wpf-dragdrop.1.0.0-ALPHA010\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MahApps.Metro, Version=1.1.3.151, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA151\lib\net45\MahApps.Metro.dll</HintPath>
+    <Reference Include="MahApps.Metro, Version=1.1.3.152, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA152\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="MahApps.Metro.SimpleChildWindow, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -146,7 +146,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA151\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\MahApps.Metro.1.1.3-ALPHA152\lib\net45\System.Windows.Interactivity.dll</HintPath>
       <Private>True</Private>
       <Private>False</Private>
     </Reference>
@@ -382,14 +382,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.1.1.3-ALPHA151\lib\net45\MahApps.Metro.dll">
-      <Link>DllsAsResource\MahApps.Metro.dll</Link>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\MahApps.Metro.1.1.3-ALPHA151\lib\net45\System.Windows.Interactivity.dll">
-      <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="..\packages\MaterialDesignThemes.0.0.0.90\lib\net45\MaterialDesignThemes.Wpf.dll">
       <Link>DllsAsResource\MaterialDesignThemes.Wpf.dll</Link>
     </EmbeddedResource>
@@ -422,6 +414,14 @@
   <ItemGroup>
     <EmbeddedResource Include="..\packages\MahApps.Metro.SimpleChildWindow.1.3.0-ALPHA001\lib\net45\MahApps.Metro.SimpleChildWindow.dll">
       <Link>DllsAsResource\MahApps.Metro.SimpleChildWindow.dll</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.1.1.3-ALPHA152\lib\net45\MahApps.Metro.dll">
+      <Link>DllsAsResource\MahApps.Metro.dll</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\packages\MahApps.Metro.1.1.3-ALPHA152\lib\net45\System.Windows.Interactivity.dll">
+      <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
