@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010605;
+        public const int    number = 0x00010608;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -3741,13 +3741,13 @@ namespace FMOD
         {
             return FMOD_DSP_GetBypass(rawPtr, out bypass);
         }
-        public RESULT setWetDryMix(float wet, float dry)
+        public RESULT setWetDryMix(float prewet, float postwet, float dry)
         {
-            return FMOD_DSP_SetWetDryMix(rawPtr, wet, dry);
+            return FMOD_DSP_SetWetDryMix(rawPtr, prewet, postwet, dry);
         }
-        public RESULT getWetDryMix(out float wet, out float dry)
+        public RESULT getWetDryMix(out float prewet, out float postwet, out float dry)
         {
-            return FMOD_DSP_GetWetDryMix(rawPtr, out wet, out dry);
+            return FMOD_DSP_GetWetDryMix(rawPtr, out prewet, out postwet, out dry);
         }
         public RESULT setChannelFormat(CHANNELMASK channelmask, int numchannels, SPEAKERMODE source_speakermode)
         {
@@ -3866,9 +3866,9 @@ namespace FMOD
             return FMOD_DSP_GetMeteringEnabled(rawPtr, out inputEnabled, out outputEnabled);
         }
 
-        public RESULT getMeteringInfo(ref DSP_METERING_INFO inputInfo, ref DSP_METERING_INFO outputInfo)
+        public RESULT getMeteringInfo(DSP_METERING_INFO inputInfo, DSP_METERING_INFO outputInfo)
         {
-            return FMOD_DSP_GetMeteringInfo(rawPtr, ref inputInfo, ref outputInfo);
+            return FMOD_DSP_GetMeteringInfo(rawPtr, inputInfo, outputInfo);
         }
 
         #region importfunctions
@@ -3900,9 +3900,9 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_DSP_GetBypass                 (IntPtr dsp, out bool bypass);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_DSP_SetWetDryMix              (IntPtr dsp, float wet, float dry);
+        private static extern RESULT FMOD_DSP_SetWetDryMix              (IntPtr dsp, float prewet, float postwet, float dry);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_DSP_GetWetDryMix              (IntPtr dsp, out float wet, out float dry);
+        private static extern RESULT FMOD_DSP_GetWetDryMix              (IntPtr dsp, out float prewet, out float postwet, out float dry);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_DSP_SetChannelFormat          (IntPtr dsp, CHANNELMASK channelmask, int numchannels, SPEAKERMODE source_speakermode);
         [DllImport(VERSION.dll)]
@@ -3950,7 +3950,7 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         public static extern RESULT FMOD_DSP_GetMeteringEnabled         (IntPtr dsp, out bool inputEnabled, out bool outputEnabled);
         [DllImport(VERSION.dll)]
-        public static extern RESULT FMOD_DSP_GetMeteringInfo            (IntPtr dsp, ref DSP_METERING_INFO inputInfo, ref DSP_METERING_INFO outputInfo);
+        public static extern RESULT FMOD_DSP_GetMeteringInfo            (IntPtr dsp, [Out] DSP_METERING_INFO inputInfo, [Out] DSP_METERING_INFO outputInfo);
         #endregion
 
         #region wrapperinternal

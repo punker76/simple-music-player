@@ -798,7 +798,7 @@ namespace FMOD
     ]
     */
     [StructLayout(LayoutKind.Sequential)]
-    public struct DSP_METERING_INFO
+    public class DSP_METERING_INFO
     {
         public int   numsamples;        /* [r] The number of samples considered for this metering info. */
         [MarshalAs(UnmanagedType.ByValArray, SizeConst=32)]
@@ -1230,7 +1230,7 @@ namespace FMOD
     [
         [DESCRIPTION]
         Parameter types for the FMOD_DSP_TYPE_COMPRESSOR unit.
-        This is a simple linked multichannel software limiter that is uniform across the whole spectrum.<br>
+        This is a multichannel software limiter that is uniform across the whole spectrum.
 
         [REMARKS]
         The limiter is not guaranteed to catch every peak above the threshold level,
@@ -1256,7 +1256,8 @@ namespace FMOD
         ATTACK,      /* (Type:float) - Attack time (milliseconds), in the range from 0.1 through 1000. The default value is 20. */
         RELEASE,     /* (Type:float) - Release time (milliseconds), in the range from 10 through 5000. The default value is 100 */
         GAINMAKEUP,  /* (Type:float) - Make-up gain (dB) applied after limiting, in the range from 0 through 30. The default value is 0. */
-        USESIDECHAIN /* (Type:bool)  - Whether to analyse the sidechain signal instead of the input signal. The default value is false */
+        USESIDECHAIN,/* (Type:bool)  - Whether to analyse the sidechain signal instead of the input signal. The default value is false */
+        LINKED       /* (Type:bool)  - FALSE = Independent (compressor per channel), TRUE = Linked.  The default value is TRUE. */
     }
 
 
