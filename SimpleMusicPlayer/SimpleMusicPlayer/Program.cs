@@ -11,19 +11,19 @@ namespace SimpleMusicPlayer
 
         static Program()
         {
+            var executingAssembly = Assembly.GetExecutingAssembly();
+            var executingAssemblyName = executingAssembly.GetName().Name;
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) => {
-                var resourceName = Assembly.GetExecutingAssembly().GetName().Name + ".DllsAsResource." + new AssemblyName(args.Name).Name + ".dll";
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-                {
-                    if (stream != null)
-                    {
-                        var assemblyData = new Byte[stream.Length];
-                        stream.Read(assemblyData, 0, assemblyData.Length);
-                        return Assembly.Load(assemblyData);
-                    }
-                }
-                return null;
-            };
+                                                           var resourceName = executingAssemblyName + ".DllsAsResource." + new AssemblyName(args.Name).Name + ".dll";
+                                                           using (var stream = executingAssembly.GetManifestResourceStream(resourceName)) {
+                                                               if (stream != null) {
+                                                                   var assemblyData = new Byte[stream.Length];
+                                                                   stream.Read(assemblyData, 0, assemblyData.Length);
+                                                                   return Assembly.Load(assemblyData);
+                                                               }
+                                                           }
+                                                           return null;
+                                                       };
         }
 
         [STAThread]
