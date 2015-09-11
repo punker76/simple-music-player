@@ -81,8 +81,8 @@
       <HintPath>..\packages\MaterialDesignColors.1.1.0-beta\lib\net45\MaterialDesignColors.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="MaterialDesignThemes.Wpf, Version=0.0.0.107, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MaterialDesignThemes.0.0.0.107\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.1.0.1-beta126\lib\net45\MaterialDesignThemes.Wpf.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -418,7 +418,9 @@
     <EmbeddedResource Include="..\packages\MaterialDesignColors.1.1.0-beta\lib\net45\MaterialDesignColors.dll">
       <Link>DllsAsResource\MaterialDesignColors.dll</Link>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\packages\MaterialDesignThemes.0.0.0.107\lib\net45\MaterialDesignThemes.Wpf.dll">
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\packages\MaterialDesignThemes.1.0.1-beta126\lib\net45\MaterialDesignThemes.Wpf.dll">
       <Link>DllsAsResource\MaterialDesignThemes.Wpf.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
