@@ -319,25 +319,26 @@
     <DataTemplate x:Key="PlaylistsViewTemplate"
                   DataType="{x:Type viewModels:PlayListsViewModel}">
         <Grid>
-            <ListView x:Name="PlayListView"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display"
-                      ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-                      Style="{DynamicResource VirtualisedMetroListView}"
-                      BorderThickness="0"
-                      FocusVisualStyle="{x:Null}"
-                      HorizontalContentAlignment="Stretch"
-                      models:SelectorHelper.ScrollingLines="1"
-                      ScrollViewer.IsDeferredScrollingEnabled="False"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
-                      models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
-                      behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      dragDrop:DragDrop.IsDragSource="True"
-                      dragDrop:DragDrop.IsDropTarget="True"
-                      dragDrop:DragDrop.DropHandler="{Binding}"
-                      SelectionMode="Extended"
-                      SelectedItem="{Binding SelectedPlayListFile}">
+            <models:BaseListView x:Name="PlayListView"
+                                 RenderOptions.ClearTypeHint="Enabled"
+                                 TextOptions.TextFormattingMode="Display"
+                                 ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"
+                                 ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"
+                                 ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                                 BorderThickness="0"
+                                 FocusVisualStyle="{x:Null}"
+                                 HorizontalContentAlignment="Stretch"
+                                 models:SelectorHelper.ScrollingLines="1"
+                                 ScrollViewer.IsDeferredScrollingEnabled="False"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+                                 models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
+                                 behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                 dragDrop:DragDrop.IsDragSource="True"
+                                 dragDrop:DragDrop.IsDropTarget="True"
+                                 dragDrop:DragDrop.DropHandler="{Binding}"
+                                 SelectionMode="Extended"
+                                 SelectedItem="{Binding SelectedPlayListFile}">
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
                         <GridView.ColumnHeaderContainerStyle>
@@ -349,7 +350,8 @@
                         <GridViewColumn Width="{Binding ElementName=helperCountField, Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
-                                    <TextBlock Foreground="{StaticResource SemiTextColorBrush2}"
+                                    <TextBlock Margin="0,2,0,2"
+                                               Foreground="{StaticResource SemiTextColorBrush2}"
                                                Text="{Binding Path=PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}"
                                                TextAlignment="Right" />
                                 </DataTemplate>
@@ -369,7 +371,7 @@
                                                    TextTrimming="CharacterEllipsis"
                                                    Text="{Binding Path=FirstPerformerAndTitle, Mode=OneWay}" />
                                         <TextBlock Grid.Column="1"
-                                                   Margin="0,2,5,2"
+                                                   Margin="0,2,0,2"
                                                    Text="{Binding Path=Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
                                     </Grid>
                                 </DataTemplate>
@@ -377,7 +379,7 @@
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
-            </ListView>
+            </models:BaseListView>
 
             <!--This is the hidden helper Grid which does the resizing -->
             <Grid Visibility="Hidden">
@@ -398,8 +400,9 @@
                 <!--This is the hidden helper Field which is used to bind to, using the "Fill" column of the helper grid-->
                 <Grid Grid.Column="1"
                       x:Name="helperField" />
-                <!--                <Grid Grid.Column="2"-->
-                <!--                      Visibility="{Binding ElementName=PlayListView, Path=ScrollViewer.ComputedVerticalScrollBarVisibility}" />-->
+                <Grid Grid.Column="2"
+                      Width="{Binding ElementName=PlayListView, Path=VerticalScrollBarWidth, Mode=OneWay}"
+                      Visibility="{Binding ElementName=PlayListView, Path=ScrollViewer.ComputedVerticalScrollBarVisibility, Mode=OneWay}" />
             </Grid>
 
             <!--            <models:BaseListBox x:Name="ListBoxPlayList"-->
