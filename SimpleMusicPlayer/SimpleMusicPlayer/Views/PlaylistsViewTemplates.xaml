@@ -319,129 +319,46 @@
     <DataTemplate x:Key="PlaylistsViewTemplate"
                   DataType="{x:Type viewModels:PlayListsViewModel}">
         <Grid>
-            <ListView x:Name="PlayListView"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display"
-                      ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-                      Style="{DynamicResource VirtualisedMetroListView}"
-                      BorderThickness="0"
-                      FocusVisualStyle="{x:Null}"
-                      HorizontalContentAlignment="Stretch"
-                      models:SelectorHelper.ScrollingLines="1"
-                      ScrollViewer.IsDeferredScrollingEnabled="False"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
-                      models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
-                      behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                      dragDrop:DragDrop.IsDragSource="True"
-                      dragDrop:DragDrop.IsDropTarget="True"
-                      dragDrop:DragDrop.DropHandler="{Binding}"
-                      SelectionMode="Extended"
-                      SelectedItem="{Binding SelectedPlayListFile}">
-                <ListView.View>
-                    <GridView AllowsColumnReorder="False">
-                        <GridView.ColumnHeaderContainerStyle>
-                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Visibility"
-                                        Value="Collapsed" />
-                            </Style>
-                        </GridView.ColumnHeaderContainerStyle>
-                        <GridViewColumn Width="{Binding ElementName=helperCountField, Path=ActualWidth}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate DataType="{x:Type models:MediaFile}">
-                                    <TextBlock Foreground="{StaticResource SemiTextColorBrush2}"
-                                               Text="{Binding Path=PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}"
-                                               TextAlignment="Right" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <!--Column that shall resize: Width is set to the Actual Width of the helper field defined below-->
-                        <GridViewColumn Width="{Binding ElementName=helperField, Path=ActualWidth}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate DataType="{x:Type models:MediaFile}">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0"
-                                                   Margin="0,2,2,0"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   Text="{Binding Path=FirstPerformerAndTitle, Mode=OneWay}" />
-                                        <TextBlock Grid.Column="1"
-                                                   Margin="0,2,5,2"
-                                                   Text="{Binding Path=Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-                                    </Grid>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-
-            <!--This is the hidden helper Grid which does the resizing -->
-            <Grid Visibility="Hidden">
-                <Grid.ColumnDefinitions>
-                    <!--Width is bound to width of the first GridViewColumn -->
-                    <ColumnDefinition Width="Auto" />
-                    <!--Width is set to "Fill"-->
-                    <ColumnDefinition Width="*" />
-                    <!--Correction Width-->
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           Padding="8"
-                           FontSize="{Binding ElementName=PlayListView, Path=FontSize, Mode=OneWay}"
-                           FontFamily="{Binding ElementName=PlayListView, Path=FontFamily, Mode=OneWay}"
-                           Text="{Binding ElementName=PlayListView, Path=Items.Count, Mode=OneWay}"
-                           x:Name="helperCountField" />
-                <!--This is the hidden helper Field which is used to bind to, using the "Fill" column of the helper grid-->
-                <Grid Grid.Column="1"
-                      x:Name="helperField" />
-                <!--                <Grid Grid.Column="2"-->
-                <!--                      Visibility="{Binding ElementName=PlayListView, Path=ScrollViewer.ComputedVerticalScrollBarVisibility}" />-->
-            </Grid>
-
-            <!--            <models:BaseListBox x:Name="ListBoxPlayList"-->
-            <!--                                Grid.IsSharedSizeScope="True"-->
-            <!--                                models:SelectorHelper.ScrollingLines="1"-->
-            <!--                                ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"-->
-            <!--                                ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"-->
-            <!--                                ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"-->
-            <!--                                ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"-->
-            <!--                                SelectionMode="Extended"-->
-            <!--                                SelectedItem="{Binding SelectedPlayListFile}"-->
-            <!--                                models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"-->
-            <!--                                models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"-->
-            <!--                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"-->
-            <!--                                HorizontalContentAlignment="Stretch"-->
-            <!--                                behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"-->
-            <!--                                dragDrop:DragDrop.IsDragSource="True"-->
-            <!--                                dragDrop:DragDrop.IsDropTarget="True"-->
-            <!--                                dragDrop:DragDrop.DropHandler="{Binding}">-->
-            <!--                <models:BaseListBox.Style>-->
-            <!--                    <Style TargetType="{x:Type models:BaseListBox}"-->
-            <!--                           BasedOn="{StaticResource BaseMetroListBox}">-->
-            <!--                        <Style.Triggers>-->
-            <!--                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"-->
-            <!--                                         Value="Small">-->
-            <!--                                <Setter Property="ItemTemplate"-->
-            <!--                                        Value="{StaticResource SmallMediaFileTemplate}" />-->
-            <!--                            </DataTrigger>-->
-            <!--                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"-->
-            <!--                                         Value="Medium">-->
-            <!--                                <Setter Property="ItemTemplate"-->
-            <!--                                        Value="{StaticResource MediumMediaFileTemplate}" />-->
-            <!--                            </DataTrigger>-->
-            <!--                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"-->
-            <!--                                         Value="Large">-->
-            <!--                                <Setter Property="ItemTemplate"-->
-            <!--                                        Value="{StaticResource LargeMediaFileTemplate}" />-->
-            <!--                            </DataTrigger>-->
-            <!--                        </Style.Triggers>-->
-            <!--                    </Style>-->
-            <!--                </models:BaseListBox.Style>-->
-            <!--            </models:BaseListBox>-->
+            <models:BaseListBox x:Name="ListBoxPlayList"
+                                Grid.IsSharedSizeScope="True"
+                                models:SelectorHelper.ScrollingLines="1"
+                                ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"
+                                ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"
+                                ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
+                                ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"
+                                SelectionMode="Extended"
+                                SelectedItem="{Binding SelectedPlayListFile}"
+                                models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
+                                models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                HorizontalContentAlignment="Stretch"
+                                behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                dragDrop:DragDrop.IsDragSource="True"
+                                dragDrop:DragDrop.IsDropTarget="True"
+                                dragDrop:DragDrop.DropHandler="{Binding}">
+                <models:BaseListBox.Style>
+                    <Style TargetType="{x:Type models:BaseListBox}"
+                           BasedOn="{StaticResource BaseMetroListBox}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"
+                                         Value="Small">
+                                <Setter Property="ItemTemplate"
+                                        Value="{StaticResource SmallMediaFileTemplate}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"
+                                         Value="Medium">
+                                <Setter Property="ItemTemplate"
+                                        Value="{StaticResource MediumMediaFileTemplate}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"
+                                         Value="Large">
+                                <Setter Property="ItemTemplate"
+                                        Value="{StaticResource LargeMediaFileTemplate}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </models:BaseListBox.Style>
+            </models:BaseListBox>
 
             <Button Margin="0 0 0 0"
                     Opacity="0.2"
