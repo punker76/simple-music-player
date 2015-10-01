@@ -5,7 +5,7 @@
                     xmlns:models="clr-namespace:SimpleMusicPlayer.Core"
                     xmlns:behavior="clr-namespace:SimpleMusicPlayer.Behavior"
                     xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-                    xmlns:views="clr-namespace:SimpleMusicPlayer.Views">
+                    xmlns:fa="http://schemas.fontawesome.io/icons/">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
@@ -320,13 +320,12 @@
                   DataType="{x:Type viewModels:PlayListsViewModel}">
         <Grid>
             <models:BaseListView x:Name="PlayListView"
+                                 Style="{StaticResource HeaderlessMetroListView}"
                                  RenderOptions.ClearTypeHint="Enabled"
                                  TextOptions.TextFormattingMode="Display"
                                  ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"
                                  ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"
                                  ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"
-                                 BorderThickness="0"
-                                 FocusVisualStyle="{x:Null}"
                                  HorizontalContentAlignment="Stretch"
                                  models:SelectorHelper.ScrollingLines="1"
                                  ScrollViewer.IsDeferredScrollingEnabled="False"
@@ -347,21 +346,46 @@
                                         Value="Collapsed" />
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
+                        
+                        <GridViewColumn Width="{Binding ElementName=helperPlayerStateField, Path=ActualWidth}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate DataType="{x:Type models:MediaFile}">
+                                    <Grid Margin="-6 0">
+                                        <fa:ImageAwesome Icon="Play"
+                                                         Width="10"
+                                                         Height="10"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Foreground="{StaticResource PlayListIconBrush}"
+                                                         Visibility="{Binding Path=State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}" />
+                                        <fa:ImageAwesome Icon="Pause"
+                                                         Width="10"
+                                                         Height="10"
+                                                         VerticalAlignment="Center"
+                                                         HorizontalAlignment="Center"
+                                                         Foreground="{StaticResource PlayListIconBrush}"
+                                                         Visibility="{Binding Path=State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+
                         <GridViewColumn Width="{Binding ElementName=helperCountField, Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
-                                    <TextBlock Margin="0,2,0,2"
+                                    <TextBlock Margin="-4 2"
                                                Foreground="{StaticResource SemiTextColorBrush2}"
                                                Text="{Binding Path=PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}"
                                                TextAlignment="Right" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        
                         <!--Column that shall resize: Width is set to the Actual Width of the helper field defined below-->
                         <GridViewColumn Width="{Binding ElementName=helperField, Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
-                                    <Grid>
+                                    <Grid Margin="-4 0 -2 0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
@@ -384,6 +408,8 @@
             <!--This is the hidden helper Grid which does the resizing -->
             <Grid Visibility="Hidden">
                 <Grid.ColumnDefinitions>
+                    <!-- PlayerState -->
+                    <ColumnDefinition Width="Auto" />
                     <!--Width is bound to width of the first GridViewColumn -->
                     <ColumnDefinition Width="Auto" />
                     <!--Width is set to "Fill"-->
@@ -391,16 +417,19 @@
                     <!--Correction Width-->
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           Padding="8"
+                <Grid Grid.Column="0"
+                      Width="16"
+                      x:Name="helperPlayerStateField" />
+                <TextBlock Grid.Column="1"
+                           Padding="6"
                            FontSize="{Binding ElementName=PlayListView, Path=FontSize, Mode=OneWay}"
                            FontFamily="{Binding ElementName=PlayListView, Path=FontFamily, Mode=OneWay}"
                            Text="{Binding ElementName=PlayListView, Path=Items.Count, Mode=OneWay}"
                            x:Name="helperCountField" />
                 <!--This is the hidden helper Field which is used to bind to, using the "Fill" column of the helper grid-->
-                <Grid Grid.Column="1"
-                      x:Name="helperField" />
                 <Grid Grid.Column="2"
+                      x:Name="helperField" />
+                <Grid Grid.Column="3"
                       Width="{Binding ElementName=PlayListView, Path=VerticalScrollBarWidth, Mode=OneWay}"
                       Visibility="{Binding ElementName=PlayListView, Path=ScrollViewer.ComputedVerticalScrollBarVisibility, Mode=OneWay}" />
             </Grid>
