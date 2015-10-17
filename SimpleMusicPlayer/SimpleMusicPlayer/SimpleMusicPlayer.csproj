@@ -65,8 +65,8 @@
     <ApplicationIcon>simplemp.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FontAwesome.WPF, Version=5.0.0.35068, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontAwesome.WPF.5.0.3-alpha\lib\FontAwesome.WPF.dll</HintPath>
+    <Reference Include="FontAwesome.WPF, Version=4.4.0.35868, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.WPF.4.4.0.6\lib\FontAwesome.WPF.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GongSolutions.Wpf.DragDrop, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -429,7 +429,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="..\packages\FontAwesome.WPF.5.0.3-alpha\lib\FontAwesome.WPF.dll">
+    <EmbeddedResource Include="..\packages\FontAwesome.WPF.4.4.0.6\lib\FontAwesome.WPF.dll">
       <Link>DllsAsResource\FontAwesome.WPF.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
