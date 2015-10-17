@@ -318,7 +318,7 @@
 
     <DataTemplate x:Key="PlaylistsViewTemplate"
                   DataType="{x:Type viewModels:PlayListsViewModel}">
-        <Grid>
+        <Grid x:Name="RootGrid">
             <models:BaseListView x:Name="PlayListView"
                                  Style="{StaticResource HeaderlessMetroListView}"
                                  RenderOptions.ClearTypeHint="Enabled"
@@ -346,19 +346,22 @@
                                         Value="Collapsed" />
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
-                        
-                        <GridViewColumn Width="{Binding ElementName=helperPlayerStateField, Path=ActualWidth}">
+
+                        <GridViewColumn x:Name="PlayerStateColumn"
+                                        Width="{Binding ElementName=helperPlayerStateField, Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
                                     <Grid Margin="-6 0">
-                                        <fa:ImageAwesome Icon="Play"
+                                        <fa:ImageAwesome x:Name="PlayImage"
+                                                         Icon="Play"
                                                          Width="10"
                                                          Height="10"
                                                          VerticalAlignment="Center"
                                                          HorizontalAlignment="Center"
                                                          Foreground="{StaticResource PlayListIconBrush}"
                                                          Visibility="{Binding Path=State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}" />
-                                        <fa:ImageAwesome Icon="Pause"
+                                        <fa:ImageAwesome x:Name="PauseImage"
+                                                         Icon="Pause"
                                                          Width="10"
                                                          Height="10"
                                                          VerticalAlignment="Center"
@@ -366,38 +369,214 @@
                                                          Foreground="{StaticResource PlayListIconBrush}"
                                                          Visibility="{Binding Path=State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}" />
                                     </Grid>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                                     Value="Medium">
+                                            <Setter TargetName="PlayImage"
+                                                    Property="Width"
+                                                    Value="16" />
+                                            <Setter TargetName="PlayImage"
+                                                    Property="Height"
+                                                    Value="16" />
+                                            <Setter TargetName="PauseImage"
+                                                    Property="Width"
+                                                    Value="16" />
+                                            <Setter TargetName="PauseImage"
+                                                    Property="Height"
+                                                    Value="16" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                                     Value="Large">
+                                            <Setter TargetName="PlayImage"
+                                                    Property="Width"
+                                                    Value="22" />
+                                            <Setter TargetName="PlayImage"
+                                                    Property="Height"
+                                                    Value="22" />
+                                            <Setter TargetName="PauseImage"
+                                                    Property="Width"
+                                                    Value="22" />
+                                            <Setter TargetName="PauseImage"
+                                                    Property="Height"
+                                                    Value="22" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="{Binding ElementName=helperCountField, Path=ActualWidth}">
+                        <GridViewColumn Width="{Binding ElementName=helperIndexField, Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
-                                    <TextBlock Margin="-4 2"
+                                    <TextBlock x:Name="IndexTextBlock"
+                                               Margin="-4 2"
                                                Foreground="{StaticResource SemiTextColorBrush2}"
                                                Text="{Binding Path=PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}"
                                                TextAlignment="Right" />
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                                     Value="Medium">
+                                            <Setter TargetName="IndexTextBlock"
+                                                    Property="FontSize"
+                                                    Value="14" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                                     Value="Large">
+                                            <Setter TargetName="IndexTextBlock"
+                                                    Property="FontSize"
+                                                    Value="16" />
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        
+
                         <!--Column that shall resize: Width is set to the Actual Width of the helper field defined below-->
                         <GridViewColumn Width="{Binding ElementName=helperField, Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
-                                    <Grid Margin="-4 0 -2 0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="Auto" />
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0"
-                                                   Margin="0,2,2,0"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   Text="{Binding Path=FirstPerformerAndTitle, Mode=OneWay}" />
-                                        <TextBlock Grid.Column="1"
-                                                   Margin="0,2,0,2"
-                                                   Text="{Binding Path=Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-                                    </Grid>
+                                    <ContentControl x:Name="TitleContent"
+                                                    Margin="-2 0 -2 0"
+                                                    Content="{Binding Mode=OneWay}">
+                                        <ContentControl.ContentTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Grid.Column="0"
+                                                               Margin="0,2,2,0"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               Text="{Binding Path=FirstPerformerAndTitle, Mode=OneWay}" />
+                                                    <TextBlock Grid.Column="1"
+                                                               Margin="0,2,0,2"
+                                                               Text="{Binding Path=Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+                                                </Grid>
+                                            </DataTemplate>
+                                        </ContentControl.ContentTemplate>
+                                    </ContentControl>
+                                    <DataTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                                     Value="Small">
+                                            <Setter TargetName="TitleContent"
+                                                    Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0"
+                                                                       Margin="0,2,2,0"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       Text="{Binding Path=FirstPerformerAndTitle, Mode=OneWay}" />
+                                                            <TextBlock Grid.Column="1"
+                                                                       Margin="0,2,0,2"
+                                                                       Text="{Binding Path=Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                                     Value="Medium">
+                                            <Setter TargetName="TitleContent"
+                                                    Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Column="0"
+                                                                       Grid.Row="0"
+                                                                       Margin="0,2,2,0"
+                                                                       FontSize="14"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       Text="{Binding Title, Mode=OneWay}" />
+                                                            <TextBlock Grid.Column="0"
+                                                                       Grid.Row="1"
+                                                                       Margin="0,2,2,4"
+                                                                       Foreground="{StaticResource SemiTextColorBrush}"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
+                                                            <TextBlock Grid.Column="1"
+                                                                       Grid.Row="0"
+                                                                       Grid.RowSpan="2"
+                                                                       FontSize="14"
+                                                                       Margin="0,2,5,4"
+                                                                       VerticalAlignment="Center"
+                                                                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"
+                                                     Value="Large">
+                                            <Setter TargetName="TitleContent"
+                                                    Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <TextBlock Grid.Column="0"
+                                                                       Grid.Row="0"
+                                                                       Margin="0,2,2,0"
+                                                                       FontSize="16"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       Text="{Binding Title, Mode=OneWay}" />
+                                                            <TextBlock Grid.Column="0"
+                                                                       Grid.Row="1"
+                                                                       Margin="0,2,2,4"
+                                                                       FontSize="14"
+                                                                       Foreground="{StaticResource SemiTextColorBrush}"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
+                                                            <TextBlock Grid.Column="0"
+                                                                       Grid.Row="2"
+                                                                       Margin="0,2,2,4"
+                                                                       FontSize="12"
+                                                                       Foreground="{StaticResource SemiTextColorBrush}"
+                                                                       TextTrimming="CharacterEllipsis">
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding Mode="OneWay"
+                                                                                  StringFormat="{}{0:0,.} kHz {1} kbps">
+                                                                        <Binding Path="AudioSampleRate"
+                                                                                 Mode="OneWay" />
+                                                                        <Binding Path="AudioBitrate"
+                                                                                 Mode="OneWay" />
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                            <TextBlock Grid.Column="1"
+                                                                       Grid.Row="0"
+                                                                       Grid.RowSpan="3"
+                                                                       FontSize="16"
+                                                                       Margin="0,2,5,4"
+                                                                       VerticalAlignment="Center"
+                                                                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </DataTrigger>
+                                    </DataTemplate.Triggers>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -425,7 +604,7 @@
                            FontSize="{Binding ElementName=PlayListView, Path=FontSize, Mode=OneWay}"
                            FontFamily="{Binding ElementName=PlayListView, Path=FontFamily, Mode=OneWay}"
                            Text="{Binding ElementName=PlayListView, Path=Items.Count, Mode=OneWay}"
-                           x:Name="helperCountField" />
+                           x:Name="helperIndexField" />
                 <!--This is the hidden helper Field which is used to bind to, using the "Fill" column of the helper grid-->
                 <Grid Grid.Column="2"
                       x:Name="helperField" />
@@ -475,59 +654,81 @@
             <!--                </models:BaseListBox.Style>-->
             <!--            </models:BaseListBox>-->
 
-            <Button Margin="0 0 0 0"
-                    Opacity="0.2"
-                    Width="32"
-                    Height="32"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom">
-                <Viewbox Width="20"
-                         Height="20">
-                    <Canvas Width="20"
-                            Height="20">
-                        <Path Data="M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z"
-                              Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />
-                    </Canvas>
-                </Viewbox>
-                <Button.Style>
-                    <Style TargetType="Button"
-                           BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">
-                        <Style.Triggers>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="UIElement.IsMouseOver"
-                                               Value="false" />
-                                    <Condition Property="UIElement.IsKeyboardFocusWithin"
-                                               Value="false" />
-                                </MultiTrigger.Conditions>
-                                <TriggerBase.ExitActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="0.2"
-                                                             To="1"
-                                                             Duration="0:0:0.3"
-                                                             EasingFunction="{StaticResource DefaultEaseInOut}" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </TriggerBase.ExitActions>
-                                <TriggerBase.EnterActions>
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="1"
-                                                             To="0.2"
-                                                             Duration="0:0:1"
-                                                             EasingFunction="{StaticResource DefaultEaseInOut}" />
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </TriggerBase.EnterActions>
-                            </MultiTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+            <!--            <Button Margin="0 0 0 0"-->
+            <!--                    Opacity="0.2"-->
+            <!--                    Width="32"-->
+            <!--                    Height="32"-->
+            <!--                    HorizontalAlignment="Left"-->
+            <!--                    VerticalAlignment="Bottom">-->
+            <!--                <Viewbox Width="20"-->
+            <!--                         Height="20">-->
+            <!--                    <Canvas Width="20"-->
+            <!--                            Height="20">-->
+            <!--                        <Path Data="M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z"-->
+            <!--                              Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />-->
+            <!--                    </Canvas>-->
+            <!--                </Viewbox>-->
+            <!--                <Button.Style>-->
+            <!--                    <Style TargetType="Button"-->
+            <!--                           BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">-->
+            <!--                        <Style.Triggers>-->
+            <!--                            <MultiTrigger>-->
+            <!--                                <MultiTrigger.Conditions>-->
+            <!--                                    <Condition Property="UIElement.IsMouseOver"-->
+            <!--                                               Value="false" />-->
+            <!--                                    <Condition Property="UIElement.IsKeyboardFocusWithin"-->
+            <!--                                               Value="false" />-->
+            <!--                                </MultiTrigger.Conditions>-->
+            <!--                                <TriggerBase.ExitActions>-->
+            <!--                                    <BeginStoryboard>-->
+            <!--                                        <Storyboard>-->
+            <!--                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"-->
+            <!--                                                             From="0.2"-->
+            <!--                                                             To="1"-->
+            <!--                                                             Duration="0:0:0.3"-->
+            <!--                                                             EasingFunction="{StaticResource DefaultEaseInOut}" />-->
+            <!--                                        </Storyboard>-->
+            <!--                                    </BeginStoryboard>-->
+            <!--                                </TriggerBase.ExitActions>-->
+            <!--                                <TriggerBase.EnterActions>-->
+            <!--                                    <BeginStoryboard>-->
+            <!--                                        <Storyboard>-->
+            <!--                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"-->
+            <!--                                                             From="1"-->
+            <!--                                                             To="0.2"-->
+            <!--                                                             Duration="0:0:1"-->
+            <!--                                                             EasingFunction="{StaticResource DefaultEaseInOut}" />-->
+            <!--                                        </Storyboard>-->
+            <!--                                    </BeginStoryboard>-->
+            <!--                                </TriggerBase.EnterActions>-->
+            <!--                            </MultiTrigger>-->
+            <!--                        </Style.Triggers>-->
+            <!--                    </Style>-->
+            <!--                </Button.Style>-->
+            <!--            </Button>-->
         </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"
+                         Value="Medium">
+                <Setter TargetName="helperPlayerStateField"
+                        Property="Width"
+                        Value="22" />
+                <Setter TargetName="helperIndexField"
+                        Property="FontSize"
+                        Value="14" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"
+                         Value="Large">
+                <Setter TargetName="helperPlayerStateField"
+                        Property="Width"
+                        Value="28" />
+                <Setter TargetName="helperIndexField"
+                        Property="FontSize"
+                        Value="16" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+
     </DataTemplate>
 
     <Style x:Key="PlaylistsViewStyle"
