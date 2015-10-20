@@ -192,15 +192,9 @@
     <Compile Include="Core\NLogLogger.cs" />
     <Compile Include="Core\Player\ChannelInfo.cs" />
     <Compile Include="Core\Player\EqualizerBand.cs" />
-    <Compile Include="Core\RelativePanel\RelativePanel.AttachedProperties.cs" />
-    <Compile Include="Core\RelativePanel\RelativePanel.cs" />
     <Compile Include="Core\SelectorHelper.cs" />
     <Compile Include="Core\QuickFillObservableCollection.cs" />
     <Compile Include="Core\SprocketControl.cs" />
-    <Compile Include="Core\StateTriggers\AdaptiveTrigger.cs" />
-    <Compile Include="Core\StateTriggers\StateTrigger.cs" />
-    <Compile Include="Core\StateTriggers\StateTriggerBase.cs" />
-    <Compile Include="Core\StateTriggers\VisualStateUwp.cs" />
     <Compile Include="Core\ToolTipHelper.cs" />
     <Compile Include="Core\VisualExtensions.cs" />
     <Compile Include="Core\WindowExtensions.cs" />
