@@ -321,6 +321,10 @@
         <Grid x:Name="RootGrid">
             <models:BaseListView x:Name="PlayListView"
                                  Style="{StaticResource HeaderlessMetroListView}"
+                                 MaxHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ContentControl}, Path=ActualHeight, Mode=OneWay}"
+                                 MinHeight="10"
+                                 MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ContentControl}, Path=ActualWidth, Mode=OneWay}"
+                                 MinWidth="10"
                                  RenderOptions.ClearTypeHint="Enabled"
                                  TextOptions.TextFormattingMode="Display"
                                  ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"

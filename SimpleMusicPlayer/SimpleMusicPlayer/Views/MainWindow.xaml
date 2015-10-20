@@ -8,6 +8,7 @@
                       xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
+                      xmlns:universalWpf="clr-namespace:UniversalWPF"
                       Title="Simple Music Player"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
                       FontFamily="{DynamicResource SimpleFont}"
@@ -30,6 +31,9 @@
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Views/PlayControlInfoViewTemplates.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Views/PlaylistsViewTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <ValueConverters:NullVisibilityConverter x:Key="NullToVisibleVisibilityConverter"
+                                                     Invert="True" />
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
 
@@ -51,21 +55,174 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <!--            <RowDefinition Height="Auto" />-->
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <ContentControl Grid.Row="0"
-                        Style="{StaticResource PlayControlInfoViewStyle}"
-                        Content="{Binding PlayControlInfoViewModel, Mode=OneTime}" />
+                        Focusable="False"
+                        Content="{Binding Mode=OneTime}">
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
+                    <universalWpf:RelativePanel>
 
-        <ContentControl Grid.Row="1"
-                        Margin="5,10,5,5"
-                        Style="{StaticResource PlaylistsViewStyle}"
-                        Content="{Binding PlayListsViewModel, Mode=OneTime}" />
+                        <Grid x:Name="coverPanel"
+                              Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}"
+                              universalWpf:RelativePanel.AlignTopWithPanel="True"
+                              universalWpf:RelativePanel.AlignLeftWithPanel="True"
+                              universalWpf:RelativePanel.AlignBottomWith="mediainfopanel">
+                            <Grid x:Name="imagegrid"
+                                  RenderOptions.EdgeMode="Aliased"
+                                  RenderOptions.BitmapScalingMode="HighQuality"
+                                  Margin="5">
+                                <Border BorderBrush="#FF707070"
+                                        BorderThickness="1"
+                                        SnapsToDevicePixels="True"
+                                        Visibility="{Binding PlayControlInfoViewModel.PlayControlViewModel.PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay, Converter={StaticResource NullToVisibleVisibilityConverter}}">
+                                    <Rectangle Width="60"
+                                               Height="60"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Fill="{DynamicResource CDBrush}" />
+                                </Border>
 
-        <StackPanel Grid.Row="2"
+                                <Grid.Background>
+                                    <ImageBrush Stretch="UniformToFill"
+                                                ImageSource="{Binding PlayControlInfoViewModel.PlayControlViewModel.PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}"></ImageBrush>
+                                </Grid.Background>
+                            </Grid>
+                        </Grid>
+
+                        <Grid x:Name="mediainfopanel"
+                              MinHeight="100"
+                              universalWpf:RelativePanel.AlignTopWithPanel="True"
+                              universalWpf:RelativePanel.AlignRightWithPanel="True"
+                              universalWpf:RelativePanel.RightOf="coverPanel">
+                            <Views:MediaFileTransitioningContentControl Margin="0,15,10,5"
+                                                                        Content="{Binding PlayControlInfoViewModel.PlayControlViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                                        ContentTemplate="{DynamicResource fileInfoRightTemplate}" />
+                        </Grid>
+
+                        <Grid x:Name="playcontrolpanel"
+                              MinHeight="20"
+                              universalWpf:RelativePanel.AlignLeftWithPanel="True"
+                              universalWpf:RelativePanel.AlignRightWithPanel="True"
+                              universalWpf:RelativePanel.Below="mediainfopanel">
+                            <Views:PlayControlView x:Name="playControlView"
+                                                   Margin="5,0,5,0"
+                                                   HorizontalAlignment="Center"
+                                                   DataContext="{Binding Path=PlayControlInfoViewModel.PlayControlViewModel, Mode=OneTime}" />
+                        </Grid>
+
+                        <Grid x:Name="playlist"
+                              MinHeight="5"
+                              MinWidth="5"
+                              universalWpf:RelativePanel.Below="playcontrolpanel"
+                              universalWpf:RelativePanel.AlignRightWithPanel="True"
+                              universalWpf:RelativePanel.AlignBottomWithPanel="True"
+                              universalWpf:RelativePanel.AlignLeftWithPanel="True">
+                            
+<!--                            <StackPanel Orientation="Vertical">-->
+<!--                                <TextBlock Text="{Binding ElementName=playlist, Path=ActualWidth, StringFormat='Width={0}'}"></TextBlock>-->
+<!--                                <TextBlock Text="{Binding ElementName=playlist, Path=ActualHeight, StringFormat='Height={0}'}"></TextBlock>-->
+<!--                            </StackPanel>-->
+
+                            <ContentControl Margin="5,5,5,5"
+                                            Style="{StaticResource PlaylistsViewStyle}"
+                                            Content="{Binding PlayListsViewModel, Mode=OneTime}" />
+                        </Grid>
+
+                    </universalWpf:RelativePanel>
+
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Small">
+                            <Setter TargetName="coverPanel"
+                                    Property="universalWpf:RelativePanel.AlignBottomWith"
+                                    Value="mediainfopanel" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.AlignLeftWithPanel"
+                                    Value="True" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.Below"
+                                    Value="mediainfopanel" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.RightOf"
+                                    Value="{x:Null}" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Medium">
+                            <Setter TargetName="coverPanel"
+                                    Property="universalWpf:RelativePanel.AlignBottomWith"
+                                    Value="playcontrolpanel" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.AlignLeftWithPanel"
+                                    Value="False" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.Below"
+                                    Value="mediainfopanel" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.RightOf"
+                                    Value="coverPanel" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Large">
+                            <Setter TargetName="coverPanel"
+                                    Property="universalWpf:RelativePanel.AlignBottomWith"
+                                    Value="{x:Null}" />
+                            <Setter TargetName="coverPanel"
+                                    Property="Height"
+                                    Value="300" />
+
+                            <Setter TargetName="playlist"
+                                    Property="universalWpf:RelativePanel.AlignBottomWithPanel"
+                                    Value="False" />
+                            <Setter TargetName="playlist"
+                                    Property="universalWpf:RelativePanel.AlignLeftWithPanel"
+                                    Value="False" />
+                            <Setter TargetName="playlist"
+                                    Property="universalWpf:RelativePanel.Below"
+                                    Value="mediainfopanel" />
+                            <Setter TargetName="playlist"
+                                    Property="universalWpf:RelativePanel.RightOf"
+                                    Value="coverPanel" />
+                            <Setter TargetName="playlist"
+                                    Property="universalWpf:RelativePanel.Above"
+                                    Value="playcontrolpanel" />
+
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.AlignTopWithPanel"
+                                    Value="False" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.AlignLeftWithPanel"
+                                    Value="True" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.AlignBottomWithPanel"
+                                    Value="True" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.Below"
+                                    Value="{x:Null}" />
+                            <Setter TargetName="playcontrolpanel"
+                                    Property="universalWpf:RelativePanel.RightOf"
+                                    Value="{x:Null}" />
+
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
+
+        <!--        <ContentControl Grid.Row="0"-->
+        <!--                        Style="{StaticResource PlayControlInfoViewStyle}"-->
+        <!--                        Content="{Binding PlayControlInfoViewModel, Mode=OneTime}" />-->
+        <!---->
+<!--        <ContentControl Grid.Row="1"-->
+        <!--                        Margin="5,10,5,5"-->
+        <!--                        Style="{StaticResource PlaylistsViewStyle}"-->
+        <!--                        Content="{Binding PlayListsViewModel, Mode=OneTime}" />-->
+
+        <StackPanel Grid.Row="1"
                     DataContext="{Binding PlayListsViewModel.FileSearchWorker, Mode=OneWay}"
                     Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                     Orientation="Horizontal">
