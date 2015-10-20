@@ -21,7 +21,8 @@ namespace SimpleMusicPlayer.Views
 
             this.InitializeComponent();
 
-            this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
+            //this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
+            this.Title = string.Format("{0}", this.Title);
 
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, x => x.DataContext);
 
