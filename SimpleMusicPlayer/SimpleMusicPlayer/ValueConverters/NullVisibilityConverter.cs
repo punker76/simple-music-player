@@ -21,7 +21,7 @@ namespace SimpleMusicPlayer.ValueConverters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value == null && !Invert ? TRUE : FALSE;
+            return Invert ? (value == null ? FALSE : TRUE) : (value == null ? TRUE : FALSE);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
