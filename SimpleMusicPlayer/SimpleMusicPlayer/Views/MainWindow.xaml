@@ -158,6 +158,12 @@
                                     Value="1" />
 
                             <Setter TargetName="infoGrid"
+                                    Property="Grid.Column"
+                                    Value="1" />
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Row"
+                                    Value="0" />
+                            <Setter TargetName="infoGrid"
                                     Property="MinHeight"
                                     Value="50" />
 
@@ -200,6 +206,12 @@
                                     Value="2" />
 
                             <Setter TargetName="infoGrid"
+                                    Property="Grid.Column"
+                                    Value="1" />
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Row"
+                                    Value="0" />
+                            <Setter TargetName="infoGrid"
                                     Property="MinHeight"
                                     Value="50" />
 
@@ -234,13 +246,13 @@
                             <Setter TargetName="coverGrid"
                                     Property="Height"
                                     Value="400" />
-                            <Setter TargetName="coverGrid"
-                                    Property="Grid.RowSpan"
-                                    Value="3" />
-                            <Setter TargetName="coverGrid"
-                                    Property="VerticalAlignment"
-                                    Value="Top" />
 
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Column"
+                                    Value="0" />
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Row"
+                                    Value="1" />
                             <Setter TargetName="infoGrid"
                                     Property="MinHeight"
                                     Value="150" />
@@ -260,10 +272,10 @@
                                     Value="1" />
                             <Setter TargetName="playListGrid"
                                     Property="Grid.Row"
-                                    Value="1" />
+                                    Value="0" />
                             <Setter TargetName="playListGrid"
                                     Property="Grid.RowSpan"
-                                    Value="2" />
+                                    Value="3" />
 
                         </DataTrigger>
 
