@@ -440,6 +440,7 @@
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
                                     <ContentControl x:Name="TitleContent"
+                                                    Focusable="False"
                                                     Margin="-2 0 -2 0"
                                                     Content="{Binding Mode=OneWay}">
                                         <ContentControl.ContentTemplate>
@@ -617,99 +618,6 @@
                       Visibility="{Binding ElementName=PlayListView, Path=ScrollViewer.ComputedVerticalScrollBarVisibility, Mode=OneWay}" />
             </Grid>
 
-            <!--            <models:BaseListBox x:Name="ListBoxPlayList"-->
-            <!--                                Grid.IsSharedSizeScope="True"-->
-            <!--                                models:SelectorHelper.ScrollingLines="1"-->
-            <!--                                ObserveItemContainerGenerator="{Binding ObserveListBoxItemContainerGenerator, Mode=TwoWay}"-->
-            <!--                                ScrollIndex="{Binding ScrollIndex, Mode=OneWay}"-->
-            <!--                                ItemsSource="{Binding FirstSimplePlaylistFiles, Mode=OneWay}"-->
-            <!--                                ItemContainerStyle="{StaticResource PlayListMetroListBoxItem}"-->
-            <!--                                SelectionMode="Extended"-->
-            <!--                                SelectedItem="{Binding SelectedPlayListFile}"-->
-            <!--                                models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"-->
-            <!--                                models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"-->
-            <!--                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"-->
-            <!--                                HorizontalContentAlignment="Stretch"-->
-            <!--                                behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"-->
-            <!--                                dragDrop:DragDrop.IsDragSource="True"-->
-            <!--                                dragDrop:DragDrop.IsDropTarget="True"-->
-            <!--                                dragDrop:DragDrop.DropHandler="{Binding}">-->
-            <!--                <models:BaseListBox.Style>-->
-            <!--                    <Style TargetType="{x:Type models:BaseListBox}"-->
-            <!--                           BasedOn="{StaticResource BaseMetroListBox}">-->
-            <!--                        <Style.Triggers>-->
-            <!--                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"-->
-            <!--                                         Value="Small">-->
-            <!--                                <Setter Property="ItemTemplate"-->
-            <!--                                        Value="{StaticResource SmallMediaFileTemplate}" />-->
-            <!--                            </DataTrigger>-->
-            <!--                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"-->
-            <!--                                         Value="Medium">-->
-            <!--                                <Setter Property="ItemTemplate"-->
-            <!--                                        Value="{StaticResource MediumMediaFileTemplate}" />-->
-            <!--                            </DataTrigger>-->
-            <!--                            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}"-->
-            <!--                                         Value="Large">-->
-            <!--                                <Setter Property="ItemTemplate"-->
-            <!--                                        Value="{StaticResource LargeMediaFileTemplate}" />-->
-            <!--                            </DataTrigger>-->
-            <!--                        </Style.Triggers>-->
-            <!--                    </Style>-->
-            <!--                </models:BaseListBox.Style>-->
-            <!--            </models:BaseListBox>-->
-
-            <!--            <Button Margin="0 0 0 0"-->
-            <!--                    Opacity="0.2"-->
-            <!--                    Width="32"-->
-            <!--                    Height="32"-->
-            <!--                    HorizontalAlignment="Left"-->
-            <!--                    VerticalAlignment="Bottom">-->
-            <!--                <Viewbox Width="20"-->
-            <!--                         Height="20">-->
-            <!--                    <Canvas Width="20"-->
-            <!--                            Height="20">-->
-            <!--                        <Path Data="M2,16H10V14H2M18,14V10H16V14H12V16H16V20H18V16H22V14M14,6H2V8H14M14,10H2V12H14V10Z"-->
-            <!--                              Fill="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}, Path=Foreground}" />-->
-            <!--                    </Canvas>-->
-            <!--                </Viewbox>-->
-            <!--                <Button.Style>-->
-            <!--                    <Style TargetType="Button"-->
-            <!--                           BasedOn="{StaticResource MaterialDesignFloatingActionAccentButton}">-->
-            <!--                        <Style.Triggers>-->
-            <!--                            <MultiTrigger>-->
-            <!--                                <MultiTrigger.Conditions>-->
-            <!--                                    <Condition Property="UIElement.IsMouseOver"-->
-            <!--                                               Value="false" />-->
-            <!--                                    <Condition Property="UIElement.IsKeyboardFocusWithin"-->
-            <!--                                               Value="false" />-->
-            <!--                                </MultiTrigger.Conditions>-->
-            <!--                                <TriggerBase.ExitActions>-->
-            <!--                                    <BeginStoryboard>-->
-            <!--                                        <Storyboard>-->
-            <!--                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"-->
-            <!--                                                             From="0.2"-->
-            <!--                                                             To="1"-->
-            <!--                                                             Duration="0:0:0.3"-->
-            <!--                                                             EasingFunction="{StaticResource DefaultEaseInOut}" />-->
-            <!--                                        </Storyboard>-->
-            <!--                                    </BeginStoryboard>-->
-            <!--                                </TriggerBase.ExitActions>-->
-            <!--                                <TriggerBase.EnterActions>-->
-            <!--                                    <BeginStoryboard>-->
-            <!--                                        <Storyboard>-->
-            <!--                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"-->
-            <!--                                                             From="1"-->
-            <!--                                                             To="0.2"-->
-            <!--                                                             Duration="0:0:1"-->
-            <!--                                                             EasingFunction="{StaticResource DefaultEaseInOut}" />-->
-            <!--                                        </Storyboard>-->
-            <!--                                    </BeginStoryboard>-->
-            <!--                                </TriggerBase.EnterActions>-->
-            <!--                            </MultiTrigger>-->
-            <!--                        </Style.Triggers>-->
-            <!--                    </Style>-->
-            <!--                </Button.Style>-->
-            <!--            </Button>-->
         </Grid>
 
         <DataTemplate.Triggers>

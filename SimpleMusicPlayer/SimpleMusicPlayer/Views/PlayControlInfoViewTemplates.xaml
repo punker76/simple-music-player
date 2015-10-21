@@ -34,6 +34,57 @@
         </Grid>
     </DataTemplate>
 
+    <DataTemplate x:Key="fileInfoRightLargeTemplate"
+                  DataType="{x:Type models:MediaFile}">
+        <Grid RenderOptions.ClearTypeHint="Enabled"
+              TextOptions.TextFormattingMode="Display">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       FontSize="18"
+                       TextAlignment="Right"
+                       TextWrapping="Wrap"
+                       Text="{Binding Title, Mode=OneWay}" />
+            <TextBlock Grid.Row="1"
+                       FontSize="16"
+                       Foreground="{StaticResource SemiTextColorBrush}"
+                       TextAlignment="Right"
+                       TextWrapping="Wrap"
+                       Text="{Binding Album, Mode=OneWay}" />
+            <TextBlock Grid.Row="2"
+                       FontSize="16"
+                       Foreground="{StaticResource SemiTextColorBrush}"
+                       TextAlignment="Right"
+                       TextWrapping="Wrap"
+                       Text="{Binding FirstPerformer, Mode=OneWay}" />
+            <TextBlock Grid.Row="3"
+                       Margin="0,5,0,0"
+                       FontSize="14"
+                       Foreground="{StaticResource SemiTextColorBrush}"
+                       TextAlignment="Right">
+                <TextBlock.Text>
+                    <MultiBinding Mode="OneWay"
+                                  StringFormat="{}{0:0,.} kHz, {1} kbps">
+                        <Binding Path="AudioSampleRate"
+                                 Mode="OneWay" />
+                        <Binding Path="AudioBitrate"
+                                 Mode="OneWay" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <TextBlock Grid.Row="4"
+                       FontSize="14"
+                       Foreground="{StaticResource SemiTextColorBrush}"
+                       TextAlignment="Right"
+                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+        </Grid>
+    </DataTemplate>
+
     <DataTemplate x:Key="fileInfoLeftTemplate"
                   DataType="{x:Type models:MediaFile}">
         <Grid RenderOptions.ClearTypeHint="Enabled"
