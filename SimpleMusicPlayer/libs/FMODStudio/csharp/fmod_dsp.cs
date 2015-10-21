@@ -184,6 +184,7 @@ namespace FMOD
         LOUDNESS_METER,     /* This unit analyzes the loudness and true peak of the signal. */
         ENVELOPEFOLLOWER,   /* This unit tracks the envelope of the input/sidechain signal */
         CONVOLUTIONREVERB,  /* This unit implements convolution reverb. */
+        CHANNELMIX,         /* This unit provides per signal channel gain, and output channel mapping to allow 1 multichannel signal made up of many groups of signals to map to a single output signal. */
     }
 
 
@@ -405,13 +406,13 @@ namespace FMOD
     public struct DSP_PARAMETER_DESC_UNION
     {
         [FieldOffset(0)]
-        DSP_PARAMETER_DESC_FLOAT   floatdesc;  /* [w] Struct containing information about the parameter in floating point format.  Use when type is FMOD_DSP_PARAMETER_TYPE_FLOAT. */
+        public DSP_PARAMETER_DESC_FLOAT   floatdesc;  /* [w] Struct containing information about the parameter in floating point format.  Use when type is FMOD_DSP_PARAMETER_TYPE_FLOAT. */
         [FieldOffset(0)]
-        DSP_PARAMETER_DESC_INT     intdesc;    /* [w] Struct containing information about the parameter in integer format.  Use when type is FMOD_DSP_PARAMETER_TYPE_INT. */
+        public DSP_PARAMETER_DESC_INT     intdesc;    /* [w] Struct containing information about the parameter in integer format.  Use when type is FMOD_DSP_PARAMETER_TYPE_INT. */
         [FieldOffset(0)]
-        DSP_PARAMETER_DESC_BOOL    booldesc;   /* [w] Struct containing information about the parameter in boolean format.  Use when type is FMOD_DSP_PARAMETER_TYPE_BOOL. */
+        public DSP_PARAMETER_DESC_BOOL    booldesc;   /* [w] Struct containing information about the parameter in boolean format.  Use when type is FMOD_DSP_PARAMETER_TYPE_BOOL. */
         [FieldOffset(0)]
-        DSP_PARAMETER_DESC_DATA    datadesc;   /* [w] Struct containing information about the parameter in data format.  Use when type is FMOD_DSP_PARAMETER_TYPE_DATA. */
+        public DSP_PARAMETER_DESC_DATA    datadesc;   /* [w] Struct containing information about the parameter in data format.  Use when type is FMOD_DSP_PARAMETER_TYPE_DATA. */
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -424,7 +425,7 @@ namespace FMOD
         public char[]               label;           /* [w] Short string to be put next to value to denote the unit type (ie "hz"). */
         public string               description;     /* [w] Description of the parameter to be displayed as a help item / tooltip for this parameter. */
 
-        DSP_PARAMETER_DESC_UNION desc;
+        public DSP_PARAMETER_DESC_UNION desc;
     }
 
     /*
@@ -1687,6 +1688,95 @@ namespace FMOD
         WET,      /* (Type:float) - [r/w] Volume of echo signal to pass to output in dB.  -80.0 to 10.0.  Default = 0. */
         DRY       /* (Type:float) - [r/w] Original sound volume in dB.  -80.0 to 10.0.  Default = 0. */
     }
+
+    /*
+    [ENUM]
+    [
+        [DESCRIPTION]
+        Parameter types for the FMOD_DSP_TYPE_CHANNELGAIN parameter for FMOD_DSP_TYPE_CHANNELMIX effect.
+
+        [REMARKS]
+
+        [SEE_ALSO]
+        DSP::setParameterInt
+        DSP::getParameterInt
+        FMOD_DSP_TYPE
+    ]
+    */
+    public enum DSP_CHANNELMIX_OUTPUT
+    {
+        DEFAULT,      /*  Output channel count = input channel count.  Mapping: See FMOD_SPEAKER enumeration. */
+        ALLMONO,      /*  Output channel count = 1.  Mapping: Mono, Mono, Mono, Mono, Mono, Mono, ... (each channel all the way up to FMOD_MAX_CHANNEL_WIDTH channels are treated as if they were mono) */
+        ALLSTEREO,    /*  Output channel count = 2.  Mapping: Left, Right, Left, Right, Left, Right, ... (each pair of channels is treated as stereo all the way up to FMOD_MAX_CHANNEL_WIDTH channels) */
+        ALLQUAD,      /*  Output channel count = 4.  Mapping: Repeating pattern of Front Left, Front Right, Surround Left, Surround Right. */
+        ALL5POINT1,   /*  Output channel count = 6.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right. */
+        ALL7POINT1,   /*  Output channel count = 8.  Mapping: Repeating pattern of Front Left, Front Right, Center, LFE, Surround Left, Surround Right, Back Left, Back Right.  */
+        ALLLFE        /*  Output channel count = 6.  Mapping: Repeating pattern of LFE in a 5.1 output signal.  */
+    }
+
+    /*
+    [ENUM]
+    [
+        [DESCRIPTION]
+        Parameter types for the FMOD_DSP_TYPE_CHANNELMIX filter.
+
+        [REMARKS]
+        For FMOD_DSP_CHANNELMIX_OUTPUTGROUPING, this value will set the output speaker format for the DSP, and also map the incoming channels to the 
+        outgoing channels in a round-robin fashion.  Use this for example play a 32 channel input signal as if it were a repeating group of output signals.
+        Ie.
+        FMOD_DSP_CHANNELGAIN_OUTPUT_ALLMONO    = all incoming channels are mixed to a mono output.
+        FMOD_DSP_CHANNELGAIN_OUTPUT_ALLSTEREO  = all incoming channels are mixed to a stereo output, ie even incoming channels 0,2,4,6,etc are mixed to left, and odd incoming channels 1,3,5,7,etc are mixed to right.
+        FMOD_DSP_CHANNELGAIN_OUTPUT_ALL5POINT1 = all incoming channels are mixed to a 5.1 output.  If there are less than 6 coming in, it will just fill the first n channels in the 6 output channels.   
+                                                 If there are more, then it will repeat the input pattern to the output like it did with the stereo case, ie 12 incoming channels are mapped as 0-5 mixed to the 
+                                                 5.1 output and 6 to 11 mapped to the 5.1 output.
+        FMOD_DSP_CHANNELGAIN_OUTPUT_ALLLFE     = all incoming channels are mixed to a 5.1 output but via the LFE channel only.
+
+
+        [SEE_ALSO]
+        DSP::setParameterInt
+        DSP::getParameterInt
+        DSP::setParameterFloat
+        DSP::getParameterFloat
+        FMOD_DSP_TYPE
+    ]
+    */
+    public enum DSP_CHANNELMIX
+    {
+        OUTPUTGROUPING,     /* (Type:int)   - Refer to FMOD_DSP_CHANNELMIX_OUTPUT enumeration.  Default = FMOD_DSP_CHANNELGAIN_OUTPUT_DEFAULT.  See remarks. */
+        GAIN_CH0,           /* (Type:float) - Channel  #0 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH1,           /* (Type:float) - Channel  #1 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH2,           /* (Type:float) - Channel  #2 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH3,           /* (Type:float) - Channel  #3 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH4,           /* (Type:float) - Channel  #4 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH5,           /* (Type:float) - Channel  #5 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH6,           /* (Type:float) - Channel  #6 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH7,           /* (Type:float) - Channel  #7 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH8,           /* (Type:float) - Channel  #8 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH9,           /* (Type:float) - Channel  #9 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH10,          /* (Type:float) - Channel #10 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH11,          /* (Type:float) - Channel #11 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH12,          /* (Type:float) - Channel #12 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH13,          /* (Type:float) - Channel #13 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH14,          /* (Type:float) - Channel #14 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH15,          /* (Type:float) - Channel #15 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH16,          /* (Type:float) - Channel #16 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH17,          /* (Type:float) - Channel #17 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH18,          /* (Type:float) - Channel #18 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH19,          /* (Type:float) - Channel #19 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH20,          /* (Type:float) - Channel #20 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH21,          /* (Type:float) - Channel #21 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH22,          /* (Type:float) - Channel #22 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH23,          /* (Type:float) - Channel #23 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH24,          /* (Type:float) - Channel #24 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH25,          /* (Type:float) - Channel #25 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH26,          /* (Type:float) - Channel #26 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH27,          /* (Type:float) - Channel #27 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH28,          /* (Type:float) - Channel #28 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH29,          /* (Type:float) - Channel #29 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH30,          /* (Type:float) - Channel #30 gain in dB.  -80.0 to 10.0.  Default = 0. */
+        GAIN_CH31           /* (Type:float) - Channel #31 gain in dB.  -80.0 to 10.0.  Default = 0. */
+    }
+
 
 /*$ preserve start $*/
 }

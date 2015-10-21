@@ -152,7 +152,7 @@ namespace SimpleMusicPlayer.Core
             }
             catch (Exception e)
             {
-                Console.WriteLine("Exception while parsing file: {0}, {1}", fileName, e);
+                throw new MediaFileException("TagLib.File.Create failes!", e);
             }
 
             if (raisePropertyChanged)

@@ -151,11 +151,12 @@ namespace SimpleMusicPlayer.Core
             {
                 try
                 {
-                    return this.createMediaFileFunc(fileName);
+                    var mediaFile = this.createMediaFileFunc(fileName);
+                    return mediaFile;
                 }
                 catch (Exception e)
                 {
-                    this.Log().ErrorException("GetMediaFile for " + fileName, e);
+                    this.Log().ErrorException("Uups, there is something wrong with " + fileName, e);
                 }
             }
             return null;

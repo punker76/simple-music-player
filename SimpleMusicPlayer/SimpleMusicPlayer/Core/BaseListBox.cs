@@ -44,9 +44,12 @@ namespace SimpleMusicPlayer.Core
                 .Subscribe(canScroll => {
                     if (canScroll)
                     {
-                        Action scrollAction = () => {
-                            this.Log().Debug("scroll into view for {0}", this.ScrollIndex);
-                            this.ScrollIntoView(this.Items[this.ScrollIndex]);
+                        var scrollIndex = this.ScrollIndex;
+                        var item = this.Items[scrollIndex];
+                        Action scrollAction = () =>
+                        {
+                            this.Log().Debug("scroll into view for {0}", scrollIndex);
+                            this.ScrollIntoView(item);
                         };
                         this.Dispatcher.BeginInvoke(DispatcherPriority.Background, scrollAction);
                     }

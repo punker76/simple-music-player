@@ -189,6 +189,7 @@
     <Compile Include="Core\FolderBrowserHelper.cs" />
     <Compile Include="Core\FormattedSlider.cs" />
     <Compile Include="Core\KeyHandlerExtensions.cs" />
+    <Compile Include="Core\MediaFileException.cs" />
     <Compile Include="Core\NLogLogger.cs" />
     <Compile Include="Core\Player\ChannelInfo.cs" />
     <Compile Include="Core\Player\EqualizerBand.cs" />

@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010609;
+        public const int    number = 0x00010700;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -27,7 +27,7 @@ namespace FMOD
     public class CONSTANTS
     {
         public const int MAX_CHANNEL_WIDTH = 32;
-        public const int MAX_LISTENERS = 5;
+        public const int MAX_LISTENERS = 8;
     }
 
     /*
@@ -127,6 +127,8 @@ namespace FMOD
         ERR_INVALID_STRING,        /* An invalid string was passed to this function. */
         ERR_ALREADY_LOCKED,        /* The specified resource is already locked. */
         ERR_NOT_LOCKED,            /* The specified resource is not locked, so it can't be unlocked. */
+        ERR_RECORD_DISCONNECTED,   /* The specified recording driver has been disconnected. */
+        ERR_TOOMANYSAMPLES,        /* The length provided exceed the allowable limit. */
     }
 
 
@@ -675,11 +677,9 @@ namespace FMOD
         UNKNOWN,         /* 3rd party / unknown plugin format. */
         AIFF,            /* AIFF. */
         ASF,             /* Microsoft Advanced Systems Format (ie WMA/ASF/WMV). */
-        AT3,             /* Sony ATRAC 3 format */
         DLS,             /* Sound font / downloadable sound bank. */
         FLAC,            /* FLAC lossless codec. */
         FSB,             /* FMOD Sample Bank. */
-        GCADPCM,         /* Nintendo GameCube/Wii ADPCM */
         IT,              /* Impulse Tracker. */
         MIDI,            /* MIDI. extracodecdata is a pointer to an FMOD_MIDI_EXTRACODECDATA structure. */
         MOD,             /* Protracker / Fasttracker MOD. */
@@ -692,10 +692,7 @@ namespace FMOD
         WAV,             /* Microsoft WAV. */
         XM,              /* FastTracker 2 XM. */
         XMA,             /* Xbox360 XMA */
-        VAG,             /* PlayStation Portable ADPCM VAG format. */
         AUDIOQUEUE,      /* iPhone hardware decoder, supports AAC, ALAC and MP3. extracodecdata is a pointer to an FMOD_AUDIOQUEUE_EXTRACODECDATA structure. */
-        XWMA,            /* Xbox360 XWMA */
-        BCWAV,           /* 3DS BCWAV container format for DSP ADPCM and PCM */
         AT9,             /* PS4 / PSVita ATRAC 9 format */
         VORBIS,          /* Vorbis */
         MEDIA_FOUNDATION,/* Windows Store Application built in system codecs */
@@ -721,25 +718,15 @@ namespace FMOD
     */
     public enum SOUND_FORMAT : int
     {
-        NONE,             /* Unitialized / unknown. */
-        PCM8,             /* 8bit integer PCM data. */
-        PCM16,            /* 16bit integer PCM data. */
-        PCM24,            /* 24bit integer PCM data. */
-        PCM32,            /* 32bit integer PCM data. */
-        PCMFLOAT,         /* 32bit floating point PCM data. */
-        GCADPCM,          /* Compressed Nintendo 3DS/Wii DSP data. */
-        IMAADPCM,         /* Compressed IMA ADPCM data. */
-        VAG,              /* Compressed PlayStation Portable ADPCM data. */
-        HEVAG,            /* Compressed PSVita ADPCM data. */
-        XMA,              /* Compressed Xbox360 XMA data. */
-        MPEG,             /* Compressed MPEG layer 2 or 3 data. */
-        CELT,             /* Not supported. */
-        AT9,              /* Compressed PSVita ATRAC9 data. */
-        XWMA,             /* Compressed Xbox360 xWMA data. */
-        VORBIS,           /* Compressed Vorbis data. */
-        FADPCM,           /* Compressed FADPCM data. */
+        NONE,       /* Unitialized / unknown */
+        PCM8,       /* 8bit integer PCM data */
+        PCM16,      /* 16bit integer PCM data  */
+        PCM24,      /* 24bit integer PCM data  */
+        PCM32,      /* 32bit integer PCM data  */
+        PCMFLOAT,   /* 32bit floating point PCM data  */
+        BITSTREAM,  /* Sound data is in its native compressed format. */
 
-        MAX,              /* Maximum number of sound formats supported. */
+        MAX         /* Maximum number of sound formats supported. */
     }
 
 
@@ -1026,6 +1013,8 @@ namespace FMOD
         THREADDESTROYED        = 0x00000200,  /* Called directly when a thread is destroyed. */
         PREUPDATE              = 0x00000400,  /* Called at start of System::update function. */
         POSTUPDATE             = 0x00000800,  /* Called at end of System::update function. */
+        RECORDLISTCHANGED      = 0x00001000,  /* Called from System::update when the enumerated list of recording devices has changed. */
+        ALL                    = 0xFFFFFFFF,  /* Pass this mask to System::setCallback to receive all callback types.  */
     }
 	
     #region wrapperinternal
@@ -1078,7 +1067,7 @@ namespace FMOD
     public delegate RESULT FILE_OPENCALLBACK        (StringWrapper name, ref uint filesize, ref IntPtr handle, IntPtr userdata);
     public delegate RESULT FILE_CLOSECALLBACK       (IntPtr handle, IntPtr userdata);
     public delegate RESULT FILE_READCALLBACK        (IntPtr handle, IntPtr buffer, uint sizebytes, ref uint bytesread, IntPtr userdata);
-    public delegate RESULT FILE_SEEKCALLBACK        (IntPtr handle, int pos, IntPtr userdata);
+    public delegate RESULT FILE_SEEKCALLBACK        (IntPtr handle, uint pos, IntPtr userdata);
     public delegate RESULT FILE_ASYNCREADCALLBACK   (IntPtr handle, IntPtr info, IntPtr userdata);
     public delegate RESULT FILE_ASYNCCANCELCALLBACK (IntPtr handle, IntPtr userdata);
 
@@ -1445,18 +1434,18 @@ namespace FMOD
     [StructLayout(LayoutKind.Sequential)]
     public struct REVERB_PROPERTIES
     {                            /*        MIN     MAX    DEFAULT   DESCRIPTION */
-        float DecayTime;         /* [r/w]  0.0    20000.0 1500.0  Reverberation decay time in ms                                        */
-        float EarlyDelay;        /* [r/w]  0.0    300.0   7.0     Initial reflection delay time                                         */
-        float LateDelay;         /* [r/w]  0.0    100     11.0    Late reverberation delay time relative to initial reflection          */
-        float HFReference;       /* [r/w]  20.0   20000.0 5000    Reference high frequency (hz)                                         */
-        float HFDecayRatio;      /* [r/w]  10.0   100.0   50.0    High-frequency to mid-frequency decay time ratio                      */
-        float Diffusion;         /* [r/w]  0.0    100.0   100.0   Value that controls the echo density in the late reverberation decay. */
-        float Density;           /* [r/w]  0.0    100.0   100.0   Value that controls the modal density in the late reverberation decay */
-        float LowShelfFrequency; /* [r/w]  20.0   1000.0  250.0   Reference low frequency (hz)                                          */
-        float LowShelfGain;      /* [r/w]  -36.0  12.0    0.0     Relative room effect level at low frequencies                         */
-        float HighCut;           /* [r/w]  20.0   20000.0 20000.0 Relative room effect level at high frequencies                        */
-        float EarlyLateMix;      /* [r/w]  0.0    100.0   50.0    Early reflections level relative to room effect                       */
-        float WetLevel;          /* [r/w]  -80.0  20.0    -6.0    Room effect level (at mid frequencies)
+        public float DecayTime;         /* [r/w]  0.0    20000.0 1500.0  Reverberation decay time in ms                                        */
+        public float EarlyDelay;        /* [r/w]  0.0    300.0   7.0     Initial reflection delay time                                         */
+        public float LateDelay;         /* [r/w]  0.0    100     11.0    Late reverberation delay time relative to initial reflection          */
+        public float HFReference;       /* [r/w]  20.0   20000.0 5000    Reference high frequency (hz)                                         */
+        public float HFDecayRatio;      /* [r/w]  10.0   100.0   50.0    High-frequency to mid-frequency decay time ratio                      */
+        public float Diffusion;         /* [r/w]  0.0    100.0   100.0   Value that controls the echo density in the late reverberation decay. */
+        public float Density;           /* [r/w]  0.0    100.0   100.0   Value that controls the modal density in the late reverberation decay */
+        public float LowShelfFrequency; /* [r/w]  20.0   1000.0  250.0   Reference low frequency (hz)                                          */
+        public float LowShelfGain;      /* [r/w]  -36.0  12.0    0.0     Relative room effect level at low frequencies                         */
+        public float HighCut;           /* [r/w]  20.0   20000.0 20000.0 Relative room effect level at high frequencies                        */
+        public float EarlyLateMix;      /* [r/w]  0.0    100.0   50.0    Early reflections level relative to room effect                       */
+        public float WetLevel;          /* [r/w]  -80.0  20.0    -6.0    Room effect level (at mid frequencies)
                                   * */
         #region wrapperinternal
         public REVERB_PROPERTIES(float decayTime, float earlyDelay, float lateDelay, float hfReference,
@@ -2563,12 +2552,6 @@ namespace FMOD
         {
             return FMOD_Sound_Get3DCustomRolloff(rawPtr, out points, out numpoints);
         }
-        public RESULT setSubSound             (int index, Sound subsound)
-        {
-            IntPtr subsoundraw = subsound.getRaw();
-
-            return FMOD_Sound_SetSubSound(rawPtr, index, subsoundraw);
-        }
         public RESULT getSubSound             (int index, out Sound subsound)
         {
             subsound = null;
@@ -2760,8 +2743,6 @@ namespace FMOD
         private static extern RESULT FMOD_Sound_Set3DCustomRolloff      (IntPtr sound, ref VECTOR points, int numpoints);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_Sound_Get3DCustomRolloff      (IntPtr sound, out IntPtr points, out int numpoints);
-        [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_Sound_SetSubSound             (IntPtr sound, int index, IntPtr subsound);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_Sound_GetSubSound             (IntPtr sound, int index, out IntPtr subsound);
         [DllImport(VERSION.dll)]
