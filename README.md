@@ -45,16 +45,19 @@ It's not perfect and many function not yet implemented.
 	+ if you link with supported media files, the player loads the new files and play the first file from the added files
 + Tooltip on playlist files
 
-## Download
+## Releases
 
-- [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.13)
+- [v1.9.1](https://github.com/punker76/simple-music-player/releases/tag/v1.9.1)
 - [v1.9.0.14](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.14)
+- [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.13)
+- [v1.1.7.2](http://jkarger.de/simple-music-player/)
 
-## Libs that I used
+## Awesome libs that I use
 
-- [gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)
 - [MahApps.Metro](https://github.com/MahApps/MahApps.Metro)
-- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) @ButchersBoy
+- [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) Google Material Design in XAML & WPF, for C# & VB.Net from @ButchersBoy
+- [gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)
+- [Font-Awesome-WPF](https://github.com/charri/Font-Awesome-WPF) FontAwesome controls for WPF from @charri
 - [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - [NLog](https://github.com/NLog/NLog)
 - [QuickIO.NET](http://quickio.azurewebsites.net/)
@@ -73,6 +76,12 @@ Most Icons are taken (inspired) from (thx @Templarian)
 - [Metrize Icons](http://www.alessioatzeni.com/metrize-icons/) by [Alessio Atzeni](https://twitter.com/Bluxart) @Bluxart
 
 ## Screen shots (milestones)
+
+![very early screenshot 20](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-10-20_23h51_14.png)  
+
+![very early screenshot 19](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-10-20_23h50_59.png)  
+
+![very early screenshot 18](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-10-20_23h50_51.png)  
 
 ![very early screenshot 17](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-07-19_22h18_51.png)  
 
@@ -112,7 +121,7 @@ Most Icons are taken (inspired) from (thx @Templarian)
 
 ### Simple Music Player
 
-Copyright (c) 2012 Jan Karger
+Copyright (c) 2012-2015 Jan Karger
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

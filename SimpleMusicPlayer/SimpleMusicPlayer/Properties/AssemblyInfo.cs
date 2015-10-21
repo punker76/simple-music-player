@@ -8,11 +8,11 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Simple Music Player")]
-[assembly: AssemblyDescription("keep it simple and play your music")]
+[assembly: AssemblyDescription("Keeps it simple and plays your music")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("punker76@home")]
 [assembly: AssemblyProduct("Simple Music Player")]
-[assembly: AssemblyCopyright("Copyright © punker76 2014")]
+[assembly: AssemblyCopyright("Copyright © punker76 2014-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.9.0.14")]
-[assembly: AssemblyFileVersion("1.9.0.14")]
+[assembly: AssemblyVersion("1.9.1.0")]
+[assembly: AssemblyFileVersion("1.9.1.0")]
