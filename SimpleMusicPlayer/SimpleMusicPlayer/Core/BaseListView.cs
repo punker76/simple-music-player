@@ -159,7 +159,8 @@ namespace SimpleMusicPlayer.Core
         {
             var gridView = new GridView { AllowsColumnReorder = true };
 
-            var properties = lv.DataType.GetProperties();
+            // get only declared properties from DataType
+            var properties = lv.DataType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly);
             foreach (var pi in properties)
             {
                 var browsableAttribute = pi.GetCustomAttributes(true).FirstOrDefault(a => a is BrowsableAttribute) as BrowsableAttribute;
