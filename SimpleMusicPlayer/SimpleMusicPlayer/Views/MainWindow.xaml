@@ -30,6 +30,9 @@
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Views/PlayControlInfoViewTemplates.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Views/PlaylistsViewTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>
+
+            <ValueConverters:NullVisibilityConverter x:Key="NullToVisibleVisibilityConverter"
+                                                     Invert="True" />
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
 
@@ -51,21 +54,248 @@
     <Grid>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <ContentControl Grid.Row="0"
-                        Style="{StaticResource PlayControlInfoViewStyle}"
-                        Content="{Binding PlayControlInfoViewModel, Mode=OneTime}" />
+                        Focusable="False"
+                        Content="{Binding Mode=OneTime}">
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
 
-        <ContentControl Grid.Row="1"
-                        Margin="5,10,5,5"
-                        Style="{StaticResource PlaylistsViewStyle}"
-                        Content="{Binding PlayListsViewModel, Mode=OneTime}" />
+                    <Grid x:Name="MainRootGrid">
 
-        <StackPanel Grid.Row="2"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="Row0"
+                                           Height="Auto"
+                                           MinHeight="100" />
+                            <RowDefinition x:Name="Row1"
+                                           Height="Auto"
+                                           MinHeight="100" />
+                            <RowDefinition x:Name="Row2"
+                                           Height="*" />
+                            <RowDefinition x:Name="Row3"
+                                           Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- cover -->
+                        <Grid x:Name="coverGrid"
+                              Grid.Column="0"
+                              Grid.Row="0"
+                              Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight, Mode=OneWay}">
+                            <Grid x:Name="imagegrid"
+                                  RenderOptions.EdgeMode="Aliased"
+                                  RenderOptions.BitmapScalingMode="HighQuality"
+                                  Margin="5">
+                                <Border BorderBrush="#FF707070"
+                                        BorderThickness="1"
+                                        SnapsToDevicePixels="True"
+                                        Visibility="{Binding PlayControlInfoViewModel.PlayControlViewModel.PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay, Converter={StaticResource NullToVisibleVisibilityConverter}}">
+                                    <Rectangle Width="60"
+                                               Height="60"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Fill="{DynamicResource CDBrush}" />
+                                </Border>
+
+                                <Grid.Background>
+                                    <ImageBrush Stretch="UniformToFill"
+                                                ImageSource="{Binding PlayControlInfoViewModel.PlayControlViewModel.PlayerEngine.CurrentMediaFile.Cover, Mode=OneWay}"></ImageBrush>
+                                </Grid.Background>
+                            </Grid>
+                        </Grid>
+
+                        <!-- media info -->
+                        <Grid x:Name="infoGrid"
+                              Grid.Column="1"
+                              Grid.Row="0">
+                            <Views:MediaFileTransitioningContentControl x:Name="infoControl"
+                                                                        Margin="0,15,10,5"
+                                                                        Content="{Binding PlayControlInfoViewModel.PlayControlViewModel.PlayerEngine.CurrentMediaFile, Mode=OneWay}"
+                                                                        ContentTemplate="{StaticResource fileInfoRightTemplate}" />
+                        </Grid>
+
+                        <!-- play control -->
+                        <Grid x:Name="controlGrid"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              Grid.Row="1"
+                              Margin="5">
+                            <Views:PlayControlView x:Name="playControlView"
+                                                   HorizontalAlignment="Center"
+                                                   DataContext="{Binding Path=PlayControlInfoViewModel.PlayControlViewModel, Mode=OneTime}" />
+                        </Grid>
+
+                        <!-- playlist -->
+                        <Grid x:Name="playListGrid"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              Grid.Row="2">
+                            <ContentControl Margin="5"
+                                            Style="{StaticResource PlaylistsViewStyle}"
+                                            Content="{Binding PlayListsViewModel, Mode=OneTime}" />
+                        </Grid>
+
+                    </Grid>
+
+                    <DataTemplate.Triggers>
+
+                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Small">
+
+                            <Setter TargetName="coverGrid"
+                                    Property="Height"
+                                    Value="100" />
+                            <Setter TargetName="coverGrid"
+                                    Property="Grid.Row"
+                                    Value="0" />
+                            <Setter TargetName="coverGrid"
+                                    Property="Grid.RowSpan"
+                                    Value="1" />
+
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Column"
+                                    Value="1" />
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Row"
+                                    Value="0" />
+                            <Setter TargetName="infoGrid"
+                                    Property="MinHeight"
+                                    Value="50" />
+                            <Setter TargetName="infoControl"
+                                    Property="ContentTemplate"
+                                    Value="{StaticResource fileInfoRightTemplate}" />
+
+                            <Setter TargetName="controlGrid"
+                                    Property="Grid.Column"
+                                    Value="0" />
+                            <Setter TargetName="controlGrid"
+                                    Property="Grid.ColumnSpan"
+                                    Value="2" />
+                            <Setter TargetName="controlGrid"
+                                    Property="Grid.Row"
+                                    Value="1" />
+                            <Setter TargetName="controlGrid"
+                                    Property="HorizontalAlignment"
+                                    Value="Center" />
+                            <Setter TargetName="controlGrid"
+                                    Property="Margin"
+                                    Value="5" />
+
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.Column"
+                                    Value="0" />
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.ColumnSpan"
+                                    Value="2" />
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.Row"
+                                    Value="2" />
+
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Medium">
+
+                            <Setter TargetName="coverGrid"
+                                    Property="Height"
+                                    Value="200" />
+                            <Setter TargetName="coverGrid"
+                                    Property="Grid.RowSpan"
+                                    Value="2" />
+
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Column"
+                                    Value="1" />
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Row"
+                                    Value="0" />
+                            <Setter TargetName="infoGrid"
+                                    Property="MinHeight"
+                                    Value="50" />
+                            <Setter TargetName="infoControl"
+                                    Property="ContentTemplate"
+                                    Value="{StaticResource fileInfoRightTemplate}" />
+
+                            <Setter TargetName="controlGrid"
+                                    Property="Grid.Column"
+                                    Value="1" />
+                            <Setter TargetName="controlGrid"
+                                    Property="Grid.ColumnSpan"
+                                    Value="1" />
+                            <Setter TargetName="controlGrid"
+                                    Property="HorizontalAlignment"
+                                    Value="Right" />
+                            <Setter TargetName="controlGrid"
+                                    Property="Margin"
+                                    Value="5" />
+
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.Column"
+                                    Value="0" />
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.ColumnSpan"
+                                    Value="2" />
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.Row"
+                                    Value="2" />
+
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}"
+                                     Value="Large">
+
+                            <Setter TargetName="coverGrid"
+                                    Property="Height"
+                                    Value="400" />
+
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Column"
+                                    Value="0" />
+                            <Setter TargetName="infoGrid"
+                                    Property="Grid.Row"
+                                    Value="1" />
+                            <Setter TargetName="infoGrid"
+                                    Property="MinHeight"
+                                    Value="0" />
+                            <Setter TargetName="infoControl"
+                                    Property="ContentTemplate"
+                                    Value="{StaticResource fileInfoRightLargeTemplate}" />
+
+                            <Setter TargetName="controlGrid"
+                                    Property="Grid.Row"
+                                    Value="3" />
+                            <Setter TargetName="controlGrid"
+                                    Property="Margin"
+                                    Value="20" />
+
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.Column"
+                                    Value="1" />
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.ColumnSpan"
+                                    Value="1" />
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.Row"
+                                    Value="0" />
+                            <Setter TargetName="playListGrid"
+                                    Property="Grid.RowSpan"
+                                    Value="3" />
+
+                        </DataTrigger>
+
+                    </DataTemplate.Triggers>
+
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
+
+        <StackPanel Grid.Row="1"
                     DataContext="{Binding PlayListsViewModel.FileSearchWorker, Mode=OneWay}"
                     Visibility="{Binding IsWorking, Mode=OneWay, Converter={x:Static ValueConverters:FalseToCollapsedVisibilityConverter.Instance}}"
                     Orientation="Horizontal">

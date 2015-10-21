@@ -142,13 +142,8 @@
     <Style x:Key="BaseGridViewColumnHeader"
            TargetType="GridViewColumnHeader"
            BasedOn="{StaticResource MetroGridViewColumnHeader}">
-        <Setter Property="ContentTemplate">
-            <Setter.Value>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Converter={StaticResource ToUpperConverter}}" />
-                </DataTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="FontWeight"
+                Value="Light" />
     </Style>
 
     <Style x:Key="HeaderlessGridViewScrollViewerStyle"

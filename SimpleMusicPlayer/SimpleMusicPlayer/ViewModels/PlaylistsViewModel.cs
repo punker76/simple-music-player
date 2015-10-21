@@ -451,7 +451,7 @@ namespace SimpleMusicPlayer.ViewModels
             set { this.RaiseAndSetIfChanged(ref playListItemTemplateKey, value); }
         }
 
-        public void CalcPlayListItemTemplateByActualWidth(double actualWidth)
+        public void CalcPlayListItemTemplateByActualWidth(double actualWidth, double actualHeight)
         {
             if (actualWidth > 850) PlayListItemTemplateKey = "Large";
             else if (actualWidth > 560) PlayListItemTemplateKey = "Medium";

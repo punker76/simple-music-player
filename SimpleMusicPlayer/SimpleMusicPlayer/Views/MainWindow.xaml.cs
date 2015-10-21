@@ -21,7 +21,8 @@ namespace SimpleMusicPlayer.Views
 
             this.InitializeComponent();
 
-            this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
+            //this.Title = string.Format("{0} {1}", this.Title, Assembly.GetExecutingAssembly().GetName().Version);
+            this.Title = string.Format("{0}", this.Title);
 
             this.WhenAnyValue(x => x.ViewModel).BindTo(this, x => x.DataContext);
 
@@ -42,8 +43,8 @@ namespace SimpleMusicPlayer.Views
                                             var window = Window.GetWindow(this);
                                             if (window != null)
                                             {
-                                                vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(window.ActualWidth);
-                                                window.Events().SizeChanged.Throttle(TimeSpan.FromMilliseconds(15), RxApp.MainThreadScheduler).Subscribe(e => vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(e.NewSize.Width));
+                                                vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(window.ActualWidth, window.ActualHeight);
+                                                window.Events().SizeChanged.Throttle(TimeSpan.FromMilliseconds(15), RxApp.MainThreadScheduler).Subscribe(e => vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(e.NewSize.Width, e.NewSize.Height));
                                             }
 
                                             this.Events().Closed.InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
