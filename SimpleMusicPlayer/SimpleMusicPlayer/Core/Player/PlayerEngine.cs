@@ -57,7 +57,7 @@ namespace SimpleMusicPlayer.Core.Player
                     return false;
                 }
 
-                if (!this.system.setStreamBufferSize(64 * 1024, TIMEUNIT.RAWBYTES).ERRCHECK())
+                if (!this.system.setStreamBufferSize(128 * 1024, TIMEUNIT.RAWBYTES).ERRCHECK())
                 {
                     return false;
                 }
