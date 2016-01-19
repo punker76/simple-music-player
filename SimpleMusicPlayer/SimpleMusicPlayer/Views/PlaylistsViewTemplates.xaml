@@ -587,6 +587,14 @@
                         </GridViewColumn>
                     </GridView>
                 </ListView.View>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Play" 
+                                  Command="{Binding PlayCommand}" />
+                        <MenuItem Header="Delete from Playlist" 
+                                  Command="{Binding DeleteCommand}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </models:BaseListView>
 
             <!--This is the hidden helper Grid which does the resizing -->
