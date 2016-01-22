@@ -3,14 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMusicPlayer", "SimpleMusicPlayer\SimpleMusicPlayer.csproj", "{06E30367-00AC-4FC1-8A4F-13A98CBD441D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D4E589E9-9341-43F3-AA68-EBD6393EA0F5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{0D965803-90D5-478F-AE29-E505C08A19F0}"
 	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
+		paket.dependencies = paket.dependencies
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMusicPlayer", "SimpleMusicPlayer\SimpleMusicPlayer.csproj", "{06E30367-00AC-4FC1-8A4F-13A98CBD441D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleMusicPlayer.Tests", "SimpleMusicPlayer.Tests\SimpleMusicPlayer.Tests.csproj", "{488A0721-87EE-415B-BE43-F0996436E74C}"
 EndProject

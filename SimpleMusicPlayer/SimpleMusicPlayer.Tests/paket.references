@@ -1,0 +1,16 @@
+MahApps.Metro
+NLog
+reactiveui
+reactiveui-core
+Rx-Core
+Rx-Interfaces
+Rx-Linq
+Rx-Main
+Rx-PlatformServices
+Rx-XAML
+Splat
+xunit
+xunit.abstractions
+xunit.assert
+xunit.core
+xunit.extensibility.core
