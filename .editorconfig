@@ -13,3 +13,8 @@ indent_size = 4
 [*.xaml]
 indent_style = space
 indent_size = 4
+
+; 4-column tab indentation
+[*.xml]
+indent_style = space
+indent_size = 4
