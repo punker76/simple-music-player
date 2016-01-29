@@ -9,6 +9,8 @@ namespace SimpleMusicPlayer.Core.Interfaces
 
         PlayerState State { get; set; }
 
+        uint Track { get; }
+        uint Disc { get; }
         string Title { get; }
         BitmapImage Cover { get; }
         string Album { get; }

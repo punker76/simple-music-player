@@ -348,7 +348,11 @@ namespace SimpleMusicPlayer.ViewModels
         {
             if (!this.FileSearchWorker.IsWorking)
             {
-                var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList);
+                var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList)
+                                      .ContinueWith(task => task.Result.OrderBy(f => f.FirstPerformer)
+                                                                .ThenBy(f => f.Album)
+                                                                .ThenBy(f => f.Disc)
+                                                                .ThenBy(f => f.Track));
 
                 var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
 
