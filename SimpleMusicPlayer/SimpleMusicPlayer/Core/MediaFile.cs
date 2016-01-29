@@ -99,6 +99,8 @@ namespace SimpleMusicPlayer.Core
                     this.TrackCount = file.Tag.TrackCount;
                     this.Disc = file.Tag.Disc;
                     this.DiscCount = file.Tag.DiscCount;
+                    var trackFormat = this.TrackCount > 0 ? string.Format("Track {0}/{1}", this.Track, this.TrackCount) : string.Format("Track {0}", this.Track);
+                    this.TrackInfo = this.DiscCount > 0 ? string.Format("{0}  Disc {1}/{2}", trackFormat, this.Disc, this.DiscCount) : trackFormat;
                     this.Year = file.Tag.Year;
                     this.Grouping = file.Tag.Grouping;
 
@@ -217,6 +219,9 @@ namespace SimpleMusicPlayer.Core
 
         [JsonProperty(Required = Required.AllowNull)]
         public uint Track { get; private set; }
+
+        [JsonProperty(Required = Required.AllowNull)]
+        public string TrackInfo { get; private set; }
 
         [JsonProperty(Required = Required.AllowNull)]
         public uint Year { get; private set; }

@@ -44,39 +44,34 @@
                        Source="{Binding Cover, Mode=OneWay}" />
             </Grid>
 
-            <Grid RenderOptions.ClearTypeHint="Enabled"
-                  TextOptions.TextFormattingMode="Display">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0"
-                           FontSize="16"
+            <StackPanel Orientation="Vertical"
+                        TextOptions.TextHintingMode="Fixed"
+                        TextOptions.TextRenderingMode="ClearType"
+                        TextOptions.TextFormattingMode="Display">
+                <TextBlock FontSize="16"
                            TextAlignment="Left"
                            TextWrapping="Wrap"
                            Text="{Binding Title, Mode=OneWay}" />
-                <TextBlock Grid.Row="1"
-                           FontSize="14"
+                <TextBlock FontSize="14"
                            Foreground="{StaticResource SemiTextColorBrush}"
                            TextAlignment="Left"
                            TextWrapping="Wrap"
                            Text="{Binding Album, Mode=OneWay}" />
-                <TextBlock Grid.Row="2"
-                           FontSize="14"
+                <TextBlock FontSize="14"
                            Foreground="{StaticResource SemiTextColorBrush}"
                            TextAlignment="Left"
                            TextWrapping="Wrap"
                            Text="{Binding FirstPerformer, Mode=OneWay}" />
-                <TextBlock Grid.Row="3"
-                           FontSize="14"
+                <TextBlock FontSize="12"
+                           Foreground="{StaticResource SemiTextColorBrush}"
+                           TextAlignment="Left"
+                           Text="{Binding TrackInfo, Mode=OneWay}" />
+                <TextBlock FontSize="12"
                            Foreground="{StaticResource SemiTextColorBrush}"
                            TextAlignment="Left">
                     <TextBlock.Text>
                         <MultiBinding Mode="OneWay"
-                                      StringFormat="{}{0:0,.} kHz, {1} kbps">
+                                      StringFormat="{}{0:0,.} kHz  {1} kbps">
                             <Binding Path="AudioSampleRate"
                                      Mode="OneWay" />
                             <Binding Path="AudioBitrate"
@@ -84,11 +79,10 @@
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
-                <TextBlock Grid.Row="4"
-                           FontSize="14"
+                <TextBlock FontSize="14"
                            TextAlignment="Left"
                            Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-            </Grid>
+            </StackPanel>
         </StackPanel>
     </DataTemplate>
 
@@ -102,11 +96,13 @@
              Padding="1"
              models:ToolTipHelper.AutoMove="True" />
 
-    <Style x:Key="PlayListMetroListBoxItem"
-           TargetType="{x:Type ListBoxItem}"
-           BasedOn="{StaticResource MetroListBoxItem}">
+    <Style x:Key="PlayListMetroListViewItem"
+           TargetType="{x:Type ListViewItem}"
+           BasedOn="{StaticResource MetroListViewItem}">
         <Setter Property="ToolTipService.InitialShowDelay"
                 Value="1000" />
+        <Setter Property="ToolTipService.ShowDuration"
+                Value="10000" />
         <Setter Property="ToolTipService.BetweenShowDelay"
                 Value="0" />
         <Setter Property="ToolTip"
@@ -321,6 +317,7 @@
         <Grid x:Name="RootGrid">
             <models:BaseListView x:Name="PlayListView"
                                  Style="{StaticResource HeaderlessMetroListView}"
+                                 ItemContainerStyle="{StaticResource PlayListMetroListViewItem}"
                                  MaxHeight="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ContentControl}, Path=ActualHeight, Mode=OneWay}"
                                  MinHeight="10"
                                  MaxWidth="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ContentControl}, Path=ActualWidth, Mode=OneWay}"
