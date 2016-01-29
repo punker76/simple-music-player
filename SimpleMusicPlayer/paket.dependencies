@@ -2,8 +2,9 @@ source https://www.nuget.org/api/v2/
 framework >= net45
 
 nuget Costura.Fody ~> 1.3.3.0
-nuget FontAwesome.WPF ~> 4.4.0
-nuget gong-wpf-dragdrop ~> 1.0.0-ALPHA010
+nuget FontAwesome.WPF ~> 4.5.0
+nuget gong-wpf-dragdrop > 0.1.4.3
+nuget MahApps.Metro > 1.2.4
 nuget MahApps.Metro.SimpleChildWindow ~> 1.3.0
 nuget MaterialDesignThemes 1.0.1-beta126
 nuget Newtonsoft.Json ~> 8.0
