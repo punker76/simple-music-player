@@ -7,68 +7,56 @@
 
     <DataTemplate x:Key="fileInfoRightTemplate"
                   DataType="{x:Type models:MediaFile}">
-        <Grid RenderOptions.ClearTypeHint="Enabled"
-              TextOptions.TextFormattingMode="Display">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                       FontSize="16"
+        <StackPanel Orientation="Vertical"
+                    TextOptions.TextHintingMode="Fixed"
+                    TextOptions.TextRenderingMode="ClearType"
+                    TextOptions.TextFormattingMode="Display">
+            <TextBlock FontSize="16"
                        TextAlignment="Right"
                        TextWrapping="Wrap"
                        Text="{Binding Title, Mode=OneWay}" />
-            <TextBlock Grid.Row="1"
-                       FontSize="14"
+            <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Right"
                        TextWrapping="Wrap"
                        Text="{Binding Album, Mode=OneWay}" />
-            <TextBlock Grid.Row="2"
-                       FontSize="16"
+            <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Right"
                        TextWrapping="Wrap"
                        Text="{Binding FirstPerformer, Mode=OneWay}" />
-        </Grid>
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate x:Key="fileInfoRightLargeTemplate"
                   DataType="{x:Type models:MediaFile}">
-        <Grid RenderOptions.ClearTypeHint="Enabled"
-              TextOptions.TextFormattingMode="Display">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                       FontSize="18"
+        <StackPanel Orientation="Vertical"
+                    TextOptions.TextHintingMode="Fixed"
+                    TextOptions.TextRenderingMode="ClearType"
+                    TextOptions.TextFormattingMode="Display">
+            <TextBlock FontSize="18"
                        TextAlignment="Right"
                        TextWrapping="Wrap"
                        Text="{Binding Title, Mode=OneWay}" />
-            <TextBlock Grid.Row="1"
-                       FontSize="16"
+            <TextBlock FontSize="16"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Right"
                        TextWrapping="Wrap"
                        Text="{Binding Album, Mode=OneWay}" />
-            <TextBlock Grid.Row="2"
-                       FontSize="18"
+            <TextBlock FontSize="16"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Right"
                        TextWrapping="Wrap"
                        Text="{Binding FirstPerformer, Mode=OneWay}" />
-            <TextBlock Grid.Row="3"
-                       FontSize="16"
+            <TextBlock FontSize="16"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Right"
                        Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-            <TextBlock Grid.Row="4"
-                       Margin="0,5,0,0"
+            <TextBlock FontSize="14"
+                       Foreground="{StaticResource SemiTextColorBrush}"
+                       TextAlignment="Right"
+                       Text="{Binding TrackInfo, Mode=OneWay}" />
+            <TextBlock Margin="0,5,0,0"
                        FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Right">
@@ -82,46 +70,36 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-        </Grid>
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate x:Key="fileInfoLeftTemplate"
                   DataType="{x:Type models:MediaFile}">
-        <Grid RenderOptions.ClearTypeHint="Enabled"
-              TextOptions.TextFormattingMode="Display">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0"
-                       FontSize="16"
+        <StackPanel Orientation="Vertical"
+                    TextOptions.TextHintingMode="Fixed"
+                    TextOptions.TextRenderingMode="ClearType"
+                    TextOptions.TextFormattingMode="Display">
+            <TextBlock FontSize="16"
                        TextAlignment="Left"
                        TextWrapping="Wrap"
                        Text="{Binding Title, Mode=OneWay}" />
-            <TextBlock Grid.Row="1"
-                       FontSize="14"
+            <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Left"
                        TextWrapping="Wrap"
                        Text="{Binding Album, Mode=OneWay}" />
-            <TextBlock Grid.Row="2"
-                       FontSize="14"
+            <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Left"
                        TextWrapping="Wrap"
                        Text="{Binding FirstPerformer, Mode=OneWay}" />
-
-            <TextBlock Grid.Row="3"
-                       Margin="0,5,0,0"
+            <TextBlock Margin="0,5,0,0"
                        FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Left">
                 <TextBlock.Text>
                     <MultiBinding Mode="OneWay"
-                                  StringFormat="{}{0:0,.} kHz, {1} kbps">
+                                  StringFormat="{}{0:0,.} kHz  {1} kbps">
                         <Binding Path="AudioSampleRate"
                                  Mode="OneWay" />
                         <Binding Path="AudioBitrate"
@@ -129,12 +107,11 @@
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
-            <TextBlock Grid.Row="4"
-                       FontSize="14"
+            <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Left"
                        Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-        </Grid>
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate x:Key="SmallTemplate"
