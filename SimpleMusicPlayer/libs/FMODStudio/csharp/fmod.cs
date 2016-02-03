@@ -1,6 +1,6 @@
 /* ========================================================================================== */
 /*                                                                                            */
-/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2015.      */
+/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2016.      */
 /*                                                                                            */
 /* ========================================================================================== */
 
@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010700;
+        public const int    number = 0x00010706;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -1976,6 +1976,10 @@ namespace FMOD
         {
             return FMOD_System_GetChannelsPlaying(rawPtr, out channels);
         }
+        public RESULT getChannelsReal        (out int channels)
+        {
+            return FMOD_System_GetChannelsReal(rawPtr, out channels);
+        }
         public RESULT getCPUUsage            (out float dsp, out float stream, out float geometry, out float update, out float total)
         {
             return FMOD_System_GetCPUUsage(rawPtr, out dsp, out stream, out geometry, out update, out total);
@@ -2399,6 +2403,8 @@ namespace FMOD
         private static extern RESULT FMOD_System_GetOutputHandle        (IntPtr system, out IntPtr handle);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_GetChannelsPlaying     (IntPtr system, out int channels);
+        [DllImport(VERSION.dll)]
+        private static extern RESULT FMOD_System_GetChannelsReal        (IntPtr system, out int channels);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_System_GetCPUUsage            (IntPtr system, out float dsp, out float stream, out float geometry, out float update, out float total);
         [DllImport(VERSION.dll)]
@@ -3387,9 +3393,15 @@ namespace FMOD
         }
 
         // Nested channel groups.
-        public RESULT addGroup               (ChannelGroup group)
+        public RESULT addGroup               (ChannelGroup group, bool propagatedspclock, out DSPConnection connection)
         {
-            return FMOD_ChannelGroup_AddGroup(getRaw(), group.getRaw());
+			connection = null;
+			
+			IntPtr connectionRaw;
+            RESULT result = FMOD_ChannelGroup_AddGroup(getRaw(), group.getRaw(), propagatedspclock, out connectionRaw);
+			connection = new DSPConnection(connectionRaw);
+			
+			return result;
         }
         public RESULT getNumGroups           (out int numgroups)
         {
@@ -3447,7 +3459,7 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_ChannelGroup_Release          (IntPtr channelgroup);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_ChannelGroup_AddGroup         (IntPtr channelgroup, IntPtr group);
+        private static extern RESULT FMOD_ChannelGroup_AddGroup         (IntPtr channelgroup, IntPtr group, bool propagatedspclock, out IntPtr connection);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_ChannelGroup_GetNumGroups     (IntPtr channelgroup, out int numgroups);
         [DllImport(VERSION.dll)]
