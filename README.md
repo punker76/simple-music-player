@@ -5,15 +5,15 @@
 [![Build status](https://img.shields.io/appveyor/ci/punker76/simple-music-player/master.svg?style=flat-square)](https://ci.appveyor.com/project/punker76/simple-music-player/branch/master)
 [![Twitter](https://img.shields.io/badge/twitter-%40punker76-55acee.svg?style=flat-square)](https://twitter.com/punker76)
 
-This is the next version of simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
+This is the next version of my simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
 
-**SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a simple way.
+**SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a very simple way, just drag&drop your files or folders on the main screen and start push play...
 
 Why another music player? When I decided to make my first player back in 2005, the Winamp 3 player was to buggy and very slow! I stopped developing in 2007.
-I used my favorite programming language Delphi 5 and I learned a lot of  new stuff. It was a great time and a few people in the Delphi community honored my work :-)
+I used my favorite programming language Delphi 5 and I learned a lot of new stuff. It was a great time and a few people in the Delphi community honored my work :-)
 Unfortunately, the interface of the FMOD sound library was no longer supported for Delphi and I decided to stop working on it.
 
-After long time, now it's time to make a new one!
+So after long time, it's time to make a new one!
 
 It's not perfect and many function not yet implemented.
 
@@ -121,7 +121,7 @@ Most Icons are taken (inspired) from (thx @Templarian)
 
 ### Simple Music Player
 
-Copyright (c) 2012-2015 Jan Karger
+Copyright (c) 2012-2016 Jan Karger
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -134,7 +134,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 ### FMOD Ex SoundSystem
 
 FMOD, FMOD Ex, FMOD Designer and FMOD Studio are 
-Copyright © 2005-2015 Firelight Technologies Pty, Ltd.
+Copyright © 2005-2016 Firelight Technologies Pty, Ltd.
 
 GRANT OF LICENSE
 ----------------
@@ -168,9 +168,9 @@ CONDITIONS/LIMITATIONS:
   LOGOS ARE AVAILABLE FOR BOX OR MANUAL ART, BUT ARE NOT MANDATORY. 
   AN EXAMPLE CREDIT COULD BE:
   
-  FMOD Sound System, copyright © Firelight Technologies Pty, Ltd., 1994-2015.
+  FMOD Sound System, copyright © Firelight Technologies Pty, Ltd., 1994-2016.
   OR
-  FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2015.
+  FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2016.
   OR 
   Audio Engine supplied by FMOD by Firelight Technologies.
 
@@ -195,7 +195,7 @@ CONDITIONS/LIMITATIONS
   LOGOS ARE AVAILABLE FOR BOX OR MANUAL ART, BUT ARE NOT MANDATORY. 
   AN EXAMPLE CREDIT COULD BE:
   
-  FMOD STUDIO, COPYRIGHT © FIRELIGHT TECHNOLOGIES PTY, LTD., 1994-2015.
+  FMOD STUDIO, COPYRIGHT © FIRELIGHT TECHNOLOGIES PTY, LTD., 1994-2016.
 
 COMMERCIAL USAGE (FMOD EX AND FMOD STUDIO)
 ------------------------------------------
