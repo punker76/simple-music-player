@@ -47,6 +47,7 @@ It's not perfect and many function not yet implemented.
 
 ## Releases
 
+- [v1.9.2](https://github.com/punker76/simple-music-player/releases/tag/v1.9.2)
 - [v1.9.1](https://github.com/punker76/simple-music-player/releases/tag/v1.9.1)
 - [v1.9.0.14](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.14)
 - [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.13)
