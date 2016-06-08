@@ -5,6 +5,107 @@
                               http://www.fmod.org
 ===============================================================================
 
+25/05/16 1.08.04 - Studio API minor release (build 76196)
+----------------------------------------------------
+
+Features:
+* Studio API   - Added runtime support for steal quietest polyphony.
+* LowLevel API - Improved performance when connecting sends and returns.
+* UE4          - FFMODEventInstance can now be stored as a blueprint variable.
+* UE4          - Added support for Occlusion.  See the Occlusion section of the
+                 documentation for more information.
+* UE4          - Added support for Android deployment without having to modify
+                 the engine.
+* UE4          - Added InitialDriverOutputName to select output device by name
+                 at startup, as well as new Blueprint functions GetOutputDrivers,
+                 SetOutputDriverByName and SetOutputDriverByIndex.
+* UE4          - Added VCASetFaderLevel Blueprint function.
+* UE4          - "FMOD Validate" now checks for FMOD in the packaging setting,
+                 and can add it if needed.
+
+Fixes:
+* LowLevel API - Fixed unnecessary DSP queue flush when using ports.
+* LowLevel API - Fixed ADPCM and FADPCM compressed FSBs not returning
+                 FMOD_ERR_MEMORY_CANTPOINT when loaded as FMOD_OPENMEMORY_POINT
+                 FMOD_CREATESAMPLE.
+* LowLevel API - Fix pops when channels with a mix matrix that are started virtual 
+                 become real.
+* LowLevel API - Fixed DSP panner reset not clearing ramps, causing ramping when
+                 setting initial parameters.
+* LowLevel API - Fixed Sound::getSyncPointInfo returning first sync point info
+                 when loading sounds from FSBs with multiple sync points.
+* Studio API   - Fixed memory stomp that can occur when sharing events between 
+                 multiple banks, if a streaming sound is in the middle of loading 
+                 when one of the shared banks is unloaded.
+* Unity 2      - Fix error messages when previewing an event contained in the
+                 Master Bank.
+* Unity 2      - Fix WinPhone 8.1 DLL's conflicting with UWP builds. 
+
+Notes:
+* Studio API   - Incremented bank version, requires runtime 1.08.00 or later.
+* Studio API   - Latest runtime supports loading old bank versions from 1.03.00.
+* UE4          - Updated ovrfmod to version 1.0.3.
+* UE4          - Tested with 4.12 pre-release, compiles successfully.
+* PS Vita      - Now built with SDK 3.570.011.
+
+05/05/16 1.08.03 - Studio API minor release (build 75571)
+----------------------------------------------------
+
+Features:
+* Studio API   - Added FMOD_STUDIO_EVENT_CALLBACK_SOUND_PLAYED and
+                 FMOD_STUDIO_EVENT_CALLBACK_SOUND_STOPPED for when an event 
+                 plays sounds.  Sound names will only be available if
+                 banks have been re-exported in FMOD Studio 1.08.03 or later.
+                 See the music_callbacks example for demonstration.
+* Studio API   - Added runtime support for the event cooldown property
+                 set from FMOD Studio.  Events that fail to start due to
+                 cooldown time will invoke the 
+                 FMOD_STUDIO_EVENT_CALLBACK_START_FAILED callback.
+* LowLevel API - Improved performance of logging.
+* LowLevel API - PS4 - Improved performance when profiling is enabled.
+
+Fixes:
+* Studio API   - Events that fail to start due to bus polyphony now invoke the
+                 FMOD_STUDIO_EVENT_CALLBACK_START_FAILED callback.
+* Studio API   - Fixed crash when calling Studio::System::unloadAll with
+                 crossfading nested events.
+* Studio API   - Fixed unnecessary up/down mix applied to 2D events that have
+                 sidechain modulators.
+* Studio API   - Fixed mixing issues and degraded performance if the system
+                 speaker mode does not match the Studio project format.
+* Studio API   - Fixed case of stereo sounds panning hard right when downmixed
+                 to a mono track and later upmixed again, introduced in 1.07.04.
+* LowLevel API - Fixed potential incorrect position when voice comes back from
+                 being virtual, which can cause a hang on XboxOne.
+* LowLevel API - Improved handling for out of memory errors when mixing DSP 
+                 buffers.
+* LowLevel API - Fixed incorrect propagation of FMOD_DSP_STATE::channelmask
+                 when mixing signals with differing masks.
+* LowLevel API - Fixed http streams (file from http, not shoutcast/icecast) 
+                 returning FMOD_ERR_FORMAT.  Introduced 1.08.01
+* LowLevel API - Fixed m3u playlist file format support.  Was returning 
+                 FMOD_ERR_FORMAT.
+* LowLevel API - Android - Improved detection of low-latency devices allowing better
+                           automatic output mode selection and less stuttering.
+* LowLevel API - Sound::getName will now return "" for sounds without names, 
+                 instead of "(null)".
+* LowLevel API - Object 3D Panning fix for silent objects in certain speaker modes
+* Studio API   - More robust live update handshaking when attempting to connect
+                 with multiple copies of FMOD Studio at once.
+* Unity 2      - Added missing Studio::EventDescription::getSoundSize function.
+
+Notes:
+* Studio API   - Incremented bank version, requires runtime 1.08.00 or later.
+* Studio API   - Latest runtime supports loading old bank versions from 1.03.00.
+* Studio API   - Sound names are now loaded into memory if they have been
+                 exported in the bank file.  The option is on by default, 
+                 which means by the runtime memory use might be slightly higher
+                 when loading banks exported from 1.08.03 and later.  If this is 
+                 a problem, make sure to disable the option to export sound names 
+                 in FMOD Studio when re-exporting banks.
+* Xbox One     - Now built with March 2016 QFE 1 XDK.
+* PS4          - Now built with SDK 3.508.031.
+
 13/04/16 1.08.02 - Studio API minor release (build 74770)
 ----------------------------------------------------
 
@@ -77,7 +178,7 @@ Notes:
 * Studio API   - Studio will set the low level master channel group format to the
                  project's format to avoid an extra upmix.
 
-04/03/16 1.08.00 - Studio API minor release (build 73609)
+04/03/16 1.08.00 - Studio API major release (build 73609)
 ----------------------------------------------------
 
 Features:

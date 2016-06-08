@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010802;
+        public const int    number = 0x00010804;
 #if WIN64
         public const string dll    = "fmod64";
 #else
