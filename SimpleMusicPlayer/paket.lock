@@ -7,7 +7,7 @@ NUGET
     Fody (1.29.4)
     FontAwesome.WPF (4.5.0.8)
     gong-wpf-dragdrop (1.0.0-ALPHA013)
-    MahApps.Metro (1.3.0-ALPHA134)
+    MahApps.Metro (1.3.0-ALPHA160)
     MahApps.Metro.SimpleChildWindow (1.3)
       MahApps.Metro (>= 1.2.3)
     MaterialDesignColors (1.1.2)
