@@ -345,7 +345,7 @@
                                         SmallChange="5"
                                         LargeChange="25"
                                         AutoToolTipPlacement="TopLeft"
-                                        AutoToolTipFormat="{}Volume {0}%"
+                                        AutoToolTipFormat="{}Volume {0:N0}%"
                                         Value="{Binding PlayerEngine.Volume}" />
             </Grid>
 

@@ -35,7 +35,7 @@ namespace SimpleMusicPlayer.Core
         {
             if (!string.IsNullOrEmpty(this.AutoToolTipFormat))
             {
-                this.AutoToolTip.Content = string.Format(this.AutoToolTipFormat, this.AutoToolTip.Content);
+                this.AutoToolTip.Content = string.Format(this.AutoToolTipFormat, this.Value);
             }
         }
 
