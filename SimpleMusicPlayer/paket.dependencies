@@ -11,7 +11,7 @@ nuget MaterialDesignThemes 1.0.1-beta126
 nuget Newtonsoft.Json ~> 9.0
 nuget NLog ~> 4.3
 nuget QuickIO.NET ~> 2.6.2
-nuget reactiveui ~> 6.5
-nuget reactiveui-events ~> 6.5
+nuget reactiveui 6.5.0
+nuget reactiveui-events 6.5.0
 nuget TinyIoC ~> 1.3
 nuget xunit ~> 2.1
