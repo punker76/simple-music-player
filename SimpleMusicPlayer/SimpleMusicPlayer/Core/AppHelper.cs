@@ -212,7 +212,7 @@ namespace SimpleMusicPlayer.Core
             return canCreate;
         }
 
-        private string ApplicationDataPath()
+        public string ApplicationDataPath()
         {
             var appData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), this.ApplicationName);
             return appData;

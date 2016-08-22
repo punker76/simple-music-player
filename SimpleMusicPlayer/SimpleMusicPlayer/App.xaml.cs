@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
+using System.Runtime;
 using System.Windows;
 using Microsoft.Shell;
 using ReactiveUI;
@@ -17,6 +19,40 @@ namespace SimpleMusicPlayer
     /// </summary>
     public partial class App : Application, ISingleInstanceApp
     {
+        public App()
+        {
+            TinyIoCContainer.Current.Register<AppHelper>().AsSingleton();
+            TinyIoCContainer.Current.Register<PlayerSettings>().AsSingleton();
+            TinyIoCContainer.Current.Register<PlayerEngine>().AsSingleton();
+            TinyIoCContainer.Current.Register<IReactiveObject, MainViewModel>();
+
+            var appHelper = TinyIoCContainer.Current.Resolve<AppHelper>();
+            appHelper.ConfigureApp(this, Assembly.GetExecutingAssembly().GetName().Name);
+
+            // Enable Multi-JIT startup
+            var profileRoot = Path.Combine(appHelper.ApplicationPath, "ProfileOptimization");
+            Directory.CreateDirectory(profileRoot);
+            // Define the folder where to save the profile files
+            ProfileOptimization.SetProfileRoot(profileRoot);
+            // Start profiling and save it in Startup.profile
+            ProfileOptimization.StartProfile("Startup.profile");
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+
+            MainWindow = TinyIoCContainer.Current.Resolve<MainWindow>();
+            MainWindow.Show();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            TinyIoCContainer.Current.Resolve<AppHelper>().OnExitApp(this);
+        }
+
         public bool SignalExternalCommandLineArgs(IList<string> args)
         {
             if (this.MainWindow.WindowState == WindowState.Minimized)
@@ -41,31 +77,6 @@ namespace SimpleMusicPlayer
                 }
             }
             return true;
-        }
-
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            var container = TinyIoCContainer.Current;
-
-            container.Register<AppHelper>().AsSingleton();
-            container.Register<PlayerSettings>().AsSingleton();
-            container.Register<PlayerEngine>().AsSingleton();
-            container.Register<IReactiveObject, MainViewModel>();
-
-            container.Resolve<AppHelper>().ConfigureApp(this, Assembly.GetExecutingAssembly().GetName().Name);
-
-            MainWindow = container.Resolve<MainWindow>();
-            MainWindow.Show();
-        }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-
-            var container = TinyIoCContainer.Current;
-            container.Resolve<AppHelper>().OnExitApp(this);
         }
     }
 }
