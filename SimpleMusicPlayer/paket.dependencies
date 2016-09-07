@@ -1,17 +1,17 @@
 source https://www.nuget.org/api/v2/
 framework >= net45
 
-nuget Costura.Fody ~> 1.3
-nuget WindowsAPICodePack-Shell ~> 1.1
-nuget FontAwesome.WPF ~> 4.5
-nuget gong-wpf-dragdrop ~> 1.0 prerelease
+nuget Costura.Fody
+nuget WindowsAPICodePack-Shell
+nuget FontAwesome.WPF
+nuget gong-wpf-dragdrop
 nuget MahApps.Metro ~> 1.3 prerelease
 nuget MahApps.Metro.SimpleChildWindow ~> 1.3 prerelease
 nuget MaterialDesignThemes 1.0.1-beta126
-nuget Newtonsoft.Json ~> 9.0
-nuget NLog ~> 4.3
-nuget QuickIO.NET ~> 2.6.2
+nuget Newtonsoft.Json
+nuget NLog
+nuget QuickIO.NET
 nuget reactiveui 6.5.0
 nuget reactiveui-events 6.5.0
-nuget TinyIoC ~> 1.3
+nuget TinyIoC
 nuget xunit ~> 2.1
