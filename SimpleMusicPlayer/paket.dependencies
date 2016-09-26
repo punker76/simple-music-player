@@ -5,8 +5,8 @@ nuget Costura.Fody
 nuget WindowsAPICodePack-Shell
 nuget FontAwesome.WPF
 nuget gong-wpf-dragdrop
-nuget MahApps.Metro ~> 1.3 prerelease
-nuget MahApps.Metro.SimpleChildWindow ~> 1.3 prerelease
+nuget MahApps.Metro prerelease
+nuget MahApps.Metro.SimpleChildWindow prerelease
 nuget MaterialDesignThemes 1.0.1-beta126
 nuget Newtonsoft.Json
 nuget NLog
