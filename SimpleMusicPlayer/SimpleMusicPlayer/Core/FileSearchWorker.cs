@@ -92,7 +92,7 @@ namespace SimpleMusicPlayer.Core
 
                   foreach (var rawDir in orderedDirs.TakeWhile(rawDir => !token.IsCancellationRequested))
                   {
-                      this.DoFindFiles(token, rawDir, results);
+                      this.DoFindFiles(token, rawDir, results).ConfigureAwait(false);
                   }
 
                   return results;
@@ -124,25 +124,28 @@ namespace SimpleMusicPlayer.Core
             return directories;
         }
 
-        private void DoFindFiles(CancellationToken token, string dir, ConcurrentQueue<IMediaFile> results)
+        private async Task DoFindFiles(CancellationToken token, string dir, ConcurrentQueue<IMediaFile> results)
         {
-            try
+            await Task.Run(() =>
             {
-                var allFiles = QuickIODirectory.EnumerateFiles(dir, "*", SearchOption.TopDirectoryOnly)
-                                               .Where(f => this.IsAudioFile(f.Name));
-                foreach (var file in allFiles.TakeWhile(rawDir => !token.IsCancellationRequested))
+                try
                 {
-                    var mf = this.GetMediaFile(file.FullName);
-                    if (mf != null)
+                    var allFiles = QuickIODirectory.EnumerateFiles(dir, "*", SearchOption.TopDirectoryOnly)
+                        .Where(f => this.IsAudioFile(f.Name));
+                    foreach (var file in allFiles.TakeWhile(rawDir => !token.IsCancellationRequested))
                     {
-                        results.Enqueue(mf);
+                        var mf = this.GetMediaFile(file.FullName);
+                        if (mf != null)
+                        {
+                            results.Enqueue(mf);
+                        }
                     }
                 }
-            }
-            catch (Exception exception)
-            {
-                this.Log().ErrorException("EnumerateFiles", exception);
-            }
+                catch (Exception exception)
+                {
+                    this.Log().ErrorException("EnumerateFiles", exception);
+                }
+            }, token);
         }
 
         private IMediaFile GetMediaFile(string fileName)
