@@ -325,13 +325,18 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public async void Drop(IDropInfo dropInfo)
+        public void Drop(IDropInfo dropInfo)
         {
             var dataObject = dropInfo.Data as DataObject;
             // look for drag&drop new files
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
-                await this.HandleDropActionAsync(dropInfo, dataObject.GetFileDropList());
+                var task = this.HandleDropActionAsync(dropInfo, dataObject.GetFileDropList());
+                task.ContinueWith(t =>
+                {
+                    //  handle t.Exception
+                    this.Log().ErrorException("There was something wrong while handling dropped data.", t.Exception);
+                }, TaskContinuationOptions.OnlyOnFaulted);
             }
             else
             {
