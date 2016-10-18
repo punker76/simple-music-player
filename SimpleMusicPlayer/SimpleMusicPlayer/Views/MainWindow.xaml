@@ -8,6 +8,7 @@
                       xmlns:Views="clr-namespace:SimpleMusicPlayer.Views"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       Title="Simple Music Player"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
                       FontFamily="{DynamicResource SimpleFont}"
@@ -40,13 +41,7 @@
         <Controls:WindowCommands>
             <Button ToolTip="Simple Music Player on GitHub"
                     Command="{Binding ShowOnGitHubCmd}">
-                <Rectangle Width="20"
-                           Height="20">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_github}" />
-                    </Rectangle.Fill>
-                </Rectangle>
+                <iconPacks:PackIconOcticons Kind="MarkGithub" Width="20" Height="20" />
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>

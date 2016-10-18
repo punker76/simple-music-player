@@ -3,10 +3,12 @@
                     xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="options"
-                    xmlns:core="clr-namespace:SimpleMusicPlayer.Core">
+                    xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
+                    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/WindowCommands.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListView.xaml" />
@@ -26,6 +28,8 @@
     <QuinticEase x:Key="DefaultEaseOut"
                  options:Freeze="true"
                  EasingMode="EaseOut" />
+
+    <Style TargetType="{x:Type Controls:WindowButtonCommands}" BasedOn="{StaticResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
 
     <Style x:Key="SimpleMPMetroCircleButtonStyle"
            TargetType="{x:Type Button}"
