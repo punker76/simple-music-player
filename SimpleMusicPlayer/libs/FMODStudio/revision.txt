@@ -5,6 +5,303 @@
                               http://www.fmod.org
 ===============================================================================
 
+20/10/16 1.08.14 - Studio API minor release (build 80900)
+----------------------------------------------------
+
+Fixes:
+* UE4          - Fix for crash when using "Validate FMOD" menu item
+
+Notes:
+* PS4          - Now built with SDK 4.00
+* Xbox One     - Added better logging and documentation to describe an incorrectly
+                 configured appxmanifest regarding microphone recording.
+
+04/10/16 1.08.13 - Studio API minor release (build 80479)
+----------------------------------------------------
+
+Fixes:
+* Studio API   - Fixed potential crash after the following sequence of actions:
+                 load master bank, try to load master bank again and fail with
+                 FMOD_ERR_EVENT_ALREADY_LOADED, unload master bank, reload
+                 master bank.
+* LowLevel API - Fix circular DSP connection causing hang in certain situations.  
+* Unity 2      - Fix issues with multi-object editing of emitters.
+
+22/09/16 1.08.12 - Studio API minor release (build 80229)
+----------------------------------------------------
+
+Features:
+* Unity 2      - Added ability to override minimum and maximum distance for
+                 Event emitters.
+* Unity 2      - Added support for multiple listeners.
+* Studio API   - Added support for auto pitch at minimum.
+* Studio API   - Added support for the global master bus being duplicated across
+                 banks.
+
+Fixes:
+* Studio API   - Fix auto pitch cutting off at zero for parameter with minimum
+                 value that is less than zero.
+* Studio API   - Fix events with a transciever effect not allowing the event to stop
+* Android      - Fixed crash when loading FSBs or Banks that contain a sound that
+                 isn't mono, stereo, 5.1 or 7.1.
+* Android      - Fixed compatibility issue with some devices introduced in previous
+                 release due to r12b update. Presents as a runtime linker error
+                 when loading the FMOD library, failing to locate __aeabi_atexit.
+* iOS          - Fixed stuttering during fade out when device screen goes to sleep.
+* LowLevel API - Fix FMOD_DSP_TRANSCEIVER memory stomp.
+* LowLevel API - Fix channels playing at incorrect pitch. Introduced in 1.08.10.
+
+Notes:
+* Studio API   - Incremented bank version, requires runtime 1.08.00 or later.
+* Studio API   - Latest runtime supports loading old bank versions from 1.03.00.
+* LowLevel API - Improved validation for ChannelGroup, DSP and Sound handles,
+                 detects invalid pointers and usage after release.
+
+08/09/16 1.08.11 - Studio API minor release (build 79819)
+----------------------------------------------------
+
+Features:
+* LowLevel API - PS3 - Added support for FMOD_DSP_CHANNELMIX.
+* Unity 2      - Respect Game View mute button.
+
+Fixes:
+* FSBank       - Fix crash on 64-bit when encoding 16kHz or 24kHz sources using 
+                 Vorbis at low quality settings.
+* LowLevel API - Fix FMOD_SOUND_PCMSETPOS_CALLBACK getting invalid position value 
+                 when a sound opened with FMOD_OPENUSER loops.
+* LowLevel API - Android - Fixed crash on load with old devices when using armeabi.
+* Unity 2      - Fix CREATESOUNDEXINFO not getting marshalled properly.
+
+Notes:
+* Android      - Now built with NDK r12b.
+* Android      - Minimum Android version is now API level 9 due to NDK r12b
+                 deprecating older versions.
+
+22/08/16 1.08.10 - Studio API minor release (build 79252)
+----------------------------------------------------
+
+Features:
+* Studio API   - Improved performance of sidechain modulator.
+* LowLevel API - Improved ChannelControl::setPitch accuracy between DSP clock and
+                 the underlying codec decoding speed.
+* Unity 2      - Added option for play-in-editor to reflect the active build target
+                 for loading banks.
+
+Fixes:
+* LowLevel API - Fixed error trying to create a Return DSP when the system
+                 format is set to FMOD_SPEAKERMODE_RAW.
+* LowLevel API - Fixed FFT DSP crash if window size is smaller than DSP block size.
+* LowLevel API - Removed spurious warning messages when loading plugins on 
+                 some platforms.
+* LowLevel API - Android - Tweaked OpenSL auto detection, now requires device to
+                           specify low latency and a block size <= 1024.
+* Unity 2      - Fix bank import issues when the strings bank contains bank
+                 names that differ in case from the files on disk.
+* Unity 2      - Bank import now has a longer timeout after last detected file
+                 activity before starting import.
+* Unity 2      - Fixed settings screen allowing real channels to be set higher
+                 then 256. 
+* Unity 2      - Fix up errors when StudioEventEmitter is created dynamically.
+* Unity 2      - Small fixes for the settings screen when overriding the parent
+                 platform settings.
+* UE4          - Fix for crash when previewing animations using the FMOD event
+                 notifier.
+
+Notes:
+* LowLevel API - System::getSpeakerModeChannels returns the system channel
+                 count when passed FMOD_SPEAKERMODE_DEFAULT. Now works even
+                 if the system format is set to FMOD_SPEAKERMODE_RAW.
+* UE4          - Can be recompiled with 4.13 pre-release.
+* Documentation - Added documentation for FMOD_DSP_PAN enums.
+
+01/08/16 1.08.09 - Studio API minor release (build 78489)
+----------------------------------------------------
+
+Features:
+* LowLevel API - PS4 - Add support for social screen audio to the ports API.
+* Studio API   - Added Studio::EventInstance:setListenerMask and 
+                 Studio::EventInstance::getListenerMask, that adds the ability
+                 to specify which listeners apply to each event instance.
+* Unity 2      - Warning is now produced when playing in editor if the position
+                 of a 3D event is not set.
+* UE4          - Added blueprint functions to set event properties.
+
+Fixes:
+* Studio API   - Fixed case of indeterminism when building banks that contain
+                 events with automation curves.
+* LowLevel API - Fixed FMOD_OUTPUT_OBJECT3DINFO::gain so it only includes
+                 distance attenuation not bus gain (which is now pre-applied
+                 to FMOD_OUTPUT_OBJECT3DINFO::buffer.
+* LowLevel API - Fixed channelmix DSP volume not always being initialized.
+* LowLevel API - WiiU - Fixed potential crash during System::init if
+                        System::setDriver or System::setOutput has been called.
+* LowLevel API - Fix hang on netstreams when the connection times out.
+* LowLevel API - Linux - Fix FPU control word of the calling thread being modified 
+                         when the FMOD dynamic library is loaded.
+* LowLevel API - Android - Fixed potential crash if FMOD isn't loaded with
+                           System.loadLibrary, now a proper error will be issued.
+* FSBank API   - Fixed FADPCM not looping seamlessly for non-zero crossing loops.
+* UE4          - Fixed plugin loading assuming a "lib" prefix for plugins on
+                 Android, Mac, Linux and PS4.  Now plugin loading will attempt
+                 to load the name with and without adding a lib prefix.
+* UE4          - Respect FApp::IsUnattended for message-box errors.
+* UE4          - Fixed deprecation warnings about AttachTo usage.
+* Unity 2      - Fix errors when bank source files are updated while Event Browser 
+                 preview is playing or paused.
+* Unity 2      - Fix unnecessary copying of Bank files in OSX editor.
+
+Notes:
+* LowLevel API - Linux - Removed limit of 32 devices with ALSA output mode.
+* LowLevel API - Incremented API version of Output plugins. Dynamic library 
+                 plugins built with earlier versions of 1.08 will continue to load.
+
+14/07/16 1.08.08 - Studio API minor release (build 77846)
+----------------------------------------------------
+
+Features:
+* UE4          - bMatchHardwareSampleRate will use the system default format
+                 to avoid excessively matching the output rate on mobile devices.
+* UE4          - Added bLockAllBuses which will force all buses to be created
+                 at startup, rather than on demand.
+
+Fixes:
+* Studio API   - Fixed looping sounds in a multi sound playlist failing to stop
+                 if the multi sound itself is non-looping.
+* Studio API   - Fixed rare crash calling the following functions while the 
+                 bank containing the event is unloading:
+                 Studio::EventInstance::getDescription,
+                 Studio::EventInstance::getParameter,
+                 Studio::EventInstance::getParameterValue,
+                 Studio::EventInstance::setParameterValue,
+                 Studio::EventInstance::setParameterValueByIndex,
+                 Studio::EventInstance::triggerCue,
+                 Studio::ParameterInstance::getDescription and
+                 Studio::ParameterInstance::setValue.
+* Studio API   - Fixed shared events becoming invalidated when one of the
+                 banks containing them is unloaded. Could also manifest as
+                 Studio::EventInstance::getDescription failing with
+                 FMOD_ERR_INTERNAL.
+* Studio API   - Fixed crash that could occur when using 
+                 FMOD_STUDIO_INIT_SYNCHRONOUS_UPDATE and calling 
+                 Studio::System::update from multiple threads at the same time.
+* Studio API   - Increased scheduling lookahead time to ensure sample accurate
+                 timeline scheduling even if there is an output stall.
+* Studio API   - Fixed crash that could occur when improperly calling 
+                 Studio::Bus::getChannelGroup without first calling
+                 Studio::Bus::lockChannelGroup, if the bus was being destroyed
+                 as the call was made.
+* Studio API   - Fixed rare crash calling the following functions while the 
+                 master bank containing the bus or VCA is unloading:
+                 Studio::System::getBus,
+                 Studio::System::getBusByID,
+                 Studio::System::getVCA and
+                 Studio::System::getVCAByID.
+* Studio API   - Fixed rare timing issue where Studio::System::getEvent would
+                 succeed but Studio::EventDescription::createInstance would
+                 fail with FMOD_ERR_INTERNAL, if called just as the bank
+                 containing the event finished loading.
+* Studio API   - Fixed rare hang in Studio::System::getBankCount when called
+                 while banks are currently unloading.
+* LowLevel API - Fixed rare glitch at the start of XMA playback causing non-seamless
+                 looping.
+* LowLevel API - Fixed rare hang on shutdown when using multiple systems.
+* LowLevel API - Fix streams with an unknown file length remaining in the playing state
+                 after an end of file is encountered.
+* LowLevel API - Windows - Enumeration of record devices will now reflect a change
+                           of default device with WASAPI output.
+* LowLevel API - Linux - Enumeration will now correctly display GUIDs and speaker
+                         modes for ALSA output.
+* LowLevel API - Linux - Fixed potential crash if both PulseAudio and ALSA are
+                         missing / unavailable.
+* Unity 2      - Fix plugin loading on Linux standalone builds.
+* Unity 2      - Fix script compilation errors in standalone builds.
+* Unity 2      - Fix Event Browser preview of events with built-in parameters.
+* Unity 2      - Fix missing tvOS files.
+
+Notes:
+* LowLevel API - Significantly reduced memory consumption when using FMOD_DSP_FFT. 
+* PS4          - Now built with SDK 3.508.101
+* UE4          - Updated Oculus plugin to 1.0.4.
+
+27/06/16 1.08.07 - Studio API minor release (build 77241)
+----------------------------------------------------
+
+Features:
+* FSBank API   - Added support for Linux.
+* Unity 2      - Live Update and Debug Overlay can be set to only be enabled in
+                 standalone builds when the development build option is set.
+* Unity 2      - Add MuteAllEvents and PauseAllEvents functions to the RuntimeManager.
+* Unity 2      - Audio will now pause when the application pauses.
+* UE4          - Added MixerSuspend and MixerResume blueprint functions.
+* UE4          - Added IsBankLoaded blueprint function.
+
+Fixes:
+* Studio API   - Fixed Studio command buffer assert and crash that could occur
+                 when using FMOD_STUDIO_INIT_SYNCHRONOUS_UPDATE in conjunction
+                 with multiple threads.
+* LowLevel API - Fix crash when closing a system with a multi-plugin DLL still loaded.
+* LowLevel API - iOS / Android - Improved audio stability when mixer thread is overloaded.
+* FSBank API   - Fixed calling convention linker error on Windows in FSBankLib header.
+* FSBank API   - Fixed issue when passing duplicate source files with different encoding
+                 settings would cause cache file conflicts.
+
+Notes:
+* Unity 2      - Renamed "Level Start" and "Level End" triggers to "Object Start" and
+                 "Object Destroy" to more accurately reflect when the triggers occur.
+
+17/06/16 1.08.06 - Studio API minor release (build 76937)
+----------------------------------------------------
+
+Features:
+* Unity 2      - Added framework for registering native plugins on iOS and tvOS.
+* Unity 2      - Added support for importing Studio Banks as TextAssets so they
+                 can be added to Unity AssetBundles.
+
+Fixes:
+* LowLevel API - Fixed crash on shutdown, after creating multiple systems and
+                 setting a system callback.
+* Lowlevel API - PS4 - Fix issues with calling FMOD_Orbis_GetPadVolume() immediately
+                       after opening the controller audio port.
+
+15/06/16 1.08.05 - Studio API minor release (build 76824)
+----------------------------------------------------
+
+Features:
+* Studio API   - Added Studio::EventDescription::isSnapshot.
+* Unity 2      - Added "Preload Sample Data" checkbox to Event Emitter to reduce
+                 latency when emitters are triggered for the first time.
+* Unity 2      - Added script example to show how to build an asynchronous loading
+                 screen that includes loading FMOD Banks.
+
+Fixes:
+* Studio API   - Fixed Studio::EventDescription::isOneshot() incorrectly
+                 returning true for snapshots.
+* LowLevel API - Fix FMOD_ADVANCEDSETTINGS::maxADPCMCodecs not being applied.
+* LowLevel API - Fix crash when using CreateSound from multiple threads 
+                 (including FMOD Async loading threads).
+* Unity 2      - Fix issues when bank file in the Unity project Streaming Assets 
+                 folder have a different case to the banks in the Studio project.
+* Unity 2      - Fix issues when editor log file cannot be opened because it's
+                 read only.
+* Unity 2      - If the "Load All" options are selected in the FMOD Settings
+                 then the main thread will now block until it's complete.
+* UE4          - Fix for OnEventStopped callback firing repeatedly if triggers
+                 the instance to play again.
+
+Notes:
+* LowLevel API - All System, ChannelControl, ChannelGroup, Channel, and DSP API
+                 functions check for NaN and INF floats and return 
+                 FMOD_ERR_INVALID_FLOAT if detected.
+* Studio API   - All API functions check for NaN and INF floats and return 
+                 FMOD_ERR_INVALID_FLOAT if detected.
+* Studio API   - All API functions with output parameters now clear those
+                 values in the case of an error. Previously some values may
+                 have been left uninitialized.
+                 In the case of an error, int and float outputs are set to 0,
+                 bool outputs are set to false, and pointers are set to NULL.
+                 Structures are cleared to zeros, and string buffers are set
+                 to the empty string.
+
 25/05/16 1.08.04 - Studio API minor release (build 76196)
 ----------------------------------------------------
 
