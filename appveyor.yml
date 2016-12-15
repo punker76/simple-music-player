@@ -1,0 +1,66 @@
+# http://www.appveyor.com/docs/appveyor-yml
+
+# configuration for develop/CI branch
+-
+  branches:
+    only:
+      - dev
+
+  version: 2.0.0-dev
+  configuration: Debug
+
+  init:
+    - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)$($env:appveyor_build_number.PadLeft(3, '0'))"
+  
+  # Install scripts. (runs after repo cloning)
+  install:
+    - src\.paket\paket install
+  
+  build:
+    verbosity: minimal
+  
+  after_build:
+    #- ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  
+  assembly_info:
+    patch: true
+    file: src\SimpleMusicPlayer\Properties\AssemblyInfo.cs
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  
+  artifacts:
+    #- path: src/bin
+    #  name: ControlzEx.$(appveyor_build_version)
+    #  type: zip
+
+# configuration for master/Release branch
+-
+  branches:
+    only:
+      - master
+
+  version: 2.0.0.{build}
+  configuration: Release
+  
+  # Install scripts. (runs after repo cloning)
+  install:
+    - src\.paket\paket install
+  
+  build:
+    verbosity: minimal
+  
+  after_build:
+    #- ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  
+  assembly_info:
+    patch: true
+    file: src\SimpleMusicPlayer\Properties\AssemblyInfo.cs
+    assembly_version: "{version}"
+    assembly_file_version: "{version}"
+    assembly_informational_version: "{version}"
+  
+  artifacts:
+    #- path: src/bin
+    #  name: ControlzEx.$(appveyor_build_version)
+    #  type: zip
