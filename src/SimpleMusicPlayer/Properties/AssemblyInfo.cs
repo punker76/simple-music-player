@@ -15,13 +15,11 @@ using System.Windows;
 // associated with an assembly.
 [assembly: AssemblyTitle("Simple Music Player")]
 [assembly: AssemblyDescription("Keeps it simple and plays your music")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("punker76 OSSCreativity")]
+[assembly: AssemblyCompany("OSSCreativity https://github.com/punker76")]
 [assembly: AssemblyProduct("Simple Music Player")]
 [assembly: AssemblyCopyright("Copyright © punker76")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyCompany("OSSCreativity https://github.com/punker76")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
