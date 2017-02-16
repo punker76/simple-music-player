@@ -122,7 +122,7 @@ Most Icons are taken (inspired) from (thx @Templarian)
 
 ### Simple Music Player
 
-Copyright (c) 2012-2016 Jan Karger
+Copyright (c) 2012-2017 Jan Karger
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -134,154 +134,122 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ### FMOD Ex SoundSystem
 
-FMOD, FMOD Ex, FMOD Designer and FMOD Studio are 
-Copyright © 2005-2016 Firelight Technologies Pty, Ltd.
+                                FMOD END USER LICENCE AGREEMENT
+                                ===============================
 
-GRANT OF LICENSE
-----------------
-THIS END USER LICENSE AGREEMENT GRANTS THE USER, THE RIGHT TO USE FMOD,
-IN ITS LIBRARY AND TOOL FORM, IN THEIR OWN PRODUCTS, BE THEY FOR PERSONAL,
-EDUCATIONAL OR COMMERCIAL USE.  
-THE USER MUST ADHERE TO THE LICENSING MODEL PROVIDED BY FIRELIGHT 
-TECHNOLOGIES, AND MUST APPLY FOR A LICENSE IF NECESSARY.  THE FOLLOWING
-LICENSES ARE AVAILABLE.
+This FMOD End User Licence Agreement (EULA) is a legal agreement between you and Firelight 
+Technologies Pty Ltd (ACN 099 182 448) (us or we) and governs your use of FMOD Studio and FMOD 
+Engine software (FMOD).
 
-FMOD NON-COMMERCIAL LICENSE
-------------------------------------
-IF YOUR PRODUCT IS NOT INTENDED FOR COMMERCIAL GAIN AND DOES NOT 
-INCLUDE THE FMOD LIBRARY FOR RESALE, LICENSE OR OTHER COMMERCIAL 
-DISTRIBUTION, THEN USE OF FMOD IS FREE OF CHARGE.  THERE ARE NO 
-LICENSE FEES FOR NON-COMMERCIAL APPLICATIONS.
-THE USER MAY USE THIS EULA AS EVIDENCE OF THEIR LICENSE WITHOUT 
-CONTACTING FIRELIGHT TECHNOLOGIES.
+1.    GRANT OF LICENCE
+	This EULA grants you the right to use FMOD, in a software application (Product), for 
+	personal (hobbyist), educational (students and teachers) or Non-Commercial use only, 
+	subject to the following:
+		i)	Non-Commercial use does not involve any form of monetisation, sponsorship 
+			or promotion.
+		ii)	FMOD is distributed as integrated into a Product only;
+		iii)	FMOD is not distributed as part of any Commercial Product or service;
+		iv)	FMOD is not distributed as part of a game engine or tool set;
+		v)	FMOD is not used in any Commercial enterprise or for any Commercial 
+			production or subcontracting, except for the purposes of Evaluation or 
+			Development of a Commercial Product;
+		vi)	Product includes attribution in accordance with Clause 3; 
 
-CONDITIONS/LIMITATIONS:
-- WHEN USING THIS LICENSE, THE FMOD LIBRARY CANNOT BE USED FOR 
-  RESALE OR OTHER COMMERCIAL DISTRIBUTION 
-- THIS LICENSE CANNOT BE USED FOR PRODUCTS WHICH DO NOT MAKE 
-  PROFIT BUT ARE STILL COMMERCIALLY RELEASED 
-- THIS LICENSE CANNOT BE USED FOR COMMERCIAL SERVICES, WHERE THE 
-  EXECUTABLE CONTAINING FMOD IS NOT SOLD, BUT THE DATA IS.
-- WHEN USING FMOD, A CREDIT LINE IS REQUIRED IN EITHER DOCUMENTATION, 
-  OR 'ON SCREEN' FORMAT (IF POSSIBLE). IT SHOULD CONTAIN AT LEAST 
-  THE WORDS "FMOD" (OR "FMOD STUDIO" IF APPLICABLE) AND 
-  "FIRELIGHT TECHNOLOGIES."
-  LOGOS ARE AVAILABLE FOR BOX OR MANUAL ART, BUT ARE NOT MANDATORY. 
-  AN EXAMPLE CREDIT COULD BE:
-  
-  FMOD Sound System, copyright © Firelight Technologies Pty, Ltd., 1994-2016.
-  OR
-  FMOD Studio, copyright © Firelight Technologies Pty, Ltd., 1994-2016.
-  OR 
-  Audio Engine supplied by FMOD by Firelight Technologies.
+2.	OTHER USE
+	For all Commercial use, and any Non Commercial use not permitted by this license, a 
+	separate license is required.  Refer to www.fmod.com/licensing for information.
 
-  NOTE THIS IN ADVANCE, AS IT MUST BE DONE BEFORE SHIPPING YOUR 
-  PRODUCT WITH FMOD.
+3.	CREDITS
+	All Products require an in game credit line which must include the words "FMOD" or 
+	"FMOD Studio" (if applicable) and "Firelight Technologies Pty Ltd". Refer to 
+	www.fmod.com/licensing for examples
 
-FMOD FREE FOR INDIES LICENSE (FMOD STUDIO ONLY)
-------------------------------------------------
-INDIE DEVELOPERS ARE CONSIDERED BY OUR LICENSING MODEL, DEVELOPERS THAT DEVELOP
-A TITLE FOR UNDER $100K USD (TYPICALLY CONSIDERED AN 'INDIE' TITLE) TOTAL 
-BUDGET, MEANING YOUR TOTAL COSTS ARE LESS THAN $100K USD AT TIME OF SHIPPING, 
-YOU CAN USE FMOD FOR FREE.
+4.	INTELLECTUAL PROPERTY RIGHTS
+	a)	We are and remain at all times the owner of FMOD (including all intellectual 
+		property rights in or to the Software). For the avoidance of doubt, nothing in 
+		this EULA may be deemed to grant or assign to you any proprietary or ownership 
+		interest or intellectual property rights in or to FMOD other than the rights 
+		licensed pursuant to clause 1.
+	b)	You acknowledge and agree that you have no right, title or interest in and to the 
+		intellectual property rights in FMOD.
 
-CONDITIONS/LIMITATIONS
-- PLEASE WRITE TO SALES@FMOD.COM WITH THE NAME OF YOUR TITLE, RELEASE DATE 
-  AND PLATFORMS SO WE CAN REGISTER YOU IN OUR SYSTEM.
-- THERE IS NO RESTRICTION ON PLATFORM, ANY PLATFORM COMBINATION MAY BE USED.
-- INCOME IS NOT RELEVANT TO THE BUDGET LEVEL, IT MUST BE EXPENSE RELATED.
-- WHEN USING FMOD, A CREDIT LINE IS REQUIRED IN EITHER DOCUMENTATION, 
-  OR 'ON SCREEN' FORMAT (IF POSSIBLE). IT SHOULD CONTAIN AT LEAST 
-  THE WORDS FMOD STUDIO AND FIRELIGHT TECHNOLOGIES. 
-  LOGOS ARE AVAILABLE FOR BOX OR MANUAL ART, BUT ARE NOT MANDATORY. 
-  AN EXAMPLE CREDIT COULD BE:
-  
-  FMOD STUDIO, COPYRIGHT © FIRELIGHT TECHNOLOGIES PTY, LTD., 1994-2016.
+5.	SECURITY AND RISK
+	You are responsible for protecting FMOD and any related materials at all times from 
+	unauthorised access, use or damage.
 
-COMMERCIAL USAGE (FMOD EX AND FMOD STUDIO)
-------------------------------------------
-IF THE PRODUCT THAT USES FMOD IS INTENDED TO GENERATE INCOME, VIA DIRECT SALES
-OR INDIRECT REVENUE (SUCH AS ADVERTISING, DONATIONS, CONTRACT FEE) THEN THE 
-DEVELOPER MUST APPLY TO FIRELIGHT TECHNOLOGIES FOR A COMMERCIAL LICENSE (UNLESS
-THE USER QUALIFIES FOR AN FMOD STUDIO 'INDIE LICENSE').
-TO APPLY FOR THIS LICENSE WRITE TO SALES@FMOD.COM WITH THE RELEVANT DETAILS.
+6.	WARRANTY AND LIMITATION OF LIABILITY
+	a)	FMOD is provided by us "as is" and, to the maximum extent permitted by law, 
+		any express or implied warranties of any kind, including (but not limited to) all 
+		implied warranties of merchantability and fitness for a particular purpose are 
+		disclaimed.
+	b)	In no event shall we (and our employees, contractors and subcontractors), 
+		developers and contributors be liable for any direct, special, indirect or 
+		consequential damages whatsoever resulting from loss of use of data or profits, 
+		whether in an action of contract, negligence or other tortious conduct, arising 
+		out of or in connection with the use or performance FMOD.
 
-REDISTRIBUTION LICENSE (FMOD EX AND FMOD STUDIO)
-------------------------------------------------
-IF THE USER WISHES TO REDISTRIBUTE FMOD AS PART OF AN ENGINE OR TOOL SOLUTION,
-THE USER MUST APPLY TO FIRELIGHT TECHNOLOGIES TO BE GRANTED A 'REDISTRIBUTION
-LICENSE'.  
-TO APPLY FOR THIS LICENSE WRITE TO SALES@FMOD.COM WITH THE RELEVANT DETAILS.
+7.	OGG VORBIS CODEC
+	a)	FMOD uses the Ogg Vorbis codec.
+	b)	(c) 2002, Xiph.Org Foundation
+	c)	Redistribution and use in source and binary forms, with or without modification, 
+		are permitted provided that the following conditions are met:
+		i)	Redistributions of source code must retain the above copyright notice, the 
+			list of conditions and the following disclaimer.
+		ii)	Redistributions in binary form must reproduce the above copyright notice, 
+			this list of conditions and the following disclaimer in the documentation 
+			and/or other material provided with the distribution.
+		iii)	Neither the name of the Xiph.org Foundation nor the names of its 
+			contributors may be used to endorse or promote products derived from this 
+			software without specific prior written permission.
+	d)	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+		ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+		WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
+		DISCLAIMED. IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS BE LIABLE FOR ANY 
+		DIRECT, INDIRECT, INCIDENTIAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES 
+		(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; 
+		LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON 
+		ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING 
+		NEGLIENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN 
+		IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-WARRANTY AND LIMITATION OF LIABILITY
-------------------------------------
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+8.	GOOGLE VR (GVR)
+	FMOD includes Google VR, licensed under the Apache Licence, Version 2.0 (the Licence); 
+	you may not use this file except in compliance with the License. You may obtain a copy of 
+	the License at:
+	http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed under the 
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+	either express or implied. See the License for the specific language governing permissions 
+	and limitations under the License.
 
-FMOD Uses Ogg Vorbis codec.  BSD license.
------------------------------------------
-Copyright (c) 2002, Xiph.org Foundation
+9. 	ANDROID PLATFORM CODE
+	Copyright (C) 2010 The Android Open Source Project All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
+	Redistribution and use in source and binary forms, with or without modification, are 
+	permitted provided that the following conditions are met:
+	 * Redistributions of source code must retain the above copyright
+	   notice, this list of conditions and the following disclaimer.
+	 * Redistributions in binary form must reproduce the above copyright
+	   notice, this list of conditions and the following disclaimer in
+	   the documentation and/or other materials provided with the
+	   distribution.
 
-- Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+	"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+	LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+	FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+	COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+	INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+	BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+	OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+	AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+	OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+	OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+	SUCH DAMAGE.
 
-- Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
-
-- Neither the name of the Xiph.org Foundation nor the names of its
-contributors may be used to endorse or promote products derived from
-this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION
-OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-For Android platform code.
---------------------------
-Copyright (C) 2010 The Android Open Source Project
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
- * Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in
-   the documentation and/or other materials provided with the
-   distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
-INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
-BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
-OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
-AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
-OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGE.
+10.	AUDIOGAMING AUDIOMOTORS DEMO CONTENT
+	AudioGaming AudioMotors Demo Engine.agp is provided for evaluation purposes
+	only and is not to be redistributed. To create your own engine content, you
+	will need AudioMotors V2 Pro. A trial version be found at
+	http://store.audiogaming.net/content/audiomotors-v2-pro-trial. For access to
+	the full version, contact sales@fmod.com.

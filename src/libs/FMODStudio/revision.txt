@@ -1,9 +1,189 @@
 
 ===============================================================================
                        REVISION HISTORY : FMOD Studio API
-             Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2016
+             Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2017
                               http://www.fmod.org
 ===============================================================================
+
+09/02/17 1.09.01 - Studio API major release (build 84153)
+----------------------------------------------------
+
+Features:
+* LowLevel API - Added FMOD_DSP_STATE_FUNCTIONS::getlistenerattributes to the
+                 DSP plugin API to query the current listener attributes.
+* Unity        - Added support for Rigidbody2D in 3D attribute settings and 
+                 integration scripts.
+* Unity        - Added support for Object Enable/Disable on EventEmitter and 
+                 ParameterTrigger scripts.
+* UE4          - Added GetLength function for blueprints that returns the event length 
+                 in milliseconds.
+* UE4          - Improved in editor profiling stats.
+
+Fixes:
+* Unity        - Fixed compatibility with Unity 4.6 & 4.7 for OSX and IOS.
+* Unity        - Fixed "file not found" error when settings asset is corrupt
+* Unity        - Fixed set3DAttributes ambiguity.
+* Unity        - Fixed not being able to copy ReadOnly banks into StreamingAssets.
+* Unity        - Fixed event instance leak in Unity PlayOneshotAttached not releasing.
+* Unity        - Specified version to check for WiiU BuildTarget for early Unity5.
+* UE4          - Fixed XboxOne delayload error now that UE4 handles it.
+* UE4          - Android - Added ARM64 support.
+* Studio API   - AHDSR modulator curve shapes now work correctly. In previous versions 
+                 the envelope was interpolated linearly regardless of the shape displayed
+                 in the UI.
+* Studio API   - Fixed looping single sounds in an async multi sound being cut-off when
+                 the multi sound is un-triggered.                  
+* LowLevel API - Fixed Channel::setReverbProperties not resetting reverb connection
+                 to a new tail DSP when turning wet mix off and on.
+* LowLevel API - If the system is initialized in right-handed mode, FMOD will now swap
+                 to left-handed when passing attributes into plugins. This only applies
+                 to plugins rebuilt against this version, old plugins remain unswapped.
+* LowLevel API - Fix MOD/S3M/XM/IT file crash with samples that have 0 length.
+* LowLevel API - Fixed some potential crashes when running out of memory, these will
+                 correctly return FMOD_ERR_MEMORY now.
+* LowLevel API - Win - Fixed WASAPI recording device enumeration taking a couple of seconds
+                 after System::init before being correct.
+* LowLevel API - Win - Fixed potential error returned from System::update if device is unplugged.
+* LowLevel API - MIDI - Fixed Sound::set/getMusicChannelVolume referring to wrong track 
+                 indices rather than just a normal 0-15 track index.
+* LowLevel API - MIDI - Fixed Channel::setPosition causing loud drum bang noise after seek
+
+Notes:
+* Studio API   - When loading legacy banks with looping sounds nested in multi sounds, 
+                 the multi sound is set to cut-off all sounds when untriggered, including
+                 non-looping sounds. This is a change in behaviour compared to earlier 
+                 versions where only looping sounds were cut-off.  
+* LowLevel API - DSP plugin API version has been increased, for maximum compatibility
+                 plugin writers should only rebuild against this version if they need
+                 the getlistenerattributes feature. Old plugins are still supported.
+
+01/12/16 1.09.00 - Studio API major release (build 82164)
+----------------------------------------------------
+
+Features:
+* Studio API   - Added support for multiple listener weights, with
+                 Studio::System::setListenerWeight and
+                 Studio::System::getListenerWeight.  This allows listeners to be
+                 faded in or out smoothly.
+* Studio API   - Profiling uses less CPU and memory.
+* Studio API   - Added FMOD_STUDIO_INIT_LOAD_FROM_UPDATE to drive all loading from
+                 Studio::System::update rather than the bank and resource loading
+                 threads.  Mainly used in non-realtime situations.
+* Studio API   - Added ability to run replays at faster than real time speed using
+                 FMOD_STUDIO_COMMANDREPLAY_FAST_FORWARD.
+* Studio API   - Added Studio::EventInstance::setReverbLevel and
+                 Studio::EventInstance::getReverbLevel.
+* Studio API   - Support for automation of modulator properties.
+* LowLevel API - Improved memory use when loading sounds with names.
+* LowLevel API - Added new efficient multiband equalizer (FMOD_DSP_TYPE_MULTIBAND_EQ)
+                 featuring 5 toggleable bands with variable rolloff low/high pass, shelf,
+                 peaking, band-pass, all-pass and notch modes.
+* LowLevel API - Added logging function to the DSP plugin API. Use FMOD_DSP_LOG
+                 helper macro from a DSP callback.
+* LowLevel API - Added FMOD_DSP_STATE_FUNCTIONS::getuserdata to the DSP plugin API.
+                 Use FMOD_DSP_GETUSERDATA helper macro from a DSP callback.
+* FSBank API   - Added ability to pass NULL as the FSB file name for FSBank_Build causing
+                 the FSB to be built in memory. Use FSBank_FetchFSBMemory to get access
+                 to the data once the build has completed. 
+
+Fixes:
+* Studio API   - Fixed incorrect playback volume for instruments and playlist
+                 items whose volume property is set to a non-zero dB value.
+
+Notes:
+* LowLevel API - Incremented Plugin SDK version for DSP plugins. Dynamic library
+                 plugins built with earlier versions will continue to load.
+* LowLevel API - Incremented FMOD_CODEC_WAVEFORMAT version.  Codecs that provide
+                 names must keep the name memory persistent for the lifetime
+                 of the codec.
+* LowLevel API - Increment Plugin API version for Output plugins. Dynamic library 
+                 Output Plugins must be rebuilt.
+* LowLevel API - FMOD_DSP_TYPE_LOWPASS, FMOD_DSP_TYPE_LOWPASS_SIMPLE,
+                 FMOD_DSP_TYPE_HIGHPASS, FMOD_DSP_TYPE_HIGHPASS_SIMPLE and
+                 FMOD_DSP_TYPE_PARAMEQ are considered deprecated and will be removed
+                 in the future. Use the new FMOD_DSP_TYPE_MULTIBAND_EQ instead which
+                 has the performance of "simple" effects with full featured quality.
+* LowLevel API - Changed reverb wet mix to send from the fader DSP of a ChannelGroup.
+                 Previously it sent from the head DSP. Now effects placed pre-fader
+                 will apply to the signal sent to the reverb, while effects placed
+                 post-fader will not.
+* LowLevel API - ChannelGroup reverb wet level is now scaled by the group's
+                 effective audibility.
+* LowLevel API - ChannelGroup reverb no longer automatically disables reverb
+                 on its child channels when the wet level is set to non-zero.
+* LowLevel API - Channel::setReverbProperties now allows setting the wet level
+                 before the specified reverb instance has been created.
+* LowLevel API - ChannelControl::addDSP and ChannelControl::removeDSP manage
+                 standard DSP connections (FMOD_DSPCONNECTION_TYPE_STANDARD)
+                 to maintain the mixer hierarchy.
+                 Other connection types (FMOD_DSPCONNECTION_TYPE_SIDECHAIN,
+                 FMOD_DSPCONNECTION_TYPE_SEND_SIDECHAIN, and now
+                 FMOD_DSPCONNECTION_TYPE_SEND) are left undisturbed.
+* LowLevel API - FMOD_INIT_MIX_FROM_UPDATE will now directly execute the mixer from
+                 System::update instead of triggering the mix to happen in another
+                 thread.
+* Studio API   - Incremented bank version, requires runtime 1.09.00 or later.
+* Studio API   - Latest runtime supports loading old bank versions from 1.03.00.
+* Studio API   - Studio::Bus::setFaderLevel, Studio::Bus::getFaderLevel,
+                 Studio::VCA::setFaderLevel and Studio::VCA::getFaderLevel is now 
+                 called Studio::Bus::setVolume, Studio::Bus::getVolume,
+                 Studio::VCA::setVolume and Studio::VCA::getVolume. 
+* Studio API   - Studio::EventInstance::getVolume, 
+                 Studio::EventInstance::getPitch,
+                 Studio::EventInstance::getParameterValue,
+                 Studio::EventInstance::getParameterValueByIndex,
+                 Studio::Bus::getVolume,
+                 Studio::VCA::getVolume now have an additional argument
+                 to get the final value which includes automation and modulation.
+* Studio API   - The required alignment for Studio::System::loadBankMemory has
+                 been added as the constant FMOD_STUDIO_LOAD_MEMORY_ALIGNMENT.
+* Studio API   - Event instances now disable reverb on their internal channels,
+                 for all global reverb instances. Previously only did so for
+                 reverb instance 0. Use Studio::EventInstance::setReverbLevel
+                 to control the reverb mix for the whole event instance.
+* Studio API   - Disconnected sidechain modulators are now inactive. Previous
+                 behavior was to fall back to monitoring the event's master
+                 track output.
+* LowLevel API - FMOD_DSP_RELEASE_CALLBACK is now called from the main thread
+* LowLevel API - Unimplemented ChannelControl::overridePanDSP function has been
+                 removed, along with FMOD_CHANNELCONTROL_DSP_PANNER enum value.
+* LowLevel API - PS3 - Removed old opt-in FIOS support via FMOD_PS3_EXTRADRIVERDATA.
+                       New recommended approach is to use FMOD_FILE_ASYNCREAD_CALLBACK
+                       and set appropriate deadlines based on FMOD_ASYNCREADINFO::priority.
+* LowLevel API - Xbox One - Optimized XMA decoding performance and removed the ACP thread.
+* LowLevel API - PS4 - Improved AT9 decoding performance.
+* FSBank API - Added support for source data as a memory pointer instead of file name.
+* Documentation - Some FMOD_DSP_PAN_SURROUND enums changed to FMOD_DSP_PAN_2D for clarity.
+
+01/12/16 1.08.15 - Studio API minor release (build 82163)
+----------------------------------------------------
+
+Features:
+* PS4          - Add support for System::getOutputHandle, to return sce
+                 port handle.
+Fixes:
+* UE4          - Fix missing plugin error when building on Mac.
+* UE4          - Fixed compatibility with 4.14.
+* Unity        - Fixed OSX working with unified library.
+* Unity        - Fixed WiiU copying banks error.
+* Unity        - Fixed Xbox one dll meta files missing platform target.
+* Unity        - Fixed duplicate dll copying build error on some platforms.
+* Unity        - Added null check to stop error being thrown when no event assigned.
+* Unity        - Fix in editor out of bounds exception in RuntimeManager.
+* LowLevel API - Allow DSP::setParameterData with null data and 0 length to free 
+                 convolution reverb impulse response data.
+* LowLevel API - Fixed short looping streams playing some of the start when
+                 switched to non-looping via the Channel API.
+* LowLevel API - Fixed FMOD_CREATESOUNDEXINFO::pcmsetposcallback getting wrong sound 
+                 pointer passed to it with a stream.
+* Studio API   - Fixed incorrect parameter values being passed to nested events
+                 when value "hold" is being used. 
+* Studio API   - PS3 - Fix potential crash with the new Channel Mix effect.
+* FSBank API   - Fixed encoder bug with FADPCM causing occasional clipping at playback.
+
+Notes:
+* FSBank API   - FSBs / Banks may not be binary identical to previous release due to
+                 FADPCM encoder bug fix, however full compatibility is maintained.
 
 20/10/16 1.08.14 - Studio API minor release (build 80900)
 ----------------------------------------------------

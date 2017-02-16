@@ -1,6 +1,6 @@
 /* ========================================================================================== */
 /*                                                                                            */
-/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2016.      */
+/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2017.      */
 /*                                                                                            */
 /* ========================================================================================== */
 
@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010814;
+        public const int    number = 0x00010901;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -28,6 +28,7 @@ namespace FMOD
     {
         public const int MAX_CHANNEL_WIDTH = 32;
         public const int MAX_LISTENERS = 8;
+        public const int REVERB_MAXINSTANCES = 4;
     }
 
     /*
@@ -308,6 +309,8 @@ namespace FMOD
         AUDIOOUT,        /* PS4/PSVita           - Audio Out.                           (Default on PS4 and PS Vita) */
         AUDIO3D,         /* PS4                  - Audio3D. */
         ATMOS,           /* Win                  - Dolby Atmos (WASAPI). */
+        WEBAUDIO,        /* Web Browser          - JavaScript webaudio output.          (Default on JavaScript) */
+        NNAUDIO,         /* NX                   - NX nn::audio.                        (Default on NX)*/
 
         MAX,             /* Maximum number of output types supported. */
     }
@@ -923,18 +926,20 @@ namespace FMOD
         These enums denote special types of node within a DSP chain.
 
         [REMARKS]
+        By default there is 1 fader for a ChannelGroup or Channel, and it is the head.
 
         [SEE_ALSO]
         Channel::getDSP
         ChannelGroup::getDSP
+        ChannelControl::getNumDSPs
+        ChannelControl::setDSPIndex
     ]
     */
     public struct CHANNELCONTROL_DSP_INDEX
     {
-        public const int HEAD    = -1;         /* Head of the DSP chain. */
+        public const int HEAD    = -1;         /* Head of the DSP chain.   Equivalent of index 0. */
         public const int FADER   = -2;         /* Built in fader DSP. */
-        public const int PANNER  = -3;         /* Built in panner DSP. */
-        public const int TAIL    = -4;         /* Tail of the DSP chain. */
+        public const int TAIL    = -3;         /* Tail of the DSP chain.  Equivalent of the number of dsps minus 1. */
     }
 
     /*
@@ -1887,7 +1892,7 @@ namespace FMOD
         {
             return FMOD_System_GetOutputByPlugin(rawPtr, out handle);
         }
-        public RESULT createDSPByPlugin(uint handle, out DSP dsp)
+        public RESULT createDSPByPlugin      (uint handle, out DSP dsp)
         {
             dsp = null;
 
@@ -1897,22 +1902,22 @@ namespace FMOD
 
             return result;
         }
-        public RESULT getDSPInfoByPlugin(uint handle, out IntPtr description)
+        public RESULT getDSPInfoByPlugin     (uint handle, out IntPtr description)
         {
             return FMOD_System_GetDSPInfoByPlugin(rawPtr, handle, out description);
         }
         /*
-        public RESULT registerCodec(ref CODEC_DESCRIPTION description, out uint handle, uint priority)
+        public RESULT registerCodec          (ref CODEC_DESCRIPTION description, out uint handle, uint priority)
         {
             return FMOD_System_RegisterCodec(rawPtr, ref description, out handle, priority);
         }
         */
-        public RESULT registerDSP(ref DSP_DESCRIPTION description, out uint handle)
+        public RESULT registerDSP            (ref DSP_DESCRIPTION description, out uint handle)
         {
             return FMOD_System_RegisterDSP(rawPtr, ref description, out handle);
         }
         /*
-        public RESULT registerOutput(ref OUTPUT_DESCRIPTION description, out uint handle)
+        public RESULT registerOutput         (ref OUTPUT_DESCRIPTION description, out uint handle)
         {
             return FMOD_System_RegisterOutput(rawPtr, ref description, out handle);
         }
@@ -1923,31 +1928,31 @@ namespace FMOD
         {
             return FMOD_System_Init(rawPtr, maxchannels, flags, extradriverdata);
         }
-        public RESULT close                  ()
+        public RESULT close()
         {
             return FMOD_System_Close(rawPtr);
         }
 
 
         // General post-init system functions.
-        public RESULT update                 ()
+        public RESULT update()
         {
             return FMOD_System_Update(rawPtr);
         }
 
-        public RESULT setSpeakerPosition(SPEAKER speaker, float x, float y, bool active)
+        public RESULT setSpeakerPosition     (SPEAKER speaker, float x, float y, bool active)
         {
             return FMOD_System_SetSpeakerPosition(rawPtr, speaker, x, y, active);
         }
-        public RESULT getSpeakerPosition(SPEAKER speaker, out float x, out float y, out bool active)
+        public RESULT getSpeakerPosition     (SPEAKER speaker, out float x, out float y, out bool active)
         {
             return FMOD_System_GetSpeakerPosition(rawPtr, speaker, out x, out y, out active);
         }
-        public RESULT setStreamBufferSize(uint filebuffersize, TIMEUNIT filebuffersizetype)
+        public RESULT setStreamBufferSize    (uint filebuffersize, TIMEUNIT filebuffersizetype)
         {
             return FMOD_System_SetStreamBufferSize(rawPtr, filebuffersize, filebuffersizetype);
         }
-        public RESULT getStreamBufferSize(out uint filebuffersize, out TIMEUNIT filebuffersizetype)
+        public RESULT getStreamBufferSize    (out uint filebuffersize, out TIMEUNIT filebuffersizetype)
         {
             return FMOD_System_GetStreamBufferSize(rawPtr, out filebuffersize, out filebuffersizetype);
         }
@@ -2013,7 +2018,7 @@ namespace FMOD
         {
             return FMOD_System_GetCPUUsage(rawPtr, out dsp, out stream, out geometry, out update, out total);
         }
-        public RESULT getFileUsage            (out Int64 sampleBytesRead, out Int64 streamBytesRead, out Int64 otherBytesRead)
+        public RESULT getFileUsage           (out Int64 sampleBytesRead, out Int64 streamBytesRead, out Int64 otherBytesRead)
         {
             return FMOD_System_GetFileUsage(rawPtr, out sampleBytesRead, out streamBytesRead, out otherBytesRead);
         }
@@ -2057,7 +2062,7 @@ namespace FMOD
 
             return createSound(name, mode, ref exinfo, out sound);
         }
-        public RESULT createStream            (string name, MODE mode, ref CREATESOUNDEXINFO exinfo, out Sound sound)
+        public RESULT createStream           (string name, MODE mode, ref CREATESOUNDEXINFO exinfo, out Sound sound)
         {
             sound = null;
 
@@ -2072,7 +2077,7 @@ namespace FMOD
 
             return result;
         }
-        public RESULT createStream            (byte[] data, MODE mode, ref CREATESOUNDEXINFO exinfo, out Sound sound)
+        public RESULT createStream           (byte[] data, MODE mode, ref CREATESOUNDEXINFO exinfo, out Sound sound)
         {
             sound = null;
 
@@ -2084,7 +2089,7 @@ namespace FMOD
 
             return result;
         }
-        public RESULT createStream            (string name, MODE mode, out Sound sound)
+        public RESULT createStream           (string name, MODE mode, out Sound sound)
         {
             CREATESOUNDEXINFO exinfo = new CREATESOUNDEXINFO();
             exinfo.cbsize = Marshal.SizeOf(exinfo);
@@ -2101,7 +2106,7 @@ namespace FMOD
 
             return result;
         }
-        public RESULT createDSPByType          (DSP_TYPE type, out DSP dsp)
+        public RESULT createDSPByType        (DSP_TYPE type, out DSP dsp)
         {
             dsp = null;
 
@@ -2219,11 +2224,11 @@ namespace FMOD
         }
 
         // System level DSP functionality.
-        public RESULT lockDSP            ()
+        public RESULT lockDSP                ()
         {
             return FMOD_System_LockDSP(rawPtr);
         }
-        public RESULT unlockDSP          ()
+        public RESULT unlockDSP              ()
         {
             return FMOD_System_UnlockDSP(rawPtr);
         }
@@ -2233,7 +2238,7 @@ namespace FMOD
         {
             return FMOD_System_GetRecordNumDrivers(rawPtr, out numdrivers, out numconnected);
         }
-        public RESULT getRecordDriverInfo(int id, StringBuilder name, int namelen, out Guid guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels, out DRIVER_STATE state)
+        public RESULT getRecordDriverInfo    (int id, StringBuilder name, int namelen, out Guid guid, out int systemrate, out SPEAKERMODE speakermode, out int speakermodechannels, out DRIVER_STATE state)
         {
             IntPtr stringMem = Marshal.AllocHGlobal(name.Capacity);
 
@@ -2650,9 +2655,9 @@ namespace FMOD
         {
             return FMOD_Sound_GetOpenState(rawPtr, out openstate, out percentbuffered, out starving, out diskbusy);
         }
-        public RESULT readData                (IntPtr buffer, uint lenbytes, out uint read)
+        public RESULT readData                (IntPtr buffer, uint length, out uint read)
         {
-            return FMOD_Sound_ReadData(rawPtr, buffer, lenbytes, out read);
+            return FMOD_Sound_ReadData(rawPtr, buffer, length, out read);
         }
         public RESULT seekData                (uint pcm)
         {
@@ -2805,7 +2810,7 @@ namespace FMOD
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_Sound_GetOpenState            (IntPtr sound, out OPENSTATE openstate, out uint percentbuffered, out bool starving, out bool diskbusy);
         [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_Sound_ReadData                (IntPtr sound, IntPtr buffer, uint lenbytes, out uint read);
+        private static extern RESULT FMOD_Sound_ReadData                (IntPtr sound, IntPtr buffer, uint length, out uint read);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_Sound_SeekData                (IntPtr sound, uint pcm);
         [DllImport(VERSION.dll)]
@@ -3043,10 +3048,6 @@ namespace FMOD
         {
             return FMOD_ChannelGroup_GetDSPIndex(rawPtr, dsp.getRaw(), out index);
         }
-        public RESULT overridePanDSP(DSP pan)
-        {
-            return FMOD_ChannelGroup_OverridePanDSP(rawPtr, pan.getRaw());
-        }
 
         // 3D functionality.
         public RESULT set3DAttributes(ref VECTOR pos, ref VECTOR vel, ref VECTOR alt_pan_pos)
@@ -3260,8 +3261,6 @@ namespace FMOD
         private static extern RESULT FMOD_ChannelGroup_SetDSPIndex(IntPtr channelgroup, IntPtr dsp, int index);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_ChannelGroup_GetDSPIndex(IntPtr channelgroup, IntPtr dsp, out int index);
-        [DllImport(VERSION.dll)]
-        private static extern RESULT FMOD_ChannelGroup_OverridePanDSP(IntPtr channelgroup, IntPtr pan);
         [DllImport(VERSION.dll)]
         private static extern RESULT FMOD_ChannelGroup_SetUserData(IntPtr channelgroup, IntPtr userdata);
         [DllImport(VERSION.dll)]
