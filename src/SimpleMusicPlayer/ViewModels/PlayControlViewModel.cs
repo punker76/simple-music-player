@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
@@ -62,7 +61,9 @@ namespace SimpleMusicPlayer.ViewModels
                 () => this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute,
                 playerInitialized);
 
-//            this.ShowMediaLibraryCommand = ReactiveCommand.Create(playerInitialized);
+            this.ShowMediaLibraryCommand = ReactiveCommand.Create(
+                () => this.ShowMediaLibrary(),
+                playerInitialized);
 
             this.ShowEqualizerCommand = ReactiveCommand.CreateFromTask(
                 () => this.ShowEqualizer(),
@@ -73,6 +74,22 @@ namespace SimpleMusicPlayer.ViewModels
         public PlayerEngine PlayerEngine { get; private set; }
 
         public PlayerSettings PlayerSettings { get; private set; }
+
+        private MedialibView medialibView;
+
+        private void ShowMediaLibrary()
+        {
+            if (this.medialibView != null)
+            {
+                this.medialibView.Activate();
+            }
+            else
+            {
+                this.medialibView = TinyIoCContainer.Current.Resolve<MedialibView>();
+                this.medialibView.Closed += (sender, args) => this.medialibView = null;
+                this.medialibView.Show();
+            }
+        }
 
         public ICommand PlayOrPauseCommand
         {
@@ -195,18 +212,8 @@ namespace SimpleMusicPlayer.ViewModels
             switch (key)
             {
                 case Key.R:
-//                    handled = this.RepeatCommand.CanExecute(null);
-//                    if (handled)
-//                    {
-//                        this.RepeatCommand.InvoExecute(null);
-//                    }
                     break;
                 case Key.S:
-//                    handled = this.ShuffleCommand.CanExecute(null);
-//                    if (handled)
-//                    {
-//                        this.ShuffleCommand.Execute(null);
-//                    }
                     break;
                 case Key.J:
                     handled = this.PlayNextCommand.CanExecute(null);
@@ -223,11 +230,6 @@ namespace SimpleMusicPlayer.ViewModels
                     }
                     break;
                 case Key.M:
-//                    handled = this.MuteCommand.CanExecute(null);
-//                    if (handled)
-//                    {
-//                        this.MuteCommand.Execute(null);
-//                    }
                     break;
                 case Key.Space:
                     handled = this.PlayOrPauseCommand.CanExecute(null);
@@ -236,19 +238,7 @@ namespace SimpleMusicPlayer.ViewModels
                         this.PlayOrPauseCommand.Execute(null);
                     }
                     break;
-                case Key.L:
-//                    handled = this.ShowMediaLibraryCommand.CanExecute(null);
-//                    if (handled)
-//                    {
-//                        this.ShowMediaLibraryCommand.Execute(null);
-//                    }
-                    break;
                 case Key.E:
-//                    handled = this.ShowEqualizerCommand.CanExecute(null);
-//                    if (handled)
-//                    {
-//                        this.ShowEqualizerCommand.Execute(null);
-//                    }
                     break;
             }
             return handled;

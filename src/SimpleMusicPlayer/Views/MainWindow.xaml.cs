@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reactive;
 using System.Reactive.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using MahApps.Metro.Controls;
@@ -34,12 +33,18 @@ namespace SimpleMusicPlayer.Views
 
             this.WhenActivated(d => this.WhenAnyValue(x => x.ViewModel)
                                         .Subscribe(vm => {
-                                            var previewKeyDown = this.Events().PreviewKeyDown;
+                                            IObservable<KeyEventArgs> previewKeyDown = this.Events().PreviewKeyDown;
                                             // handle main view keys
                                             previewKeyDown.Subscribe(vm.HandlePreviewKeyDown);
                                             // handle playlist keys
                                             previewKeyDown.Where(x => x.Key == Key.Enter).DistinctUntilChanged(x => x.IsToggled).InvokeCommand(vm.PlayListsViewModel.PlayCommand);
                                             previewKeyDown.Where(x => x.Key == Key.Delete).InvokeCommand(vm.PlayListsViewModel.DeleteCommand);
+                                            previewKeyDown.Where(x => x.Key == Key.L).DistinctUntilChanged(x => x.IsToggled).Select(x => Unit.Default).InvokeCommand(vm.PlayControlInfoViewModel.PlayControlViewModel.ShowMediaLibraryCommand);
+
+                                            previewKeyDown.Where(x => x.Key == Key.R).DistinctUntilChanged(x => x.IsToggled).Select(x => Unit.Default).InvokeCommand(vm.PlayControlInfoViewModel.PlayControlViewModel.RepeatCommand);
+                                            previewKeyDown.Where(x => x.Key == Key.S).DistinctUntilChanged(x => x.IsToggled).Select(x => Unit.Default).InvokeCommand(vm.PlayControlInfoViewModel.PlayControlViewModel.ShuffleCommand);
+                                            previewKeyDown.Where(x => x.Key == Key.M).DistinctUntilChanged(x => x.IsToggled).Select(x => Unit.Default).InvokeCommand(vm.PlayControlInfoViewModel.PlayControlViewModel.MuteCommand);
+                                            previewKeyDown.Where(x => x.Key == Key.E).DistinctUntilChanged(x => x.IsToggled).Select(x => Unit.Default).InvokeCommand(vm.PlayControlInfoViewModel.PlayControlViewModel.ShowEqualizerCommand);
 
                                             var window = Window.GetWindow(this);
                                             if (window != null)
