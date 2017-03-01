@@ -1,6 +1,7 @@
-﻿using System;
+﻿using System.Reactive;
 using ReactiveUI;
 using SimpleMusicPlayer.Core.Player;
+using ReactiveCommand = ReactiveUI.ReactiveCommand;
 
 namespace SimpleMusicPlayer.ViewModels
 {
@@ -10,22 +11,18 @@ namespace SimpleMusicPlayer.ViewModels
         {
             this.Equalizer = equalizer;
 
-            SetToDefaultCommand = ReactiveCommand.Create(this.WhenAnyValue(x => x.Equalizer.IsEnabled));
-            SetToDefaultCommand.Subscribe(_ => Equalizer.SetToDefault());
+            this.SetToDefaultCommand = ReactiveCommand.Create(
+                () => this.Equalizer.SetToDefault(),
+                this.WhenAnyValue(x => x.Equalizer.IsEnabled));
 
-            CloseEqualizerCommand = ReactiveCommand.Create();
-            CloseEqualizerCommand.Subscribe(_ => {
-                if (this.Equalizer.IsEnabled)
-                {
-                    this.Equalizer.SaveEqualizerSettings();
-                }
-            });
+            this.CloseEqualizerCommand = ReactiveCommand.Create(
+                () => this.Equalizer.SaveEqualizerSettings());
         }
 
         public Equalizer Equalizer { get; private set; }
 
-        public ReactiveCommand<object> SetToDefaultCommand { get; protected set; }
+        public ReactiveCommand<Unit, Unit> SetToDefaultCommand { get; protected set; }
 
-        public ReactiveCommand<object> CloseEqualizerCommand { get; protected set; }
+        public ReactiveCommand<Unit, Unit> CloseEqualizerCommand { get; protected set; }
     }
 }

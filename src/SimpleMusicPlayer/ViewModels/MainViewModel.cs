@@ -16,7 +16,6 @@ namespace SimpleMusicPlayer.ViewModels
     public class MainViewModel : ReactiveObject, IKeyHandler
     {
         private ICommand showOnGitHubCmd;
-        private MedialibView medialibView;
 
         public MainViewModel()
         {
@@ -32,7 +31,7 @@ namespace SimpleMusicPlayer.ViewModels
 
             this.PlayControlInfoViewModel = new PlayControlInfoViewModel(this);
 
-            this.PlayControlInfoViewModel.PlayControlViewModel.ShowMediaLibraryCommand.Subscribe(x => this.ShowMediaLibrary());
+//            this.PlayControlInfoViewModel.PlayControlViewModel.ShowMediaLibraryCommand.Subscribe(x => this.ShowMediaLibrary());
         }
 
         public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
@@ -46,6 +45,8 @@ namespace SimpleMusicPlayer.ViewModels
         public PlayListsViewModel PlayListsViewModel { get; private set; }
 
         public MedialibViewModel MedialibViewModel { get; private set; }
+
+        private MedialibView medialibView;
 
         public void ShowMediaLibrary()
         {

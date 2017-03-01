@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,9 +30,10 @@ namespace SimpleMusicPlayer.Core
             this.WhenAnyValue(x => x.IsWorking)
                 .Subscribe(b => this.Log().Debug("({0}) IsWorking={1}", this.name, b));
 
-            this.StopSearchCmd = ReactiveCommand.Create(this.WhenAny(x => x.IsWorking, x => x.CancelToken,
-                                                                     (isworking, canceltoken) => isworking.Value && canceltoken.Value != null));
-            this.StopSearchCmd.Subscribe(_ => this.CancelToken.Cancel());
+            this.StopSearchCmd = ReactiveCommand.Create(
+                () => this.CancelToken.Cancel(),
+                this.WhenAnyValue(x => x.IsWorking, x => x.CancelToken,
+                    (isworking, canceltoken) => isworking && canceltoken != null));
         }
 
         private Task<IEnumerable<IMediaFile>> mainTask;
@@ -55,7 +57,7 @@ namespace SimpleMusicPlayer.Core
             private set { this.RaiseAndSetIfChanged(ref cancelToken, value); }
         }
 
-        public ReactiveCommand<object> StopSearchCmd { get; private set; }
+        public ReactiveCommand<Unit, Unit> StopSearchCmd { get; private set; }
 
         public async Task<IEnumerable<IMediaFile>> StartSearchAsync(IList filesOrDirsCollection)
         {

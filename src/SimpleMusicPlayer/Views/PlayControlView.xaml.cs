@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Reactive;
+using System.Reactive.Linq;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
+using ReactiveUI;
 using SimpleMusicPlayer.ViewModels;
 
 namespace SimpleMusicPlayer.Views
@@ -14,35 +16,37 @@ namespace SimpleMusicPlayer.Views
         public PlayControlView()
         {
             this.InitializeComponent();
+
+            this.Events().Loaded.Subscribe(_ =>
+            {
+                var thumb = GetThumb(this.positionSlider);
+                if (thumb != null)
+                {
+                    var dragCompleted = thumb.Events().DragCompleted.DistinctUntilChanged();
+                    dragCompleted.Select(d => (Slider)((Thumb)d.Source).TemplatedParent).Subscribe(slider =>
+                    {
+                        var be = slider.GetBindingExpression(RangeBase.ValueProperty);
+                        be?.UpdateSource();
+                    });
+                    dragCompleted.Select(x => Unit.Default).InvokeCommand((PlayControlViewModel)this.DataContext, vm => vm.PlayerEngine.SetCurrentPositionMs);
+
+                    var dragdelta = thumb.Events().DragStarted.DistinctUntilChanged();
+                    dragdelta.Subscribe(e =>
+                    {
+                        var vm = this.DataContext as PlayControlViewModel;
+                        if (vm != null && vm.PlayerEngine.CurrentMediaFile != null)
+                        {
+                            vm.PlayerEngine.CanSetCurrentPositionMs = true;
+                        }
+                    });
+                }
+            });
         }
 
-        private void PositionSlider_OnDragDelta(object sender, DragDeltaEventArgs e)
+        private static Thumb GetThumb(Control slider)
         {
-            if (Math.Abs(e.HorizontalChange) > 1 || Math.Abs(e.VerticalChange) > 1)
-            {
-                var vm = this.DataContext as PlayControlViewModel;
-                if (vm != null)
-                {
-                    vm.PlayerEngine.CanSetCurrentPositionMs = true;
-                }
-            }
-        }
-
-        private void PositionSlider_DragCompleted(object sender, DragCompletedEventArgs e)
-        {
-            var vm = this.DataContext as PlayControlViewModel;
-            if (vm != null)
-            {
-                BindingExpression be = ((Slider)sender).GetBindingExpression(RangeBase.ValueProperty);
-                if (be != null)
-                {
-                    be.UpdateSource();
-                }
-                if (vm.PlayerEngine.SetCurrentPositionMs.CanExecute(null))
-                {
-                    vm.PlayerEngine.SetCurrentPositionMs.Execute(null);
-                }
-            }
+            var track = slider.Template.FindName("PART_Track", slider) as Track;
+            return track?.Thumb;
         }
     }
 }

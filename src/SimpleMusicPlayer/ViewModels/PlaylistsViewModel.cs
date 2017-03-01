@@ -37,7 +37,7 @@ namespace SimpleMusicPlayer.ViewModels
             this.playerSettings = container.Resolve<PlayerSettings>();
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
 
-            this.StartUpCommand = ReactiveCommand.CreateAsyncTask(x => this.StartUpAsync());
+            this.StartUpCommand = ReactiveCommand.CreateFromTask(x => this.StartUpAsync());
 
             // handle command line args from another instance
             this.WhenAnyValue(x => x.CommandLineArgs)
@@ -421,7 +421,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ReactiveCommand<Unit> StartUpCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> StartUpCommand { get; private set; }
 
         public async Task StartUpAsync()
         {

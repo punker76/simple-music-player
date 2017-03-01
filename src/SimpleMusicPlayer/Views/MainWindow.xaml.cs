@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reflection;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace SimpleMusicPlayer.Views
             this.Events().SourceInitialized.Subscribe(e => this.FitIntoScreen());
 
             // load playlist and command line stuff
-            this.Events().Loaded.Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler).InvokeCommand(this.ViewModel.PlayListsViewModel.StartUpCommand);
+            this.Events().Loaded.Throttle(TimeSpan.FromMilliseconds(500), RxApp.MainThreadScheduler).Select(x => Unit.Default).InvokeCommand(this.ViewModel, x => x.PlayListsViewModel.StartUpCommand);
 
             this.WhenActivated(d => this.WhenAnyValue(x => x.ViewModel)
                                         .Subscribe(vm => {
@@ -37,7 +38,7 @@ namespace SimpleMusicPlayer.Views
                                             // handle main view keys
                                             previewKeyDown.Subscribe(vm.HandlePreviewKeyDown);
                                             // handle playlist keys
-                                            previewKeyDown.Where(x => x.Key == Key.Enter).InvokeCommand(vm.PlayListsViewModel.PlayCommand);
+                                            previewKeyDown.Where(x => x.Key == Key.Enter).DistinctUntilChanged(x => x.IsToggled).InvokeCommand(vm.PlayListsViewModel.PlayCommand);
                                             previewKeyDown.Where(x => x.Key == Key.Delete).InvokeCommand(vm.PlayListsViewModel.DeleteCommand);
 
                                             var window = Window.GetWindow(this);
@@ -47,7 +48,7 @@ namespace SimpleMusicPlayer.Views
                                                 window.Events().SizeChanged.Throttle(TimeSpan.FromMilliseconds(15), RxApp.MainThreadScheduler).Subscribe(e => vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(e.NewSize.Width, e.NewSize.Height));
                                             }
 
-                                            this.Events().Closed.InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
+                                            this.Events().Closed.Select(x => Unit.Default).InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
                                             this.Events().Closed.Subscribe(x => vm.ShutDown());
                                         }));
         }
