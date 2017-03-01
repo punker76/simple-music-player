@@ -293,8 +293,6 @@
                         Width="150"
                         Margin="5,2,5,2"
                         Orientation="Horizontal"
-                        Thumb.DragDelta="PositionSlider_OnDragDelta"
-                        Thumb.DragCompleted="PositionSlider_DragCompleted"
                         Maximum="{Binding PlayerEngine.LengthMs, Mode=OneWay}"
                         Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
                 <TextBlock Grid.Column="2"

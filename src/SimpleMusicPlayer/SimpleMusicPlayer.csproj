@@ -409,7 +409,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <ItemGroup>
         <Reference Include="ReactiveUI.Events">
-          <HintPath>..\packages\reactiveui-events\lib\net45\ReactiveUI.Events.dll</HintPath>
+          <HintPath>..\packages\reactiveui-events\lib\Net45\ReactiveUI.Events.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

@@ -50,8 +50,9 @@ namespace SimpleMusicPlayer.ViewModels
               .DistinctUntilChanged()
               .Subscribe(x => FilterByAlbumSelection());
 
-            this.AddDirectoryCommand = ReactiveCommand.CreateAsyncTask(this.WhenAny(x => x.FileSearchWorker.IsWorking, isworking => !isworking.Value),
-                                                                       x => AddDirectoryAsync());
+            this.AddDirectoryCommand = ReactiveCommand.CreateFromTask(
+                x => AddDirectoryAsync(),
+                this.WhenAny(x => x.FileSearchWorker.IsWorking, isworking => !isworking.Value));
         }
 
         public FileSearchWorker FileSearchWorker { get; private set; }
@@ -114,7 +115,7 @@ namespace SimpleMusicPlayer.ViewModels
             set { this.RaiseAndSetIfChanged(ref selectedAlbum, value); }
         }
 
-        public ReactiveCommand<Unit> AddDirectoryCommand { get; protected set; }
+        public ReactiveCommand<Unit, Unit> AddDirectoryCommand { get; protected set; }
 
         private async Task AddDirectoryAsync()
         {

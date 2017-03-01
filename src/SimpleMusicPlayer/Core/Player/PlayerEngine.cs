@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Reactive;
 using System.Windows;
 using System.Windows.Threading;
 using FMOD;
 using ReactiveUI;
 using SimpleMusicPlayer.Core.Interfaces;
 using SimpleMusicPlayer.FMODStudio;
+using Splat;
 
 namespace SimpleMusicPlayer.Core.Player
 {
@@ -90,17 +92,20 @@ namespace SimpleMusicPlayer.Core.Player
                         this.system.update().ERRCHECK();
                     });
 
-                var canSetCurrentPosition = this.WhenAny(x => x.CanSetCurrentPositionMs, y => y.LengthMs,
-                                                         (dontUpdate, length) => dontUpdate.Value && length.Value > 0);
-                this.SetCurrentPositionMs = ReactiveCommand.Create(canSetCurrentPosition);
-                this.SetCurrentPositionMs.Subscribe(x => {
-                    var newPos = this.CurrentPositionMs >= this.LengthMs ? this.LengthMs - 1 : this.CurrentPositionMs;
-                    if (this.channelInfo != null)
+                var canSetCurrentPosition = this.WhenAnyValue(
+                    y => y.CanSetCurrentPositionMs,
+                    z => z.LengthMs,
+                    (dontUpdate, length) => dontUpdate && length > 0);
+                this.SetCurrentPositionMs = ReactiveCommand.Create(
+                    () =>
                     {
-                        this.channelInfo.SetCurrentPositionMs(newPos);
-                    }
-                    this.CanSetCurrentPositionMs = false;
-                });
+                        var newPos = this.CurrentPositionMs >= this.LengthMs ? this.LengthMs - 1 : this.CurrentPositionMs;
+                        this.channelInfo?.SetCurrentPositionMs(newPos);
+                        this.CanSetCurrentPositionMs = false;
+                    },
+                    canSetCurrentPosition);
+                //this.SetCurrentPositionMs.IsExecuting.ToProperty(this, x => x.CanSetCurrentPositionMs, out this.canSetCurrentPositionMs);
+                this.SetCurrentPositionMs.ThrownExceptions.Subscribe(ex => this.Log().ErrorException("Something went wrong", ex));
 
                 this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10),
                                                  DispatcherPriority.Normal,
@@ -196,7 +201,7 @@ namespace SimpleMusicPlayer.Core.Player
             set { this.RaiseAndSetIfChanged(ref currentPositionMs, value); }
         }
 
-        public ReactiveCommand<object> SetCurrentPositionMs { get; private set; }
+        public ReactiveCommand<Unit, Unit> SetCurrentPositionMs { get; private set; }
 
         private bool isMute;
 

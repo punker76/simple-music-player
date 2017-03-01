@@ -24,6 +24,7 @@ namespace SimpleMusicPlayer
             TinyIoCContainer.Current.Register<AppHelper>().AsSingleton();
             TinyIoCContainer.Current.Register<PlayerSettings>().AsSingleton();
             TinyIoCContainer.Current.Register<PlayerEngine>().AsSingleton();
+            TinyIoCContainer.Current.Register<IReactiveObject, MedialibViewModel>();
             TinyIoCContainer.Current.Register<IReactiveObject, MainViewModel>();
 
             var appHelper = TinyIoCContainer.Current.Resolve<AppHelper>();

@@ -10,9 +10,9 @@ nuget MahApps.Metro.IconPacks
 nuget MahApps.Metro.SimpleChildWindow prerelease
 nuget MaterialDesignThemes 1.0.1-beta126
 nuget Newtonsoft.Json
-nuget NLog ~> 4.3
+nuget NLog ~> 4.4
 nuget QuickIO.NET
-nuget reactiveui ~> 6.5
-nuget reactiveui-events ~> 6.5
+nuget reactiveui ~> 7.2
+nuget reactiveui-events ~> 7.2
 nuget TinyIoC
-nuget xunit ~> 2.1
+nuget xunit ~> 2.2

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Threading.Tasks;
 using System.Windows;
@@ -29,7 +30,7 @@ namespace SimpleMusicPlayer.Views
 
             this.WhenActivated(d => this.WhenAnyValue(x => x.ViewModel)
                                         .Subscribe(vm => {
-                                            this.Events().Closed.InvokeCommand(vm.FileSearchWorker.StopSearchCmd);
+                                            this.Events().Closed.Select(x => Unit.Default).InvokeCommand(vm.FileSearchWorker.StopSearchCmd);
                                             this.Events().PreviewDragEnter.Merge(this.Events().PreviewDragOver).Subscribe(vm.OnDragOverAction);
                                             this.Events().PreviewDrop.SelectMany(x => vm.OnDropAction(x).ToObservable()).Subscribe();
                                         }));

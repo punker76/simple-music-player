@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
@@ -50,31 +49,47 @@ namespace SimpleMusicPlayer.ViewModels
 
             var playerInitialized = this.WhenAnyValue(x => x.PlayerEngine.Initializied);
 
-            this.ShuffleCommand = ReactiveCommand.Create(playerInitialized);
-            this.ShuffleCommand.Subscribe(x => {
-                this.PlayerSettings.PlayerEngine.ShuffleMode = !this.PlayerSettings.PlayerEngine.ShuffleMode;
-            });
+            this.ShuffleCommand = ReactiveCommand.Create(
+                () => this.PlayerSettings.PlayerEngine.ShuffleMode = !this.PlayerSettings.PlayerEngine.ShuffleMode,
+                playerInitialized);
 
-            this.RepeatCommand = ReactiveCommand.Create(playerInitialized);
-            this.RepeatCommand.Subscribe(x => {
-                this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode;
-            });
+            this.RepeatCommand = ReactiveCommand.Create(
+                () => this.PlayerSettings.PlayerEngine.RepeatMode = !this.PlayerSettings.PlayerEngine.RepeatMode,
+                playerInitialized);
 
-            this.MuteCommand = ReactiveCommand.Create(playerInitialized);
-            this.MuteCommand.Subscribe(x => {
-                this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute;
-            });
+            this.MuteCommand = ReactiveCommand.Create(
+                () => this.PlayerEngine.IsMute = !this.PlayerEngine.IsMute,
+                playerInitialized);
 
-            this.ShowMediaLibraryCommand = ReactiveCommand.Create(playerInitialized);
+            this.ShowMediaLibraryCommand = ReactiveCommand.Create(
+                () => this.ShowMediaLibrary(),
+                playerInitialized);
 
-            this.ShowEqualizerCommand = ReactiveCommand.CreateAsyncTask(this.WhenAnyValue(x => x.IsEqualizerOpen, x => x.PlayerEngine.Initializied,
-                                                                                          (isopen, initialized) => !isopen && initialized),
-                                                                        x => ShowEqualizer());
+            this.ShowEqualizerCommand = ReactiveCommand.CreateFromTask(
+                () => this.ShowEqualizer(),
+                this.WhenAnyValue(x => x.IsEqualizerOpen, x => x.PlayerEngine.Initializied,
+                    (isopen, initialized) => !isopen && initialized));
         }
 
         public PlayerEngine PlayerEngine { get; private set; }
 
         public PlayerSettings PlayerSettings { get; private set; }
+
+        private MedialibView medialibView;
+
+        private void ShowMediaLibrary()
+        {
+            if (this.medialibView != null)
+            {
+                this.medialibView.Activate();
+            }
+            else
+            {
+                this.medialibView = TinyIoCContainer.Current.Resolve<MedialibView>();
+                this.medialibView.Closed += (sender, args) => this.medialibView = null;
+                this.medialibView.Show();
+            }
+        }
 
         public ICommand PlayOrPauseCommand
         {
@@ -165,15 +180,15 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ReactiveCommand<object> ShuffleCommand { get; private set; }
+        public ReactiveCommand<Unit, bool> ShuffleCommand { get; private set; }
 
-        public ReactiveCommand<object> RepeatCommand { get; private set; }
+        public ReactiveCommand<Unit, bool> RepeatCommand { get; private set; }
 
-        public ReactiveCommand<object> MuteCommand { get; private set; }
+        public ReactiveCommand<Unit, bool> MuteCommand { get; private set; }
 
-        public ReactiveCommand<object> ShowMediaLibraryCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> ShowMediaLibraryCommand { get; private set; }
 
-        public ReactiveCommand<Unit> ShowEqualizerCommand { get; private set; }
+        public ReactiveCommand<Unit, Unit> ShowEqualizerCommand { get; private set; }
 
         private bool isEqualizerOpen;
 
@@ -197,18 +212,8 @@ namespace SimpleMusicPlayer.ViewModels
             switch (key)
             {
                 case Key.R:
-                    handled = this.RepeatCommand.CanExecute(null);
-                    if (handled)
-                    {
-                        this.RepeatCommand.Execute(null);
-                    }
                     break;
                 case Key.S:
-                    handled = this.ShuffleCommand.CanExecute(null);
-                    if (handled)
-                    {
-                        this.ShuffleCommand.Execute(null);
-                    }
                     break;
                 case Key.J:
                     handled = this.PlayNextCommand.CanExecute(null);
@@ -225,11 +230,6 @@ namespace SimpleMusicPlayer.ViewModels
                     }
                     break;
                 case Key.M:
-                    handled = this.MuteCommand.CanExecute(null);
-                    if (handled)
-                    {
-                        this.MuteCommand.Execute(null);
-                    }
                     break;
                 case Key.Space:
                     handled = this.PlayOrPauseCommand.CanExecute(null);
@@ -238,19 +238,7 @@ namespace SimpleMusicPlayer.ViewModels
                         this.PlayOrPauseCommand.Execute(null);
                     }
                     break;
-                case Key.L:
-                    handled = this.ShowMediaLibraryCommand.CanExecute(null);
-                    if (handled)
-                    {
-                        this.ShowMediaLibraryCommand.Execute(null);
-                    }
-                    break;
                 case Key.E:
-                    handled = this.ShowEqualizerCommand.CanExecute(null);
-                    if (handled)
-                    {
-                        this.ShowEqualizerCommand.Execute(null);
-                    }
                     break;
             }
             return handled;
