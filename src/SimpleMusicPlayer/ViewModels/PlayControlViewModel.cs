@@ -98,9 +98,14 @@ namespace SimpleMusicPlayer.ViewModels
 
         private bool CanPlayOrPause()
         {
-            return this.PlayerEngine.Initializied
-                   && this.playListsViewModel.FirstSimplePlaylistFiles != null
-                   && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+            if (!this.PlayerEngine.Initializied)
+            {
+                return false;
+            }
+            var canPlay = (this.PlayerEngine.CurrentMediaFile != null && this.PlayerEngine.State != PlayerState.Play)
+                          || (this.playListsViewModel.FirstSimplePlaylistFiles != null && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any());
+            var canPause = this.PlayerEngine.CurrentMediaFile != null && this.PlayerEngine.State == PlayerState.Play;
+            return canPlay || canPause;
         }
 
         private void PlayOrPause()
@@ -126,9 +131,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         private bool CanStop()
         {
-            return this.PlayerEngine.Initializied
-                   && this.playListsViewModel.FirstSimplePlaylistFiles != null
-                   && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any();
+            return this.PlayerEngine.Initializied && this.PlayerEngine.CurrentMediaFile != null;
         }
 
         private void Stop()
@@ -136,6 +139,7 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayerEngine.Stop();
             // at this we should re-set the current playlist item and the handsome selected file
             this.playListsViewModel.ResetCurrentItemAndSelection();
+            CommandManager.InvalidateRequerySuggested();
         }
 
         public ICommand PlayPrevCommand
