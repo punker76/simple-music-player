@@ -12,7 +12,7 @@
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Fonts.xaml" />
 
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Orange.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
 
                 <!-- Material -->
@@ -28,24 +28,18 @@
                 <ResourceDictionary>
                     <!-- include your primary palette -->
                     <ResourceDictionary.MergedDictionaries>
-                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Blue.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/MaterialDesignColor.Orange.xaml" />
                     </ResourceDictionary.MergedDictionaries>
                     <!--
                             include three hues from the primary palette (and the associated forecolours).
                             Do not rename, keep in sequence; light to dark.
                         -->
-                    <SolidColorBrush x:Key="PrimaryHueLightBrush"
-                                     Color="{StaticResource Primary200}" />
-                    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush"
-                                     Color="{StaticResource Primary200Foreground}" />
-                    <SolidColorBrush x:Key="PrimaryHueMidBrush"
-                                     Color="{StaticResource Primary500}" />
-                    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush"
-                                     Color="{StaticResource Primary500Foreground}" />
-                    <SolidColorBrush x:Key="PrimaryHueDarkBrush"
-                                     Color="{StaticResource Primary700}" />
-                    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush"
-                                     Color="{StaticResource Primary700Foreground}" />
+                    <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="{StaticResource Primary200}" />
+                    <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="{StaticResource Primary200Foreground}" />
+                    <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="{StaticResource Primary700}" />
+                    <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="{StaticResource Primary700Foreground}" />
+                    <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="{StaticResource Primary900}" />
+                    <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="{StaticResource Primary900Foreground}" />
 
                 </ResourceDictionary>
 
