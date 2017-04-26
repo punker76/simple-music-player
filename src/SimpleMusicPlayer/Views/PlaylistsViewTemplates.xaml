@@ -107,6 +107,8 @@
                 Value="0" />
         <Setter Property="ToolTip"
                 Value="{StaticResource PlayListToolTip}" />
+        <Setter Property="FocusVisualStyle"
+                Value="{x:Null}" />
     </Style>
 
     <DataTemplate x:Key="SmallMediaFileTemplate"

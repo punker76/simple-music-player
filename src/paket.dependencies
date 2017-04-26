@@ -8,11 +8,11 @@ nuget gong-wpf-dragdrop prerelease
 nuget MahApps.Metro prerelease
 nuget MahApps.Metro.IconPacks
 nuget MahApps.Metro.SimpleChildWindow prerelease
-nuget MaterialDesignThemes 1.0.1-beta126
+nuget MaterialDesignThemes prerelease
 nuget Newtonsoft.Json
-nuget NLog ~> 4.4
+nuget NLog < 5
 nuget QuickIO.NET
-nuget reactiveui ~> 7.2
-nuget reactiveui-events ~> 7.2
+nuget reactiveui < 8
+nuget reactiveui-events < 8
 nuget TinyIoC
-nuget xunit ~> 2.2
+nuget xunit < 3

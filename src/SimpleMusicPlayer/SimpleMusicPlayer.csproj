@@ -261,13 +261,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
-      <PropertyGroup>
-        <__paket__Fody_targets>portable-net+sl+win+wpa+wp\Fody</__paket__Fody_targets>
-      </PropertyGroup>
-    </When>
-  </Choose>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -504,5 +497,6 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\packages\Fody\build\$(__paket__Fody_targets).targets" Condition="Exists('..\packages\Fody\build\$(__paket__Fody_targets).targets')" Label="Paket" />
+  <Import Project="..\packages\Costura.Fody\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody\build\Costura.Fody.targets')" Label="Paket" />
+  <Import Project="..\packages\Fody\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody\build\portable-net+sl+win+wpa+wp\Fody.targets')" Label="Paket" />
 </Project>
