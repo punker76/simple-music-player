@@ -3,7 +3,6 @@ source https://www.nuget.org/api/v2/
 
 nuget Costura.Fody
 nuget WindowsAPICodePack-Shell
-nuget FontAwesome.WPF
 nuget gong-wpf-dragdrop prerelease
 nuget MahApps.Metro prerelease
 nuget MahApps.Metro.IconPacks
