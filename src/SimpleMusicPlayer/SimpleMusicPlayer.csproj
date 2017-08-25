@@ -261,6 +261,20 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
+      <PropertyGroup>
+        <__paket__Fody_targets>netstandard1.0\Fody</__paket__Fody_targets>
+      </PropertyGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
+      <PropertyGroup>
+        <__paket__Costura_Fody_targets>portable-net+sl+win+wpa+wp\Costura.Fody</__paket__Costura_Fody_targets>
+      </PropertyGroup>
+    </When>
+  </Choose>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -272,6 +286,17 @@
     <Delete Files="@(ReferenceCopyLocalPaths-&gt;'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <Import Project="..\.paket\paket.targets" />
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
+      <ItemGroup>
+        <Reference Include="Costura">
+          <HintPath>..\packages\Costura.Fody\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <ItemGroup>
@@ -486,5 +511,6 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\packages\Fody\build\portable-net+sl+win+wpa+wp\Fody.targets" Condition="Exists('..\packages\Fody\build\portable-net+sl+win+wpa+wp\Fody.targets')" Label="Paket" />
+  <Import Project="..\packages\Costura.Fody\build\$(__paket__Costura_Fody_targets).targets" Condition="Exists('..\packages\Costura.Fody\build\$(__paket__Costura_Fody_targets).targets')" Label="Paket" />
+  <Import Project="..\packages\Fody\build\$(__paket__Fody_targets).targets" Condition="Exists('..\packages\Fody\build\$(__paket__Fody_targets).targets')" Label="Paket" />
 </Project>
