@@ -62,11 +62,13 @@
 
             <!-- text brush for additional title information -->
             <SolidColorBrush x:Key="SemiTextColorBrush"
-                             Color="#A8A8A8"
+                             Color="{DynamicResource BlackColor}"
+                             Opacity="0.7"
                              options:Freeze="True" />
             <!-- text brush for play list index -->
             <SolidColorBrush x:Key="SemiTextColorBrush2"
-                             Color="#D1DDE1"
+                             Color="{DynamicResource BlackColor}"
+                             Opacity="0.7"
                              options:Freeze="True" />
             <!-- tooltip background with a little opacity -->
             <SolidColorBrush x:Key="PlayListToolTipBackground"
