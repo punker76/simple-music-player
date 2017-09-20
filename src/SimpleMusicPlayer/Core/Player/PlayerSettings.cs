@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using MahApps.Metro.Native;
+using ControlzEx.Standard;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SchwabenCode.QuickIO;
@@ -83,12 +83,12 @@ namespace SimpleMusicPlayer.Core.Player
 
     public class MainWindowSettings : IWindowPlacementSetting
     {
-        public WINDOWPLACEMENT? Placement { get; set; }
+        public WINDOWPLACEMENT Placement { get; set; }
     }
 
     public class MedialibSettings : IWindowPlacementSetting
     {
-        public WINDOWPLACEMENT? Placement { get; set; }
+        public WINDOWPLACEMENT Placement { get; set; }
     }
 
     [JsonObject]

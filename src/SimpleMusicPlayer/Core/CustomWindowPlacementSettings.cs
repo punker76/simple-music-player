@@ -1,5 +1,5 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Native;
+﻿using ControlzEx.Standard;
+using MahApps.Metro.Controls;
 using SimpleMusicPlayer.Core.Interfaces;
 
 namespace SimpleMusicPlayer.Core
@@ -13,7 +13,7 @@ namespace SimpleMusicPlayer.Core
             this.windowPlacementSetting = wps;
         }
 
-        public WINDOWPLACEMENT? Placement { get; set; }
+        public WINDOWPLACEMENT Placement { get; set; }
 
         public bool UpgradeSettings { get; set; }
 

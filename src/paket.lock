@@ -1,16 +1,18 @@
 RESTRICTION: == net452
 NUGET
   remote: https://www.nuget.org/api/v2
+    ControlzEx (3.0.2.4)
     Costura.Fody (1.6.2)
       Fody (>= 2.0 < 3.0)
     Fody (2.1.2)
     gong-wpf-dragdrop (1.1)
-    MahApps.Metro (1.6.0-alpha009)
+    MahApps.Metro (1.6.0-alpha016)
+      ControlzEx (> 3.0.1 < 4.0)
     MahApps.Metro.IconPacks (1.9)
     MahApps.Metro.SimpleChildWindow (1.4)
       MahApps.Metro (>= 1.5)
     MaterialDesignColors (1.1.3)
-    MaterialDesignThemes (2.3.1-ci931)
+    MaterialDesignThemes (2.3.1.953)
       MaterialDesignColors (>= 1.1.2)
     Newtonsoft.Json (10.0.3)
     NLog (4.4.12)
