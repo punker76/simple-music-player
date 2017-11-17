@@ -1,66 +1,39 @@
-# http://www.appveyor.com/docs/appveyor-yml
-
 # configuration for develop/CI branch
+
 -
   branches:
     only:
       - dev
-
-  version: 2.0.0-dev
-  configuration: Debug
-
-  init:
-    - ps: Update-AppveyorBuild -Version "$($env:appveyor_build_version)$($env:appveyor_build_number.PadLeft(3, '0'))"
-  
-  # Install scripts. (runs after repo cloning)
-  install:
-    - src\.paket\paket install
-  
-  build:
-    verbosity: minimal
-  
-  after_build:
-    #- ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  
-  assembly_info:
-    patch: true
-    file: src\SimpleMusicPlayer\Properties\AssemblyInfo.cs
-    assembly_version: "{version}"
-    assembly_file_version: "{version}"
-    assembly_informational_version: "{version}"
-  
-  artifacts:
-    #- path: src/bin
-    #  name: ControlzEx.$(appveyor_build_version)
-    #  type: zip
-
-# configuration for master/Release branch
--
-  branches:
-    only:
       - master
 
-  version: 2.0.0.{build}
+  skip_tags: true
+  image: Visual Studio 2017
   configuration: Release
-  
-  # Install scripts. (runs after repo cloning)
+  platform: Any CPU
+
+  pull_requests:
+    do_not_increment_build_number: false
+
   install:
-    - src\.paket\paket install
-  
+    - choco install gitversion.portable -pre -y
+
+  before_build:
+    - ps: cd src
+    - ps: .paket\paket restore
+    - ps: cd..
+    - ps: gitversion /l console /output buildserver /updateAssemblyInfo
+
   build:
     verbosity: minimal
-  
+
   after_build:
-    #- ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  
-  assembly_info:
-    patch: true
-    file: src\SimpleMusicPlayer\Properties\AssemblyInfo.cs
-    assembly_version: "{version}"
-    assembly_file_version: "{version}"
-    assembly_informational_version: "{version}"
-  
+    - ps: & "C:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe" sign /v /n "Jan Karger" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\src\bin\Release\SimpleMusicPlayer.exe"
+
+  cache:
+    - src\packages -> **\packages.config
+    # - '%USERPROFILE%\.nuget\packages -> **\project.json'
+
   artifacts:
-    #- path: src/bin
-    #  name: ControlzEx.$(appveyor_build_version)
-    #  type: zip
+    - path: \src\bin\Release\
+      name: SimpleMusicPlayer.$(GitVersion_AssemblySemVer)
+      type: zip
