@@ -264,7 +264,7 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <PropertyGroup>
-        <__paket__Fody_targets>netstandard1.0\Fody</__paket__Fody_targets>
+        <__paket__Fody_targets>net452\Fody</__paket__Fody_targets>
       </PropertyGroup>
     </When>
   </Choose>
@@ -316,8 +316,8 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <ItemGroup>
-        <Reference Include="GongSolutions.Wpf.DragDrop">
-          <HintPath>..\packages\gong-wpf-dragdrop\lib\net45\GongSolutions.Wpf.DragDrop.dll</HintPath>
+        <Reference Include="GongSolutions.WPF.DragDrop">
+          <HintPath>..\packages\gong-wpf-dragdrop\lib\net45\GongSolutions.WPF.DragDrop.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

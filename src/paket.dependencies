@@ -1,13 +1,18 @@
 framework: auto-detect
+
 source https://www.nuget.org/api/v2/
+source https://ci.appveyor.com/nuget/mahapps-metro-simplechildwindow
+source https://ci.appveyor.com/nuget/gong-wpf-dragdrop
 
 nuget Costura.Fody
 nuget WindowsAPICodePack-Shell
+
 nuget gong-wpf-dragdrop prerelease
 nuget MahApps.Metro prerelease
 nuget MahApps.Metro.IconPacks
 nuget MahApps.Metro.SimpleChildWindow prerelease
 nuget MaterialDesignThemes prerelease
+
 nuget Newtonsoft.Json
 nuget NLog < 5
 nuget QuickIO.NET

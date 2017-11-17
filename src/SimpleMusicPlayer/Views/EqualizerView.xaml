@@ -15,6 +15,10 @@
                                TextOptions.TextFormattingMode="Display"
                                Title="Equalizer">
 
+    <simpleChildWindow:ChildWindow.OverlayBrush>
+        <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
+    </simpleChildWindow:ChildWindow.OverlayBrush>
+
     <simpleChildWindow:ChildWindow.Icon>
         <Rectangle Width="22"
                    Height="22"
