@@ -27,7 +27,8 @@
     verbosity: minimal
 
   after_build:
-    - ps: "C:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe" sign /v /n "Jan Karger" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\src\bin\Release\SimpleMusicPlayer.exe"
+    - ps: $env:SIGNTOOL="C:\Program Files (x86)\Windows Kits\10\bin\x64\signtool.exe"
+    - ps: $env:SIGNTOOL sign /v /n "Jan Karger" /sm /s MY /tr "http://timestamp.digicert.com" /td SHA256 /fd SHA256 ".\src\bin\Release\SimpleMusicPlayer.exe"
 
   cache:
     - src\packages -> **\packages.config
