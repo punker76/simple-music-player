@@ -58,8 +58,8 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
-                    Height="38"
-                    Width="38">
+                    Height="32"
+                    Width="32">
                 <Rectangle Width="12"
                            Height="12">
                     <Rectangle.Fill>

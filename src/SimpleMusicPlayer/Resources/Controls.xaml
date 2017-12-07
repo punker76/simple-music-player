@@ -32,10 +32,15 @@
     <Style TargetType="{x:Type Controls:WindowButtonCommands}" BasedOn="{StaticResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
 
     <Style x:Key="SimpleMPMetroCircleButtonStyle"
-           TargetType="{x:Type Button}"
-           BasedOn="{StaticResource MetroCircleButtonStyle}">
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
+           TargetType="{x:Type ButtonBase}"
+           BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Margin" Value="4" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="SimpleMPMetroVolumeButtonStyle"
@@ -78,8 +83,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
     </Style>
 
     <Style TargetType="Slider"
