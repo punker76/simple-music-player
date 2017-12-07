@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00010908;
+        public const int    number = 0x00011002;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -29,6 +29,7 @@ namespace FMOD
         public const int MAX_CHANNEL_WIDTH = 32;
         public const int MAX_LISTENERS = 8;
         public const int REVERB_MAXINSTANCES = 4;
+        public const int MAX_SYSTEMS = 8;
     }
 
     /*
@@ -310,7 +311,8 @@ namespace FMOD
         AUDIO3D,         /* PS4                  - Audio3D. */
         ATMOS,           /* Win                  - Dolby Atmos (WASAPI). */
         WEBAUDIO,        /* Web Browser          - JavaScript webaudio output.          (Default on JavaScript) */
-        NNAUDIO,         /* NX                   - NX nn::audio.                        (Default on NX)*/
+        NNAUDIO,         /* NX                   - NX nn::audio.                        (Default on NX) */
+        WINSONIC,        /* XboxOne              - Windows Sonic. */
 
         MAX,             /* Maximum number of output types supported. */
     }
@@ -493,14 +495,15 @@ namespace FMOD
     */
     public enum SPEAKERMODE : int
     {
-        DEFAULT,          /* Default speaker mode based on operating system/output mode.  Windows = control panel setting, Xbox = 5.1, PS3 = 7.1 etc. */
-        RAW,              /* There is no specific speakermode.  Sound channels are mapped in order of input to output.  Use System::setSoftwareFormat to specify speaker count. See remarks for more information. */
-        MONO,             /* The speakers are monaural. */
-        STEREO,           /* The speakers are stereo. */
-        QUAD,             /* 4 speaker setup.  This includes front left, front right, surround left, surround right.  */
-        SURROUND,         /* 5 speaker setup.  This includes front left, front right, center, surround left, surround right. */
-        _5POINT1,         /* 5.1 speaker setup.  This includes front left, front right, center, surround left, surround right and an LFE speaker. */
-        _7POINT1,         /* 7.1 speaker setup.  This includes front left, front right, center, surround left, surround right, back left, back right and an LFE speaker. */
+        DEFAULT,          /* Default speaker mode for the chosen output mode which will resolve after System::init. */
+        RAW,              /* Assume there is no special mapping from a given channel to a speaker, channels map 1:1 in order. Use System::setSoftwareFormat to specify the speaker count. */
+        MONO,             /*  1 speaker setup (monaural). */
+        STEREO,           /*  2 speaker setup (stereo) front left, front right. */
+        QUAD,             /*  4 speaker setup (4.0)    front left, front right, surround left, surround right. */
+        SURROUND,         /*  5 speaker setup (5.0)    front left, front right, center, surround left, surround right. */
+        _5POINT1,         /*  6 speaker setup (5.1)    front left, front right, center, low frequency, surround left, surround right. */
+        _7POINT1,         /*  8 speaker setup (7.1)    front left, front right, center, low frequency, surround left, surround right, back left, back right. */
+        _7POINT1POINT4,   /* 12 speaker setup (7.1.4)  front left, front right, center, low frequency, surround left, surround right, back left, back right, top front left, top front right, top back left, top back right. */
 
         MAX,              /* Maximum number of speaker modes supported. */
     }
@@ -520,14 +523,18 @@ namespace FMOD
     */
     public enum SPEAKER : int
     {
-        FRONT_LEFT,
-        FRONT_RIGHT,
-        FRONT_CENTER,
-        LOW_FREQUENCY,
-        SURROUND_LEFT,
-        SURROUND_RIGHT,
-        BACK_LEFT,
-        BACK_RIGHT,
+        FRONT_LEFT,        /* The front left speaker */
+        FRONT_RIGHT,       /* The front right speaker */
+        FRONT_CENTER,      /* The front center speaker */
+        LOW_FREQUENCY,     /* The LFE or 'subwoofer' speaker */
+        SURROUND_LEFT,     /* The surround left (usually to the side) speaker */
+        SURROUND_RIGHT,    /* The surround right (usually to the side) speaker */
+        BACK_LEFT,         /* The back left speaker */
+        BACK_RIGHT,        /* The back right speaker */
+        TOP_FRONT_LEFT,    /* The top front left speaker */
+        TOP_FRONT_RIGHT,   /* The top front right speaker */
+        TOP_BACK_LEFT,     /* The top back left speaker */
+        TOP_BACK_RIGHT,    /* The top back right speaker */
 
         MAX,               /* Maximum number of speaker types supported. */
     }
@@ -1275,7 +1282,6 @@ namespace FMOD
         List of time types that can be returned by Sound::getLength and used with Channel::setPosition or Channel::getPosition.
 
         [REMARKS]
-        Do not combine flags except FMOD_TIMEUNIT_BUFFERED.
 
         [SEE_ALSO]
         Sound::getLength
@@ -1286,15 +1292,14 @@ namespace FMOD
     [Flags]
     public enum TIMEUNIT : uint
     {
-        MS                = 0x00000001,  /* Milliseconds. */
-        PCM               = 0x00000002,  /* PCM Samples, related to milliseconds * samplerate / 1000. */
-        PCMBYTES          = 0x00000004,  /* Bytes, related to PCM samples * channels * datawidth (ie 16bit = 2 bytes). */
-        RAWBYTES          = 0x00000008,  /* Raw file bytes of (compressed) sound data (does not include headers).  Only used by Sound::getLength and Channel::getPosition. */
-        PCMFRACTION       = 0x00000010,  /* Fractions of 1 PCM sample.  Unsigned int range 0 to 0xFFFFFFFF.  Used for sub-sample granularity for DSP purposes. */
-        MODORDER          = 0x00000100,  /* MOD/S3M/XM/IT.  Order in a sequenced module format.  Use Sound::getFormat to determine the format. */
-        MODROW            = 0x00000200,  /* MOD/S3M/XM/IT.  Current row in a sequenced module format.  Sound::getLength will return the number if rows in the currently playing or seeked to pattern. */
-        MODPATTERN        = 0x00000400,  /* MOD/S3M/XM/IT.  Current pattern in a sequenced module format.  Sound::getLength will return the number of patterns in the song and Channel::getPosition will return the currently playing pattern. */
-        BUFFERED          = 0x10000000,  /* Time value as seen by buffered stream.  This is always ahead of audible time, and is only used for processing. */
+        MS          = 0x00000001,  /* Milliseconds. */
+        PCM         = 0x00000002,  /* PCM Samples, related to milliseconds * samplerate / 1000. */
+        PCMBYTES    = 0x00000004,  /* Bytes, related to PCM samples * channels * datawidth (ie 16bit = 2 bytes). */
+        RAWBYTES    = 0x00000008,  /* Raw file bytes of (compressed) sound data (does not include headers).  Only used by Sound::getLength and Channel::getPosition. */
+        PCMFRACTION = 0x00000010,  /* Fractions of 1 PCM sample.  Unsigned int range 0 to 0xFFFFFFFF.  Used for sub-sample granularity for DSP purposes. */
+        MODORDER    = 0x00000100,  /* MOD/S3M/XM/IT.  Order in a sequenced module format.  Use Sound::getFormat to determine the format. */
+        MODROW      = 0x00000200,  /* MOD/S3M/XM/IT.  Current row in a sequenced module format.  Cannot use with Channel::setPosition.  Sound::getLength will return the number if rows in the currently playing or seeked to pattern. */
+        MODPATTERN  = 0x00000400,  /* MOD/S3M/XM/IT.  Current pattern in a sequenced module format.  Cannot use with Channel::setPosition.  Sound::getLength will return the number of patterns in the song and Channel::getPosition will return the currently playing pattern. */
     }
 
     /*

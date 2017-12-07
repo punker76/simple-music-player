@@ -9,7 +9,7 @@ NUGET
       ControlzEx (> 3.0.2 < 4.0)
     MahApps.Metro.IconPacks (1.9.1)
     MaterialDesignColors (1.1.3)
-    MaterialDesignThemes (2.3.2-ci1003)
+    MaterialDesignThemes (2.3.2-ci1016)
       MaterialDesignColors (>= 1.1.2)
     Newtonsoft.Json (10.0.3)
     NLog (4.4.12)
@@ -48,7 +48,7 @@ NUGET
       xunit.assert (2.3.1)
       xunit.core (2.3.1)
     xunit.abstractions (2.0.1)
-    xunit.analyzers (0.7)
+    xunit.analyzers (0.8)
     xunit.assert (2.3.1)
     xunit.core (2.3.1)
       xunit.extensibility.core (2.3.1)
@@ -58,7 +58,7 @@ NUGET
     xunit.extensibility.execution (2.3.1)
       xunit.extensibility.core (2.3.1)
   remote: https://ci.appveyor.com/nuget/gong-wpf-dragdrop
-    gong-wpf-dragdrop (2.0.0-alpha0066)
+    gong-wpf-dragdrop (2.0.0-alpha0067)
   remote: https://ci.appveyor.com/nuget/mahapps-metro-simplechildwindow
     MahApps.Metro.SimpleChildWindow (1.5.0-alpha0002)
       MahApps.Metro (< 1.6)

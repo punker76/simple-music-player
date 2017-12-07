@@ -198,7 +198,7 @@ namespace FMOD
         THREE_EQ,           /* This unit is a three-band equalizer. */
         FFT,                /* This unit simply analyzes the signal and provides spectrum information back through getParameter. */
         LOUDNESS_METER,     /* This unit analyzes the loudness and true peak of the signal. */
-        ENVELOPEFOLLOWER,   /* This unit tracks the envelope of the input/sidechain signal */
+        ENVELOPEFOLLOWER,   /* This unit tracks the envelope of the input/sidechain signal. Deprecated and will be removed in a future release. */
         CONVOLUTIONREVERB,  /* This unit implements convolution reverb. */
         CHANNELMIX,         /* This unit provides per signal channel gain, and output channel mapping to allow 1 multichannel signal made up of many groups of signals to map to a single output signal. */
         TRANSCEIVER,        /* This unit 'sends' and 'receives' from a selection of up to 32 different slots.  It is like a send/return but it uses global slots rather than returns as the destination.  It also has other features.  Multiple transceivers can receive from a single channel, or multiple transceivers can send to a single channel, or a combination of both. */
@@ -977,6 +977,26 @@ namespace FMOD
     [ENUM]
     [
         [DESCRIPTION]
+        Parameter types for the FMOD_DSP_TYPE_FADER filter.
+
+        [REMARKS]
+
+        [SEE_ALSO]
+        DSP::setParameterFloat
+        DSP::getParameterFloat
+        FMOD_DSP_TYPE
+    ]
+    */
+    public enum DSP_FADER
+    {
+        GAIN    /* (Type:float) - Signal gain in dB. -80.0 to 10.0. Default = 0.0. */
+    }
+
+
+    /*
+    [ENUM]
+    [
+        [DESCRIPTION]
         Parameter types for the FMOD_DSP_TYPE_DELAY filter.
 
         [REMARKS]
@@ -1627,7 +1647,8 @@ namespace FMOD
         _3D_PAN_BLEND,                 /* (Type:float) - 3D Pan Blend.              0.0 (fully 2D) to 1.0 (fully 3D).  Default = 0.0. */
         LFE_UPMIX_ENABLED,             /* (Type:int)   - LFE Upmix Enabled.         Determines whether non-LFE source channels should mix to the LFE or leave it alone.  0 (off) to 1 (on).  Default = 0 (off). */
         OVERALL_GAIN,                  /* (Type:data)  - Overall gain.              For information only, not set by user.  Data of type FMOD_DSP_PARAMETER_DATA_TYPE_OVERALLGAIN to provide to FMOD, to allow FMOD to know the DSP is scaling the signal for virtualization purposes. */
-        SURROUND_SPEAKER_MODE          /* (Type:int)   - Surround speaker mode.     Target speaker mode for surround panning.  Default = FMOD_SPEAKERMODE_DEFAULT. */
+        SURROUND_SPEAKER_MODE,         /* (Type:int)   - Surround speaker mode.     Target speaker mode for surround panning.  Default = FMOD_SPEAKERMODE_DEFAULT. */
+        _2D_HEIGHT_BLEND,              /* (Type:float) - 2D Height blend.           When FMOD_DSP_PAN_SURROUND_SPEAKER_MODE has height speakers, control the blend between ground and height. 0.0 (ground speakers only) to 1.0 (top speakers only). Default = 0.0. */
     }
 
 
@@ -1760,11 +1781,15 @@ namespace FMOD
     [ENUM]
     [
         [DESCRIPTION]
+        Deprecated and will be removed in a future release.
+
         Parameter types for the FMOD_DSP_TYPE_ENVELOPEFOLLOWER unit.
         This is a simple envelope follower for tracking the signal level.
 
         [REMARKS]
-        This unit does not affect the incoming signal
+        Deprecated and will be removed in a future release.
+
+        This unit does not affect the incoming signal.
         
         [SEE_ALSO]
         DSP::setParameterFloat

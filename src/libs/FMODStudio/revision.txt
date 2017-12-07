@@ -1,11 +1,391 @@
 
-===============================================================================
-                       REVISION HISTORY : FMOD Studio API
-             Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2017
-                              http://www.fmod.org
-===============================================================================
+==========================================================================================
+                            REVISION HISTORY : FMOD Studio API                            
+                 Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2017                
+                                    https://www.fmod.com                                   
+==========================================================================================
 
-09/02/17 1.09.01 - Studio API major release (build 84153)
+06/12/17 1.10.02 - Studio API minor release (build 92217)
+------------------------------------------------------------------------------------------
+
+Features:
+* LowLevel API - UWP - Added Windows Sonic support.
+* LowLevel API - UWP - Added support for setting thread affinity via
+                 FMOD_UWP_SetThreadAffinity.
+
+Fixes:
+* Studio API   - Fixed Quietest stealing behavior so new events don't start if they are
+                 quieter than all currently playing events.
+* Studio API   - Fixed buses that have reached their Max Instances limit incorrectly
+                 preventing their input buses from applying their stealing behavior.
+* Studio API   - Fixed a crash caused by wav files with invalid loop points.
+* LowLevel API - Fixed recording devices still being marked as connected when
+                 switching to FMOD_OUTPUTTYPE_NOSOUND.
+* LowLevel API - UWP - Made device reset / unplug behavior more robust against failure.
+* LowLevel API - Xbox One - Fixed WASAPI init error if WinSonic was attempted first.
+* FSBank API   - Fixed crash in 64bit version when encoding low sample rate mono
+                 sounds as Vorbis with low quality.
+* Unity        - PlayOneshot and PlayOneshotAttached now log a warning when the
+                 event is not found, rather than throwing an exception.
+
+Notes:
+* Added Resonance Audio plugin version 1.0, this plugin represents the continuation
+  of the Google VR plugin under new branding. The Google VR plugin is now considered
+  deprecated in favour of Resonance Audio, consider migrating to the new plugin as
+  the GVR plugin will be removed in FMOD 1.11.
+* Xbox One     - Now built with June 2017 QFE 8 XDK.
+
+01/11/17 1.10.01 - Studio API minor release (build 91339)
+------------------------------------------------------------------------------------------
+
+Features:
+* UE4          - Expose Bus::stopAllEvents to be useable through blueprints.
+* Unity        - Event length displayed in event browser for one shot events.
+
+Fixes:
+* Studio API   - Fixed modulation on plugin instruments using the parent event's lifetime
+                 rather than the instrument's lifetime.
+* Studio API   - Fixed a live update issue where asset files would not reload after being
+                 moved on disk.
+* Studio API   - Fixed a bug which caused sounds to pan incorrectly when using
+                 FMOD_INIT_3D_RIGHTHANDED.
+* Studio API   - PS4 - Fixed excessive binary size caused by inclusion of debug symbols.
+* LowLevel API - Fixed potential crash when re-initializing FMOD::System after failure.
+* LowLevel API - Fixed compatibility issues with Windows XP.
+* LowLevel API - Android - Fixed exported symbols to avoid issues with unwinder.
+* LowLevel API - Android - Automatic output mode selection will now choose AudioTrack
+                 rather than OpenSL if Bluetooth is enabled to avoid stuttering.
+* LowLevel API - Xbox One - Ensure WinSonic internal threads are assigned to the
+                 same core as the FMOD mixer.
+* FSBank API   - Fixed crash when encoding very long audio files.
+* UE4          - Integration now handles application interruption by pausing and resuming
+                 the mixer.
+* UE4          - Fixed SetEvent not setting or using new event.
+* UE4          - Fixed Xbox One thread affinity struct setup.
+* UE4          - Removed engine version ifdef's.
+* UE4          - Fixed integration attempting to set the initial value of
+                 built-in parameters.
+* Unity        - Fixed compatibility for Unity 5.0 & 5.1.
+* Unity        - Added check to see if any banks have been loaded before trying to pause.
+* Unity        - Allow StringHelper to fast return if string is null.
+
+Notes:
+* Updated Google VR plugin to version 0.6.1.
+* Studio API   - Studio::EventInstance::set3DAttributes and
+                 Studio::System::setListenerAttributes will now return
+                 FMOD_ERR_INVALID_PARAM if the forward or up vectors are zero. In
+                 logging builds warnings will be logged if the forward and up vectors are
+                 not orthonormal.
+* LowLevel API - The convolution reverb effect will not accept impulse response data if
+                 the system is not using a power-of-two DSP buffer size. Windows Sonic
+                 currently requires a DSP buffer size of 480 making it incompatible with
+                 convolution reverb until this requirement is lifted.
+* PS4          - Now built with SDK 5.008.001.
+* Unity        - Exposed editor script classes for in-game FMOD objects as public.
+* Unity        - Exposed StudioEventEmitter's EventInstance as public to allow
+                 easier integration with custom plugins.
+
+19/09/17 1.10.00 - Studio API major release (build 90329)
+------------------------------------------------------------------------------------------
+
+Features:
+* LowLevel API - Added FMOD_MAX_SYSTEMS constant, currently 8.
+* LowLevel API - Exposed FMOD_DSP_FADER_GAIN on FMOD_DSP_TYPE_FADER.
+* LowLevel API - Added FMOD_SPEAKERMODE_7POINT1POINT4 speaker mode which includes
+                 four height speakers to be used with Windows Sonic output.
+* LowLevel API - Added FMOD_DSP_PAN_2D_HEIGHT_BLEND parameter to FMOD_DSP_TYPE_PAN
+                 that allows mixing ground speaker signal into the height speakers
+                 and vice versa.
+* LowLevel API - Windows & Xbox One - Added Windows Sonic output plugin to support
+                 rendering multichannel (with height) speaker mode 7.1.4 as well
+                 as dynamic objects via FMOD_DSP_TYPE_OBJECTPAN.
+* LowLevel API - PS Vita - Switched FMOD_PSVita_SetThreadAffinity to accept a
+                 mask instead of a core number to allow floating threads.
+* LowLevel API - Added FMOD_OUTPUT_REQUESTRESET to FMOD_OUTPUT_STATE to allow output
+                 plugins to request they be reset by the System.
+
+Fixes:
+* Studio API   - Sequential multi and scatterer instruments now track their current
+                 playlist entry on a per-event-instance basis, rather than globally.
+* UE4          - Removed all reference to Oculus, now that Oculus functions as
+                 all other FMOD Studio plugins.
+* UE4          - Removed all legacy UE4 version code, if you are not using UE4.16
+                 the plugin will not work without making changes to source code.
+* UE4          - Overhauled details interaction in editor and improved usability.
+                 Grouped all FMOD functionality together, added Parameters, and
+                 removed unnecessary information from attenuation/occlusion.
+* Unity        - Removed garbage allocations from C# wrapper.
+
+Notes:
+* Updated Google VR plugin to version 0.6.0.
+* LowLevel API - FMOD_DSP_TYPE_ENVELOPEFOLLOWER is now deprecated and will be
+                 removed in a future release.
+* LowLevel API - Increment Plugin API version for Output plugins. Dynamic library 
+                 Output Plugins must be rebuilt.
+* Studio API   - Changed the behaviour of nested events to stop when idle even
+                 when there are instruments on parameters. This makes nested 
+                 events match the behaviour of top level events. Events which
+                 depend on the old behaviour need to be manually fixed up by (for
+                 example) adding a sustain point to the nested events timeline.
+* Android      - Logging version will now produce proper crash stacks but due to
+                 binary size increase the release version will continue to not.
+* Xbox One     - Removed "acp" and "feeder" from FMOD_DURANGO_THREADAFFINITY.
+                 Both threads were removed in previous versions and setting them
+                 did nothing.
+* UE4          - AudioComponents using occlusion from previous versions are NOT 
+                 compatible with this version. Occlusion and Attenuation now do
+                 not rely on UE4 structs.
+
+11/09/17 1.09.08 - Studio API minor release (build 90162)
+------------------------------------------------------------------------------------------
+
+Fixes:
+* LowLevel API - Fixed extraneous logging.
+
+07/09/17 1.09.07 - Studio API minor release (build 90008)
+------------------------------------------------------------------------------------------
+
+Features:
+* UE4          - Cache dsp used for occlusion lowpass effect & add support for
+                 use of Multiband EQ (lowpass on band A only).
+* UE4          - FMODAudioComponent now reuses event instances until the object
+                 is no longer needed or Release() is called.
+* UE4          - Added support for UWP.
+* Unity        - Added support for Unity v2017.1.
+* Unity        - Added a button in the FMOD menu for Refreshing Bank files.
+
+Fixes:
+* Studio API   - Fixed scatterer sounds being processed by FMOD::Geometry.
+* Studio API   - Fixed multi-stream events playing out of sync (introduced in 1.09.01).
+* LowLevel API - Fixed ChannelControl::setDelay being ignored if addDSP was
+                 called immediately after it.
+* LowLevel API - Fixed potential crash if calling Channel::setPosition soon
+                 after System::playSound with paused as true.
+* LowLevel API - Fixed click on Channel::setPaused(false) caused by a non-zero
+                 Channel::setPosition after System::playSound with paused as true.
+* LowLevel API - Fixed potential crash if calling System::getRecordPosition while
+                 disconnecting an audio device.
+* LowLevel API - Fix FMOD_ACCURATETIME not looping mod/s3m/xm/it files properly, and midi
+                 files not looping properly without the flag.
+* LowLevel API - Fixed crash when attempting to load invalid VST files.
+* UE4          - Fix compile error by adding categories to AnimNotify vars.
+* Unity        - Switch - Fixed "unknown pointer encoding" error when an exception occurs.
+* Unity        - Fix plugin path for UWP builds.
+* Unity        - Fixed possible crash when using GoogleVR plugin.
+* Unity        - Fix EventEmitter SetParameter not working unless parameter had 
+                 an inital value set in editor.
+
+Notes:
+* Studio API   - Reduced memory usage for events with a small number of instances.
+* LowLevel API - FMOD_CREATESOUNDEXINFO::initialseekposition will now wrap if
+                 the value given is longer than the FMOD::Sound length.
+* LowLevel API - Added documentation to the top of fmod_codec_raw to be more instructional 
+                 for plugin writers.
+* UE4          - Added support for UE4.17.
+* Unity        - Device specific errors will now cause only a single exception
+                 to be thrown and the integration will assume no-sound mode.
+* Switch       - Now built with SDK 1.7.0.
+* Xbox One     - Now built with March 2017 QFE 3 XDK.
+
+06/07/17 1.09.06 - Studio API minor release (build 88495)
+------------------------------------------------------------------------------------------
+
+Features:
+* Studio API   - Improved performance when a large number of EventInstances have
+                 been created but not started.
+* LowLevel API - HTML5 - Performance increased by 10%.
+
+Fixes:
+* Studio API   - Fixed a bug where an asynchronous looping multi instrument would
+                 stop selecting new playlist entries after playing a nested event
+                 which itself contains an asynchronous looping multi instrument.
+* Studio API   - Fixed a bug where a parameter could trigger parameter 
+                 instruments before having its value updated by modulators when
+                 restarting an event instance.
+* Studio API   - Fixed incorrect automation interpolation on transition timelines with
+                 lead-out regions.
+* LowLevel API - Fixed DSPs with sidechain inputs incorrectly going idle when
+                 the main input is idle but the sidechain input is not.
+* LowLevel API - Fixed the compressor DSP not playing out its release correctly
+                 when its inputs are idle.
+* LowLevel API - Remove main thread stall from System::playDSP (or playing a 
+                 generator DSP via Studio API).
+* UE4          - Sequencer integration now supports previewing event playback in
+                 an editor viewport by using the Sequencer transport controls. A
+                 Sequencer section has been added to the documentation.
+* UE4          - Added AreBanksLoaded funtion to FMODStudioModule.
+* Unity        - Events in EventBrowser window now in alpabetical order.
+* Unity        - Setting parameters on StudioEventEmitter no longer generates garbage.
+
+Notes:
+* LowLevel API - Added checking to System::mixerResume to ensure called from
+                 the same thread as System::mixerSuspend.
+* Xbox One     - Now built with October 2016 QFE 3 XDK.
+
+08/06/17 1.09.05 - Studio API minor release (build 87666)
+------------------------------------------------------------------------------------------
+
+Features:
+* LowLevel API - Switch - Added support for HTC sockets to allow communications 
+                 between FMOD tools and runtime via target manager. Enable using
+                 FMOD_NX_SetHTCSEnabled(TRUE).
+* LowLevel API - Xbox One - Added support for System::attachChannelGroupToPort
+                 with FMOD_DURANGO_PORT_TYPE_MUSIC.
+
+Fixes:
+* Studio API   - Fixed FMOD_ERR_INTERNAL returned when loading old bank files
+                 containing transition timeline automation of instrument volumes.
+* Studio API   - Fixed bug where very short instruments would not play when cross fading.
+* Studio API   - Made changes to the logic in EventDescription::isOneShot so that
+                 it consistently returns true for events which are guaranteed to
+                 finish without intervention, and false for events which may play
+                 indefinitely.
+* LowLevel API - Fixed ChannelControl::setMixLevelsInput not working and updated docs.
+* LowLevel API - Fixed Channel::setLoopCount not working with very small streams.
+* LowLevel API - Stricter error checking when loading IMA ADPCM wav files to
+                 prevent a potential crash from malformed data.
+* LowLevel API - Fixed potential crash in ChannelGroup operations when a Channel
+                 failed to play on it with FMOD_ERR_SUBSOUNDS.
+* LowLevel API - Fixed Convolution reverb panning a mono IR with a stereo input 
+                 incorrectly.
+* LowLevel API - Fixed race conditions when setting FMOD_DSP_SEND_RETURNID.
+* LowLevel API - Fixed a crash with some MOD/S3M/XM/IT files. Introduced in 1.09.00.
+* LowLevel API - System::setDSPBufferSize will round the requested buffer size up 
+                 to the closest multiple of 4 to prevent a crash when sending 
+                 metering data to studio.
+* LowLevel API - PS4 - Fixed GPU compute compatibility issue with SDK 4.508.001.
+                 GPU compute is now re-enabled.
+* LowLevel API - Switch - Reduced thread priority to avoid conflict with Profiler.
+* LowLevel API - Windows - Fixed ASIO output mode failing to initialize if the 
+                 devices requires a buffer size of 2048 samples.
+* Unity        - Fixed bank directory path separators when developing across OSX & Win.
+* Unity        - Fixed simulated Android devices producing no sound.
+* Unity        - BankLoadException now display error message correctly.
+* Unity        - Fixed bank loading and unloading refcount accuracy.
+* Unity        - Fixed Mac editor attempting to load Linux plugins when building 
+                 for Linux platform.
+* Unity        - Improved detection of 3D Event Instances that haven't had their
+                 position set yet.
+* UE4          - Fixed integration working with UE4's IWYU non-monolithic header
+                 system, for now the integration is still using the old PCH system.
+* UE4          - Added new native AnimNotify class, old one didn't work on code projects.
+* UE4          - Sequencer integration. FMOD events can be started and stopped
+                 and event parameters can be controlled by adding custom tracks
+                 to sequencer.
+* UE4          - Fixed max vorbis codecs not being set correctly.
+* UE4          - Fixed file readers being accessed from multiple threads.
+
+Notes:
+* UE4          - Added support for UE4.16.
+
+Notes:
+* Updated Google VR plugin to version 0.4.0, please note there is a known crash
+  when loading the plugin on Windows XP, Google are aware and investigating.
+
+10/04/17 1.09.04 - Studio API minor release (build 86084)
+------------------------------------------------------------------------------------------
+
+Fixes:
+* Studio API   - Fixed delayed playback on streaming sounds in events (introduced
+                 in 1.09.03).
+* Studio API   - Fixed AHDSR release not working on single sounds shorter than
+                 100 milliseconds.
+* Studio API   - Fixed EventDescription::is3D returning true for events that only
+                 have 2D panners.
+* Studio API   - Set programmer sounds to FMOD_LOOP_NORMAL internally if they were
+                 not created that way.
+* Studio API   - Fixed regression introduced in 1.09.00 which allowed events to 
+                 play at the origin before 3d attributes were updated.
+* Studio API   - Fixed issue where reverb tail would cut off when all events on
+                 a bus finished playing.
+* LowLevel API - Fixed FMOD_DSP_TRANSCEIVER making channels audible that weren't
+                 supposed to be (introduced with glitch fix in 1.09.03).
+* LowLevel API - Fixed loop clicks on PCM sounds if using FMOD_DSP_RESAMPLE_CUBIC
+                 or FMOD_DSP_RESAMPLE_SPLINE.
+* LowLevel API - Fixed FMOD_ADVANCEDSETTINGS::resamplerMethod being ignored.
+* LowLevel API - Fixed plugin unloading for multi-description libraries potentially
+                 failing depending on how it's unloaded.
+* LowLevel API - Fixed stream glitch when going virtual then resuming.
+* LowLevel API - Fixed virtual voices losing their loop/2d/3d status, and not
+                 staying virtual if Channel::setMode was used. Introduced in 1.09.00.
+* LowLevel API - Fixed FMOD_UNIQUE not being accepted if Channel::setMode or
+                 Sound::setMode was used. (it could be successfully used via
+                 createSound/createStream).
+* LowLevel API - Fixed rare crash in mixer, introduced 1.09.00.
+* LowLevel API - Switch - Fixed FMOD_NX_THREADAFFINITY so cores can be ORd together
+                 to form a mask.
+* LowLevel API - PS4 - GPU compute disabled due to an incompatibility with SDK 4.508.001.
+* LowLevel API - Windows/Mac - Re-enable SRS downmixer 80Hz high pass filter by
+                 default. Add FMOD_INIT_DISABLE_SRS_HIGHPASSFILTER init flag to 
+                 disable it.
+* FSBank API   - Fixed PS Vita AT9 encoder not working with currently available
+                 Sony library.
+* FSBank API   - Fixed full scale 32bit float wav files encoding incorrectly.
+
+Notes:
+* Studio API   - FMOD expects programmer sounds to be created with FMOD_LOOP_NORMAL.
+                 This is now specified in the FMOD_STUDIO_PROGRAMMER_SOUND_PROPERTIES
+                 documentation.
+* FSBank API   - Building an FSB with PS Vita AT9 encoding now requires 64bit.
+* PS4          - Now built with SDK 4.508.001.
+* Switch       - Now built with SDK 0.12.17.
+* Xbox One     - Now built with October 2016 QFE 2 XDK.
+
+20/03/17 1.09.03 - Studio API minor release (build 85359)
+------------------------------------------------------------------------------------------
+
+Features:
+* LowLevel API - Updated the /examples/dsp_custom example to include a lot more
+                 functionality including parameters, and capture of wave data.
+* LowLevel API - Add fmod_reduced.js for reduced functionality, but also reduced size.
+* LowLevel API - Switch - Added support for setting thread affinity.
+* Studio API   - Reduced size of fmodstudio.js and .mem files.
+
+Fixes:
+* Studio API   - Fixed event doppler settings not being applied to sounds spawned
+                 by scatterer.
+* Studio API   - Fixed bus and VCA handles not being set up properly in
+                 Studio::Bank::getBusList and Studio::Bank::getVCAList.
+* Studio API   - Fixed crashes caused by stopping events that are routed into a
+                 bus with instance limiting enabled when they are in the
+                 FMOD_STUDIO_PLAYBACK_STARTING state.
+* Studio API   - Fixed tempo and marker event callbacks not being fired when the
+                 timeline cursor is in the lead-in or lead-out region of a
+                 transition timeline.
+* LowLevel API - Fixed glitches with Transceiver DSP after inputs go idle.
+* LowLevel API - Fix Channel::setPosition(pos, FMOD_TIMEUNIT_MODORDER) not
+                 working when playing paused.
+* LowLevel API - Fixed short streams created as non-looping then switched to
+                 looping via the Channel API not looping seamlessly.
+* LowLevel API - Fixed DSP plugin version >= 109 data parameters other than 3D
+                 attributes not applying if FMOD_INIT_3D_RIGHTHANDED is used.
+* LowLevel API - Fixed rare crash in FMOD Panner DSP. Introduced in 1.09.00.
+* LowLevel API - Re-Fix MOD/S3M/XM/IT file crash with samples that have 0 length,
+                 for 1.09 only.
+* LowLevel API - Fixed potential memory leak if System::init returned an error.
+* LowLevel API - Fix FMOD_ACCURATETIME not looping a mod file properly, and not
+                 seeking correctly with FMOD_TIMEUNIT_MODORDER.
+* LowLevel API - HTML5 - Loading FSB sounds did not work properly.
+* LowLevel API - Windows - Fixed 5.1->stereo SRS downmix causing lack of bass.
+* LowLevel API - Windows - Fix FMOD_INIT_PREFER_DOLBY_DOWNMIX not working.
+* FSBank API   - Fix crash if FSBANK_INIT_GENERATEPROGRESSITEMS is not used.
+* Unity        - Removed error when plugin field is added but empty.
+* UE4          - Removed error when plugin field is added but empty.
+
+Notes:
+* UE4          - Added support for UE4.15.
+
+15/02/17 1.09.02 - Studio API minor release (build 84334)
+----------------------------------------------------
+
+Fixes:
+* Unity        - Remove ifdef from EnforceLibraryOrder as it isn't harmful for static lib platforms to call GetStats.
+* UE4          - Occlusion can now use Multiband EQ instead of Lowpass filter.
+* LowLevel API - Fix crash when connecting to FMOD Profiler.exe and there is a circular connection
+* LowLevel API - Fix glitches with Transceiver DSP after inputs go idle.
+* LowLevel API - Fix Channel::setPosition(pos, FMOD_TIMEUNIT_MODORDER) not working when playing paused.
+
+09/02/17 1.09.01 - Studio API minor release (build 84153)
 ----------------------------------------------------
 
 Features:
@@ -56,9 +436,13 @@ Notes:
 * LowLevel API - DSP plugin API version has been increased, for maximum compatibility
                  plugin writers should only rebuild against this version if they need
                  the getlistenerattributes feature. Old plugins are still supported.
+* Switch       - Now built with SDK 0.12.10
 
 01/12/16 1.09.00 - Studio API major release (build 82164)
 ----------------------------------------------------
+
+Important:
+* Added support for the Nintendo Switch platform.
 
 Features:
 * Studio API   - Added support for multiple listener weights, with
@@ -860,7 +1244,7 @@ Notes:
 Features:
 * Unity 2       - When using the file browser in the settings editor to set 
                   the Studio source paths the result will be set relative 
-			      to the Unity project if it is a sub-directory.
+                              to the Unity project if it is a sub-directory.
 * Unity 2       - Added Parameter Trigger component.
 
 Fixes:
