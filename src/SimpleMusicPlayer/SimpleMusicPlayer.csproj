@@ -139,7 +139,7 @@
     <Compile Include="TinyIoC.cs">
       <Paket>True</Paket>
     </Compile>
-    <Compile Include="ValueConverters\EnumToBoolConverter.cs" />
+    <Compile Include="ValueConverters\EnumBooleanConverter.cs" />
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SizeConverter.cs" />

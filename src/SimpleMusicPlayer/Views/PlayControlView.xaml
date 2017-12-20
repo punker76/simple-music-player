@@ -17,13 +17,21 @@
         <ValueConverters:SliderPositionValueToTextConverter x:Key="SliderPositionValueToTextConverter" />
         <ValueConverters:SliderRemainingPositionValueToTextConverter x:Key="SliderRemainingPositionValueToTextConverter" />
         <ValueConverters:PlayerStateToToolTipConverter x:Key="PlayerStateToToolTipConverter" />
-        <ValueConverters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
         <ValueConverters:BooleanConverter x:Key="ModeToBrushConverter"
                                           TrueValue="{DynamicResource AccentColorBrush}"
                                           FalseValue="{DynamicResource BlackColorBrush}" />
         <ValueConverters:BooleanConverter x:Key="MuteToIconConverter"
                                           TrueValue="{iconPacks:PackIconMaterialLight VolumeMute, Width=15, Height=15}"
                                           FalseValue="{iconPacks:PackIconMaterialLight Volume, Width=15, Height=15}" />
+        <ValueConverters:EnumBooleanConverter x:Key="PlayerStateToIconConverter">
+            <ValueConverters:BooleanConverter.TrueValue>
+                <!--<iconPacks:PackIconMaterial Kind="Equal" Width="20" Height="20" Margin="0" Rotation="90" />-->
+                <iconPacks:PackIconMaterial Kind="Pause" Width="19" Height="19" Margin="0" />
+            </ValueConverters:BooleanConverter.TrueValue>
+            <ValueConverters:BooleanConverter.FalseValue>
+                <iconPacks:PackIconFontAwesome Kind="Play" Width="20" Height="20" Margin="3 0 0 0" />
+            </ValueConverters:BooleanConverter.FalseValue>
+        </ValueConverters:EnumBooleanConverter>
     </UserControl.Resources>
 
     <Grid>
@@ -52,33 +60,14 @@
                 Width="36" />
 
         <!-- play/pause -->
-        <Grid Grid.Column="2">
-            <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
-                    ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
-                    VerticalAlignment="Center"
-                    Height="55"
-                    Width="55">
-                <Button.Style>
-                    <Style TargetType="{x:Type ButtonBase}" BasedOn="{StaticResource SimpleMPMetroCircleButtonStyle}">
-                        <Setter Property="Content">
-                            <Setter.Value>
-                                <iconPacks:PackIconFontAwesome Kind="Play" Width="20" Height="20" Margin="3 0 0 0" />
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}" Value="True">
-                                <Setter Property="Content">
-                                    <Setter.Value>
-                                        <!--<iconPacks:PackIconMaterial Kind="Equal" Width="20" Height="20" Margin="0" Rotation="90" />-->
-                                        <iconPacks:PackIconMaterial Kind="Pause" Width="19" Height="19" Margin="0" />
-                                    </Setter.Value>
-                                </Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-        </Grid>
+        <Button Grid.Column="2"
+                Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
+                Content="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToIconConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
+                ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
+                VerticalAlignment="Center"
+                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Height="55"
+                Width="55" />
 
         <Grid Grid.Column="3"
               VerticalAlignment="Center">

@@ -2,14 +2,13 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace SimpleMusicPlayer.ValueConverters
 {
     public class BooleanConverter : Freezable, IValueConverter
     {
-        public static readonly DependencyProperty TrueValueProperty =
-            DependencyProperty.Register("TrueValue", typeof(object), typeof(BooleanConverter), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty TrueValueProperty
+            = DependencyProperty.Register(nameof(TrueValue), typeof(object), typeof(BooleanConverter), new PropertyMetadata(default(object)));
 
         public object TrueValue
         {
@@ -17,8 +16,8 @@ namespace SimpleMusicPlayer.ValueConverters
             set { this.SetValue(TrueValueProperty, value); }
         }
 
-        public static readonly DependencyProperty FalseValueProperty =
-            DependencyProperty.Register("FalseValue", typeof(object), typeof(BooleanConverter), new PropertyMetadata(default(object)));
+        public static readonly DependencyProperty FalseValueProperty
+            = DependencyProperty.Register(nameof(FalseValue), typeof(object), typeof(BooleanConverter), new PropertyMetadata(default(object)));
 
         public object FalseValue
         {
@@ -26,12 +25,12 @@ namespace SimpleMusicPlayer.ValueConverters
             set { this.SetValue(FalseValueProperty, value); }
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (value as bool?).GetValueOrDefault() ? this.TrueValue : this.FalseValue;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public virtual object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return DependencyProperty.UnsetValue;
         }
