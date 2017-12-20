@@ -24,13 +24,13 @@
                                           TrueValue="{iconPacks:PackIconMaterialLight VolumeMute, Width=15, Height=15}"
                                           FalseValue="{iconPacks:PackIconMaterialLight Volume, Width=15, Height=15}" />
         <ValueConverters:EnumBooleanConverter x:Key="PlayerStateToIconConverter">
-            <ValueConverters:BooleanConverter.TrueValue>
+            <ValueConverters:EnumBooleanConverter.TrueValue>
                 <!--<iconPacks:PackIconMaterial Kind="Equal" Width="20" Height="20" Margin="0" Rotation="90" />-->
                 <iconPacks:PackIconMaterial Kind="Pause" Width="19" Height="19" Margin="0" />
-            </ValueConverters:BooleanConverter.TrueValue>
-            <ValueConverters:BooleanConverter.FalseValue>
+            </ValueConverters:EnumBooleanConverter.TrueValue>
+            <ValueConverters:EnumBooleanConverter.FalseValue>
                 <iconPacks:PackIconFontAwesome Kind="Play" Width="20" Height="20" Margin="3 0 0 0" />
-            </ValueConverters:BooleanConverter.FalseValue>
+            </ValueConverters:EnumBooleanConverter.FalseValue>
         </ValueConverters:EnumBooleanConverter>
     </UserControl.Resources>
 

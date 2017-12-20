@@ -78,7 +78,7 @@
             <!-- tooltip background with a little opacity -->
             <SolidColorBrush x:Key="PlayListIconBrush"
                              Color="{DynamicResource BlackColor}"
-                             Opacity="0.4"
+                             Opacity="0.6"
                              options:Freeze="True" />
 
         </ResourceDictionary>
