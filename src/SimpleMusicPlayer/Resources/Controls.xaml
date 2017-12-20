@@ -38,7 +38,7 @@
         <Setter Property="Margin" Value="4" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentColorBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentBaseColorBrush}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}"/>
