@@ -7,6 +7,7 @@
                       xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
                       xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                       xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       Title="Media Library"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
                       FontFamily="{DynamicResource SimpleFont}"
@@ -54,20 +55,13 @@
               Margin="4,0,4,0">
             <!-- show media library -->
             <Button Command="{Binding AddDirectoryCommand, Mode=OneWay}"
+                    Content="{iconPacks:PackIconModern Add, Width=12, Height=12}"
                     ToolTip="Add Directory to Medialib"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
-                    Width="32">
-                <Rectangle Width="12"
-                           Height="12">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_add}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Button>
+                    Width="32" />
 
             <TextBox Margin="5"
                      VerticalAlignment="Center"
@@ -211,3 +205,4 @@
 
     </Grid>
 </Controls:MetroWindow>
+

@@ -7,6 +7,7 @@
              xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Core"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -17,67 +18,12 @@
         <ValueConverters:SliderRemainingPositionValueToTextConverter x:Key="SliderRemainingPositionValueToTextConverter" />
         <ValueConverters:PlayerStateToToolTipConverter x:Key="PlayerStateToToolTipConverter" />
         <ValueConverters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
-
-        <ValueConverters:ModeToColorConverter x:Key="ModeToColorConverter"
-                                              TrueColor="{DynamicResource AccentColor}"
-                                              FalseColor="{DynamicResource BlackColor}" />
-
-        <VisualBrush x:Key="PlayBrush"
-                     Stretch="Fill"
-                     Visual="{StaticResource appbar_play}" />
-        <VisualBrush x:Key="PauseBrush"
-                     Stretch="Fill"
-                     Visual="{StaticResource appbar_pause}" />
-        <VisualBrush x:Key="MuteBrush"
-                     Stretch="Fill"
-                     Visual="{StaticResource appbar_sound_mute}" />
-        <VisualBrush x:Key="VolumeBrush"
-                     Stretch="Fill"
-                     Visual="{StaticResource appbar_sound_3}" />
-        <VisualBrush x:Key="ShuffleBrush"
-                     Stretch="Fill">
-            <VisualBrush.Visual>
-                <Canvas Width="48"
-                        Height="48"
-                        Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
-                        UseLayoutRounding="False">
-                    <Path Width="30"
-                          Height="26"
-                          Canvas.Left="9"
-                          Canvas.Top="11"
-                          Stretch="Fill"
-                          Data="F1 M 9.00001,29L 13,29L 24.7499,15L 30.25,15L 26,11L 32.5,11L 39,17L 32.5,23L 26,23L 30.25,19L 26,19L 14,33L 9.00001,33L 9.00001,29 Z M 9,19L 9,15L 14,15L 18.75,20.5417L 16.4985,23.1684L 13,19L 9,19 Z M 26,29L 30.25,29L 26,25L 32.5,25L 39,31L 32.5,37L 26,37L 30.25,33L 24.7499,33L 20.1736,27.5474L 22.4643,24.875L 26,29 Z ">
-                        <Path.Fill>
-                            <SolidColorBrush Color="{Binding PlayerSettings.PlayerEngine.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
-                        </Path.Fill>
-                    </Path>
-                </Canvas>
-            </VisualBrush.Visual>
-        </VisualBrush>
-        <VisualBrush x:Key="RepeatBrush"
-                     Stretch="Fill">
-            <VisualBrush.Visual>
-                <Canvas Width="48"
-                        Height="48"
-                        Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
-                        UseLayoutRounding="False">
-                    <Path Width="28"
-                          Height="24"
-                          Canvas.Left="10"
-                          Canvas.Top="12"
-                          Stretch="Fill"
-                          Data="F1 M 10.0001,27L 10,16L 29.25,16L 25,12L 31.5,12L 38,18L 31.5,24L 25,24L 29.25,20L 14,20L 14,23.5L 10.0001,27 Z M 38,21L 38,32L 18.75,32L 23,36L 16.5,36L 10,30L 16.5,24L 23,24L 18.75,28L 34,28L 34,24.5L 38,21 Z ">
-                        <Path.Fill>
-                            <SolidColorBrush Color="{Binding PlayerSettings.PlayerEngine.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToColorConverter}}" />
-                        </Path.Fill>
-                    </Path>
-                </Canvas>
-            </VisualBrush.Visual>
-        </VisualBrush>
-
-        <ValueConverters:PlayerMuteToVisualBrushConverter x:Key="PlayerMuteToVisualBrushConverter"
-                                                          MuteBrush="{StaticResource MuteBrush}"
-                                                          VolumeBrush="{StaticResource VolumeBrush}" />
+        <ValueConverters:BooleanConverter x:Key="ModeToBrushConverter"
+                                          TrueValue="{DynamicResource AccentColorBrush}"
+                                          FalseValue="{DynamicResource BlackColorBrush}" />
+        <ValueConverters:BooleanConverter x:Key="MuteToIconConverter"
+                                          TrueValue="{iconPacks:PackIconMaterialLight VolumeMute, Width=15, Height=15}"
+                                          FalseValue="{iconPacks:PackIconMaterialLight Volume, Width=15, Height=15}" />
     </UserControl.Resources>
 
     <Grid>
@@ -97,59 +43,40 @@
         <!-- prev -->
         <Button Grid.Column="1"
                 Command="{Binding PlayPrevCommand, Mode=OneWay}"
+                Content="{iconPacks:PackIconFontAwesome FastBackward, Width=13, Height=13}"
                 ToolTip="Previous File (k)"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                 Margin="0 4 4 4"
                 Height="36"
-                Width="36">
-            <Rectangle Width="13"
-                       Height="13">
-                <Rectangle.Fill>
-                    <VisualBrush Stretch="Fill"
-                                 Visual="{StaticResource appbar_fastforward}" />
-                </Rectangle.Fill>
-                <Rectangle.LayoutTransform>
-                    <ScaleTransform ScaleX="-1" />
-                </Rectangle.LayoutTransform>
-            </Rectangle>
-        </Button>
+                Width="36" />
 
         <!-- play/pause -->
         <Grid Grid.Column="2">
             <Button Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
                     ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
                     VerticalAlignment="Center"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Height="55"
-                    Width="55"
-                    Content="{Binding Mode=OneWay}">
-                <Button.ContentTemplate>
-                    <DataTemplate>
-                        <Rectangle x:Name="iconRect"
-                                   Width="18"
-                                   Height="20"
-                                   Margin="3,0,0,0"
-                                   Fill="{StaticResource PlayBrush}" />
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
-                                         Value="True">
-                                <Setter TargetName="iconRect"
-                                        Property="Fill"
-                                        Value="{StaticResource PauseBrush}" />
-                                <Setter TargetName="iconRect"
-                                        Property="Width"
-                                        Value="16" />
-                                <Setter TargetName="iconRect"
-                                        Property="Height"
-                                        Value="18" />
-                                <Setter TargetName="iconRect"
-                                        Property="Margin"
-                                        Value="0" />
+                    Width="55">
+                <Button.Style>
+                    <Style TargetType="{x:Type ButtonBase}" BasedOn="{StaticResource SimpleMPMetroCircleButtonStyle}">
+                        <Setter Property="Content">
+                            <Setter.Value>
+                                <iconPacks:PackIconFontAwesome Kind="Play" Width="20" Height="20" Margin="3 0 0 0" />
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource EnumToBoolConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}" Value="True">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <!--<iconPacks:PackIconMaterial Kind="Equal" Width="20" Height="20" Margin="0" Rotation="90" />-->
+                                        <iconPacks:PackIconMaterial Kind="Pause" Width="19" Height="19" Margin="0" />
+                                    </Setter.Value>
+                                </Setter>
                             </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                </Button.ContentTemplate>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
         </Grid>
 
@@ -168,97 +95,65 @@
             <!-- stop -->
             <Button Grid.Column="0"
                     Command="{Binding StopCommand, Mode=OneWay}"
+                    Content="{iconPacks:PackIconFontAwesome Stop, Width=13, Height=13}"
                     ToolTip="Stop"
                     VerticalAlignment="Center"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Height="36"
-                    Width="36">
-                <Rectangle Width="13"
-                           Height="13">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_control_stop}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Button>
+                    Width="36" />
 
             <!-- next -->
             <Button Grid.Column="1"
                     Command="{Binding PlayNextCommand, Mode=OneWay}"
+                    Content="{iconPacks:PackIconFontAwesome FastForward, Width=13, Height=13}"
                     ToolTip="Next File (j)"
                     VerticalAlignment="Center"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Height="36"
-                    Width="36">
-                <Rectangle Width="13"
-                           Height="13">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_fastforward}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Button>
+                    Width="36" />
 
             <!-- shuffle -->
             <Button Grid.Column="2"
                     Command="{Binding ShuffleCommand, Mode=OneWay}"
+                    Content="{iconPacks:PackIconFontAwesome Random, Width=12, Height=12}"
+                    Foreground="{Binding PlayerSettings.PlayerEngine.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
                     ToolTip="Shuffle (s)"
                     VerticalAlignment="Bottom"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
-                    Width="32">
-                <Rectangle Width="12"
-                           Height="12"
-                           Fill="{StaticResource ShuffleBrush}" />
-            </Button>
+                    Width="32" />
 
             <!-- repeat -->
             <Button Grid.Column="3"
                     Command="{Binding RepeatCommand, Mode=OneWay}"
+                    Content="{iconPacks:PackIconModern Repeat, Width=12, Height=12}"
+                    Foreground="{Binding PlayerSettings.PlayerEngine.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
                     ToolTip="Repeat (r)"
                     VerticalAlignment="Bottom"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
-                    Width="32">
-                <Rectangle Width="12"
-                           Height="12"
-                           Fill="{StaticResource RepeatBrush}" />
-            </Button>
+                    Width="32" />
 
             <!-- show equalizer -->
             <Button Grid.Column="4"
                     Command="{Binding ShowEqualizerCommand, Mode=OneWay}"
+                    Content="{iconPacks:PackIconEntypo SoundMix, Width=12, Height=12}"
                     ToolTip="Equalizer (e)"
                     VerticalAlignment="Bottom"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
-                    Width="32">
-                <Rectangle Width="12"
-                           Height="12">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_equalizer}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Button>
+                    Width="32" />
 
             <!-- show media library -->
             <Button Grid.Column="5"
                     Command="{Binding ShowMediaLibraryCommand, Mode=OneWay}"
+                    Content="{iconPacks:PackIconModern Database, Width=12, Height=12}"
                     ToolTip="Media Library (l)"
                     VerticalAlignment="Bottom"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
                     Margin="4 4 0 4"
                     Height="32"
-                    Width="32">
-                <Rectangle Width="12"
-                           Height="12">
-                    <Rectangle.Fill>
-                        <VisualBrush Stretch="Fill"
-                                     Visual="{StaticResource appbar_database}" />
-                    </Rectangle.Fill>
-                </Rectangle>
-            </Button>
+                    Width="32" />
         </Grid>
 
         <Grid Grid.Column="0"
@@ -329,14 +224,23 @@
                 <Button Grid.Column="0"
                         HorizontalContentAlignment="Left"
                         Command="{Binding MuteCommand, Mode=OneWay}"
+                        Content="{Binding PlayerEngine.IsMute, Mode=OneWay, Converter={StaticResource MuteToIconConverter}}"
                         ToolTip="Mute (m)"
                         VerticalAlignment="Center"
                         Margin="0"
-                        Style="{DynamicResource SimpleMPMetroVolumeButtonStyle}">
-                    <Rectangle Margin="1"
-                               Width="15"
-                               Height="15"
-                               Fill="{Binding PlayerEngine.IsMute, Mode=OneWay, Converter={StaticResource PlayerMuteToVisualBrushConverter}}" />
+                        Padding="1">
+                    <Button.Style>
+                        <Style TargetType="{x:Type ButtonBase}" BasedOn="{StaticResource SimpleMPMetroVolumeButtonStyle}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PlayerEngine.IsMute, Mode=OneWay}" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}"/>
+                                </DataTrigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
                 </Button>
 
                 <Common:FormattedSlider Grid.Column="1"

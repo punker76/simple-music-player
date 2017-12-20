@@ -143,9 +143,8 @@
     <Compile Include="ValueConverters\EnumToVisibilityConverter.cs" />
     <Compile Include="ValueConverters\FalseToCollapsedVisibilityConverter.cs" />
     <Compile Include="ValueConverters\SizeConverter.cs" />
-    <Compile Include="ValueConverters\ModeToColorConverter.cs" />
+    <Compile Include="ValueConverters\BooleanConverter.cs" />
     <Compile Include="ValueConverters\NullVisibilityConverter.cs" />
-    <Compile Include="ValueConverters\PlayerMuteToVisualBrushConverter.cs" />
     <Compile Include="ValueConverters\PlayerStateToToolTipConverter.cs" />
     <Compile Include="ValueConverters\SliderPositionValueToTextConverter.cs" />
     <Compile Include="ValueConverters\SliderRemainingPositionValueToTextConverter.cs" />
@@ -283,7 +282,7 @@
   </Target>
   -->
   <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <Delete Files="@(ReferenceCopyLocalPaths-&gt;'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <Import Project="..\.paket\paket.targets" />
   <Choose>
