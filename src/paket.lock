@@ -4,9 +4,7 @@ NUGET
     ControlzEx (3.0.2.4)
     Costura.Fody (1.6.2)
       Fody (>= 2.0 < 3.0)
-    Fody (2.2.1)
-    MahApps.Metro (1.6.0-alpha0184)
-      ControlzEx (> 3.0.2 < 4.0)
+    Fody (2.3.2)
     MahApps.Metro.IconPacks (1.9.1)
     MaterialDesignColors (1.1.3)
     MaterialDesignThemes (2.3.2-ci1016)
@@ -58,7 +56,10 @@ NUGET
     xunit.extensibility.execution (2.3.1)
       xunit.extensibility.core (2.3.1)
   remote: https://ci.appveyor.com/nuget/gong-wpf-dragdrop
-    gong-wpf-dragdrop (2.0.0-alpha0067)
+    gong-wpf-dragdrop (2.0.0-pullrequest0284-0014)
+  remote: https://ci.appveyor.com/nuget/mahapps.metro
+    MahApps.Metro (1.6.0-alpha0197)
+      ControlzEx (> 3.0.2 < 4.0)
   remote: https://ci.appveyor.com/nuget/mahapps-metro-simplechildwindow
     MahApps.Metro.SimpleChildWindow (1.5.0-alpha0002)
       MahApps.Metro (< 1.6)
