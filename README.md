@@ -1,26 +1,25 @@
 <div align="center">
-	<a href="https://github.com/punker76/simple-music-player">
-		<img alt="Logo" width="200" heigth="200" src="https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone.png" />
-	</a>
 
-	<h1>Welcome to Simple Music Player!</h1>
+  <a href="https://github.com/punker76/simple-music-player">
+	<img alt="Logo" width="200" heigth="200" src="./icon/Gramaphone.png" />
+  </a>
+  <h1>Welcome to Simple Music Player!</h1>
+  <a href="https://gitter.im/punker76/simple-music-player">
+	<img src="https://img.shields.io/badge/Gitter-Join%20Chat-green.svg?style=flat-square">
+  </a>
+  <a href="https://twitter.com/punker76">
+	<img src="https://img.shields.io/badge/twitter-%40punker76-55acee.svg?style=flat-square">
+  </a>
+  <a href="https://github.com/punker76/simple-music-player/releases">
+	<img src="https://img.shields.io/github/release/punker76/simple-music-player.svg?style=flat-square">
+  </a>
+  <!--<a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/master">
+	<img alt="masterstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/master.svg?style=flat-square&&label=master">
+  </a>-->
+  <a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/dev">
+	<img alt="devstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/dev.svg?style=flat-square&&label=dev">
+  </a>
 
-	<a href="https://gitter.im/punker76/simple-music-player">
-		<img src="https://img.shields.io/badge/Gitter-Join%20Chat-green.svg?style=flat-square">
-	</a>
-	<a href="https://twitter.com/punker76">
-		<img src="https://img.shields.io/badge/twitter-%40punker76-55acee.svg?style=flat-square">
-	</a>
-	<a href="https://github.com/punker76/simple-music-player/releases">
-		<img src="https://img.shields.io/github/release/punker76/simple-music-player.svg?style=flat-square">
-	</a>
-	<br />
-	<a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/master">
-		<img alt="masterstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/master.svg?style=flat-square&&label=master">
-	</a>
-	<a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/dev">
-		<img alt="devstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/dev.svg?style=flat-square&&label=dev">
-	</a>
 </div>
 
 **SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a very simple way, just drag&drop your files or folders on the main screen and start push play...
@@ -125,44 +124,48 @@ SOFTWARE.
 
 ## Screen shots (milestones)
 
-![very early screenshot 21](https://raw.github.com/punker76/simple-music-player/master/screenshots/2017-12-21_09h48_42.png)  
+<div align="center">
 
-![very early screenshot 20](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-10-20_23h51_14.png)  
+![very early screenshot 21](./screenshots/2017-12-21_09h48_42.png)  
 
-![very early screenshot 19](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-10-20_23h50_59.png)  
+![very early screenshot 20](./screenshots/2015-10-20_23h51_14.png)  
 
-![very early screenshot 18](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-10-20_23h50_51.png)  
+![very early screenshot 19](./screenshots/2015-10-20_23h50_59.png)  
 
-![very early screenshot 17](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-07-19_22h18_51.png)  
+![very early screenshot 18](./screenshots/2015-10-20_23h50_51.png)  
 
-![very early screenshot 16](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-07-19_22h19_10.png)  
+![very early screenshot 17](./screenshots/2015-07-19_22h18_51.png)  
 
-![very early screenshot 15](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-11-02_12h11_31.png)  
+![very early screenshot 16](./screenshots/2015-07-19_22h19_10.png)  
 
-![very early screenshot 14](https://raw.github.com/punker76/simple-music-player/master/screenshots/2014-07-14_22h42_19.png)  
+![very early screenshot 15](./screenshots/2014-11-02_12h11_31.png)  
 
-![very early screenshot 13](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_04.png)  
+![very early screenshot 14](./screenshots/2014-07-14_22h42_19.png)  
 
-![very early screenshot 12](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-26_20h58_17.png)  
+![very early screenshot 13](./screenshots/2013-11-26_20h58_04.png)  
 
-![very early screenshot 11](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-10_23h42_10.png)  
+![very early screenshot 12](./screenshots/2013-11-26_20h58_17.png)  
 
-![very early screenshot 10](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-11-10_23h42_24.png)  
+![very early screenshot 11](./screenshots/2013-11-10_23h42_10.png)  
 
-![very early screenshot 09](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-09-16_09h40_08.png)  
+![very early screenshot 10](./screenshots/2013-11-10_23h42_24.png)  
 
-![very early screenshot 08](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-09-16_09h40_02.png)  
+![very early screenshot 09](./screenshots/2013-09-16_09h40_08.png)  
 
-![very early screenshot 07](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-02-07_22h49_52.png)  
+![very early screenshot 08](./screenshots/2013-09-16_09h40_02.png)  
 
-![very early screenshot 06](https://raw.github.com/punker76/simple-music-player/master/screenshots/2013-01-05_23h26_18.png)  
+![very early screenshot 07](./screenshots/2013-02-07_22h49_52.png)  
 
-![very early screenshot 05](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_21h55_18.png)  
+![very early screenshot 06](./screenshots/2013-01-05_23h26_18.png)  
 
-![very early screenshot 04](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_21h54_53.png)  
+![very early screenshot 05](./screenshots/2012-12-19_21h55_18.png)  
 
-![very early screenshot 03](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-19_14h48_05.png)  
+![very early screenshot 04](./screenshots/2012-12-19_21h54_53.png)  
 
-![very early screenshot 02](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-16_17h14_57.png)  
+![very early screenshot 03](./screenshots/2012-12-19_14h48_05.png)  
 
-![very early screenshot 01](https://raw.github.com/punker76/simple-music-player/master/screenshots/2012-12-13_23h14_25.png)  
+![very early screenshot 02](./screenshots/2012-12-16_17h14_57.png)  
+
+![very early screenshot 01](./screenshots/2012-12-13_23h14_25.png)  
+
+</div>
