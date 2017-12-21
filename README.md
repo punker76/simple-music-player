@@ -1,6 +1,6 @@
-<p align="center">
+<div align="center">
 	<a href="https://github.com/punker76/simple-music-player">
-		<img alt="Logo" width="48" heigth="48" src="https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png" />
+		<img alt="Logo" width="200" heigth="200" src="https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone.png" />
 	</a>
 
 	<h1>Welcome to Simple Music Player!</h1>
@@ -21,7 +21,7 @@
 	<a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/dev">
 		<img alt="devstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/dev.svg?style=flat-square&&label=dev">
 	</a>
-</p>
+</div>
 
 **SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a very simple way, just drag&drop your files or folders on the main screen and start push play...
 
