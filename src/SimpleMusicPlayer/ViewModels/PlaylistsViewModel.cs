@@ -24,8 +24,6 @@ namespace SimpleMusicPlayer.ViewModels
 {
     public class PlayListsViewModel : ReactiveObject, IDropTarget, IKeyHandler, IEnableLogger
     {
-        private ICommand deleteCommand;
-        private ICommand playCommand;
         private readonly PlayerEngine playerEngine;
         private readonly PlayerSettings playerSettings;
 
@@ -36,6 +34,9 @@ namespace SimpleMusicPlayer.ViewModels
             this.playerEngine = container.Resolve<PlayerEngine>();
             this.playerSettings = container.Resolve<PlayerSettings>();
             this.SelectedPlayListFiles = new ObservableCollection<IMediaFile>();
+
+            this.PlayCommand = new DelegateCommand(this.Play, this.CanPlay);
+            this.DeleteCommand = new DelegateCommand(this.DeleteSelectedFiles, this.CanDeleteSelectedFiles);
 
             this.StartUpCommand = ReactiveCommand.CreateFromTask(x => this.StartUpAsync());
 
@@ -97,10 +98,7 @@ namespace SimpleMusicPlayer.ViewModels
             set { this.RaiseAndSetIfChanged(ref scrollIndex, value); }
         }
 
-        public ICommand DeleteCommand
-        {
-            get { return this.deleteCommand ?? (this.deleteCommand = new DelegateCommand(this.DeleteSelectedFiles, this.CanDeleteSelectedFiles)); }
-        }
+        public ICommand DeleteCommand { get; }
 
         private bool CanDeleteSelectedFiles()
         {
@@ -135,10 +133,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ICommand PlayCommand
-        {
-            get { return this.playCommand ?? (this.playCommand = new DelegateCommand(this.Play, this.CanPlay)); }
-        }
+        public ICommand PlayCommand { get; }
 
         private bool CanPlay()
         {
