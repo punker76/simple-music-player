@@ -17,10 +17,6 @@ namespace SimpleMusicPlayer.ViewModels
     public class PlayControlViewModel : ReactiveObject, IKeyHandler
     {
         private readonly PlayListsViewModel playListsViewModel;
-        private ICommand playOrPauseCommand;
-        private ICommand stopCommand;
-        private ICommand playPrevCommand;
-        private ICommand playNextCommand;
 
         public PlayControlViewModel(MainViewModel mainViewModel)
         {
@@ -46,6 +42,11 @@ namespace SimpleMusicPlayer.ViewModels
                     this.Stop();
                 }
             };
+
+            this.PlayOrPauseCommand = new DelegateCommand(this.PlayOrPause, this.CanPlayOrPause);
+            this.StopCommand = new DelegateCommand(this.Stop, this.CanStop);
+            this.PlayPrevCommand = new DelegateCommand(this.PlayPrev, this.CanPlayPrev);
+            this.PlayNextCommand = new DelegateCommand(this.PlayNext, this.CanPlayNext);
 
             var playerInitialized = this.WhenAnyValue(x => x.PlayerEngine.Initializied);
 
@@ -91,10 +92,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ICommand PlayOrPauseCommand
-        {
-            get { return this.playOrPauseCommand ?? (this.playOrPauseCommand = new DelegateCommand(this.PlayOrPause, this.CanPlayOrPause)); }
-        }
+        public ICommand PlayOrPauseCommand { get; }
 
         private bool CanPlayOrPause()
         {
@@ -124,10 +122,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ICommand StopCommand
-        {
-            get { return this.stopCommand ?? (this.stopCommand = new DelegateCommand(this.Stop, this.CanStop)); }
-        }
+        public ICommand StopCommand { get; }
 
         private bool CanStop()
         {
@@ -142,10 +137,7 @@ namespace SimpleMusicPlayer.ViewModels
             CommandManager.InvalidateRequerySuggested();
         }
 
-        public ICommand PlayPrevCommand
-        {
-            get { return this.playPrevCommand ?? (this.playPrevCommand = new DelegateCommand(this.PlayPrev, this.CanPlayPrev)); }
-        }
+        public ICommand PlayPrevCommand { get; }
 
         private bool CanPlayPrev()
         {
@@ -163,10 +155,7 @@ namespace SimpleMusicPlayer.ViewModels
             }
         }
 
-        public ICommand PlayNextCommand
-        {
-            get { return this.playNextCommand ?? (this.playNextCommand = new DelegateCommand(this.PlayNext, this.CanPlayNext)); }
-        }
+        public ICommand PlayNextCommand { get; }
 
         private bool CanPlayNext()
         {
