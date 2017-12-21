@@ -47,7 +47,10 @@
             
             <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignCheckBox}" />
             <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MaterialDesignRadioButton}" />
-            <Style TargetType="{x:Type Slider}" BasedOn="{StaticResource MaterialDesignSlider}" />
+            <Style TargetType="{x:Type Slider}" BasedOn="{StaticResource MaterialDesignSlider}">
+                <Setter Property="FocusVisualStyle"
+                        Value="{x:Null}" />
+            </Style>
 
             <DataTemplate x:Key="WindowTitleDataTemplate">
                 <TextBlock RenderOptions.ClearTypeHint="Enabled"
