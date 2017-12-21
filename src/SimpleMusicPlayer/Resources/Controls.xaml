@@ -32,54 +32,54 @@
     <Style TargetType="{x:Type Controls:WindowButtonCommands}" BasedOn="{StaticResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
 
     <Style x:Key="SimpleMPMetroCircleButtonStyle"
-           TargetType="{x:Type Button}"
-           BasedOn="{StaticResource MetroCircleButtonStyle}">
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
+           TargetType="{x:Type ButtonBase}"
+           BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Margin" Value="4" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource AccentBaseColorBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="SimpleMPMetroVolumeButtonStyle"
-           TargetType="{x:Type Button}"
+           TargetType="{x:Type ButtonBase}"
            BasedOn="{StaticResource SimpleMPMetroCircleButtonStyle}">
         <Setter Property="Background"
                 Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <ContentPresenter x:Name="content"
+                    <Grid Background="{TemplateBinding Background}"
+                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <ContentPresenter x:Name="PART_ContentPresenter"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       Margin="{TemplateBinding Padding}"
                                       RecognizesAccessKey="True"
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver"
-                                 Value="True">
-                            <Setter TargetName="content"
-                                    Property="Opacity"
-                                    Value="1" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver"
-                                 Value="False">
-                            <Setter TargetName="content"
-                                    Property="Opacity"
-                                    Value=".5" />
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused"
-                                 Value="true" />
-                        <Trigger Property="ToggleButton.IsChecked"
-                                 Value="true" />
-                        <Trigger Property="IsEnabled"
-                                 Value="false">
-                            <Setter Property="Foreground"
-                                    Value="#ADADAD" />
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="PART_ContentPresenter" Property="TextElement.Foreground" Value="{DynamicResource GrayBrush7}" />
+                            <Setter TargetName="PART_ContentPresenter" Property="Opacity" Value="0.3" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="Slider"

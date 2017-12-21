@@ -5,7 +5,6 @@
                     xmlns:models="clr-namespace:SimpleMusicPlayer.Core"
                     xmlns:behavior="clr-namespace:SimpleMusicPlayer.Behavior"
                     xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-                    xmlns:fa="http://schemas.fontawesome.io/icons/"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
 
     <ResourceDictionary.MergedDictionaries>
@@ -13,13 +12,6 @@
     </ResourceDictionary.MergedDictionaries>
 
     <valueConverters:EnumToVisibilityConverter x:Key="EnumToVisibilityConverter" />
-
-    <VisualBrush x:Key="VisualBrushPlay"
-                 Stretch="Fill"
-                 Visual="{StaticResource appbar_play_new}" />
-    <VisualBrush x:Key="VisualBrushPause"
-                 Stretch="Fill"
-                 Visual="{StaticResource appbar_pause_new}" />
 
     <DataTemplate x:Key="PlayListToolTipDataTemplate"
                   DataType="{x:Type models:MediaFile}">
@@ -112,209 +104,6 @@
                 Value="{x:Null}" />
     </Style>
 
-    <DataTemplate x:Key="SmallMediaFileTemplate"
-                  DataType="{x:Type models:MediaFile}">
-        <Grid RenderOptions.ClearTypeHint="Enabled"
-              TextOptions.TextFormattingMode="Display">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto"
-                                  SharedSizeGroup="indexcol" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0"
-                  Margin="-1,0,0,1">
-                <Rectangle Margin="0"
-                           Width="16"
-                           Height="16"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
-                           OpacityMask="{StaticResource VisualBrushPlay}"
-                           Fill="{StaticResource PlayListIconBrush}" />
-                <Rectangle Margin="0"
-                           Width="16"
-                           Height="16"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
-                           OpacityMask="{StaticResource VisualBrushPause}"
-                           Fill="{DynamicResource PlayListIconBrush}" />
-            </Grid>
-
-            <TextBlock Grid.Column="1"
-                       Margin="4,2,6,0"
-                       Foreground="{StaticResource SemiTextColorBrush2}"
-                       TextAlignment="Right"
-                       Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
-            <TextBlock Grid.Column="2"
-                       Margin="0,2,2,0"
-                       TextTrimming="CharacterEllipsis"
-                       Text="{Binding FirstPerformerAndTitle, Mode=OneWay}" />
-            <TextBlock Grid.Column="3"
-                       Margin="0,2,5,2"
-                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="MediumMediaFileTemplate"
-                  DataType="{x:Type models:MediaFile}">
-        <Grid RenderOptions.ClearTypeHint="Enabled"
-              TextOptions.TextFormattingMode="Display">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto"
-                                  SharedSizeGroup="indexcol" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Column="0"
-                  Grid.RowSpan="2"
-                  Margin="-1,0,0,0">
-                <Rectangle Margin="0"
-                           Width="20"
-                           Height="20"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
-                           OpacityMask="{StaticResource VisualBrushPlay}"
-                           Fill="{StaticResource PlayListIconBrush}" />
-                <Rectangle Margin="0"
-                           Width="20"
-                           Height="20"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
-                           OpacityMask="{StaticResource VisualBrushPause}"
-                           Fill="{DynamicResource PlayListIconBrush}" />
-            </Grid>
-
-            <TextBlock Grid.Column="1"
-                       Grid.Row="0"
-                       Margin="4,2,6,0"
-                       FontSize="14"
-                       Foreground="{StaticResource SemiTextColorBrush2}"
-                       TextAlignment="Right"
-                       Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
-            <TextBlock Grid.Column="2"
-                       Grid.Row="0"
-                       Margin="0,2,2,0"
-                       FontSize="14"
-                       TextTrimming="CharacterEllipsis"
-                       Text="{Binding Title, Mode=OneWay}" />
-            <TextBlock Grid.Column="2"
-                       Grid.Row="1"
-                       Margin="0,2,2,4"
-                       Foreground="{StaticResource SemiTextColorBrush}"
-                       TextTrimming="CharacterEllipsis"
-                       Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
-            <TextBlock Grid.Column="3"
-                       Grid.Row="0"
-                       Grid.RowSpan="2"
-                       Margin="0,2,5,4"
-                       VerticalAlignment="Center"
-                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-
-        </Grid>
-    </DataTemplate>
-
-    <DataTemplate x:Key="LargeMediaFileTemplate"
-                  DataType="{x:Type models:MediaFile}">
-        <Grid RenderOptions.ClearTypeHint="Enabled"
-              TextOptions.TextFormattingMode="Display">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto"
-                                  SharedSizeGroup="indexcol" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto"
-                                  SharedSizeGroup="lengthcol" />
-            </Grid.ColumnDefinitions>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Column="0"
-                  Grid.RowSpan="2"
-                  Margin="-1,0,0,1">
-                <Rectangle Margin="0"
-                           Width="32"
-                           Height="32"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}"
-                           OpacityMask="{StaticResource VisualBrushPlay}"
-                           Fill="{StaticResource PlayListIconBrush}" />
-                <Rectangle Margin="0"
-                           Width="32"
-                           Height="32"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}"
-                           OpacityMask="{StaticResource VisualBrushPause}"
-                           Fill="{DynamicResource PlayListIconBrush}" />
-            </Grid>
-
-            <TextBlock Grid.Column="1"
-                       Grid.Row="0"
-                       Margin="4,2,6,0"
-                       FontSize="16"
-                       Foreground="{StaticResource SemiTextColorBrush2}"
-                       TextAlignment="Right"
-                       Text="{Binding PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}" />
-            <TextBlock Grid.Column="2"
-                       Grid.Row="0"
-                       Margin="0,2,2,0"
-                       FontSize="16"
-                       TextTrimming="CharacterEllipsis"
-                       Text="{Binding Title, Mode=OneWay}" />
-            <TextBlock Grid.Column="2"
-                       Grid.Row="1"
-                       Margin="0,2,2,4"
-                       FontSize="14"
-                       Foreground="{StaticResource SemiTextColorBrush}"
-                       TextTrimming="CharacterEllipsis"
-                       Text="{Binding FirstPerformerAndAlbum, Mode=OneWay}" />
-            <TextBlock Grid.Column="3"
-                       Grid.Row="0"
-                       Grid.RowSpan="2"
-                       Margin="0,2,4,4"
-                       FontSize="14"
-                       Foreground="{StaticResource SemiTextColorBrush}"
-                       VerticalAlignment="Center">
-                <TextBlock.Text>
-                    <MultiBinding Mode="OneWay"
-                                  StringFormat="{}{0:0,.} kHz {1} kbps">
-                        <Binding Path="AudioSampleRate"
-                                 Mode="OneWay" />
-                        <Binding Path="AudioBitrate"
-                                 Mode="OneWay" />
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
-            <TextBlock Grid.Column="4"
-                       Grid.Row="0"
-                       Grid.RowSpan="2"
-                       Margin="0,2,5,4"
-                       FontSize="14"
-                       VerticalAlignment="Center"
-                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
-
-        </Grid>
-    </DataTemplate>
-
     <DataTemplate x:Key="PlaylistsViewTemplate"
                   DataType="{x:Type viewModels:PlayListsViewModel}">
         <Grid x:Name="RootGrid">
@@ -360,18 +149,18 @@
                                                                        Kind="Play"
                                                                        Width="10"
                                                                        Height="10"
+                                                                       Foreground="{StaticResource PlayListIconBrush}"
                                                                        VerticalAlignment="Center"
                                                                        HorizontalAlignment="Center"
-                                                                       Foreground="{StaticResource PlayListIconBrush}"
-                                                                       Visibility="{Binding Path=State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}" />
-                                        <iconPacks:PackIconFontAwesome x:Name="PauseImage"
-                                                                       Kind="Pause"
-                                                                       Width="10"
-                                                                       Height="10"
-                                                                       VerticalAlignment="Center"
-                                                                       HorizontalAlignment="Center"
-                                                                       Foreground="{StaticResource PlayListIconBrush}"
-                                                                       Visibility="{Binding Path=State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}" />
+                                                                       Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Play}}" />
+                                        <iconPacks:PackIconMaterial x:Name="PauseImage"
+                                                                    Kind="Pause"
+                                                                    Width="10"
+                                                                    Height="10"
+                                                                    Foreground="{StaticResource PlayListIconBrush}"
+                                                                    VerticalAlignment="Center"
+                                                                    HorizontalAlignment="Center"
+                                                                    Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}" />
                                     </Grid>
                                     <DataTemplate.Triggers>
                                         <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}"

@@ -1,11 +1,27 @@
-# ![icon](https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png) Simple Music Player
+<p align="center">
+	<a href="https://github.com/punker76/simple-music-player">
+		<img alt="Logo" width="48" heigth="48" src="https://raw.github.com/punker76/simple-music-player/master/icon/Gramaphone48x48.png" />
+	</a>
 
-[![Gitter chat](https://badges.gitter.im/punker76/simple-music-player.png)](https://gitter.im/punker76/simple-music-player)  
+	<h1>Welcome to Simple Music Player!</h1>
 
-[![Build status](https://img.shields.io/appveyor/ci/punker76/simple-music-player/master.svg?style=flat-square)](https://ci.appveyor.com/project/punker76/simple-music-player/branch/master)
-[![Twitter](https://img.shields.io/badge/twitter-%40punker76-55acee.svg?style=flat-square)](https://twitter.com/punker76)
-
-This is the next version of my simple music player ([SimpleMP](http://jkarger.de/simple-music-player/))
+	<a href="https://gitter.im/punker76/simple-music-player">
+		<img src="https://img.shields.io/badge/Gitter-Join%20Chat-green.svg?style=flat-square">
+	</a>
+	<a href="https://twitter.com/punker76">
+		<img src="https://img.shields.io/badge/twitter-%40punker76-55acee.svg?style=flat-square">
+	</a>
+	<a href="https://github.com/punker76/simple-music-player/releases">
+		<img src="https://img.shields.io/github/release/punker76/simple-music-player.svg?style=flat-square">
+	</a>
+	<br />
+	<a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/master">
+		<img alt="masterstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/master.svg?style=flat-square&&label=master">
+	</a>
+	<a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/dev">
+		<img alt="devstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/dev.svg?style=flat-square&&label=dev">
+	</a>
+</p>
 
 **SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a very simple way, just drag&drop your files or folders on the main screen and start push play...
 
@@ -15,11 +31,13 @@ Unfortunately, the interface of the FMOD sound library was no longer supported f
 
 So after long time, it's time to make a new one!
 
+Attention: This is a develope playground for me. It's a newer version of my old simple music player ([SimpleMP](http://jkarger.de/simple-music-player/)).
+
 It's not perfect and many function not yet implemented.
 
 ***Use it with your own risk!***
 
-## First simple functions
+## Simple functions
 
 + Plays **mp3**, **ogg**, **wma** and **wav** files (should be enough... or not?)
 + Drag&Drop your files or directories into the player (on the play list)
@@ -47,18 +65,21 @@ It's not perfect and many function not yet implemented.
 
 ## Releases
 
+- [All](https://github.com/punker76/simple-music-player/releases)
 - [v1.9.2](https://github.com/punker76/simple-music-player/releases/tag/v1.9.2)
 - [v1.9.1](https://github.com/punker76/simple-music-player/releases/tag/v1.9.1)
 - [v1.9.0.14](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.14)
 - [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.13)
-- [v1.1.7.2](http://jkarger.de/simple-music-player/)
+- [v1.1.7.2](http://jkarger.de/simple-music-player/) the old `Delphi` release.
 
 ## Awesome libs that I use
 
 - [MahApps.Metro](https://github.com/MahApps/MahApps.Metro)
+- [MahApps.Metro.IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks)
 - [MaterialDesignInXamlToolkit](https://github.com/ButchersBoy/MaterialDesignInXamlToolkit) Google Material Design in XAML & WPF, for C# & VB.Net from @ButchersBoy
 - [gong-wpf-dragdrop](https://github.com/punker76/gong-wpf-dragdrop)
-- [Font-Awesome-WPF](https://github.com/charri/Font-Awesome-WPF) FontAwesome controls for WPF from @charri
+- [Fody](https://github.com/Fody)
+- [Costura.Fody](https://github.com/Fody/Costura)
 - [Newtonsoft.Json](https://github.com/JamesNK/Newtonsoft.Json)
 - [NLog](https://github.com/NLog/NLog)
 - [QuickIO.NET](http://quickio.azurewebsites.net/)
@@ -70,11 +91,7 @@ It's not perfect and many function not yet implemented.
 
 ## Icons
 
-Most Icons are taken (inspired) from (thx @Templarian)
-
-- [Windows Icons](https://github.com/Templarian/WindowsIcons) -> [modernuiicons](http://modernuiicons.com)
-- [Material Design](https://github.com/Templarian/MaterialDesign) -> [materialdesignicons.com](http://materialdesignicons.com/)
-- [Metrize Icons](http://www.alessioatzeni.com/metrize-icons/) by [Alessio Atzeni](https://twitter.com/Bluxart) @Bluxart
+All Icons are taken from [MahApps.Metro.IconPacks](https://github.com/MahApps/MahApps.Metro.IconPacks).
 
 ## License
 
@@ -82,7 +99,7 @@ Most Icons are taken (inspired) from (thx @Templarian)
 
 [MIT License](http://opensource.org/licenses/MIT/)
 
-Copyright (c) 2012 - 2017 Jan Karger
+Copyright (c) >= 2012 Jan Karger
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -107,6 +124,8 @@ SOFTWARE.
 [FMOD](http://www.fmod.org) is not distributed under the MIT license. You must agree to this [EULA](LICENSE_FMOD) if you compile the source or use any compiled release of Simple Music Player, otherwise you must download [FMOD](http://www.fmod.org) by yourself.
 
 ## Screen shots (milestones)
+
+![very early screenshot 21](https://raw.github.com/punker76/simple-music-player/master/screenshots/2017-12-21_09h48_42.png)  
 
 ![very early screenshot 20](https://raw.github.com/punker76/simple-music-player/master/screenshots/2015-10-20_23h51_14.png)  
 
