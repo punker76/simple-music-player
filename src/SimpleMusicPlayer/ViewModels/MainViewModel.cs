@@ -11,8 +11,6 @@ namespace SimpleMusicPlayer.ViewModels
 {
     public class MainViewModel : ReactiveObject, IKeyHandler
     {
-        private ICommand showOnGitHubCmd;
-
         public MainViewModel()
         {
             var container = TinyIoCContainer.Current;
@@ -25,6 +23,8 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayListsViewModel = new PlayListsViewModel();
 
             this.PlayControlInfoViewModel = new PlayControlInfoViewModel(this);
+
+            this.ShowOnGitHubCmd = new DelegateCommand(this.ShowOnGitHub, () => true);
         }
 
         public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
@@ -37,10 +37,7 @@ namespace SimpleMusicPlayer.ViewModels
 
         public PlayListsViewModel PlayListsViewModel { get; private set; }
 
-        public ICommand ShowOnGitHubCmd
-        {
-            get { return this.showOnGitHubCmd ?? (this.showOnGitHubCmd = new DelegateCommand(this.ShowOnGitHub, () => true)); }
-        }
+        public ICommand ShowOnGitHubCmd { get; }
 
         private void ShowOnGitHub()
         {
