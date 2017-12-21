@@ -8,6 +8,7 @@
     <DataTemplate x:Key="fileInfoRightTemplate"
                   DataType="{x:Type models:MediaFile}">
         <StackPanel Orientation="Vertical"
+                    UseLayoutRounding="True"
                     TextOptions.TextHintingMode="Fixed"
                     TextOptions.TextRenderingMode="ClearType"
                     TextOptions.TextFormattingMode="Display">
