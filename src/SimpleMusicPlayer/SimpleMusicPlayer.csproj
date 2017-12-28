@@ -137,7 +137,7 @@
     <Compile Include="FMODStudio\FMODExtensions.cs" />
     <Compile Include="Core\Interfaces\IKeyHandler.cs" />
     <Compile Include="Core\Interfaces\IMediaFile.cs" />
-    <Compile Include="Core\Interfaces\IWindowPlacementSetting.cs" />
+    <Compile Include="Core\Interfaces\IWindowSetting.cs" />
     <Compile Include="Microsoft.Shell\SingleInstance.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="TinyIoC.cs">
@@ -287,7 +287,7 @@
   </Target>
   -->
   <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <Delete Files="@(ReferenceCopyLocalPaths-&gt;'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <Import Project="..\.paket\paket.targets" />
   <Choose>

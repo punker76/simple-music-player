@@ -4,6 +4,7 @@ using System.Security;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Interop;
+using Splat;
 
 namespace SimpleMusicPlayer.Core
 {
@@ -172,6 +173,7 @@ namespace SimpleMusicPlayer.Core
             Rect newFormSize;
             if (FitIntoScreen(workingArea, formSize, out newFormSize))
             {
+                LogHost.Default.Info($"FitIntoScreen: left={newFormSize.X}, top={newFormSize.Y}, width={newFormSize.Width}, height={newFormSize.Height}");
                 w.Left = newFormSize.X;
                 w.Top = newFormSize.Y;
                 w.Width = newFormSize.Width;

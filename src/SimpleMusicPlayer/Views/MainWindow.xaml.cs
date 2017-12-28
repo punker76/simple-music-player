@@ -7,6 +7,7 @@ using MahApps.Metro.Controls;
 using ReactiveUI;
 using SimpleMusicPlayer.Core;
 using SimpleMusicPlayer.ViewModels;
+using Splat;
 
 namespace SimpleMusicPlayer.Views
 {
@@ -55,7 +56,14 @@ namespace SimpleMusicPlayer.Views
 
                                             this.Events().Closed.Select(x => Unit.Default).InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);
                                             this.Events().Closed.Subscribe(x => vm.ShutDown());
+
+                                            this.DpiChanged += MainWindow_DpiChanged;
                                         }));
+        }
+
+        private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
+        {
+            this.ViewModel.Log().Debug($"DpiChanged: old={e.OldDpi.PixelsPerDip} new={e.NewDpi.PixelsPerDip}");
         }
 
         public override IWindowPlacementSettings GetWindowPlacementSettings()

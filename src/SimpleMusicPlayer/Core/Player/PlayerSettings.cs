@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows;
 using ControlzEx.Standard;
 using Newtonsoft.Json;
 using ReactiveUI;
@@ -81,14 +82,16 @@ namespace SimpleMusicPlayer.Core.Player
         }
     }
 
-    public class MainWindowSettings : IWindowPlacementSetting
+    public class MainWindowSettings : IWindowSetting
     {
         public WINDOWPLACEMENT Placement { get; set; }
+        public DpiScale? DpiScale { get; set; }
     }
 
-    public class MedialibSettings : IWindowPlacementSetting
+    public class MedialibSettings : IWindowSetting
     {
         public WINDOWPLACEMENT Placement { get; set; }
+        public DpiScale? DpiScale { get; set; }
     }
 
     [JsonObject]
