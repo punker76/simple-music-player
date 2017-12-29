@@ -88,7 +88,7 @@ namespace SimpleMusicPlayer.Tests
             Assert.Equal(newFiles, this.thePlayListCollection.Take(5));
         }
 
-        public void CheckTheIndicesForAllMediaFilesInPlayList()
+        private void CheckTheIndicesForAllMediaFilesInPlayList()
         {
             for (var i = 0; i < this.thePlayListCollection.Count; i++)
             {

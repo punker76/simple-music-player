@@ -55,7 +55,7 @@
               Margin="4,0,4,0">
             <!-- show media library -->
             <Button Command="{Binding AddDirectoryCommand, Mode=OneWay}"
-                    Content="{iconPacks:PackIconModern Add, Width=12, Height=12}"
+                    Content="{iconPacks:Modern Add, Width=12, Height=12}"
                     ToolTip="Add Directory to Medialib"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
@@ -198,7 +198,7 @@
                 <Button VerticalAlignment="Center"
                         Margin="5,0,0,0"
                         Content="Cancel"
-                        Style="{StaticResource LinkButton}"
+                        Style="{DynamicResource LinkButton}"
                         Command="{Binding StopSearchCmd, Mode=OneWay}" />
             </Grid>
         </StackPanel>

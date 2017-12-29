@@ -21,15 +21,15 @@
                                           TrueValue="{DynamicResource AccentColorBrush}"
                                           FalseValue="{DynamicResource BlackColorBrush}" />
         <ValueConverters:BooleanConverter x:Key="MuteToIconConverter"
-                                          TrueValue="{iconPacks:PackIconMaterialLight VolumeMute, Width=15, Height=15}"
-                                          FalseValue="{iconPacks:PackIconMaterialLight Volume, Width=15, Height=15}" />
+                                          TrueValue="{iconPacks:MaterialLight VolumeMute, Width=15, Height=15}"
+                                          FalseValue="{iconPacks:MaterialLight Volume, Width=15, Height=15}" />
         <ValueConverters:EnumBooleanConverter x:Key="PlayerStateToIconConverter">
             <ValueConverters:EnumBooleanConverter.TrueValue>
                 <!--<iconPacks:PackIconMaterial Kind="Equal" Width="20" Height="20" Margin="0" Rotation="90" />-->
                 <iconPacks:PackIconMaterial Kind="Pause" Width="19" Height="19" Margin="0" />
             </ValueConverters:EnumBooleanConverter.TrueValue>
             <ValueConverters:EnumBooleanConverter.FalseValue>
-                <iconPacks:PackIconFontAwesome Kind="Play" Width="20" Height="20" Margin="3 0 0 0" />
+                <iconPacks:PackIconFontAwesome Kind="PlaySolid" Width="20" Height="20" Margin="3 0 0 0" />
             </ValueConverters:EnumBooleanConverter.FalseValue>
         </ValueConverters:EnumBooleanConverter>
     </UserControl.Resources>
@@ -51,7 +51,7 @@
         <!-- prev -->
         <Button Grid.Column="1"
                 Command="{Binding PlayPrevCommand, Mode=OneWay}"
-                Content="{iconPacks:PackIconFontAwesome FastBackward, Width=13, Height=13}"
+                Content="{iconPacks:FontAwesome FastBackwardSolid, Width=13, Height=13}"
                 ToolTip="Previous File (k)"
                 VerticalAlignment="Center"
                 Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
@@ -84,7 +84,7 @@
             <!-- stop -->
             <Button Grid.Column="0"
                     Command="{Binding StopCommand, Mode=OneWay}"
-                    Content="{iconPacks:PackIconFontAwesome Stop, Width=13, Height=13}"
+                    Content="{iconPacks:FontAwesome StopSolid, Width=13, Height=13}"
                     ToolTip="Stop"
                     VerticalAlignment="Center"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
@@ -94,7 +94,7 @@
             <!-- next -->
             <Button Grid.Column="1"
                     Command="{Binding PlayNextCommand, Mode=OneWay}"
-                    Content="{iconPacks:PackIconFontAwesome FastForward, Width=13, Height=13}"
+                    Content="{iconPacks:FontAwesome FastForwardSolid, Width=13, Height=13}"
                     ToolTip="Next File (j)"
                     VerticalAlignment="Center"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
@@ -104,7 +104,7 @@
             <!-- shuffle -->
             <Button Grid.Column="2"
                     Command="{Binding ShuffleCommand, Mode=OneWay}"
-                    Content="{iconPacks:PackIconFontAwesome Random, Width=12, Height=12}"
+                    Content="{iconPacks:FontAwesome RandomSolid, Width=12, Height=12}"
                     Foreground="{Binding PlayerSettings.PlayerEngine.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
                     ToolTip="Shuffle (s)"
                     VerticalAlignment="Bottom"
@@ -115,7 +115,7 @@
             <!-- repeat -->
             <Button Grid.Column="3"
                     Command="{Binding RepeatCommand, Mode=OneWay}"
-                    Content="{iconPacks:PackIconModern Repeat, Width=12, Height=12}"
+                    Content="{iconPacks:Modern Repeat, Width=12, Height=12}"
                     Foreground="{Binding PlayerSettings.PlayerEngine.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
                     ToolTip="Repeat (r)"
                     VerticalAlignment="Bottom"
@@ -126,7 +126,7 @@
             <!-- show equalizer -->
             <Button Grid.Column="4"
                     Command="{Binding ShowEqualizerCommand, Mode=OneWay}"
-                    Content="{iconPacks:PackIconEntypo SoundMix, Width=12, Height=12}"
+                    Content="{iconPacks:Entypo SoundMix, Width=12, Height=12}"
                     ToolTip="Equalizer (e)"
                     VerticalAlignment="Bottom"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
@@ -136,7 +136,7 @@
             <!-- show media library -->
             <Button Grid.Column="5"
                     Command="{Binding ShowMediaLibraryCommand, Mode=OneWay}"
-                    Content="{iconPacks:PackIconModern Database, Width=12, Height=12}"
+                    Content="{iconPacks:Modern Database, Width=12, Height=12}"
                     ToolTip="Media Library (l)"
                     VerticalAlignment="Bottom"
                     Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"

@@ -146,7 +146,7 @@
                                 <DataTemplate DataType="{x:Type models:MediaFile}">
                                     <Grid Margin="-6 0">
                                         <iconPacks:PackIconFontAwesome x:Name="PlayImage"
-                                                                       Kind="Play"
+                                                                       Kind="PlaySolid"
                                                                        Width="10"
                                                                        Height="10"
                                                                        Foreground="{StaticResource PlayListIconBrush}"

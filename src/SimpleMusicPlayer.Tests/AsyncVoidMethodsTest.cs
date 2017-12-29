@@ -15,7 +15,7 @@ namespace SimpleMusicPlayer.Tests
     public class AsyncVoidMethodsTest
     {
         //AssertExtensions
-        public static void AssertNoAsyncVoidMethods(Assembly assembly)
+        private static void AssertNoAsyncVoidMethods(Assembly assembly)
         {
             var messages = assembly
                 .GetAsyncVoidMethods()
