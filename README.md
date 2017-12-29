@@ -22,13 +22,11 @@
 
 </div>
 
-**SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a very simple way, just drag&drop your files or folders on the main screen and start push play...
+**SimpleMP** or **Simple Music Player** is a simple and easy to use music player for free. It plays the most common music files (mp3, ogg, wma, wav) in a very simple way, just drag&drop your files or folders on the main screen and push play...
 
-Why another music player? When I decided to make my first player back in 2005, the Winamp 3 player was to buggy and very slow! I stopped developing in 2007.
-I used my favorite programming language Delphi 5 and I learned a lot of new stuff. It was a great time and a few people in the Delphi community honored my work :-)
-Unfortunately, the interface of the FMOD sound library was no longer supported for Delphi and I decided to stop working on it.
+So why another music player? When I decided to make my own player back in 2005, the `Winamp 3` player was too buggy and very slow! I used my favorite programming language Delphi 5 and I learned a lot of new stuff. It was a great time and a few people in the Delphi community honored my work :-). Unfortunately, the interface of the FMOD sound library was no longer supported for Delphi, so I decided in 2007 to stop working on it.
 
-So after long time, it's time to make a new one!
+In 2012 (after long time), I decided to make a new one!
 
 Attention: This is a develope playground for me. It's a newer version of my old simple music player ([SimpleMP](http://jkarger.de/simple-music-player/)).
 
@@ -61,15 +59,18 @@ It's not perfect and many function not yet implemented.
 	+ if you try start the player twice you get always the first started player
 	+ if you link with supported media files, the player loads the new files and play the first file from the added files
 + Tooltip on playlist files
++ Dpi aware (per monitor)
 
 ## Releases
 
+From time to time I'll build and publish a new pre-release which can be find here:
+
 - [All](https://github.com/punker76/simple-music-player/releases)
 - [v1.9.2](https://github.com/punker76/simple-music-player/releases/tag/v1.9.2)
-- [v1.9.1](https://github.com/punker76/simple-music-player/releases/tag/v1.9.1)
-- [v1.9.0.14](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.14)
-- [v1.9.0.13](https://github.com/punker76/simple-music-player/releases/tag/v1.9.0.13)
 - [v1.1.7.2](http://jkarger.de/simple-music-player/) the old `Delphi` release.
+
+The solution can be compiled with the [Visual Studio Community Ed. 2015 or 2017](https://www.visualstudio.com/
+). I use the [paket](https://fsprojects.github.io/Paket/) manager to install/restore or update the packages.
 
 ## Awesome libs that I use
 
