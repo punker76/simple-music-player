@@ -101,8 +101,8 @@ namespace SimpleMusicPlayer.Core
                     this.Year = file.Tag.Year;
                     this.Grouping = file.Tag.Grouping;
 
-                    var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(this.FirstPerformer);
-                    var isTitleEmpty = string.IsNullOrWhiteSpace(this.Title);
+                    var isFirstPerformerEmpty = string.IsNullOrWhiteSpace(this.FirstPerformer) || Equals(this.FirstPerformer, UNKNOWN_STRING);
+                    var isTitleEmpty = string.IsNullOrWhiteSpace(this.Title) || Equals(this.FirstPerformer, UNKNOWN_STRING);
                     if (!isFirstPerformerEmpty && !isTitleEmpty)
                     {
                         this.FirstPerformerAndTitle = string.Concat(this.FirstPerformer, " - ", this.Title);
@@ -120,7 +120,7 @@ namespace SimpleMusicPlayer.Core
                         this.FirstPerformerAndTitle = Path.GetFileNameWithoutExtension(this.FileName);
                     }
 
-                    var isAlbumEmpty = string.IsNullOrWhiteSpace(this.Album);
+                    var isAlbumEmpty = string.IsNullOrWhiteSpace(this.Album) || Equals(this.Album, UNKNOWN_STRING);
                     if (!isFirstPerformerEmpty && !isAlbumEmpty)
                     {
                         this.FirstPerformerAndAlbum = string.Concat(this.FirstPerformer, " - ", this.Album);
@@ -273,6 +273,7 @@ namespace SimpleMusicPlayer.Core
         }
 
         private int playListIndex;
+
         [Browsable(false)]
         [JsonIgnore]
         public int PlayListIndex

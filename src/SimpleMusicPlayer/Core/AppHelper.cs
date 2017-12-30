@@ -8,6 +8,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using Splat;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.Core
 {
@@ -70,11 +71,12 @@ namespace SimpleMusicPlayer.Core
 
         private void LogMemoryUsageAndInfos(object state)
         {
-            var workingSetInMiB = Environment.WorkingSet / 1024f / 1024f;
             var gcTotalMemoryInMiB = GC.GetTotalMemory(true) / 1024f / 1024f;
+            var workingSetInMiB = Environment.WorkingSet / 1024f / 1024f;
             var uptime = (DateTime.UtcNow - this.ApplicationStartedTime).ToString(@"hh\h\:mm\m\:ss\s\:fff\m\s").Replace(":", " ");
-            this.Log().Info("Memory-Usage (GC.GetTotalMemory(true)/Environment.WorkingSet): {0:.00}/{1:.00} MB of instance {2} (uptime: {3}))",
-                workingSetInMiB, gcTotalMemoryInMiB, this.ApplicationStartedTime, uptime);
+            this.Log().Info($"(GC.GetTotalMemory(true)/Environment.WorkingSet):{gcTotalMemoryInMiB:.00}/{workingSetInMiB:.00} MB" +
+                            $", covers: {TinyIoCContainer.Current.Resolve<CoverManager>()}" +
+                            $", started: {this.ApplicationStartedTime} (uptime: {uptime})");
         }
 
         private void ConfigureHandlingUnhandledExceptions()
