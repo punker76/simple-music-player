@@ -106,6 +106,7 @@
     <Compile Include="Core\AttachedCommandBehavior.cs" />
     <Compile Include="Core\BaseListBox.cs" />
     <Compile Include="Core\BaseListView.cs" />
+    <Compile Include="Core\CoverManager.cs" />
     <Compile Include="Core\DelegateCommand.cs" />
     <Compile Include="Core\ExceptionExtensions.cs" />
     <Compile Include="Core\FolderBrowserHelper.cs" />

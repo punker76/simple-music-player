@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using ReactiveUI;
 using SchwabenCode.QuickIO;
 using SimpleMusicPlayer.Core.Interfaces;
-using TagLib;
+using TinyIoC;
 
 namespace SimpleMusicPlayer.Core
 {
@@ -28,7 +25,7 @@ namespace SimpleMusicPlayer.Core
         public void UpdateFromTag(bool raisePropertyChanged = true)
         {
             var fileName = this.FullFileName;
-            if (string.IsNullOrWhiteSpace(fileName) || !System.IO.File.Exists(fileName))
+            if (string.IsNullOrWhiteSpace(fileName) || !QuickIOFile.Exists(fileName))
             {
                 return;
             }
@@ -268,91 +265,11 @@ namespace SimpleMusicPlayer.Core
             set { this.RaiseAndSetIfChanged(ref this.state, value); }
         }
 
-        private static BitmapImage GetImageFromPictureTag(string fileName)
-        {
-            try
-            {
-                using (var file = TagLib.File.Create(fileName))
-                {
-                    var pictures = file.Tag.Pictures;
-                    if (pictures != null)
-                    {
-                        var pic = pictures.FirstOrDefault(p => p.Type == PictureType.FrontCover
-                                                               || p.Type == PictureType.BackCover
-                                                               || p.Type == PictureType.FileIcon
-                                                               || p.Type == PictureType.OtherFileIcon
-                                                               || p.Type == PictureType.Media
-                                                               || p.Type == PictureType.Other);
-                        if (pic != null)
-                        {
-                            var bi = new BitmapImage();
-                            bi.BeginInit();
-                            bi.CreateOptions = BitmapCreateOptions.DelayCreation;
-                            bi.CacheOption = BitmapCacheOption.OnDemand;
-                            bi.StreamSource = new MemoryStream(pic.Data.Data);
-                            bi.EndInit();
-                            bi.Freeze();
-                            return bi;
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Fail to load cover from picture tag: {0}, {1}", fileName, e);
-            }
-            return null;
-        }
-
-        private static BitmapImage GetImageFromDirectory(string fileName)
-        {
-            try
-            {
-                var path2Image = Path.GetDirectoryName(fileName);
-                if (string.IsNullOrEmpty(path2Image))
-                {
-                    return null;
-                }
-
-                var extensions = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { ".jpg", ".jpeg", ".png", ".bmp" };
-                var regexCoverFiles = new Regex(".*(folder|cover|front|back|band|artist).*", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-                var allPossibleCoverFiles = QuickIODirectory.EnumerateFiles(path2Image).Where(f => extensions.Contains(Path.GetExtension(f.Name))).ToList();
-                var cover = allPossibleCoverFiles.FirstOrDefault(f => regexCoverFiles.IsMatch(f.Name));
-                cover = cover ?? allPossibleCoverFiles.FirstOrDefault();
-                if (cover != null)
-                {
-                    var bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.CreateOptions = BitmapCreateOptions.DelayCreation;
-                    bi.CacheOption = BitmapCacheOption.OnDemand;
-                    bi.UriSource = new Uri(cover.FullName, UriKind.RelativeOrAbsolute);
-                    bi.EndInit();
-                    bi.Freeze();
-                    return bi;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Fail to load cover from directory: {0}, {1}", fileName, e);
-            }
-            return null;
-        }
-
         [Browsable(false)]
         [JsonIgnore]
         public BitmapImage Cover
         {
-            get
-            {
-                if (string.IsNullOrWhiteSpace(this.FullFileName) || !System.IO.File.Exists(this.FullFileName))
-                {
-                    return null;
-                }
-                // try getting the cover by picture tag
-                var image = GetImageFromPictureTag(this.FullFileName);
-                // if no cover was found try getting the cover from disk
-                return image ?? GetImageFromDirectory(this.FullFileName);
-            }
+            get { return TinyIoCContainer.Current.Resolve<CoverManager>()?.GetImageFromFile(this.FullFileName); }
         }
 
         private int playListIndex;

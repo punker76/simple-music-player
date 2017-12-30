@@ -22,6 +22,7 @@ namespace SimpleMusicPlayer
         public App()
         {
             TinyIoCContainer.Current.Register<AppHelper>().AsSingleton();
+            TinyIoCContainer.Current.Register<CoverManager>().AsSingleton();
             TinyIoCContainer.Current.Register<PlayerSettings>().AsSingleton();
             TinyIoCContainer.Current.Register<PlayerEngine>().AsSingleton();
             TinyIoCContainer.Current.Register<IReactiveObject, MedialibViewModel>();
