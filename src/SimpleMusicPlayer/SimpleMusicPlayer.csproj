@@ -118,7 +118,6 @@
     <Compile Include="Core\SelectorHelper.cs" />
     <Compile Include="Core\QuickFillObservableCollection.cs" />
     <Compile Include="Core\SprocketControl.cs" />
-    <Compile Include="Core\ToolTipHelper.cs" />
     <Compile Include="Core\VisualExtensions.cs" />
     <Compile Include="Core\WindowExtensions.cs" />
     <Compile Include="Behavior\IListItemConverter.cs" />

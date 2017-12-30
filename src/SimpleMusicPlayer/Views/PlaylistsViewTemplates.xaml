@@ -5,7 +5,8 @@
                     xmlns:models="clr-namespace:SimpleMusicPlayer.Core"
                     xmlns:behavior="clr-namespace:SimpleMusicPlayer.Behavior"
                     xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
-                    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks">
+                    xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                    xmlns:controlzex="urn:controlzex">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
@@ -87,7 +88,7 @@
              BorderBrush="{DynamicResource GrayBrush10}"
              MinWidth="350"
              Padding="1"
-             models:ToolTipHelper.AutoMove="True" />
+             controlzex:ToolTipAssist.AutoMove="True" />
 
     <Style x:Key="PlayListMetroListViewItem"
            TargetType="{x:Type ListViewItem}"
