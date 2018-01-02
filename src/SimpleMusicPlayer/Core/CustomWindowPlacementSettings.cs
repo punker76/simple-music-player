@@ -11,10 +11,13 @@ namespace SimpleMusicPlayer.Core
     {
         private readonly IWindowSetting _windowSetting;
 
-        public CustomWindowPlacementSettings(IWindowSetting wps)
+        public CustomWindowPlacementSettings(Window window, IWindowSetting wps)
         {
+            this.AssociatedWindow = window;
             this._windowSetting = wps;
         }
+
+        public Window AssociatedWindow { get; private set; }
 
         public WINDOWPLACEMENT Placement { get; set; }
 
@@ -24,13 +27,14 @@ namespace SimpleMusicPlayer.Core
         {
             if (this._windowSetting != null && this._windowSetting.Placement != null)
             {
-                var mainWindow = Application.Current.MainWindow;
-                if (mainWindow != null)
+                var associatedWindow = this.AssociatedWindow;
+                if (associatedWindow != null)
                 {
                     // this fixes wrong Dpi usage for SetWindowPlacement
-                    mainWindow.Left = this._windowSetting.Placement.normalPosition.Left;
-                    mainWindow.Top = this._windowSetting.Placement.normalPosition.Top;
+                    associatedWindow.Left = this._windowSetting.Placement.normalPosition.Left;
+                    associatedWindow.Top = this._windowSetting.Placement.normalPosition.Top;
                 }
+
                 this.Placement = this._windowSetting.Placement;
                 this.Log().Debug("Loaded WINDOWPLACEMENT: width={0}, height={1}, dpi={2}", this.Placement.normalPosition.Width, this.Placement.normalPosition.Height, this._windowSetting.DpiScale?.PixelsPerDip);
             }
@@ -44,11 +48,12 @@ namespace SimpleMusicPlayer.Core
         {
             if (this._windowSetting != null && this.Placement != null)
             {
-                var mainWindow = Application.Current.MainWindow;
-                if (mainWindow != null)
+                var associatedWindow = this.AssociatedWindow;
+                if (associatedWindow != null)
                 {
-                    this._windowSetting.DpiScale = VisualTreeHelper.GetDpi(mainWindow);
+                    this._windowSetting.DpiScale = VisualTreeHelper.GetDpi(associatedWindow);
                 }
+
                 this.Log().Debug("Saved WINDOWPLACEMENT: width={0}, height={1}, dpi={2}", this.Placement.normalPosition.Width, this.Placement.normalPosition.Height, this._windowSetting.DpiScale?.PixelsPerDip);
                 this._windowSetting.Placement = this.Placement;
             }

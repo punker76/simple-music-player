@@ -17,13 +17,10 @@ namespace SimpleMusicPlayer.ViewModels
 {
     public class MedialibViewModel : ReactiveObject
     {
-        private PlayerSettings playerSettings;
-
         public MedialibViewModel()
         {
+            this.PlayerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
             this.FileSearchWorker = new FileSearchWorker("Medialib", MediaFile.GetMediaFileViewModel);
-            playerSettings = TinyIoCContainer.Current.Resolve<PlayerSettings>();
-            this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(playerSettings.Medialib);
             this.MediaFiles = CollectionViewSource.GetDefaultView(new MedialibCollection(null));
 
             // Do a selection/filtering when nothing new has been changed for 400 ms and it isn't
@@ -57,7 +54,9 @@ namespace SimpleMusicPlayer.ViewModels
 
         public FileSearchWorker FileSearchWorker { get; private set; }
 
-        public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
+        public PlayerSettings PlayerSettings { get; private set; }
+
+        public CustomWindowPlacementSettings WindowPlacementSettings { get; set; }
 
         private IEnumerable mediaFiles;
 

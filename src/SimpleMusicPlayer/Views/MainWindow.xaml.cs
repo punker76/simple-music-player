@@ -19,6 +19,7 @@ namespace SimpleMusicPlayer.Views
         public MainWindow(MainViewModel mainViewModel)
         {
             this.ViewModel = mainViewModel;
+            this.ViewModel.WindowPlacementSettings = new CustomWindowPlacementSettings(this, this.ViewModel.PlayerSettings.MainWindow);
 
             this.InitializeComponent();
 
@@ -68,7 +69,7 @@ namespace SimpleMusicPlayer.Views
 
         public override IWindowPlacementSettings GetWindowPlacementSettings()
         {
-            return this.ViewModel.CustomWindowPlacementSettings;
+            return this.ViewModel.WindowPlacementSettings;
         }
 
         public MainViewModel ViewModel

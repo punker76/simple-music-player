@@ -19,6 +19,7 @@ namespace SimpleMusicPlayer.Views
         public MedialibView(MedialibViewModel medialibViewModel)
         {
             this.ViewModel = medialibViewModel;
+            this.ViewModel.WindowPlacementSettings = new CustomWindowPlacementSettings(this, this.ViewModel.PlayerSettings.Medialib);
 
             this.InitializeComponent();
 
@@ -38,7 +39,7 @@ namespace SimpleMusicPlayer.Views
 
         public override IWindowPlacementSettings GetWindowPlacementSettings()
         {
-            return this.ViewModel.CustomWindowPlacementSettings;
+            return this.ViewModel.WindowPlacementSettings;
         }
 
         // only for ShowDialog from FolderBrowserDialog

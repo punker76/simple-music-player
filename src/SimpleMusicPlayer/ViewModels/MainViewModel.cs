@@ -16,7 +16,6 @@ namespace SimpleMusicPlayer.ViewModels
             var container = TinyIoCContainer.Current;
 
             this.PlayerSettings = container.Resolve<PlayerSettings>().Update();
-            this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.PlayerSettings.MainWindow);
 
             this.PlayerEngine = container.Resolve<PlayerEngine>().Configure();
 
@@ -27,11 +26,11 @@ namespace SimpleMusicPlayer.ViewModels
             this.ShowOnGitHubCmd = new DelegateCommand(this.ShowOnGitHub, () => true);
         }
 
-        public CustomWindowPlacementSettings CustomWindowPlacementSettings { get; private set; }
-
         public PlayerEngine PlayerEngine { get; private set; }
 
         public PlayerSettings PlayerSettings { get; private set; }
+
+        public CustomWindowPlacementSettings WindowPlacementSettings { get; set; }
 
         public PlayControlInfoViewModel PlayControlInfoViewModel { get; private set; }
 
