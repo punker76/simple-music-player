@@ -253,12 +253,19 @@ namespace SimpleMusicPlayer.ViewModels
             {
                 var count = fileCollView.SourceCollection.OfType<IMediaFile>().Count();
                 var r = new Random(Environment.TickCount);
-                var pos = r.Next(0, count - 1);
+                var pos = r.Next(0, count);
+
+                if (count == 1)
+                {
+                    return fileCollView.CurrentItem as IMediaFile;
+
+                }
+
                 if (pos == fileCollView.CurrentPosition)
                 {
                     while (pos == fileCollView.CurrentPosition)
                     {
-                        pos = r.Next(0, count - 1);
+                        pos = r.Next(0, count);
                     }
                 }
                 if (fileCollView.MoveCurrentToPosition(pos))
