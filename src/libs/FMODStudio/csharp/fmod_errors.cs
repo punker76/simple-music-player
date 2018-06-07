@@ -1,5 +1,5 @@
 /* =================================================================================================== */
-/* FMOD Studio - Error string header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2017.  */
+/* FMOD Studio - Error string header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2018.  */
 /*                                                                                                     */
 /* Use this header if you want to store or display a string version / english explanation of           */
 /* the FMOD error codes.                                                                               */

@@ -1,11 +1,142 @@
 
 ==========================================================================================
                             REVISION HISTORY : FMOD Studio API                            
-                 Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2017                
-                                    https://www.fmod.com                                   
+                 Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2018                
+                                   https://www.fmod.com                                   
 ==========================================================================================
 
-06/12/17 1.10.02 - Studio API minor release (build 92217)
+06/06/18 1.10.06 - Studio API minor release (build 95384)
+------------------------------------------------------------------------------------------
+Features:
+* Unity        - Added SampleRate for Play-In-Editor settings.
+* Unity        - Added scripts for setting thread affinity on specific consoles.
+* HTML5        - Updated low level API and studio API examples to handle chrome mute until
+                 mouse click or touch event happens, via System::mixerSuspend/mixerResume.
+
+Fixes:
+* LowLevel API - Fixed potential crash if a stream naturally ends at the same time
+                 as being released.
+* LowLevel API - Fixed incorrect parsing of large ID3 tags.
+* LowLevel API - Fixed FMOD_ERR_FILE_BAD error when trying to call setPosition to a point
+                 past 2GB bytes in a file.
+* LowLevel API - HTML5/WebGL - Fix System::setDriver(0) causing garbled audio when trying 
+                 to respond to a touch event and the audio is already active. 
+* LowLevel API - HTML5/WebGL - Fix floating point accuracy issues making MIDI file sound 
+                 out of tune.
+* Lowlevel API - Fixed crash if Windows Sonic output mode is used with the object
+                 spatializer and the device is unplugged.
+* Lowlevel API - Fixed stall in Sound::release for FSB files if another thread is
+                 performing a createSound operation.
+* LowLevel API - Fixed potential crash when playing a netstream with tags.
+* LowLevel API - Fixed OGG netstreams not automatically stopping if the stream goes
+                 offline.
+* LowLevel API - Fixed potential invalid memory access when a channel group is released
+                 (introduced in 1.10.02).
+* Lowlevel API - Channel group audibility now factors in attenuation due to 3D effects
+                 when using ChannelGroup::setMode(FMOD_3D).
+* Lowlevel API - UWP - Fixed default affinity mask incorrectly putting all threads
+                 on core 0, now threads default to distributing among all cores.
+* UE4          - Removed FMODAudioComponent ticking when deactivated.
+
+Notes:
+* Lowlevel API - Windows Sonic output mode no longer requires a block size of 480.
+* Xbox One     - Now built with February 2018 XDK.
+* Switch       - Now built with SDK 5.3.0.
+
+26/04/18 1.10.05 - Studio API minor release (build 94661)
+------------------------------------------------------------------------------------------
+
+Features:
+* LowLevel API - Add "Channel mask" tag to MIDI file support, to allow a user to 
+                 map used / unused channels in a midi file to the channel IDs in the
+                 Sound::setMusicChannelVolume / Sound::getMusicChannelVolume functions
+* LowLevel API - Fixed System::recordStart memory leak if an error was returned.
+* UE4          - File buffer size is now customizable in the settings menu.
+
+Fixes:
+* Lowlevel API - Fixed rare hang during Sound::release when releasing a streaming sound in
+                 the FMOD_OPENSTATE_ERROR state.
+* Lowlevel API - Switch - Fixed Vorbis encoded banks producing silence when using
+                 multimedia.nso (UE4 uses this).
+* Studio API   - Fixed a rare bug where Studio::System::Update could hang if a streaming
+                 sound encountered an error.
+* Studio API   - Fixed events getting stuck in a paused state if they were restarted while
+                 waiting for sample data to load (introduced in 1.10.02).
+* Studio API   - Fixed an issue preventing network streams being used as programmer 
+                 sounds.
+* UE4          - Switch - Fixed performance by changing default thread affinity.
+* UE4          - Fixed FMODAudioComponent programmer sound creation flags.
+* Unity        - Android - Fixed load bank returning ERR_INVALID_HANDLE.
+* Unity        - Fixed FMODStudioSettings asset dirty flag being set unnecessarily.
+* Unity        - Fixed callbacks crashing when using IL2CPP or Mono on some platforms.
+* Unity        - Fixed editor system not being cleaned up on Play-In-Editor start.
+
+Notes:
+* LowLevel API - It is now possible to initialize WinSonic output even if the user
+                 has not enabled spatial audio on their default device. The platform
+                 will provide a non-binaural downmix to the user desired speaker mode.
+* PS4          - Now built with SDK 5.508.021.
+
+05/03/18 1.10.04 - Studio API minor release (build 93853)
+------------------------------------------------------------------------------------------
+
+Features:
+* UE4          - Added the ability to enable Live Update while in editor for auditioning.
+                 The Editor will need to be restarted for this setting to take effect.
+
+Features:
+* Studio API   - Improved bank loading performance when there are already a large number
+                 of loaded events.
+
+Fixes:
+* LowLevel API - Xbox One - Fixed XMA hang that can occur after actively using
+                 many XMA voices for several days.
+* Studio API   - Fixed a bug where Studio::System::Update could fail with
+                 FMOD_ERR_INVALID_HANDLE or FMOD_ERR_CHANNEL_STOLEN, which could lead to
+                 memory or performance problems. Introduced in 1.10.03.
+* Unity        - Fixed MobileHigh/Low classifications for Apple Devices. Pre iPhone 5
+                 is classed as MobileLow.
+
+01/02/18 1.10.03 - Studio API minor release (build 93157)
+------------------------------------------------------------------------------------------
+
+Features:
+* LowLevel API - Added ASIO support for drivers that use PCM32 as a container for
+                 smaller sized data.
+* Profiler     - Draw different DSP connection types with different line styles.
+* UE4          - Added option to specify memory pool size, per platform, in the project
+                 FMOD Studio settings.
+* UE4          - Now complying with IWYU mode, this should increase compilation speed.
+
+Fixes:
+* Studio API   - Fixed the DSP network sometimes getting into a bad state when a sidechain
+                 is connected to the next effect in the chain.
+* Studio API   - Fixed event playback sometimes using stale parameter values.
+* Studio API   - Fixed events failing to stop if they contain empty Single Instruments.
+* LowLevel API - Fixed potential crash in device list changed callback when there
+                 are no available devices remaining.
+* LowLevel API - Fix 3D 5.1 sound not panning correctly if Channel::set3DLevel(0) is used.
+* LowLevel API - Fixed ID3v2.4 compatibility issue causing missing or corrupted tags.
+* LowLevel API - Android - Fixed incorrect floating point check on ARM64 devices
+                 causing FMOD_ERR_NEEDSHARDWARE with some devices.
+* LowLevel API - Xbox One - Fixed race condition causing internal errors with XMA
+                 sounds loaded as FMOD_CREATECOMPRESSEDSAMPLE.
+* LowLevel API - PS4 - Fixed internal assertion caused by setPosition on an AT9
+                 sound loaded as FMOD_CREATECOMPRESSEDSAMPLE.
+* FSBank API   - Fixed creation of C header so it goes next to the FSB instead
+                 of the working directory of the application.
+* Unity        - Fixed pause working properly in Play In Editor mode.
+* Unity        - Removed excess memory allocation from APIs that return strings in C#.
+* UE4          - Fixed velocity of FMODAudioComponents.
+
+Notes:
+* Unity        - Added support for Unity 2017.3.
+* Android      - Now built with NDK r16b.
+* Android      - Minimum Android version is now API level 14 due to NDK r16b
+                 deprecating older versions.
+* Switch       - Now built with SDK 3.5.1.
+
+07/12/17 1.10.02 - Studio API minor release (build 92217)
 ------------------------------------------------------------------------------------------
 
 Features:
