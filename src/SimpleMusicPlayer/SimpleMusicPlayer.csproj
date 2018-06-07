@@ -266,13 +266,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <PropertyGroup>
-        <__paket__Costura_Fody_targets>portable-net+sl+win+wpa+wp\Costura.Fody</__paket__Costura_Fody_targets>
-      </PropertyGroup>
-    </When>
-  </Choose>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -304,7 +297,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
       <ItemGroup>
         <Reference Include="Costura">
-          <HintPath>..\packages\Costura.Fody\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
+          <HintPath>..\packages\Costura.Fody\lib\net452\Costura.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -326,7 +319,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
       <ItemGroup>
         <Reference Include="MahApps.Metro">
-          <HintPath>..\packages\MahApps.Metro\lib\net45\MahApps.Metro.dll</HintPath>
+          <HintPath>..\packages\MahApps.Metro\lib\net46\MahApps.Metro.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -544,6 +537,6 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\packages\Costura.Fody\build\$(__paket__Costura_Fody_targets).targets" Condition="Exists('..\packages\Costura.Fody\build\$(__paket__Costura_Fody_targets).targets')" Label="Paket" />
+  <Import Project="..\packages\Costura.Fody\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody\build\Costura.Fody.targets')" Label="Paket" />
   <Import Project="..\packages\Fody\build\Fody.targets" Condition="Exists('..\packages\Fody\build\Fody.targets')" Label="Paket" />
 </Project>
