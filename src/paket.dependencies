@@ -5,7 +5,8 @@ source https://www.nuget.org/api/v2/
 // source https://ci.appveyor.com/nuget/mahapps-metro-simplechildwindow
 source https://ci.appveyor.com/nuget/gong-wpf-dragdrop
 
-nuget Costura.Fody
+nuget Fody < 3.1
+nuget Costura.Fody < 3
 nuget WindowsAPICodePack-Shell
 
 nuget gong-wpf-dragdrop prerelease
