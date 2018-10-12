@@ -1,5 +1,6 @@
-# configuration for develop/CI branch
+# http://www.appveyor.com/docs/appveyor-yml
 
+# configuration for develop/CI and master/Release branch
 -
   branches:
     only:
@@ -10,29 +11,22 @@
   image: Visual Studio 2017
   configuration: Release
   platform: Any CPU
+  test: off
 
   pull_requests:
     do_not_increment_build_number: false
 
-  install:
-    - choco install gitversion.portable -pre -y
-
-  before_build:
+  build_script:
     - ps: cd src
-    - ps: .paket\paket restore
+    - ps: .\build.ps1 -Target appveyor
     - ps: cd..
-    - ps: gitversion /l console /output buildserver /updateAssemblyInfo
-
-  build:
-    verbosity: minimal
-
-  after_build:
 
   cache:
     - src\packages -> **\packages.config
     # - '%USERPROFILE%\.nuget\packages -> **\project.json'
 
   artifacts:
-    - path: \src\bin\Release\
-      name: SimpleMusicPlayer.$(GitVersion_AssemblySemVer)
-      type: zip
+    - path: \src\Publish\*.*
+
+  nuget:
+    disable_publish_on_pr: true
