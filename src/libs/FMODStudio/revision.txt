@@ -5,8 +5,117 @@
                                    https://www.fmod.com                                   
 ==========================================================================================
 
+11/10/18 1.10.09 - Studio API minor release (build 97915)
+------------------------------------------------------------------------------------------
+
+Features:
+* Studio API   - Added globally sequential play mode to multi and scatterer instruments.
+* Unity        - All logging will now be displayed in the editor console. The logging 
+                 level can be changed using the dropdown in settings.
+
+Fixes:
+* Studio API   - Fixed missing bank warnings when playing a CommandReplay using 
+                 FMOD_STUDIO_COMMANDREPLAY_SKIP_BANK_LOAD mode.
+* Studio API   - UWP - Fixed Studio thread affinity not applying correctly.
+* Studio API   - Android / UWP - Fixed CommandReplay not working with AppX and
+                 APK based paths.
+* LowLevel API - Fixed loading of encrypted FSBs.
+* LowLevel API - Fixed several panning issues when using FMOD_SPEAKERMODE_QUAD or
+                 FMOD_SPEAKERMODE_SURROUND, does not affect Studio API usage.
+* LowLevel API - Fixed potential hang from internal fade point usage.
+* LowLevel API - Fixed ChannelControl::setMixLevelsInput not remembering the set
+                 values when FMOD_3D is applied.
+* LowLevel API - Fixed potential cpu usage spike due to thread lock on releasing a
+                 non-gpu convolution reverb dsp.
+* LowLevel API - Fixed support of FMOD_3D_INVERSETAPEREDROLLOFF.
+* LowLevel API - Fixed potential cpu usage spike due to thread lock on releasing a
+                 transciever dsp.
+* LowLevel API - Win / UWP - Fixed Windows Sonic initialization failure when audio
+                 device is configured for a sample rate other than 48KHz.
+* LowLevel API - Linux - Fixed ALSA default audio device selection.
+* LowLevel API - Android - Fixed crash if System::mixerSuspend is called before
+                 System::init.
+* Unity        - iOS - Fixed playback not resuming after alarm / call interruptions.
+
+Notes:
+* Updated Resonance Audio plugin to add support for near field effects, and added
+  FMOD_DSP_PARAMETER_OVERALLGAIN parameter to support virtualization.
+* PS4          - Now built with SDK 6.008.001.
+* Xbox One     - Now built with July 2018 QFE2 XDK.
+
+10/08/18 1.10.08 - Studio API minor release (build 96768)
+------------------------------------------------------------------------------------------
+
+Features:
+* UE4          - FMODAudioComponent is now blueprintable.
+
+Fixes:
+* Studio API   - Fixed potential crash when calling EventInstance::release from
+                 the FMOD_STUDIO_EVENT_CALLBACK_STOPPED triggered by Bus::stopAllEvents.
+* Studio API   - Fixed a bug where changes to a parameter value made while an event was in
+                 the FMOD_STUDIO_PLAYBACK_STARTING state would not update automation
+                 controllers (introduced in 1.10.02).
+* Studio API   - Fixed Studio::CommandReplay::release not cleaning up resources
+                 unless Studio::CommandReplay::stop was called earlier.
+* Studio API   - HTML5/WebGL - Fixed the following functions that didn't work.
+                     - Studio::Bank::getID
+                     - Studio::EventDescription::getID
+                     - Studio::Bus::Bank::getID
+                     - Studio::VCA::Bank::getID
+                     - Studio::System::lookupID
+                     - Studio::Bank::getStringInfo
+                     - Studio::System::getBankList
+                     - Studio::EventDescription::getInstanceList
+                     - Studio::Bank::getEventList
+                     - Studio::Bank::getBusList
+                     - Studio::Bank::getVCAList
+* LowLevel API - Fixed audible artifacts when adjusting pitch near 1.0. Issue
+                 can be seen from doppler calculations with small velocities.
+* LowLevel API - Improved stuttering issue when using Windows Sonic with high
+                 DSP CPU usage.
+* LowLevel API - Fixed init errors on output devices that operate at 384KHz such
+                 as the Aune X1s.
+* LowLevel API - Windows - Improved compatibility with some audio drivers by falling
+                 back to stereo.
+* LowLevel API - HTML5/WebGL - Added support for unimplemented System::createDSP
+                 with FMOD_DSP_DESCRIPTION. DSP callbacks are provided to allow
+                 custom DSP support in Javascript. Added dsp_custom example to
+                 example folder.
+* LowLevel API - HTML5/WebGL - Added support for unimplemented
+                 ChannelControl::setCallback.
+* LowLevel API - HTML5/WebGL - Enabled support for 5.1 / Surround sound in a browser.
+                 Only Firefox supports 5.1 so far, out of all browsers tested.
+* UE4          - Fixed Activate and SetActive not working for FMODAudioComponents.
+* UE4          - Fixed Simulating in editor producing no sound.
+* UE4          - Fixed BlueprintStatics::LoadBank not working for banks containing spaces.
+* UE4          - Fixed asset banks not displaying in editor or being loaded.
+* Unity        - Fixed warnings due to loading sample data on a metadata-only bank
+                 before its asset bank is loaded.
+* Unity        - Fixed source project not updating if the old path is still valid.
+
+Notes:
+* Xbox One     - Now built with April 2018 QFE1 XDK.
+
+03/07/18 1.10.07 - Studio API minor release (build 95892)
+------------------------------------------------------------------------------------------
+
+Features:
+* Unity        - Added support for Timeline (from Unity 2017.1 onwards).
+
+Fixes:
+* Studio API   - The FMOD Gain effect is now taken into account when applying event
+                 stealing behavior and virtualizing low level channels.
+* LowLevel API - Win/Xbox One - Fixed crash during System::recordStart if the
+                 device was unplugged.
+* Lowlevel API - Win - FMOD::System::loadPlugin now correctly handles UTF-8 encoded
+                 paths. Support for paths using ACP is deprecated and will be removed in
+                 FMOD 1.11.
+* UE4          - Fixed auditioning events not taking parameter values into account.
+* UE4          - Fixed game crash when built using Event-Driven-Loader.
+
 06/06/18 1.10.06 - Studio API minor release (build 95384)
 ------------------------------------------------------------------------------------------
+
 Features:
 * Unity        - Added SampleRate for Play-In-Editor settings.
 * Unity        - Added scripts for setting thread affinity on specific consoles.
@@ -19,10 +128,6 @@ Fixes:
 * LowLevel API - Fixed incorrect parsing of large ID3 tags.
 * LowLevel API - Fixed FMOD_ERR_FILE_BAD error when trying to call setPosition to a point
                  past 2GB bytes in a file.
-* LowLevel API - HTML5/WebGL - Fix System::setDriver(0) causing garbled audio when trying 
-                 to respond to a touch event and the audio is already active. 
-* LowLevel API - HTML5/WebGL - Fix floating point accuracy issues making MIDI file sound 
-                 out of tune.
 * Lowlevel API - Fixed crash if Windows Sonic output mode is used with the object
                  spatializer and the device is unplugged.
 * Lowlevel API - Fixed stall in Sound::release for FSB files if another thread is
@@ -34,6 +139,10 @@ Fixes:
                  (introduced in 1.10.02).
 * Lowlevel API - Channel group audibility now factors in attenuation due to 3D effects
                  when using ChannelGroup::setMode(FMOD_3D).
+* LowLevel API - HTML5/WebGL - Fix System::setDriver(0) causing garbled audio when trying 
+                 to respond to a touch event and the audio is already active. 
+* LowLevel API - HTML5/WebGL - Fix floating point accuracy issues making MIDI file sound 
+                 out of tune.
 * Lowlevel API - UWP - Fixed default affinity mask incorrectly putting all threads
                  on core 0, now threads default to distributing among all cores.
 * UE4          - Removed FMODAudioComponent ticking when deactivated.
@@ -54,22 +163,22 @@ Features:
 * UE4          - File buffer size is now customizable in the settings menu.
 
 Fixes:
-* Lowlevel API - Fixed rare hang during Sound::release when releasing a streaming sound in
-                 the FMOD_OPENSTATE_ERROR state.
-* Lowlevel API - Switch - Fixed Vorbis encoded banks producing silence when using
-                 multimedia.nso (UE4 uses this).
 * Studio API   - Fixed a rare bug where Studio::System::Update could hang if a streaming
                  sound encountered an error.
 * Studio API   - Fixed events getting stuck in a paused state if they were restarted while
                  waiting for sample data to load (introduced in 1.10.02).
 * Studio API   - Fixed an issue preventing network streams being used as programmer 
                  sounds.
-* UE4          - Switch - Fixed performance by changing default thread affinity.
+* Lowlevel API - Fixed rare hang during Sound::release when releasing a streaming sound in
+                 the FMOD_OPENSTATE_ERROR state.
+* Lowlevel API - Switch - Fixed Vorbis encoded banks producing silence when using
+                 multimedia.nso (UE4 uses this).
 * UE4          - Fixed FMODAudioComponent programmer sound creation flags.
-* Unity        - Android - Fixed load bank returning ERR_INVALID_HANDLE.
+* UE4          - Switch - Fixed performance by changing default thread affinity.
 * Unity        - Fixed FMODStudioSettings asset dirty flag being set unnecessarily.
 * Unity        - Fixed callbacks crashing when using IL2CPP or Mono on some platforms.
 * Unity        - Fixed editor system not being cleaned up on Play-In-Editor start.
+* Unity        - Android - Fixed load bank returning ERR_INVALID_HANDLE.
 
 Notes:
 * LowLevel API - It is now possible to initialize WinSonic output even if the user
@@ -81,19 +190,17 @@ Notes:
 ------------------------------------------------------------------------------------------
 
 Features:
+* Studio API   - Improved bank loading performance when there are already a large number
+                 of loaded events.
 * UE4          - Added the ability to enable Live Update while in editor for auditioning.
                  The Editor will need to be restarted for this setting to take effect.
 
-Features:
-* Studio API   - Improved bank loading performance when there are already a large number
-                 of loaded events.
-
 Fixes:
-* LowLevel API - Xbox One - Fixed XMA hang that can occur after actively using
-                 many XMA voices for several days.
 * Studio API   - Fixed a bug where Studio::System::Update could fail with
                  FMOD_ERR_INVALID_HANDLE or FMOD_ERR_CHANNEL_STOLEN, which could lead to
                  memory or performance problems. Introduced in 1.10.03.
+* LowLevel API - Xbox One - Fixed XMA hang that can occur after actively using
+                 many XMA voices for several days.
 * Unity        - Fixed MobileHigh/Low classifications for Apple Devices. Pre iPhone 5
                  is classed as MobileLow.
 
@@ -249,15 +356,15 @@ Fixes:
 
 Notes:
 * Updated Google VR plugin to version 0.6.0.
-* LowLevel API - FMOD_DSP_TYPE_ENVELOPEFOLLOWER is now deprecated and will be
-                 removed in a future release.
-* LowLevel API - Increment Plugin API version for Output plugins. Dynamic library 
-                 Output Plugins must be rebuilt.
 * Studio API   - Changed the behaviour of nested events to stop when idle even
                  when there are instruments on parameters. This makes nested 
                  events match the behaviour of top level events. Events which
                  depend on the old behaviour need to be manually fixed up by (for
                  example) adding a sustain point to the nested events timeline.
+* LowLevel API - FMOD_DSP_TYPE_ENVELOPEFOLLOWER is now deprecated and will be
+                 removed in a future release.
+* LowLevel API - Increment Plugin API version for Output plugins. Dynamic library 
+                 Output Plugins must be rebuilt.
 * Android      - Logging version will now produce proper crash stacks but due to
                  binary size increase the release version will continue to not.
 * Xbox One     - Removed "acp" and "feeder" from FMOD_DURANGO_THREADAFFINITY.
