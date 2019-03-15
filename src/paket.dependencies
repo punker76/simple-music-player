@@ -1,8 +1,9 @@
 framework: auto-detect
 
-source https://www.nuget.org/api/v2/
+source https://api.nuget.org/v3/index.json
 // source https://ci.appveyor.com/nuget/mahapps.metro
 // source https://ci.appveyor.com/nuget/mahapps-metro-simplechildwindow
+//source https://ci.appveyor.com/nuget/mahapps-metro-iconpacks
 source https://ci.appveyor.com/nuget/gong-wpf-dragdrop
 
 nuget Fody < 3.1

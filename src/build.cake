@@ -2,50 +2,41 @@
 // TOOLS / ADDINS
 ///////////////////////////////////////////////////////////////////////////////
 
-#tool paket:?package=GitVersion.CommandLine
-#tool paket:?package=vswhere
-#tool paket:?package=xunit.runner.console
-#addin paket:?package=Cake.Figlet
-#addin paket:?package=Cake.Paket
+#tool GitVersion.CommandLine
+#tool vswhere
+#tool xunit.runner.console
+#addin Cake.Figlet
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 ///////////////////////////////////////////////////////////////////////////////
 
 var target = Argument("target", "Default");
-if (string.IsNullOrWhiteSpace(target))
-{
-    target = "Default";
-}
-
 var configuration = Argument("configuration", "Release");
-if (string.IsNullOrWhiteSpace(configuration))
-{
-    configuration = "Release";
-}
-
-var verbosity = Argument("verbosity", Verbosity.Normal);
-if (string.IsNullOrWhiteSpace(configuration))
-{
-    verbosity = Verbosity.Normal;
-}
+var verbosity = Argument("verbosity", Verbosity.Minimal);
 
 ///////////////////////////////////////////////////////////////////////////////
 // PREPARATION
 ///////////////////////////////////////////////////////////////////////////////
 
-var local = BuildSystem.IsLocalBuild;
+var repoName = "SimpleMusicPlayer";
+var isLocal = BuildSystem.IsLocalBuild;
 
 // Set build version
-if (local == false
-    || verbosity == Verbosity.Verbose)
+if (isLocal == false || verbosity == Verbosity.Verbose)
 {
     GitVersion(new GitVersionSettings { OutputType = GitVersionOutput.BuildServer });
 }
 GitVersion gitVersion = GitVersion(new GitVersionSettings { OutputType = GitVersionOutput.Json });
 
-var latestInstallationPath = VSWhereProducts("*", new VSWhereProductSettings { Version = "[\"15.0\",\"16.0\"]" }).FirstOrDefault();
-var msBuildPath = latestInstallationPath.CombineWithFilePath("./MSBuild/15.0/Bin/MSBuild.exe");
+var latestInstallationPath = VSWhereLatest(new VSWhereLatestSettings { IncludePrerelease = true });
+var msBuildPath = latestInstallationPath.Combine("./MSBuild/Current/Bin");
+var msBuildPathExe = msBuildPath.CombineWithFilePath("./MSBuild.exe");
+
+if (FileExists(msBuildPathExe) == false)
+{
+    throw new NotImplementedException("You need at least Visual Studio 2019 to build this project.");
+}
 
 var isPullRequest = AppVeyor.Environment.PullRequest.IsPullRequest;
 var branchName = gitVersion.BranchName;
@@ -54,7 +45,7 @@ var isReleaseBranch = StringComparer.OrdinalIgnoreCase.Equals("master", branchNa
 var isTagged = AppVeyor.Environment.Repository.Tag.IsTag;
 
 // Directories and Paths
-var solution = "SimpleMusicPlayer.sln";
+var solution = "./SimpleMusicPlayer.sln";
 var publishDir = "./Publish";
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -67,17 +58,17 @@ Setup(ctx =>
 
     if (!IsRunningOnWindows())
     {
-        throw new NotImplementedException("SimpleMusicPlayer will only build on Windows because it's not possible to target WPF and Windows Forms from UNIX.");
+        throw new NotImplementedException($"{repoName} will only build on Windows because it's not possible to target WPF and Windows Forms from UNIX.");
     }
 
-    Information(Figlet("SimpleMusicPlayer"));
+    Information(Figlet(repoName));
 
     Information("Informational   Version: {0}", gitVersion.InformationalVersion);
     Information("SemVer          Version: {0}", gitVersion.SemVer);
     Information("AssemblySemVer  Version: {0}", gitVersion.AssemblySemVer);
     Information("MajorMinorPatch Version: {0}", gitVersion.MajorMinorPatch);
     Information("NuGet           Version: {0}", gitVersion.NuGetVersion);
-    Information("IsLocalBuild           : {0}", local);
+    Information("IsLocalBuild           : {0}", isLocal);
     Information("Branch                 : {0}", branchName);
     Information("Configuration          : {0}", configuration);
     Information("MSBuildPath            : {0}", msBuildPath);
@@ -93,47 +84,61 @@ Teardown(ctx =>
 ///////////////////////////////////////////////////////////////////////////////
 
 Task("Clean")
-    //.ContinueOnError()
+    .ContinueOnError()
     .Does(() =>
 {
-    var directoriesToDelete = GetDirectories("./**/obj").Concat(GetDirectories("./**/bin")).Concat(GetDirectories("./**/Publish"));
+    var directoriesToDelete = GetDirectories("./**/obj")
+        .Concat(GetDirectories("./**/bin"))
+        .Concat(GetDirectories("./**/Publish"));
     DeleteDirectories(directoriesToDelete, new DeleteDirectorySettings { Recursive = true, Force = true });
 });
 
 Task("Restore")
-    .IsDependentOn("Clean")
     .Does(() =>
 {
-    PaketRestore();
-
-    var msBuildSettings = new MSBuildSettings { ToolPath = msBuildPath, ArgumentCustomization = args => args.Append("/m") };
-    MSBuild(solution, msBuildSettings
-            .UseToolVersion(MSBuildToolVersion.VS2015)
-            //.SetConfiguration(configuration)
-            .SetVerbosity(Verbosity.Minimal)
-            .WithTarget("restore")
-            );
+    StartProcess("nuget", new ProcessSettings {
+        Arguments = new ProcessArgumentBuilder()
+            .Append("restore")
+            .Append(solution)
+            .Append("-msbuildpath")
+            .AppendQuoted(msBuildPath.ToString())
+       }
+   );
 });
 
 Task("Build")
-    .IsDependentOn("Restore")
     .Does(() =>
 {
-    var msBuildSettings = new MSBuildSettings { ArgumentCustomization = args => args.Append("/m") };
+    var msBuildSettings = new MSBuildSettings {
+        Verbosity = verbosity
+        , ToolPath = msBuildPathExe
+        , Configuration = configuration
+        , ArgumentCustomization = args => args.Append("/m")
+        , BinaryLogger = new MSBuildBinaryLogSettings() { Enabled = isLocal }
+        };
     MSBuild(solution, msBuildSettings
-            .UseToolVersion(MSBuildToolVersion.VS2015) // for now
+            .UseToolVersion(MSBuildToolVersion.VS2017) // for now
             .SetMaxCpuCount(0)
-            .SetConfiguration(configuration)
-            .SetVerbosity(Verbosity.Normal)
-            //.WithRestore() only with cake 0.28.x            
+            .WithProperty("Version", isReleaseBranch ? gitVersion.MajorMinorPatch : gitVersion.NuGetVersion)
             .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
             .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
             .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
             );
+
+    // var msBuildSettings = new MSBuildSettings { ArgumentCustomization = args => args.Append("/m") };
+    // MSBuild(solution, msBuildSettings
+    //         .UseToolVersion(MSBuildToolVersion.VS2015) // for now
+    //         .SetMaxCpuCount(0)
+    //         .SetConfiguration(configuration)
+    //         .SetVerbosity(Verbosity.Normal)
+    //         //.WithRestore() only with cake 0.28.x            
+    //         .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
+    //         .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
+    //         .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
+    //         );
 });
 
 Task("Zip")
-    .WithCriteria(() => !isPullRequest)
     .Does(() =>
 {
     EnsureDirectoryExists(Directory(publishDir));
@@ -141,7 +146,6 @@ Task("Zip")
 });
 
 Task("Tests")
-    //.WithCriteria(() => !local)
     .Does(() =>
 {
     XUnit2(
@@ -155,10 +159,12 @@ Task("Tests")
 ///////////////////////////////////////////////////////////////////////////////
 
 Task("Default")
+    .IsDependentOn("Clean")
+    .IsDependentOn("Restore")
     .IsDependentOn("Build");
 
 Task("appveyor")
-    .IsDependentOn("Build")
+    .IsDependentOn("Default")
     .IsDependentOn("Tests")
     .IsDependentOn("Zip");
 

@@ -1,6 +1,6 @@
 /* ========================================================================================== */
 /*                                                                                            */
-/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2018.      */
+/* FMOD Studio - C# Wrapper . Copyright (c), Firelight Technologies Pty, Ltd. 2004-2019.      */
 /*                                                                                            */
 /* ========================================================================================== */
 
@@ -16,7 +16,7 @@ namespace FMOD
     */
     public class VERSION
     {
-        public const int    number = 0x00011009;
+        public const int    number = 0x00011012;
 #if WIN64
         public const string dll    = "fmod64";
 #else
@@ -1652,7 +1652,7 @@ namespace FMOD
 
     public class Memory
     {
-        public static RESULT Initialize(IntPtr poolmem, int poollen, MEMORY_ALLOC_CALLBACK useralloc, MEMORY_REALLOC_CALLBACK userrealloc, MEMORY_FREE_CALLBACK userfree, MEMORY_TYPE memtypeflags)
+        public static RESULT Initialize(IntPtr poolmem, int poollen, MEMORY_ALLOC_CALLBACK useralloc, MEMORY_REALLOC_CALLBACK userrealloc, MEMORY_FREE_CALLBACK userfree, MEMORY_TYPE memtypeflags = MEMORY_TYPE.ALL)
         {
             return FMOD_Memory_Initialize(poolmem, poollen, useralloc, userrealloc, userfree, memtypeflags);
         }
@@ -1680,7 +1680,7 @@ namespace FMOD
 
     public class Debug
     {
-        public static RESULT Initialize(DEBUG_FLAGS flags, DEBUG_MODE mode, DEBUG_CALLBACK callback, string filename)
+        public static RESULT Initialize(DEBUG_FLAGS flags, DEBUG_MODE mode = DEBUG_MODE.TTY, DEBUG_CALLBACK callback = null, string filename = null)
         {
             return FMOD_Debug_Initialize(flags, mode, callback, filename);
         }
@@ -1841,7 +1841,7 @@ namespace FMOD
             settings.cbSize = Marshal.SizeOf(settings);
             return FMOD_System_GetAdvancedSettings(rawPtr, ref settings);
         }
-        public RESULT setCallback            (SYSTEM_CALLBACK callback, SYSTEM_CALLBACK_TYPE callbackmask)
+        public RESULT setCallback            (SYSTEM_CALLBACK callback, SYSTEM_CALLBACK_TYPE callbackmask = SYSTEM_CALLBACK_TYPE.ALL)
         {
             return FMOD_System_SetCallback(rawPtr, callback, callbackmask);
         }
@@ -1851,13 +1851,9 @@ namespace FMOD
         {
             return FMOD_System_SetPluginPath(rawPtr, Encoding.UTF8.GetBytes(path + Char.MinValue));
         }
-        public RESULT loadPlugin             (string filename, out uint handle, uint priority)
+        public RESULT loadPlugin             (string filename, out uint handle, uint priority = 0)
         {
             return FMOD_System_LoadPlugin(rawPtr, Encoding.UTF8.GetBytes(filename + Char.MinValue), out handle, priority);
-        }
-        public RESULT loadPlugin             (string filename, out uint handle)
-        {
-            return loadPlugin(filename, out handle, 0);
         }
         public RESULT unloadPlugin           (uint handle)
         {
@@ -1913,7 +1909,7 @@ namespace FMOD
             return FMOD_System_GetDSPInfoByPlugin(rawPtr, handle, out description);
         }
         /*
-        public RESULT registerCodec          (ref CODEC_DESCRIPTION description, out uint handle, uint priority)
+        public RESULT registerCodec          (ref CODEC_DESCRIPTION description, out uint handle, uint priority = 0)
         {
             return FMOD_System_RegisterCodec(rawPtr, ref description, out handle, priority);
         }
@@ -2984,11 +2980,11 @@ namespace FMOD
         {
             return FMOD_ChannelGroup_SetMixLevelsInput(rawPtr, levels, numlevels);
         }
-        public RESULT setMixMatrix(float[] matrix, int outchannels, int inchannels, int inchannel_hop)
+        public RESULT setMixMatrix(float[] matrix, int outchannels, int inchannels, int inchannel_hop = 0)
         {
             return FMOD_ChannelGroup_SetMixMatrix(rawPtr, matrix, outchannels, inchannels, inchannel_hop);
         }
-        public RESULT getMixMatrix(float[] matrix, out int outchannels, out int inchannels, int inchannel_hop)
+        public RESULT getMixMatrix(float[] matrix, out int outchannels, out int inchannels, int inchannel_hop = 0)
         {
             return FMOD_ChannelGroup_GetMixMatrix(rawPtr, matrix, out outchannels, out inchannels, inchannel_hop);
         }
@@ -2998,7 +2994,7 @@ namespace FMOD
         {
             return FMOD_ChannelGroup_GetDSPClock(rawPtr, out dspclock, out parentclock);
         }
-        public RESULT setDelay(ulong dspclock_start, ulong dspclock_end, bool stopchannels)
+        public RESULT setDelay(ulong dspclock_start, ulong dspclock_end, bool stopchannels = true)
         {
             return FMOD_ChannelGroup_SetDelay(rawPtr, dspclock_start, dspclock_end, stopchannels);
         }
@@ -3706,7 +3702,7 @@ namespace FMOD
         }
 
         // Connection / disconnection / input and output enumeration.
-        public RESULT addInput(DSP target, out DSPConnection connection, DSPCONNECTION_TYPE type)
+        public RESULT addInput(DSP target, out DSPConnection connection, DSPCONNECTION_TYPE type = DSPCONNECTION_TYPE.STANDARD)
         {
             connection = null;
 
@@ -3716,9 +3712,9 @@ namespace FMOD
 
             return result;
         }
-        public RESULT disconnectFrom            (DSP target, DSPConnection connection)
+        public RESULT disconnectFrom            (DSP target, DSPConnection connection = null)
         {
-            return FMOD_DSP_DisconnectFrom(rawPtr, target.getRaw(), connection.getRaw());
+            return FMOD_DSP_DisconnectFrom(rawPtr, target.getRaw(), connection != null ? connection.getRaw() : default(IntPtr));
         }
         public RESULT disconnectAll             (bool inputs, bool outputs)
         {
@@ -3906,6 +3902,11 @@ namespace FMOD
             return FMOD_DSP_GetMeteringInfo(rawPtr, inputInfo, outputInfo);
         }
 
+        public RESULT getCPUUsage(out uint exclusive, out uint inclusive)
+        {
+            return FMOD_DSP_GetCPUUsage(rawPtr, out exclusive, out inclusive);
+        }
+
         #region importfunctions
 
         [DllImport(VERSION.dll)]
@@ -3986,6 +3987,8 @@ namespace FMOD
         public static extern RESULT FMOD_DSP_GetMeteringEnabled         (IntPtr dsp, out bool inputEnabled, out bool outputEnabled);
         [DllImport(VERSION.dll)]
         public static extern RESULT FMOD_DSP_GetMeteringInfo            (IntPtr dsp, [Out] DSP_METERING_INFO inputInfo, [Out] DSP_METERING_INFO outputInfo);
+        [DllImport(VERSION.dll)]
+        public static extern RESULT FMOD_DSP_GetCPUUsage                (IntPtr dsp, out uint exclusive, out uint inclusive);
         #endregion
 
         #region wrapperinternal
@@ -4032,11 +4035,11 @@ namespace FMOD
         {
             return FMOD_DSPConnection_GetMix(rawPtr, out volume);
         }
-        public RESULT setMixMatrix(float[] matrix, int outchannels, int inchannels, int inchannel_hop)
+        public RESULT setMixMatrix(float[] matrix, int outchannels, int inchannels, int inchannel_hop = 0)
         {
             return FMOD_DSPConnection_SetMixMatrix(rawPtr, matrix, outchannels, inchannels, inchannel_hop);
         }
-        public RESULT getMixMatrix(float[] matrix, out int outchannels, out int inchannels, int inchannel_hop)
+        public RESULT getMixMatrix(float[] matrix, out int outchannels, out int inchannels, int inchannel_hop = 0)
         {
             return FMOD_DSPConnection_GetMixMatrix(rawPtr, matrix, out outchannels, out inchannels, inchannel_hop);
         }

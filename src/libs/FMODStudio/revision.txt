@@ -1,9 +1,120 @@
 
 ==========================================================================================
                             REVISION HISTORY : FMOD Studio API                            
-                 Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2018                
+                 Copyright (c) Firelight Technologies, Pty, Ltd, 2011-2019                
                                    https://www.fmod.com                                   
 ==========================================================================================
+
+13/03/19 1.10.12 - Studio API minor release (build 101101)
+------------------------------------------------------------------------------------------
+
+Features:
+* Unity        - Added option to specify Live Update port number in editor settings.
+* Unity        - Changed StudioEventEmitter private members to protected.
+
+Fixes:
+* Studio API   - Avoid stalling when unloading a bank which is waiting to load sample data
+                 behind other banks.
+* LowLevel API - FMOD_OUTPUTTYPE_ASIO is now compatible with more devices without
+                 requiring calls to System::setDSPBufferSize.
+* LowLevel API - Android - Fixed instances of audio stuttering that occurred on some
+                 devices by dynamically adding latency to compensate.
+* LowLevel API - Fixed MP3 files with MPEG 2.5 encoding having distortion on some files.
+* Unity        - Fixed plugins not being found on Android.
+* Unity        - Fix for banks being read only when trying to copy new banks to
+                 StreamingAssets.
+* Unity        - Fixed BatchMode builds not being able to find the MasterBank.
+* Unity        - Fixed BatchMode builds not building with banks.
+* Unity        - Changed console default thread affinity to not use the game thread.
+* Unity        - Fixed Strings bank not being found or copied (introduced in 1.10.10).
+
+01/02/19 1.10.11 - Studio API minor release (build 99976)
+------------------------------------------------------------------------------------------
+
+Features:
+* Studio API   - Add streamingscheduledelay member to FMOD_STUDIO_ADVANCEDSETTINGS. May be
+                 used to reduce latency when scheduling events containing streaming
+                 sounds.
+* UE4          - Expose the FMODAudioComponent::bAutoDestroy property to the
+                 PlayEventAttached Blueprint function.
+
+Fixes:
+* Studio API   - Fixed fire and forget event instances not releasing when another instance
+                 of the same event is active.
+* Studio API   - Fixed a bug with multi-instruments when using looping and initial seek
+                 which caused a gap of silence the same length as the initial seek when
+                 scheduling the second instrument.
+* LowLevel API - Fixed MP3 files using Xing headers from having incorrect seek positions 
+                 when using Channel::setPosition.
+* LowLevel API - Fixed potential crash caused by third party applications sending 
+                 data to the FMOD profiler port.
+* LowLevel API - Fixed issue where bypassed faders and convolution reverb dsps could
+                 silence their output.
+* UE4          - Fixed 'An invalid object handle' errors from FMODAudioComponent
+                 in sequencer after reloading banks.
+* UE4          - Fixed playback not working correctly in Sequencer.
+* UE4          - Fixed error from FindEventInstances if zero events found.
+* UE4          - Fixed Programmer Sounds not auditioning in Editor.
+* UE4          - Fixed events not playing in Sequencer.
+* Unity        - Fixed RuntimeManager being saved to scene after auditioning timeline.
+* Unity        - Fix AttachInstaceToGameObject positioning not being applied correctly.
+
+Notes:
+* PS4          - Now built with SDK 6.008.051.
+* iOS          - Now built with iOS SDK 12.1 and tvOS SDK 12.1 (Xcode 10.1) which
+                 necessitates lifting the min spec to 8.0 for iOS, no change for tvOS.
+* Mac          - Now built with macOS SDK 10.14 (Xcode 10.1) which necessitates
+                 lifting the min spec to 10.7 and the removal of x86 support.
+* Android      - Added support for x86_64.
+
+03/12/18 1.10.10 - Studio API minor release (build 98815)
+------------------------------------------------------------------------------------------
+
+Features:
+* Studio API   - Added FMOD_STUDIO_EVENT_CALLBACK_REAL_TO_VIRTUAL and
+                 FMOD_STUDIO_EVENT_CALLBACK_VIRTUAL_TO_REAL.
+* LowLevel API - Added DSP::GetCPUUsage to public API.
+* LowLevel API - Linux - Added support for FMOD_ALSA_DEVICE environment variable to
+                 allow a user to specify an ALSA device.
+* HTML5        - Add Web Assembly support (WASM) to HTML5 version of FMOD Low Level API 
+                 and Studio API.  Memory usage halved, CPU speed improvements of about 30%
+* Unity        - Android - Added ARM64 support.
+* Unity        - Add support for working with multiple master banks and strings banks.
+
+Fixes:
+* Studio API   - Fixed multi-instrument playlist entries set to loop infinitely not
+                 looping correctly.
+* Studio API   - Fixed pop that occurs at the start of a transition destination section
+                 with a fade curves.
+* Studio API   - Fixed nested event instances stopping when their parent is paused.
+* Studio API   - HTML5 - Fix Studio::System::getSoundInfo not working
+* LowLevel API - System::setDSPBufferSize validates arguments for integer overflow.
+* LowLevel API - Fixed potential CPU usage spike due to dsp flush on releasing a
+                 programmer sound during the destroy callback.
+* LowLevel API - Opening a playlist from a URL now validates that the playlist file is a
+                 text file and falls back to codec probing if binary data is found.
+* LowLevel API - Linux - Fixed occasional distortion that can occur when using
+                 PulseAudio.
+* FSBank API   - Fixed issue where a file change would not be detected when it has the
+                 same modified time.
+* UE4          - Fixed occlusion using the trace channel selected in editor.
+* UE4          - Fixed plugin include directory paths.
+* UE4          - Fixed crash caused by trying to access objects pending kill.
+* UE4          - Fixed occlusion not working.
+* UE4          - Fixed programmer sounds trying to access the FMODStudioModule outside
+                 of the main thread, while also improving the performance of the
+                 FMODAudioComponent.
+* Unity        - Fixed Asset Folder name updating after each keystroke.
+* Unity        - Fixed Timeline playables playing the previously selected event.
+* Unity        - Fixed "Bus not found" error caused when no banks loaded in editor.
+* Unity        - iOS - Fixed Events not resuming after returning focus.
+* Unity        - PS4 - Fixed logging libs being used for development builds.
+
+Notes:
+* Studio API   - Reduced the maximum number of parameter values which can be set in a
+                 batch using Studio::EventInstance::setParameterValuesByIndices to 64.
+* HTML5        - Now built with Emscripten v1.38.15
+* Switch       - Now built with SDK 6.4.0.
 
 11/10/18 1.10.09 - Studio API minor release (build 97915)
 ------------------------------------------------------------------------------------------
