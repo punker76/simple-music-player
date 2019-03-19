@@ -142,7 +142,7 @@ Task("Zip")
     .Does(() =>
 {
     EnsureDirectoryExists(Directory(publishDir));
-    Zip("./bin/" + configuration, publishDir + $"/SimpleMusicPlayer-{configuration}-v{gitVersion.NuGetVersion}.zip");
+    Zip("./SimpleMusicPlayer/bin/" + configuration, publishDir + $"/SimpleMusicPlayer-{configuration}-v{gitVersion.NuGetVersion}.zip");
 });
 
 Task("Tests")

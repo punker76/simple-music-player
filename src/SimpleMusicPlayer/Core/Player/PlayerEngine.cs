@@ -119,7 +119,7 @@ namespace SimpleMusicPlayer.Core.Player
             }
             catch (Exception exception)
             {
-                System.Diagnostics.Debug.WriteLine(exception);
+                this.Log().FatalException("Something went wrong", exception);
                 return false;
             }
         }

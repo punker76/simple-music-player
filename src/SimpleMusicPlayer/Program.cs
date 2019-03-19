@@ -9,7 +9,7 @@ namespace SimpleMusicPlayer
         private const int MAXTRIES = 10;
 
         [STAThread]
-        public static void Main()
+        public static void Main(string[] args)
         {
             StartUp();
         }

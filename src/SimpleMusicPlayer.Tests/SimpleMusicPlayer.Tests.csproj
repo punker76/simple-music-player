@@ -82,12 +82,6 @@
   </Target>
   -->
   <Import Project="..\.paket\paket.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\SimpleMusicPlayer\SimpleMusicPlayer.csproj">
-      <Project>{06e30367-00ac-4fc1-8a4f-13a98cbd441d}</Project>
-      <Name>SimpleMusicPlayer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
       <ItemGroup>
