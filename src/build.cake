@@ -117,25 +117,12 @@ Task("Build")
         , BinaryLogger = new MSBuildBinaryLogSettings() { Enabled = isLocal }
         };
     MSBuild(solution, msBuildSettings
-            .UseToolVersion(MSBuildToolVersion.VS2017) // for now
             .SetMaxCpuCount(0)
             .WithProperty("Version", isReleaseBranch ? gitVersion.MajorMinorPatch : gitVersion.NuGetVersion)
             .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
             .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
             .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
             );
-
-    // var msBuildSettings = new MSBuildSettings { ArgumentCustomization = args => args.Append("/m") };
-    // MSBuild(solution, msBuildSettings
-    //         .UseToolVersion(MSBuildToolVersion.VS2015) // for now
-    //         .SetMaxCpuCount(0)
-    //         .SetConfiguration(configuration)
-    //         .SetVerbosity(Verbosity.Normal)
-    //         //.WithRestore() only with cake 0.28.x            
-    //         .WithProperty("AssemblyVersion", gitVersion.AssemblySemVer)
-    //         .WithProperty("FileVersion", gitVersion.AssemblySemFileVer)
-    //         .WithProperty("InformationalVersion", gitVersion.InformationalVersion)
-    //         );
 });
 
 Task("Zip")
@@ -161,11 +148,11 @@ Task("Tests")
 Task("Default")
     .IsDependentOn("Clean")
     .IsDependentOn("Restore")
-    .IsDependentOn("Build");
+    .IsDependentOn("Build")
+    .IsDependentOn("Tests");
 
 Task("appveyor")
     .IsDependentOn("Default")
-    .IsDependentOn("Tests")
     .IsDependentOn("Zip");
 
 ///////////////////////////////////////////////////////////////////////////////
