@@ -2,7 +2,7 @@
 // TOOLS / ADDINS
 ///////////////////////////////////////////////////////////////////////////////
 
-#tool GitVersion.CommandLine
+#tool GitVersion.CommandLine&version=5.0.1
 #tool vswhere
 #tool xunit.runner.console
 #addin Cake.Figlet
@@ -113,7 +113,7 @@ Task("Build")
         Verbosity = verbosity
         , ToolPath = msBuildPathExe
         , Configuration = configuration
-        , ArgumentCustomization = args => args.Append("/m")
+        , ArgumentCustomization = args => args.Append("/m").Append("/nr:false") // The /nr switch tells msbuild to quite once it’s done
         , BinaryLogger = new MSBuildBinaryLogSettings() { Enabled = isLocal }
         };
     MSBuild(solution, msBuildSettings
