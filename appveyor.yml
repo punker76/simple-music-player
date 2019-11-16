@@ -18,17 +18,14 @@ environment:
     secure: BSPdW2TgnQtoQXXbeDECug==
 
 skip_tags: true
-image: Visual Studio 2019 Preview
-configuration: Release
-platform: Any CPU
+image: Visual Studio 2019
 test: off
+
+install:
+  - cinst dotnetcore-sdk
 
 pull_requests:
   do_not_increment_build_number: false
-
-install:
-  # Install dotnet core 3.0 latest (alpha!!), as this is not provided on AppVeyor yet
-  - cinst dotnetcore-sdk --pre
 
 build_script:
   - ps: cd src
@@ -44,3 +41,7 @@ artifacts:
 
 nuget:
   disable_publish_on_pr: true
+
+skip_commits:
+  files:
+    - '**/*.md'

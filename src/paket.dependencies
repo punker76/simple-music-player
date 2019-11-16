@@ -6,13 +6,13 @@ source https://api.nuget.org/v3/index.json
 //source https://ci.appveyor.com/nuget/mahapps-metro-iconpacks
 source https://ci.appveyor.com/nuget/gong-wpf-dragdrop
 
-nuget Fody < 3.1
-nuget Costura.Fody < 3
+nuget Fody < 7
+nuget Costura.Fody < 5
 nuget WindowsAPICodePack-Shell
 
-nuget gong-wpf-dragdrop prerelease
+nuget gong-wpf-dragdrop
 nuget MahApps.Metro
-nuget MahApps.Metro.IconPacks
+nuget MahApps.Metro.IconPacks prerelease
 nuget MahApps.Metro.SimpleChildWindow
 nuget MaterialDesignThemes prerelease
 
@@ -21,5 +21,6 @@ nuget NLog < 5
 nuget QuickIO.NET
 nuget reactiveui < 8
 nuget reactiveui-events < 8
+nuget Splat < 7
 nuget TinyIoC
 nuget xunit < 3

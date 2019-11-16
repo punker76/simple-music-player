@@ -1,10 +1,11 @@
 <Project>
   <!-- Project properties -->
   <PropertyGroup>
-    <TargetFrameworks>net472;net462</TargetFrameworks>
+    <TargetFrameworks>net462;net472</TargetFrameworks>
     <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <LangVersion>latest</LangVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>7.3</LangVersion>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <NoWarn>$(NoWarn);CS1591</NoWarn>
@@ -13,6 +14,7 @@
   </PropertyGroup>
   <!-- Add the references for all projects and targets -->
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" Version="2018.*"/>
+    <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" Version="2019.*"/>
+    <!-- <PackageReference Include="WpfAnalyzers" PrivateAssets="All" Version="2.2.*"/>-->
   </ItemGroup>
 </Project>

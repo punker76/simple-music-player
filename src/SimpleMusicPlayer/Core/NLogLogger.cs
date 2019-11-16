@@ -10,17 +10,26 @@ namespace SimpleMusicPlayer.Core
 
         public NLogLogger(Logger logger)
         {
-            if (logger == null)
-                throw new ArgumentNullException("logger");
-
-            this.logger = logger;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public LogLevel Level { get; set; }
 
+        /// <summary>Writes a message to the target.</summary>
+        /// <param name="message">The message to write.</param>
+        /// <param name="logLevel">The severity level of the log message.</param>
         public void Write(string message, LogLevel logLevel)
         {
             logger.Log(NLogLogLevelToSplatLogLevel(logLevel), message);
+        }
+
+        /// <summary>Writes a messge to the target.</summary>
+        /// <param name="message">The message.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="logLevel">The log level.</param>
+        public void Write(string message, Type type, LogLevel logLevel)
+        {
+            logger.Log(NLogLogLevelToSplatLogLevel(logLevel), message, type);
         }
 
         private static NLog.LogLevel NLogLogLevelToSplatLogLevel(Splat.LogLevel logLevel)
@@ -42,7 +51,7 @@ namespace SimpleMusicPlayer.Core
                 case LogLevel.Fatal:
                     return NLog.LogLevel.Fatal;
                 default:
-                    throw new ArgumentOutOfRangeException("logLevel", logLevel, "This Splat.LogLevel isn't implemented!");
+                    return NLog.LogLevel.Off;
             }
         }
     }
