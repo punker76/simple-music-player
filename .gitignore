@@ -256,5 +256,11 @@ paket-files/
 .idea/
 *.sln.iml
 
+# Generated files
+*_wpftmp.csproj
+
 # cake
-src/tools/
+tools/
+
+# XamlStyler
+!XamlStyler/

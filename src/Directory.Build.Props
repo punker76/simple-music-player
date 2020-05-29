@@ -1,20 +1,27 @@
 <Project>
-  <!-- Project properties -->
-  <PropertyGroup>
-    <TargetFrameworks>net462;net472</TargetFrameworks>
-    <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <LangVersion>7.3</LangVersion>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
-    <NoError>$(NoError);CS1591</NoError>
-    <UseWPF>true</UseWPF>
-  </PropertyGroup>
-  <!-- Add the references for all projects and targets -->
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" Version="2019.*"/>
-    <!-- <PackageReference Include="WpfAnalyzers" PrivateAssets="All" Version="2.2.*"/>-->
-  </ItemGroup>
+    <!-- Project properties -->
+    <PropertyGroup>
+        <TargetFrameworks>net472</TargetFrameworks>
+        <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+        <AutoGenerateBindingRedirects Condition=" $(TargetFramework.StartsWith('net4')) ">true</AutoGenerateBindingRedirects>
+        <LangVersion>7.3</LangVersion>
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+        <NoError>$(NoError);CS1591</NoError>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <!-- Add the references for all projects and targets -->
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2019.*" PrivateAssets="All" />
+        <PackageReference Include="WpfAnalyzers" Version="2.4.*" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="**\*.png;**\*.jpg;**\*.ico;**\*.ttf" />
+        <Resource Include="**\*.png;**\*.jpg;**\*.ico;**\*.ttf" />
+    </ItemGroup>
+
 </Project>

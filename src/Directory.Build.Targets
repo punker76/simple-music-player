@@ -1,4 +1,5 @@
 <Project>
+
     <!-- AssemblyInfo -->
     <PropertyGroup>
         <Company>OSSCreativity https://github.com/punker76</Company>
@@ -12,7 +13,9 @@
         <FileVersion>2.0.0.0</FileVersion>
         <InformationalVersion>2.0.0.0</InformationalVersion>
     </PropertyGroup>
+
     <ItemGroup>
-        <Page Generator="MSBuild:Compile" SubType="Designer" Update="@(Page)"/>
+        <Page Update="@(Page)" SubType="Designer" Generator="MSBuild:Compile" />
     </ItemGroup>
+
 </Project>

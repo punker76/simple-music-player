@@ -1,13 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+    <!-- Project properties -->
     <PropertyGroup>
         <AssemblyName>SimpleMusicPlayer</AssemblyName>
         <RootNamespace>SimpleMusicPlayer</RootNamespace>
         <StartupObject>SimpleMusicPlayer.Program</StartupObject>
+        <DisableFody Condition=" '$(Configuration)' == 'Debug' or $(TargetFramework.StartsWith('netcoreapp')) ">true</DisableFody>
+        <DefineConstants Condition=" '$(Platform)' != 'x86' ">$(DefineConstants);WIN64</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <NoWarn>SA1652</NoWarn>
-        <DefineConstants Condition=" '$(Platform)' != 'x86' ">$(DefineConstants);WIN64</DefineConstants>
-        <DisableFody Condition=" '$(Configuration)' == 'Debug' ">true</DisableFody>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
     <ItemGroup Condition=" '$(Platform)' == 'x86' ">
         <EmbeddedResource Include="$(SolutionDir)libs\FMODStudio\fmod.dll">
@@ -28,8 +32,8 @@
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="Fody" Version="6.*">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Costura.Fody" Version="4.*"/>
         <PackageReference Include="Newtonsoft.Json" Version="12.*"/>
@@ -41,10 +45,10 @@
         <PackageReference Include="reactiveui-events" Version="7.*"/>
         <PackageReference Include="Splat" Version="1.*"/>
         <PackageReference Include="MahApps.Metro" Version="1.6.5"/>
+        <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha*"/>
         <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="1.5"/>
         <PackageReference Include="MaterialDesignThemes" Version="2.*"/>
         <PackageReference Include="MaterialDesignColors" Version="1.*"/>
-        <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha*"/>
         <PackageReference Include="gong-wpf-dragdrop" Version="2.*"/>
     </ItemGroup>
     <ItemGroup>
@@ -53,14 +57,14 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="$(SolutionDir)libs\FMODStudio\csharp\*.cs" Link="FMODStudio\%(RecursiveDir)%(Filename)%(Extension)"/>
-        <None Include="app.manifest"/>
-        <None Remove="App.config"/>
+        <None Include="app.manifest" />
+        <None Remove="App.config" />
         <AppConfigWithTargetPath Include="App.$(TargetFramework).config">
-            <TargetPath>$(AssemblyName).config</TargetPath>
+            <TargetPath>$(AssemblyName).exe.config</TargetPath>
         </AppConfigWithTargetPath>
     </ItemGroup>
     <ItemGroup>
-        <Compile DependentUpon="%(Filename)" SubType="Code" Update="**\obj\**\*.g$(DefaultLanguageSourceExtension)"/>
-        <Compile DependentUpon="%(Filename)" SubType="Designer" Update="**\*.xaml$(DefaultLanguageSourceExtension)"/>
+        <Compile DependentUpon="%(Filename)" SubType="Code" Update="**\obj\**\*.g$(DefaultLanguageSourceExtension)" />
+        <Compile DependentUpon="%(Filename)" SubType="Designer" Update="**\*.xaml$(DefaultLanguageSourceExtension)" />
     </ItemGroup>
 </Project>
