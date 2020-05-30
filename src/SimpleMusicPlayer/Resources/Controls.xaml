@@ -3,20 +3,15 @@
                     xmlns:options="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                     mc:Ignorable="options"
-                    xmlns:core="clr-namespace:SimpleMusicPlayer.Core"
-                    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls">
+                    xmlns:core="clr-namespace:SimpleMusicPlayer.Core">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Themes/WindowCommands.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.FlatButton.xaml" />
 
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListView.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.BaseListBox.xaml" />
         <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Slider.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.Tooltip.xaml" />
-
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <QuinticEase x:Key="DefaultEaseInOut"
@@ -29,19 +24,17 @@
                  options:Freeze="true"
                  EasingMode="EaseOut" />
 
-    <Style TargetType="{x:Type Controls:WindowButtonCommands}" BasedOn="{StaticResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
-
     <Style x:Key="SimpleMPMetroCircleButtonStyle"
            TargetType="{x:Type ButtonBase}"
-           BasedOn="{StaticResource MahApps.Metro.Styles.MetroCircleButtonStyle}">
+           BasedOn="{StaticResource MahApps.Styles.Button.Circle}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="4" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{DynamicResource AccentBaseColorBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}"/>
+                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray7}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -65,7 +58,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_ContentPresenter" Property="TextElement.Foreground" Value="{DynamicResource GrayBrush7}" />
+                            <Setter TargetName="PART_ContentPresenter" Property="TextElement.Foreground" Value="{DynamicResource MahApps.Brushes.Gray7}" />
                             <Setter TargetName="PART_ContentPresenter" Property="Opacity" Value="0.3" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -74,10 +67,10 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}"/>
+                <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray7}"/>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -94,7 +87,5 @@
            BasedOn="{StaticResource BaseGridViewColumnHeader}" />
     <Style TargetType="core:BaseListBox"
            BasedOn="{StaticResource BaseMetroListBox}" />
-    <Style TargetType="ToolTip"
-           BasedOn="{StaticResource BaseMetroToolTip}" />
 
 </ResourceDictionary>

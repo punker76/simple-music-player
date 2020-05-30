@@ -18,8 +18,8 @@
         <ValueConverters:SliderRemainingPositionValueToTextConverter x:Key="SliderRemainingPositionValueToTextConverter" />
         <ValueConverters:PlayerStateToToolTipConverter x:Key="PlayerStateToToolTipConverter" />
         <ValueConverters:BooleanConverter x:Key="ModeToBrushConverter"
-                                          TrueValue="{DynamicResource AccentColorBrush}"
-                                          FalseValue="{DynamicResource BlackColorBrush}" />
+                                          TrueValue="{DynamicResource MahApps.Brushes.Accent}"
+                                          FalseValue="{DynamicResource MahApps.Brushes.ThemeForeground}" />
         <ValueConverters:BooleanConverter x:Key="MuteToIconConverter"
                                           TrueValue="{iconPacks:MaterialLight VolumeMute, Width=15, Height=15}"
                                           FalseValue="{iconPacks:MaterialLight Volume, Width=15, Height=15}" />
@@ -54,7 +54,7 @@
                 Content="{iconPacks:FontAwesome FastBackwardSolid, Width=13, Height=13}"
                 ToolTip="Previous File (k)"
                 VerticalAlignment="Center"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                 Margin="0 4 4 4"
                 Height="36"
                 Width="36" />
@@ -65,7 +65,7 @@
                 Content="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToIconConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
                 ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
                 VerticalAlignment="Center"
-                Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                 Height="55"
                 Width="55" />
 
@@ -87,7 +87,7 @@
                     Content="{iconPacks:FontAwesome StopSolid, Width=13, Height=13}"
                     ToolTip="Stop"
                     VerticalAlignment="Center"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                     Height="36"
                     Width="36" />
 
@@ -97,7 +97,7 @@
                     Content="{iconPacks:FontAwesome FastForwardSolid, Width=13, Height=13}"
                     ToolTip="Next File (j)"
                     VerticalAlignment="Center"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                     Height="36"
                     Width="36" />
 
@@ -108,7 +108,7 @@
                     Foreground="{Binding PlayerSettings.PlayerEngine.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
                     ToolTip="Shuffle (s)"
                     VerticalAlignment="Bottom"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
                     Width="32" />
 
@@ -119,7 +119,7 @@
                     Foreground="{Binding PlayerSettings.PlayerEngine.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
                     ToolTip="Repeat (r)"
                     VerticalAlignment="Bottom"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
                     Width="32" />
 
@@ -129,7 +129,7 @@
                     Content="{iconPacks:Entypo SoundMix, Width=12, Height=12}"
                     ToolTip="Equalizer (e)"
                     VerticalAlignment="Bottom"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
                     Width="32" />
 
@@ -139,7 +139,7 @@
                     Content="{iconPacks:Modern Database, Width=12, Height=12}"
                     ToolTip="Media Library (l)"
                     VerticalAlignment="Bottom"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                     Margin="4 4 0 4"
                     Height="32"
                     Width="32" />
@@ -222,10 +222,10 @@
                         <Style TargetType="{x:Type ButtonBase}" BasedOn="{StaticResource SimpleMPMetroVolumeButtonStyle}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding PlayerEngine.IsMute, Mode=OneWay}" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource GrayBrush7}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray7}"/>
                                 </DataTrigger>
                                 <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource AccentBaseColorBrush}" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
                                 </Trigger>
                             </Style.Triggers>
                         </Style>

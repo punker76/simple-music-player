@@ -17,7 +17,7 @@
                                Title="Equalizer">
 
     <simpleChildWindow:ChildWindow.OverlayBrush>
-        <SolidColorBrush Opacity="0.8" Color="{StaticResource Gray2}" />
+        <SolidColorBrush Opacity="0.8" Color="{StaticResource MahApps.Colors.Gray2}" />
     </simpleChildWindow:ChildWindow.OverlayBrush>
 
     <simpleChildWindow:ChildWindow.Icon>
@@ -35,9 +35,9 @@
                                HorizontalAlignment="Left"
                                Margin="0,0,0,4"
                                MinWidth="120"
-                               OnLabel="On"
-                               OffLabel="Off"
-                               IsChecked="{Binding Equalizer.IsEnabled}" />
+                               OnContent="On"
+                               OffContent="Off"
+                               IsOn="{Binding Equalizer.IsEnabled}" />
 
         <ItemsControl Grid.Row="1"
                       ItemsSource="{Binding Equalizer.Bands, Mode=OneWay}">

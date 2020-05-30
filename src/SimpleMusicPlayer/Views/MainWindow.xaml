@@ -11,7 +11,7 @@
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       Title="Simple Music Player"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
-                      FontFamily="{DynamicResource SimpleFont}"
+                      FontFamily="{StaticResource SimpleFont}"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="True"
                       BorderBrush="Black"
@@ -298,7 +298,7 @@
                                   Width="25"
                                   Height="25"
                                   TickWidth="2"
-                                  TickColor="{DynamicResource AccentColor}"
+                                  TickColor="{DynamicResource MahApps.Colors.Accent}"
                                   IsIndeterminate="True" />
             <TextBlock VerticalAlignment="Center"
                        Text="Search for Files..." />
@@ -307,14 +307,14 @@
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
                             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
-                            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Controls.xaml" />
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Grid.Resources>
                 <Button VerticalAlignment="Center"
                         Margin="5,0,0,0"
                         Content="Cancel"
-                        Style="{StaticResource LinkButton}"
+                        Style="{StaticResource MahApps.Styles.Button.Link.VisualStudio}"
                         Command="{Binding StopSearchCmd, Mode=OneWay}" />
             </Grid>
         </StackPanel>

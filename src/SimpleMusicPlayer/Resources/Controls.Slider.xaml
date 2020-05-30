@@ -14,7 +14,7 @@
 
     <Style x:Key="BaseMetroSlider"
            TargetType="Slider"
-           BasedOn="{StaticResource MetroSlider}">
+           BasedOn="{StaticResource MahApps.Styles.Slider.Win10}">
         <Setter Property="FocusVisualStyle"
                 Value="{x:Null}" />
         <Setter Property="SnapsToDevicePixels"

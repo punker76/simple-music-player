@@ -8,7 +8,7 @@
 
     <Style x:Key="BaseMetroListBox"
            TargetType="core:BaseListBox"
-           BasedOn="{StaticResource VirtualisedMetroListBox}">
+           BasedOn="{StaticResource MahApps.Styles.ListBox.Virtualized}">
         <Setter Property="IsTextSearchEnabled"
                 Value="False" />
         <Setter Property="FocusVisualStyle"

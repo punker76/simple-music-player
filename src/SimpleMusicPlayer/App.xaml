@@ -10,18 +10,12 @@
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/SimpleMusicPlayer;component/Resources/Fonts.xaml" />
-
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Orange.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Dark.Orange.xaml" />
 
                 <!-- Material -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
-
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.CheckBox.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.RadioButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml" />
 
                 <!-- primary color -->
@@ -45,8 +39,6 @@
 
             </ResourceDictionary.MergedDictionaries>
             
-            <Style TargetType="{x:Type CheckBox}" BasedOn="{StaticResource MaterialDesignCheckBox}" />
-            <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource MaterialDesignRadioButton}" />
             <Style TargetType="{x:Type Slider}" BasedOn="{StaticResource MaterialDesignSlider}">
                 <Setter Property="FocusVisualStyle"
                         Value="{x:Null}" />
@@ -59,28 +51,28 @@
                            TextTrimming="CharacterEllipsis"
                            VerticalAlignment="Center"
                            Margin="8 -1 0 0"
-                           FontSize="{DynamicResource WindowTitleFontSize}"
-                           FontFamily="{DynamicResource DefaultFont}" />
+                           FontSize="{StaticResource MahApps.Font.Size.Window.Title}"
+                           FontFamily="{StaticResource MahApps.Fonts.Family.Window.Title}" />
             </DataTemplate>
 
             <!-- text brush for additional title information -->
             <SolidColorBrush x:Key="SemiTextColorBrush"
-                             Color="{DynamicResource BlackColor}"
+                             Color="{StaticResource MahApps.Colors.ThemeForeground}"
                              Opacity="0.7"
                              options:Freeze="True" />
             <!-- text brush for play list index -->
             <SolidColorBrush x:Key="SemiTextColorBrush2"
-                             Color="{DynamicResource BlackColor}"
+                             Color="{StaticResource MahApps.Colors.ThemeForeground}"
                              Opacity="0.7"
                              options:Freeze="True" />
             <!-- tooltip background with a little opacity -->
             <SolidColorBrush x:Key="PlayListToolTipBackground"
-                             Color="{DynamicResource WhiteColor}"
+                             Color="{StaticResource MahApps.Colors.ThemeBackground}"
                              Opacity="0.9"
                              options:Freeze="True" />
             <!-- tooltip background with a little opacity -->
             <SolidColorBrush x:Key="PlayListIconBrush"
-                             Color="{DynamicResource BlackColor}"
+                             Color="{StaticResource MahApps.Colors.ThemeForeground}"
                              Opacity="0.6"
                              options:Freeze="True" />
 

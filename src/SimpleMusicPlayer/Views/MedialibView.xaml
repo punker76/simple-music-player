@@ -10,7 +10,7 @@
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       Title="Media Library"
                       TitleTemplate="{StaticResource WindowTitleDataTemplate}"
-                      FontFamily="{DynamicResource SimpleFont}"
+                      FontFamily="{StaticResource SimpleFont}"
                       ShowTitleBar="True"
                       ShowIconOnTitleBar="False"
                       BorderBrush="Black"
@@ -59,7 +59,7 @@
                     ToolTip="Add Directory to Medialib"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Left"
-                    Style="{DynamicResource SimpleMPMetroCircleButtonStyle}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
                     Height="32"
                     Width="32" />
 
@@ -68,7 +68,7 @@
                      HorizontalAlignment="Right"
                      Width="200"
                      Controls:TextBoxHelper.Watermark="Search"
-                     Style="{DynamicResource SearchMetroTextBox}" />
+                     Style="{DynamicResource MahApps.Styles.TextBox.Search}" />
         </Grid>
 
         <Grid Grid.Row="1"
@@ -182,7 +182,7 @@
                                   Width="25"
                                   Height="25"
                                   TickWidth="2"
-                                  TickColor="{DynamicResource AccentColor}"
+                                  TickColor="{DynamicResource MahApps.Colors.Accent}"
                                   IsIndeterminate="True" />
             <TextBlock VerticalAlignment="Center"
                        Text="Search for Files..." />
@@ -191,14 +191,14 @@
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
                             <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
-                            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Styles.xaml" />
+                            <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Controls.xaml" />
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Grid.Resources>
                 <Button VerticalAlignment="Center"
                         Margin="5,0,0,0"
                         Content="Cancel"
-                        Style="{DynamicResource LinkButton}"
+                        Style="{DynamicResource MahApps.Styles.Button.Link.VisualStudio}"
                         Command="{Binding StopSearchCmd, Mode=OneWay}" />
             </Grid>
         </StackPanel>

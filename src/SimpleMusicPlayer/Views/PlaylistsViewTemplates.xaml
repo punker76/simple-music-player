@@ -4,9 +4,9 @@
                     xmlns:valueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
                     xmlns:models="clr-namespace:SimpleMusicPlayer.Core"
                     xmlns:behavior="clr-namespace:SimpleMusicPlayer.Behavior"
-                    xmlns:dragDrop="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                    xmlns:controlzex="urn:controlzex">
+                    xmlns:controlzex="urn:controlzex"
+                    xmlns:dd="urn:gong-wpf-dragdrop">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
@@ -81,18 +81,18 @@
     </DataTemplate>
 
     <ToolTip x:Key="PlayListToolTip"
-             FontFamily="{DynamicResource SimpleFont}"
+             FontFamily="{StaticResource SimpleFont}"
              Content="{Binding}"
              ContentTemplate="{StaticResource PlayListToolTipDataTemplate}"
              Background="{StaticResource PlayListToolTipBackground}"
-             BorderBrush="{DynamicResource GrayBrush10}"
+             BorderBrush="{DynamicResource MahApps.Brushes.Gray10}"
              MinWidth="350"
              Padding="1"
              controlzex:ToolTipAssist.AutoMove="True" />
 
     <Style x:Key="PlayListMetroListViewItem"
            TargetType="{x:Type ListViewItem}"
-           BasedOn="{StaticResource MetroListViewItem}">
+           BasedOn="{StaticResource MahApps.Styles.ListViewItem}">
         <Setter Property="ToolTipService.InitialShowDelay"
                 Value="1000" />
         <Setter Property="ToolTipService.ShowDuration"
@@ -127,9 +127,9 @@
                                  models:AttachedCommandBehavior.RoutedEventName="MouseDoubleClick"
                                  models:AttachedCommandBehavior.TheCommandToRun="{Binding PlayCommand, Mode=OneWay}"
                                  behavior:MultiSelectorBehaviours.SynchronizedSelectedItems="{Binding SelectedPlayListFiles, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                 dragDrop:DragDrop.IsDragSource="True"
-                                 dragDrop:DragDrop.IsDropTarget="True"
-                                 dragDrop:DragDrop.DropHandler="{Binding}"
+                                 dd:DragDrop.IsDragSource="True"
+                                 dd:DragDrop.IsDropTarget="True"
+                                 dd:DragDrop.DropHandler="{Binding}"
                                  SelectionMode="Extended"
                                  SelectedItem="{Binding SelectedPlayListFile}">
                 <ListView.View>
