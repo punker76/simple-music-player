@@ -45,7 +45,7 @@
         <PackageReference Include="reactiveui-events" Version="7.*"/>
         <PackageReference Include="Splat" Version="1.*"/>
         <PackageReference Include="MahApps.Metro" Version="1.6.5"/>
-        <PackageReference Include="MahApps.Metro.IconPacks" Version="3.0.0-alpha*"/>
+        <PackageReference Include="MahApps.Metro.IconPacks" Version="4.*"/>
         <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="1.5"/>
         <PackageReference Include="MaterialDesignThemes" Version="2.*"/>
         <PackageReference Include="MaterialDesignColors" Version="1.*"/>
