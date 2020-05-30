@@ -47,8 +47,8 @@
         <PackageReference Include="MahApps.Metro" Version="1.6.5"/>
         <PackageReference Include="MahApps.Metro.IconPacks" Version="4.*"/>
         <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="1.5"/>
-        <PackageReference Include="MaterialDesignThemes" Version="2.*"/>
-        <PackageReference Include="MaterialDesignColors" Version="1.*"/>
+        <PackageReference Include="MaterialDesignThemes" Version="3.1.*"/>
+        <PackageReference Include="MaterialDesignColors" Version="1.2.*"/>
         <PackageReference Include="gong-wpf-dragdrop" Version="2.*"/>
     </ItemGroup>
     <ItemGroup>
