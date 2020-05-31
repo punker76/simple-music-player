@@ -120,6 +120,7 @@
                               Grid.Column="0"
                               Grid.ColumnSpan="2"
                               Grid.Row="1"
+                              UseLayoutRounding="True"
                               Margin="5">
                             <Views:PlayControlView x:Name="playControlView"
                                                    HorizontalAlignment="Center"
