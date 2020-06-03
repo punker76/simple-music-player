@@ -51,8 +51,11 @@ namespace SimpleMusicPlayer.Views
                                             var window = Window.GetWindow(this);
                                             if (window != null)
                                             {
-                                                vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(window.ActualWidth, window.ActualHeight);
-                                                window.Events().SizeChanged.Throttle(TimeSpan.FromMilliseconds(15), RxApp.MainThreadScheduler).Subscribe(e => vm.PlayListsViewModel.CalcPlayListItemTemplateByActualWidth(e.NewSize.Width, e.NewSize.Height));
+                                                SizeTriggerHelper.Instance.CalcSize(window.ActualWidth, window.ActualHeight);
+                                                window.Events()
+                                                    .SizeChanged
+                                                    .Throttle(TimeSpan.FromMilliseconds(15), RxApp.MainThreadScheduler)
+                                                    .Subscribe(e => SizeTriggerHelper.Instance.CalcSize(e.NewSize.Width, e.NewSize.Height));
                                             }
 
                                             this.Events().Closed.Select(x => Unit.Default).InvokeCommand(vm.PlayListsViewModel.FileSearchWorker.StopSearchCmd);

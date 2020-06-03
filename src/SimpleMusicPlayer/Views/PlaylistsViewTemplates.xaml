@@ -92,7 +92,7 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="ToolTip" Value="{StaticResource PlayListToolTip}" />
         <Setter Property="ToolTipService.BetweenShowDelay" Value="0" />
-        <Setter Property="ToolTipService.InitialShowDelay" Value="1000" />
+        <Setter Property="ToolTipService.InitialShowDelay" Value="500" />
         <Setter Property="ToolTipService.ShowDuration" Value="10000" />
     </Style>
 
@@ -152,13 +152,13 @@
                                                                     Visibility="{Binding State, Mode=OneWay, Converter={StaticResource EnumToVisibilityConverter}, ConverterParameter={x:Static models:PlayerState.Pause}}" />
                                     </Grid>
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}" Value="Medium">
+                                        <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Medium">
                                             <Setter TargetName="PauseImage" Property="Height" Value="16" />
                                             <Setter TargetName="PauseImage" Property="Width" Value="16" />
                                             <Setter TargetName="PlayImage" Property="Height" Value="16" />
                                             <Setter TargetName="PlayImage" Property="Width" Value="16" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}" Value="Large">
+                                        <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Large">
                                             <Setter TargetName="PauseImage" Property="Height" Value="22" />
                                             <Setter TargetName="PauseImage" Property="Width" Value="22" />
                                             <Setter TargetName="PlayImage" Property="Height" Value="22" />
@@ -178,10 +178,10 @@
                                                Text="{Binding Path=PlayListIndex, Mode=OneWay, StringFormat='{}{0}.'}"
                                                TextAlignment="Right" />
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}" Value="Medium">
+                                        <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Medium">
                                             <Setter TargetName="IndexTextBlock" Property="FontSize" Value="14" />
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}" Value="Large">
+                                        <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Large">
                                             <Setter TargetName="IndexTextBlock" Property="FontSize" Value="16" />
                                         </DataTrigger>
                                     </DataTemplate.Triggers>
@@ -216,7 +216,7 @@
                                         </ContentControl.ContentTemplate>
                                     </ContentControl>
                                     <DataTemplate.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}" Value="Small">
+                                        <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Small">
                                             <Setter TargetName="TitleContent" Property="ContentTemplate">
                                                 <Setter.Value>
                                                     <DataTemplate>
@@ -237,7 +237,7 @@
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}" Value="Medium">
+                                        <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Medium">
                                             <Setter TargetName="TitleContent" Property="ContentTemplate">
                                                 <Setter.Value>
                                                     <DataTemplate>
@@ -274,7 +274,7 @@
                                                 </Setter.Value>
                                             </Setter>
                                         </DataTrigger>
-                                        <DataTrigger Binding="{Binding ElementName=RootGrid, Path=DataContext.PlayListItemTemplateKey, Mode=OneWay}" Value="Large">
+                                        <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Large">
                                             <Setter TargetName="TitleContent" Property="ContentTemplate">
                                                 <Setter.Value>
                                                     <DataTemplate>
@@ -371,11 +371,11 @@
         </Grid>
 
         <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}" Value="Medium">
+            <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Medium">
                 <Setter TargetName="helperIndexField" Property="FontSize" Value="14" />
                 <Setter TargetName="helperPlayerStateField" Property="Width" Value="22" />
             </DataTrigger>
-            <DataTrigger Binding="{Binding PlayListItemTemplateKey, Mode=OneWay}" Value="Large">
+            <DataTrigger Binding="{Binding Source={x:Static models:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Large">
                 <Setter TargetName="helperIndexField" Property="FontSize" Value="16" />
                 <Setter TargetName="helperPlayerStateField" Property="Width" Value="28" />
             </DataTrigger>

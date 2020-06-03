@@ -18,6 +18,7 @@
                       BorderBrush="Black"
                       BorderThickness="1"
                       FontFamily="{StaticResource SimpleFont}"
+                      ResizeMode="CanResizeWithGrip"
                       SaveWindowPosition="True"
                       ShowIconOnTitleBar="True"
                       ShowTitleBar="True"
@@ -138,7 +139,7 @@
 
                     <DataTemplate.Triggers>
 
-                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}" Value="Small">
+                        <DataTrigger Binding="{Binding Source={x:Static core:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Small">
 
                             <Setter TargetName="controlGrid" Property="Grid.Column" Value="0" />
                             <Setter TargetName="controlGrid" Property="Grid.ColumnSpan" Value="2" />
@@ -161,7 +162,7 @@
 
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}" Value="Medium">
+                        <DataTrigger Binding="{Binding Source={x:Static core:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Medium">
 
                             <Setter TargetName="controlGrid" Property="Grid.Column" Value="1" />
                             <Setter TargetName="controlGrid" Property="Grid.ColumnSpan" Value="1" />
@@ -182,7 +183,7 @@
 
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding PlayListsViewModel.PlayListItemTemplateKey, Mode=OneWay}" Value="Large">
+                        <DataTrigger Binding="{Binding Source={x:Static core:SizeTriggerHelper.Instance}, Path=Size, Mode=OneWay}" Value="Large">
 
                             <Setter TargetName="controlGrid" Property="Grid.Row" Value="3" />
                             <Setter TargetName="controlGrid" Property="Margin" Value="20" />

@@ -453,20 +453,5 @@ namespace SimpleMusicPlayer.ViewModels
             }
             return false;
         }
-
-        private string playListItemTemplateKey;
-
-        public string PlayListItemTemplateKey
-        {
-            get { return this.playListItemTemplateKey; }
-            set { this.RaiseAndSetIfChanged(ref playListItemTemplateKey, value); }
-        }
-
-        public void CalcPlayListItemTemplateByActualWidth(double actualWidth, double actualHeight)
-        {
-            if (actualWidth > 850) PlayListItemTemplateKey = "Large";
-            else if (actualWidth > 560) PlayListItemTemplateKey = "Medium";
-            else PlayListItemTemplateKey = "Small";
-        }
     }
 }
