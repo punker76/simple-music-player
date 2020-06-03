@@ -175,7 +175,7 @@
                            Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
                 <Slider Grid.Column="1"
                         x:Name="positionSlider"
-                        Style="{StaticResource MetroCircleSlider}"
+                        Style="{StaticResource MahApps.Styles.Slider.Circle}"
                         VerticalAlignment="Center"
                         Width="150"
                         Margin="5,2,5,2"
@@ -233,7 +233,7 @@
                 </Button>
 
                 <Common:FormattedSlider Grid.Column="1"
-                                        Style="{StaticResource MetroCircleSlider}"
+                                        Style="{StaticResource MahApps.Styles.Slider.Circle}"
                                         controls:SliderHelper.EnableMouseWheel="MouseHover"
                                         controls:SliderHelper.ChangeValueBy="SmallChange"
                                         Margin="5,2,5,2"

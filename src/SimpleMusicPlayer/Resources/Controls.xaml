@@ -29,6 +29,7 @@
            BasedOn="{StaticResource MahApps.Styles.Button.Circle}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Margin" Value="4" />
+        <Setter Property="UseLayoutRounding" Value="False" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="BorderBrush" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
