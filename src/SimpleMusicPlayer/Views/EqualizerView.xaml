@@ -1,30 +1,34 @@
 ﻿<simpleChildWindow:ChildWindow x:Class="SimpleMusicPlayer.Views.EqualizerView"
                                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                                xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                               xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
-                               xmlns:player="clr-namespace:SimpleMusicPlayer.Core.Player"
-                               xmlns:viewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
+                               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                                xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                               mc:Ignorable="d"
+                               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                               xmlns:player="clr-namespace:SimpleMusicPlayer.Core.Player"
+                               xmlns:simpleChildWindow="clr-namespace:MahApps.Metro.SimpleChildWindow;assembly=MahApps.Metro.SimpleChildWindow"
+                               xmlns:viewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
+                               Title="Equalizer"
+                               d:DataContext="{d:DesignInstance viewModels:EqualizerViewModel}"
                                d:DesignHeight="300"
                                d:DesignWidth="300"
-                               d:DataContext="{d:DesignInstance viewModels:EqualizerViewModel}"
                                RenderOptions.ClearTypeHint="Enabled"
                                TextOptions.TextFormattingMode="Display"
-                               Title="Equalizer">
+                               mc:Ignorable="d">
 
     <simpleChildWindow:ChildWindow.OverlayBrush>
         <SolidColorBrush Opacity="0.8" Color="{StaticResource MahApps.Colors.Gray2}" />
     </simpleChildWindow:ChildWindow.OverlayBrush>
 
     <simpleChildWindow:ChildWindow.Icon>
-        <iconPacks:PackIconEntypo Kind="SoundMix" Width="20" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <iconPacks:PackIconEntypo Width="20"
+                                  Height="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Kind="SoundMix" />
     </simpleChildWindow:ChildWindow.Icon>
 
-    <Grid Margin="4,0,4,4">
+    <Grid Margin="4 0 4 4">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -32,15 +36,14 @@
         </Grid.RowDefinitions>
 
         <controls:ToggleSwitch Grid.Column="0"
-                               HorizontalAlignment="Left"
-                               Margin="0,0,0,4"
                                MinWidth="120"
-                               OnContent="On"
+                               Margin="0 0 0 4"
+                               HorizontalAlignment="Left"
+                               IsOn="{Binding Equalizer.IsEnabled}"
                                OffContent="Off"
-                               IsOn="{Binding Equalizer.IsEnabled}" />
+                               OnContent="On" />
 
-        <ItemsControl Grid.Row="1"
-                      ItemsSource="{Binding Equalizer.Bands, Mode=OneWay}">
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Equalizer.Bands, Mode=OneWay}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <VirtualizingStackPanel Orientation="Horizontal" />
@@ -54,17 +57,17 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Slider Grid.Row="0"
-                                Orientation="Vertical"
-                                Margin="4"
                                 Height="150"
-                                Minimum="-10"
-                                Maximum="10"
-                                TickFrequency="2"
+                                Margin="4"
+                                IsEnabled="{Binding IsActive, Mode=OneWay}"
                                 LargeChange="1"
+                                Maximum="10"
+                                Minimum="-10"
+                                Orientation="Vertical"
                                 SmallChange="0.1"
+                                TickFrequency="2"
                                 TickPlacement="BottomRight"
-                                Value="{Binding Gain}"
-                                IsEnabled="{Binding IsActive, Mode=OneWay}" />
+                                Value="{Binding Gain}" />
                         <TextBlock Grid.Row="1"
                                    Margin="4"
                                    Text="{Binding BandCaption, Mode=OneWay}" />
@@ -73,15 +76,14 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <UniformGrid Grid.Row="2"
-                     Columns="2">
-            <Button Content="_Default"
-                    Margin="0,0,2,0"
-                    Command="{Binding SetToDefaultCommand, Mode=OneWay}" />
+        <UniformGrid Grid.Row="2" Columns="2">
+            <Button Margin="0 0 2 0"
+                    Command="{Binding SetToDefaultCommand, Mode=OneWay}"
+                    Content="_Default" />
             <Button x:Name="CloseButton"
-                    Content="_Close"
-                    Margin="2,0,0,0"
-                    Command="{Binding CloseEqualizerCommand, Mode=OneWay}" />
+                    Margin="2 0 0 0"
+                    Command="{Binding CloseEqualizerCommand, Mode=OneWay}"
+                    Content="_Close" />
         </UniformGrid>
     </Grid>
 

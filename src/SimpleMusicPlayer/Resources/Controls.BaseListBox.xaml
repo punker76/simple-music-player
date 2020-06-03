@@ -7,12 +7,10 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseMetroListBox"
-           TargetType="core:BaseListBox"
-           BasedOn="{StaticResource MahApps.Styles.ListBox.Virtualized}">
-        <Setter Property="IsTextSearchEnabled"
-                Value="False" />
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
+           BasedOn="{StaticResource MahApps.Styles.ListBox.Virtualized}"
+           TargetType="core:BaseListBox">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="IsTextSearchEnabled" Value="False" />
     </Style>
 
 </ResourceDictionary>

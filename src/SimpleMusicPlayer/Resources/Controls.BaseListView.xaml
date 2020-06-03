@@ -6,31 +6,26 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="BaseMetroListView"
-           TargetType="ListView"
-           BasedOn="{StaticResource MahApps.Styles.ListView.Virtualized}">
-        <Setter Property="BorderThickness"
-                Value="0" />
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
+           BasedOn="{StaticResource MahApps.Styles.ListView.Virtualized}"
+           TargetType="ListView">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
     </Style>
 
     <Style x:Key="BaseGridViewColumnHeader"
-           TargetType="GridViewColumnHeader"
-           BasedOn="{StaticResource MahApps.Styles.GridViewColumnHeader}">
-        <Setter Property="FontWeight"
-                Value="Light" />
+           BasedOn="{StaticResource MahApps.Styles.GridViewColumnHeader}"
+           TargetType="GridViewColumnHeader">
+        <Setter Property="FontWeight" Value="Light" />
     </Style>
 
     <Style x:Key="HeaderlessGridViewScrollViewerStyle"
-           TargetType="{x:Type ScrollViewer}"
-           BasedOn="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
-        <Setter Property="Focusable"
-                Value="false" />
+           BasedOn="{StaticResource {x:Static GridView.GridViewScrollViewerStyleKey}}"
+           TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Focusable" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                    <Grid Background="{TemplateBinding Background}"
-                          SnapsToDevicePixels="true">
+                    <Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
@@ -42,28 +37,28 @@
                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                                 Margin="{TemplateBinding Padding}"
                                                 CanContentScroll="{TemplateBinding CanContentScroll}"
-                                                ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 KeyboardNavigation.DirectionalNavigation="Local"
                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                   Grid.Row="1"
                                    Cursor="Arrow"
                                    Maximum="{TemplateBinding ScrollableWidth}"
                                    Minimum="0.0"
                                    Orientation="Horizontal"
-                                   Grid.Row="1"
+                                   ViewportSize="{TemplateBinding ViewportWidth}"
                                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
-                                   Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   ViewportSize="{TemplateBinding ViewportWidth}" />
+                                   Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                         <ScrollBar x:Name="PART_VerticalScrollBar"
-                                   Cursor="Arrow"
                                    Grid.Column="1"
+                                   Cursor="Arrow"
                                    Maximum="{TemplateBinding ScrollableHeight}"
                                    Minimum="0.0"
                                    Orientation="Vertical"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
-                                   Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   ViewportSize="{TemplateBinding ViewportHeight}" />
+                                   Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -71,8 +66,8 @@
     </Style>
 
     <Style x:Key="HeaderlessMetroListView"
-           TargetType="{x:Type ListView}"
-           BasedOn="{StaticResource BaseMetroListView}">
+           BasedOn="{StaticResource BaseMetroListView}"
+           TargetType="{x:Type ListView}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListView">
@@ -81,22 +76,16 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
-                        <ScrollViewer Padding="{TemplateBinding Padding}"
-                                      Style="{StaticResource HeaderlessGridViewScrollViewerStyle}">
+                        <ScrollViewer Padding="{TemplateBinding Padding}" Style="{StaticResource HeaderlessGridViewScrollViewerStyle}">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsGrouping"
-                                 Value="true">
-                            <Setter Property="ScrollViewer.CanContentScroll"
-                                    Value="false" />
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
                         </Trigger>
-                        <Trigger Property="IsEnabled"
-                                 Value="false">
-                            <Setter TargetName="Border"
-                                    Property="BorderBrush"
-                                    Value="{StaticResource MahApps.Brushes.Gray9}" />
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MahApps.Brushes.Gray9}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

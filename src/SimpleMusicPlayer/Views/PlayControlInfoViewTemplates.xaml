@@ -2,113 +2,104 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:models="clr-namespace:SimpleMusicPlayer.Core">
 
-    <DataTemplate x:Key="fileInfoRightTemplate"
-                  DataType="{x:Type models:MediaFile}">
+    <DataTemplate x:Key="fileInfoRightTemplate" DataType="{x:Type models:MediaFile}">
         <StackPanel Orientation="Vertical"
-                    UseLayoutRounding="True"
+                    TextOptions.TextFormattingMode="Display"
                     TextOptions.TextHintingMode="Fixed"
                     TextOptions.TextRenderingMode="ClearType"
-                    TextOptions.TextFormattingMode="Display">
+                    UseLayoutRounding="True">
             <TextBlock FontSize="16"
+                       Text="{Binding Title, Mode=OneWay}"
                        TextAlignment="Right"
-                       TextWrapping="Wrap"
-                       Text="{Binding Title, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
             <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
+                       Text="{Binding Album, Mode=OneWay}"
                        TextAlignment="Right"
-                       TextWrapping="Wrap"
-                       Text="{Binding Album, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
             <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
+                       Text="{Binding FirstPerformer, Mode=OneWay}"
                        TextAlignment="Right"
-                       TextWrapping="Wrap"
-                       Text="{Binding FirstPerformer, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate x:Key="fileInfoRightLargeTemplate"
-                  DataType="{x:Type models:MediaFile}">
+    <DataTemplate x:Key="fileInfoRightLargeTemplate" DataType="{x:Type models:MediaFile}">
         <StackPanel Orientation="Vertical"
+                    TextOptions.TextFormattingMode="Display"
                     TextOptions.TextHintingMode="Fixed"
-                    TextOptions.TextRenderingMode="ClearType"
-                    TextOptions.TextFormattingMode="Display">
+                    TextOptions.TextRenderingMode="ClearType">
             <TextBlock FontSize="18"
+                       Text="{Binding Title, Mode=OneWay}"
                        TextAlignment="Right"
-                       TextWrapping="Wrap"
-                       Text="{Binding Title, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
             <TextBlock FontSize="16"
                        Foreground="{StaticResource SemiTextColorBrush}"
+                       Text="{Binding Album, Mode=OneWay}"
                        TextAlignment="Right"
-                       TextWrapping="Wrap"
-                       Text="{Binding Album, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
             <TextBlock FontSize="16"
                        Foreground="{StaticResource SemiTextColorBrush}"
+                       Text="{Binding FirstPerformer, Mode=OneWay}"
                        TextAlignment="Right"
-                       TextWrapping="Wrap"
-                       Text="{Binding FirstPerformer, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
             <TextBlock FontSize="16"
                        Foreground="{StaticResource SemiTextColorBrush}"
-                       TextAlignment="Right"
-                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}"
+                       TextAlignment="Right" />
             <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
-                       TextAlignment="Right"
-                       Text="{Binding TrackInfo, Mode=OneWay}" />
-            <TextBlock Margin="0,5,0,0"
+                       Text="{Binding TrackInfo, Mode=OneWay}"
+                       TextAlignment="Right" />
+            <TextBlock Margin="0 5 0 0"
                        FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Right">
                 <TextBlock.Text>
-                    <MultiBinding Mode="OneWay"
-                                  StringFormat="{}{0:0,.} kHz  {1} kbps">
-                        <Binding Path="AudioSampleRate"
-                                 Mode="OneWay" />
-                        <Binding Path="AudioBitrate"
-                                 Mode="OneWay" />
+                    <MultiBinding Mode="OneWay" StringFormat="{}{0:0,.} kHz  {1} kbps">
+                        <Binding Mode="OneWay" Path="AudioSampleRate" />
+                        <Binding Mode="OneWay" Path="AudioBitrate" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate x:Key="fileInfoLeftTemplate"
-                  DataType="{x:Type models:MediaFile}">
+    <DataTemplate x:Key="fileInfoLeftTemplate" DataType="{x:Type models:MediaFile}">
         <StackPanel Orientation="Vertical"
+                    TextOptions.TextFormattingMode="Display"
                     TextOptions.TextHintingMode="Fixed"
-                    TextOptions.TextRenderingMode="ClearType"
-                    TextOptions.TextFormattingMode="Display">
+                    TextOptions.TextRenderingMode="ClearType">
             <TextBlock FontSize="16"
+                       Text="{Binding Title, Mode=OneWay}"
                        TextAlignment="Left"
-                       TextWrapping="Wrap"
-                       Text="{Binding Title, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
             <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
+                       Text="{Binding Album, Mode=OneWay}"
                        TextAlignment="Left"
-                       TextWrapping="Wrap"
-                       Text="{Binding Album, Mode=OneWay}" />
+                       TextWrapping="Wrap" />
             <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
+                       Text="{Binding FirstPerformer, Mode=OneWay}"
                        TextAlignment="Left"
-                       TextWrapping="Wrap"
-                       Text="{Binding FirstPerformer, Mode=OneWay}" />
-            <TextBlock Margin="0,5,0,0"
+                       TextWrapping="Wrap" />
+            <TextBlock Margin="0 5 0 0"
                        FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
                        TextAlignment="Left">
                 <TextBlock.Text>
-                    <MultiBinding Mode="OneWay"
-                                  StringFormat="{}{0:0,.} kHz  {1} kbps">
-                        <Binding Path="AudioSampleRate"
-                                 Mode="OneWay" />
-                        <Binding Path="AudioBitrate"
-                                 Mode="OneWay" />
+                    <MultiBinding Mode="OneWay" StringFormat="{}{0:0,.} kHz  {1} kbps">
+                        <Binding Mode="OneWay" Path="AudioSampleRate" />
+                        <Binding Mode="OneWay" Path="AudioBitrate" />
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
             <TextBlock FontSize="14"
                        Foreground="{StaticResource SemiTextColorBrush}"
-                       TextAlignment="Left"
-                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}" />
+                       Text="{Binding Duration, Mode=OneWay, StringFormat='{}{0:m\\:ss}'}"
+                       TextAlignment="Left" />
         </StackPanel>
     </DataTemplate>
 

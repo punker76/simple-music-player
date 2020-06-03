@@ -13,11 +13,9 @@
     <System:Double x:Key="VerticalThumbHeight">22</System:Double>
 
     <Style x:Key="BaseMetroSlider"
-           TargetType="Slider"
-           BasedOn="{StaticResource MahApps.Styles.Slider.Win10}">
-        <Setter Property="FocusVisualStyle"
-                Value="{x:Null}" />
-        <Setter Property="SnapsToDevicePixels"
-                Value="True" />
+           BasedOn="{StaticResource MahApps.Styles.Slider.Win10}"
+           TargetType="Slider">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
     </Style>
 </ResourceDictionary>

@@ -1,35 +1,45 @@
 ﻿<UserControl x:Class="SimpleMusicPlayer.Views.PlayControlView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
-             xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
              xmlns:Common="clr-namespace:SimpleMusicPlayer.Core"
+             xmlns:ValueConverters="clr-namespace:SimpleMusicPlayer.ValueConverters"
+             xmlns:ViewModels="clr-namespace:SimpleMusicPlayer.ViewModels"
              xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{d:DesignInstance ViewModels:PlayControlViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance ViewModels:PlayControlViewModel}">
+             mc:Ignorable="d">
 
     <UserControl.Resources>
         <ValueConverters:SliderPositionValueToTextConverter x:Key="SliderPositionValueToTextConverter" />
         <ValueConverters:SliderRemainingPositionValueToTextConverter x:Key="SliderRemainingPositionValueToTextConverter" />
         <ValueConverters:PlayerStateToToolTipConverter x:Key="PlayerStateToToolTipConverter" />
         <ValueConverters:BooleanConverter x:Key="ModeToBrushConverter"
-                                          TrueValue="{DynamicResource MahApps.Brushes.Accent}"
-                                          FalseValue="{DynamicResource MahApps.Brushes.ThemeForeground}" />
+                                          FalseValue="{DynamicResource MahApps.Brushes.ThemeForeground}"
+                                          TrueValue="{DynamicResource MahApps.Brushes.Accent}" />
         <ValueConverters:BooleanConverter x:Key="MuteToIconConverter"
-                                          TrueValue="{iconPacks:MaterialLight VolumeMute, Width=15, Height=15}"
-                                          FalseValue="{iconPacks:MaterialLight Volume, Width=15, Height=15}" />
+                                          FalseValue="{iconPacks:MaterialLight Volume,
+                                                                               Width=15,
+                                                                               Height=15}"
+                                          TrueValue="{iconPacks:MaterialLight VolumeMute,
+                                                                              Width=15,
+                                                                              Height=15}" />
         <ValueConverters:EnumBooleanConverter x:Key="PlayerStateToIconConverter">
             <ValueConverters:EnumBooleanConverter.TrueValue>
                 <!--<iconPacks:PackIconMaterial Kind="Equal" Width="20" Height="20" Margin="0" Rotation="90" />-->
-                <iconPacks:PackIconMaterial Kind="Pause" Width="19" Height="19" Margin="0" />
+                <iconPacks:PackIconMaterial Width="19"
+                                            Height="19"
+                                            Margin="0"
+                                            Kind="Pause" />
             </ValueConverters:EnumBooleanConverter.TrueValue>
             <ValueConverters:EnumBooleanConverter.FalseValue>
-                <iconPacks:PackIconFontAwesome Kind="PlaySolid" Width="20" Height="20" Margin="3 0 0 0" />
+                <iconPacks:PackIconFontAwesome Width="20"
+                                               Height="20"
+                                               Margin="3 0 0 0"
+                                               Kind="PlaySolid" />
             </ValueConverters:EnumBooleanConverter.FalseValue>
         </ValueConverters:EnumBooleanConverter>
     </UserControl.Resources>
@@ -48,29 +58,30 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- prev -->
+        <!--  prev  -->
         <Button Grid.Column="1"
-                Command="{Binding PlayPrevCommand, Mode=OneWay}"
-                Content="{iconPacks:FontAwesome FastBackwardSolid, Width=13, Height=13}"
-                ToolTip="Previous File (k)"
-                VerticalAlignment="Center"
-                Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
-                Margin="0 4 4 4"
+                Width="36"
                 Height="36"
-                Width="36" />
+                Margin="0 4 4 4"
+                VerticalAlignment="Center"
+                Command="{Binding PlayPrevCommand, Mode=OneWay}"
+                Content="{iconPacks:FontAwesome FastBackwardSolid,
+                                                Width=13,
+                                                Height=13}"
+                Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
+                ToolTip="Previous File (k)" />
 
-        <!-- play/pause -->
+        <!--  play/pause  -->
         <Button Grid.Column="2"
+                Width="55"
+                Height="55"
+                VerticalAlignment="Center"
                 Command="{Binding PlayOrPauseCommand, Mode=OneWay}"
                 Content="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToIconConverter}, ConverterParameter={x:Static Common:PlayerState.Play}}"
-                ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}"
-                VerticalAlignment="Center"
                 Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
-                Height="55"
-                Width="55" />
+                ToolTip="{Binding PlayerEngine.State, Mode=OneWay, Converter={StaticResource PlayerStateToToolTipConverter}}" />
 
-        <Grid Grid.Column="3"
-              VerticalAlignment="Center">
+        <Grid Grid.Column="3" VerticalAlignment="Center">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -81,73 +92,81 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- stop -->
+            <!--  stop  -->
             <Button Grid.Column="0"
+                    Width="36"
+                    Height="36"
+                    VerticalAlignment="Center"
                     Command="{Binding StopCommand, Mode=OneWay}"
-                    Content="{iconPacks:FontAwesome StopSolid, Width=13, Height=13}"
-                    ToolTip="Stop"
-                    VerticalAlignment="Center"
+                    Content="{iconPacks:FontAwesome StopSolid,
+                                                    Width=13,
+                                                    Height=13}"
                     Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
-                    Height="36"
-                    Width="36" />
+                    ToolTip="Stop" />
 
-            <!-- next -->
+            <!--  next  -->
             <Button Grid.Column="1"
-                    Command="{Binding PlayNextCommand, Mode=OneWay}"
-                    Content="{iconPacks:FontAwesome FastForwardSolid, Width=13, Height=13}"
-                    ToolTip="Next File (j)"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
+                    Width="36"
                     Height="36"
-                    Width="36" />
-
-            <!-- shuffle -->
-            <Button Grid.Column="2"
-                    Command="{Binding ShuffleCommand, Mode=OneWay}"
-                    Content="{iconPacks:FontAwesome RandomSolid, Width=12, Height=12}"
-                    Foreground="{Binding PlayerSettings.PlayerEngine.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
-                    ToolTip="Shuffle (s)"
-                    VerticalAlignment="Bottom"
+                    VerticalAlignment="Center"
+                    Command="{Binding PlayNextCommand, Mode=OneWay}"
+                    Content="{iconPacks:FontAwesome FastForwardSolid,
+                                                    Width=13,
+                                                    Height=13}"
                     Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
-                    Height="32"
-                    Width="32" />
+                    ToolTip="Next File (j)" />
 
-            <!-- repeat -->
+            <!--  shuffle  -->
+            <Button Grid.Column="2"
+                    Width="32"
+                    Height="32"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding ShuffleCommand, Mode=OneWay}"
+                    Content="{iconPacks:FontAwesome RandomSolid,
+                                                    Width=12,
+                                                    Height=12}"
+                    Foreground="{Binding PlayerSettings.PlayerEngine.ShuffleMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
+                    ToolTip="Shuffle (s)" />
+
+            <!--  repeat  -->
             <Button Grid.Column="3"
+                    Width="32"
+                    Height="32"
+                    VerticalAlignment="Bottom"
                     Command="{Binding RepeatCommand, Mode=OneWay}"
                     Content="{iconPacks:Modern Repeat, Width=12, Height=12}"
                     Foreground="{Binding PlayerSettings.PlayerEngine.RepeatMode, Mode=OneWay, Converter={StaticResource ModeToBrushConverter}}"
-                    ToolTip="Repeat (r)"
-                    VerticalAlignment="Bottom"
                     Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
-                    Height="32"
-                    Width="32" />
+                    ToolTip="Repeat (r)" />
 
-            <!-- show equalizer -->
+            <!--  show equalizer  -->
             <Button Grid.Column="4"
-                    Command="{Binding ShowEqualizerCommand, Mode=OneWay}"
-                    Content="{iconPacks:Entypo SoundMix, Width=12, Height=12}"
-                    ToolTip="Equalizer (e)"
-                    VerticalAlignment="Bottom"
-                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
+                    Width="32"
                     Height="32"
-                    Width="32" />
+                    VerticalAlignment="Bottom"
+                    Command="{Binding ShowEqualizerCommand, Mode=OneWay}"
+                    Content="{iconPacks:Entypo SoundMix,
+                                               Width=12,
+                                               Height=12}"
+                    Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
+                    ToolTip="Equalizer (e)" />
 
-            <!-- show media library -->
+            <!--  show media library  -->
             <Button Grid.Column="5"
+                    Width="32"
+                    Height="32"
+                    Margin="4 4 0 4"
+                    VerticalAlignment="Bottom"
                     Command="{Binding ShowMediaLibraryCommand, Mode=OneWay}"
                     Content="{iconPacks:Modern Database, Width=12, Height=12}"
-                    ToolTip="Media Library (l)"
-                    VerticalAlignment="Bottom"
                     Style="{StaticResource SimpleMPMetroCircleButtonStyle}"
-                    Margin="4 4 0 4"
-                    Height="32"
-                    Width="32" />
+                    ToolTip="Media Library (l)" />
         </Grid>
 
-        <Grid Grid.Column="0"
+        <Grid Grid.Row="1"
+              Grid.Column="0"
               Grid.ColumnSpan="5"
-              Grid.Row="1"
               HorizontalAlignment="Center">
 
             <Grid.ColumnDefinitions>
@@ -155,7 +174,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!-- position -->
+            <!--  position  -->
             <Grid Grid.Column="0"
                   HorizontalAlignment="Center"
                   RenderOptions.ClearTypeHint="Enabled"
@@ -167,42 +186,41 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <!-- position -->
+                <!--  position  -->
                 <TextBlock Grid.Column="0"
-                           Margin="10,0,0,0"
+                           Margin="10 0 0 0"
                            HorizontalAlignment="Right"
                            VerticalAlignment="Center"
                            Text="{Binding ElementName=positionSlider, Path=Value, Mode=OneWay, FallbackValue='0:00', Converter={StaticResource SliderPositionValueToTextConverter}}" />
-                <Slider Grid.Column="1"
-                        x:Name="positionSlider"
-                        Style="{StaticResource MahApps.Styles.Slider.Circle}"
-                        VerticalAlignment="Center"
+                <Slider x:Name="positionSlider"
+                        Grid.Column="1"
                         Width="150"
-                        Margin="5,2,5,2"
-                        Orientation="Horizontal"
+                        Margin="5 2 5 2"
+                        VerticalAlignment="Center"
                         Maximum="{Binding PlayerEngine.LengthMs, Mode=OneWay}"
+                        Orientation="Horizontal"
+                        Style="{StaticResource MahApps.Styles.Slider.Circle}"
                         Value="{Binding PlayerEngine.CurrentPositionMs, Mode=TwoWay, UpdateSourceTrigger=Explicit}" />
                 <TextBlock Grid.Column="2"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Center">
                     <TextBlock.Text>
-                        <MultiBinding FallbackValue="-0:00"
-                                      Converter="{StaticResource SliderRemainingPositionValueToTextConverter}">
+                        <MultiBinding Converter="{StaticResource SliderRemainingPositionValueToTextConverter}" FallbackValue="-0:00">
                             <Binding ElementName="positionSlider"
-                                     Path="Value"
-                                     Mode="OneWay" />
+                                     Mode="OneWay"
+                                     Path="Value" />
                             <Binding ElementName="positionSlider"
-                                     Path="Maximum"
-                                     Mode="OneWay" />
+                                     Mode="OneWay"
+                                     Path="Maximum" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
 
             </Grid>
 
-            <!-- volume -->
+            <!--  volume  -->
             <Grid Grid.Column="1"
-                  Margin="20,0,0,0"
+                  Margin="20 0 0 0"
                   HorizontalAlignment="Center">
 
                 <Grid.ColumnDefinitions>
@@ -211,18 +229,18 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0"
+                        Margin="0"
+                        Padding="1"
+                        VerticalAlignment="Center"
                         HorizontalContentAlignment="Left"
                         Command="{Binding MuteCommand, Mode=OneWay}"
                         Content="{Binding PlayerEngine.IsMute, Mode=OneWay, Converter={StaticResource MuteToIconConverter}}"
-                        ToolTip="Mute (m)"
-                        VerticalAlignment="Center"
-                        Margin="0"
-                        Padding="1">
+                        ToolTip="Mute (m)">
                     <Button.Style>
-                        <Style TargetType="{x:Type ButtonBase}" BasedOn="{StaticResource SimpleMPMetroVolumeButtonStyle}">
+                        <Style BasedOn="{StaticResource SimpleMPMetroVolumeButtonStyle}" TargetType="{x:Type ButtonBase}">
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding PlayerEngine.IsMute, Mode=OneWay}" Value="True">
-                                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray7}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.Gray7}" />
                                 </DataTrigger>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Foreground" Value="{DynamicResource MahApps.Brushes.AccentBase}" />
@@ -233,16 +251,16 @@
                 </Button>
 
                 <Common:FormattedSlider Grid.Column="1"
-                                        Style="{StaticResource MahApps.Styles.Slider.Circle}"
-                                        controls:SliderHelper.EnableMouseWheel="MouseHover"
-                                        controls:SliderHelper.ChangeValueBy="SmallChange"
-                                        Margin="5,2,5,2"
-                                        Orientation="Horizontal"
                                         Width="90"
-                                        SmallChange="5"
-                                        LargeChange="25"
-                                        AutoToolTipPlacement="TopLeft"
+                                        Margin="5 2 5 2"
+                                        controls:SliderHelper.ChangeValueBy="SmallChange"
+                                        controls:SliderHelper.EnableMouseWheel="MouseHover"
                                         AutoToolTipFormat="{}Volume {0:N0}%"
+                                        AutoToolTipPlacement="TopLeft"
+                                        LargeChange="25"
+                                        Orientation="Horizontal"
+                                        SmallChange="5"
+                                        Style="{StaticResource MahApps.Styles.Slider.Circle}"
                                         Value="{Binding PlayerEngine.Volume}" />
             </Grid>
 
