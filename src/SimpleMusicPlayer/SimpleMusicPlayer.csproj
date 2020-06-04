@@ -14,14 +14,14 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
     <ItemGroup Condition=" '$(Platform)' == 'x86' ">
-        <EmbeddedResource Include="$(SolutionDir)libs\FMODStudio\fmod.dll">
+        <EmbeddedResource Include="$(SolutionDir)libs\FMODStudio\x86\fmod.dll">
             <Link Condition=" '$(Configuration)' != 'Debug' ">costura32\fmod.dll</Link>
             <CopyToOutputDirectory Condition=" '$(Configuration)' == 'Debug' ">Always</CopyToOutputDirectory>
         </EmbeddedResource>
     </ItemGroup>
     <ItemGroup Condition=" '$(Platform)' != 'x86' ">
-        <EmbeddedResource Include="$(SolutionDir)libs\FMODStudio\fmod64.dll">
-            <Link Condition=" '$(Configuration)' != 'Debug' ">costura64\fmod64.dll</Link>
+        <EmbeddedResource Include="$(SolutionDir)libs\FMODStudio\x64\fmod.dll">
+            <Link Condition=" '$(Configuration)' != 'Debug' ">costura64\fmod.dll</Link>
             <CopyToOutputDirectory Condition=" '$(Configuration)' == 'Debug' ">Always</CopyToOutputDirectory>
         </EmbeddedResource>
     </ItemGroup>

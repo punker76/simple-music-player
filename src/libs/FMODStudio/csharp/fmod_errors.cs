@@ -1,10 +1,13 @@
-/* =================================================================================================== */
-/* FMOD Studio - Error string header file. Copyright (c), Firelight Technologies Pty, Ltd. 2004-2019.  */
-/*                                                                                                     */
-/* Use this header if you want to store or display a string version / english explanation of           */
-/* the FMOD error codes.                                                                               */
-/*                                                                                                     */
-/* =================================================================================================== */
+/* ==============================================================================================  */
+/* FMOD Core / Studio API - Error string header file.                                              */
+/* Copyright (c), Firelight Technologies Pty, Ltd. 2004-2020.                                      */
+/*                                                                                                 */
+/* Use this header if you want to store or display a string version / english explanation          */
+/* of the FMOD error codes.                                                                        */
+/*                                                                                                 */
+/* For more detail visit:                                                                          */
+/* https://fmod.com/resources/documentation-api?version=2.0&page=core-api-common.html#fmod_result  */
+/* =============================================================================================== */
 
 namespace FMOD
 {

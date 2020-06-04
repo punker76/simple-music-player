@@ -24,8 +24,8 @@ namespace SimpleMusicPlayer.Core.Player
 
     public class PlayerEngine : ReactiveObject, IPlayerEngine
     {
-        private FMOD.System system = null;
-        private FMOD.Sound sound = null;
+        private FMOD.System system;
+        private FMOD.Sound sound;
         private ChannelInfo channelInfo = null;
         private DispatcherTimer timer;
         private PlayerSettings playerSettings;
@@ -128,7 +128,7 @@ namespace SimpleMusicPlayer.Core.Player
         {
             uint ms = 0;
 
-            if (this.channelInfo != null && this.channelInfo.Channel != null)
+            if (this.channelInfo != null && this.channelInfo.Channel.hasHandle())
             {
                 var isPlaying = false;
                 var isPaused = false;
@@ -252,11 +252,12 @@ namespace SimpleMusicPlayer.Core.Player
 
             // start paused for better results
             FMOD.Channel channel;
-            if (!this.system.playSound(this.sound, null, true, out channel).ERRCHECK())
+            if (!this.system.playSound(this.sound, default, true, out channel).ERRCHECK())
             {
                 return;
             }
-            if (channel == null)
+
+            if (channel.hasHandle() == false)
             {
                 return;
             }
@@ -318,10 +319,10 @@ namespace SimpleMusicPlayer.Core.Player
                 this.system.update().ERRCHECK();
             }
 
-            if (fmodSound != null)
+            if (fmodSound.hasHandle())
             {
                 fmodSound.release().ERRCHECK();
-                fmodSound = null;
+                fmodSound.clearHandle();
                 this.system.update().ERRCHECK();
             }
 
@@ -340,11 +341,11 @@ namespace SimpleMusicPlayer.Core.Player
 
         private void CleanUpSystem(ref FMOD.System fmodSystem)
         {
-            if (fmodSystem != null)
+            if (fmodSystem.hasHandle())
             {
                 fmodSystem.close().ERRCHECK();
                 fmodSystem.release().ERRCHECK();
-                fmodSystem = null;
+                fmodSystem.clearHandle();
             }
         }
     }

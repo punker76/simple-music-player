@@ -27,7 +27,7 @@ namespace SimpleMusicPlayer.Core.Player
 
             this.WhenAnyValue(x => x.Gain)
                 .Subscribe(newGain => {
-                    if (this.IsActive && this.dspEQ != null)
+                    if (this.IsActive && this.dspEQ.hasHandle())
                     {
                         System.Diagnostics.Debug.WriteLine(">> Gain value: " + newGain);
 
@@ -44,7 +44,7 @@ namespace SimpleMusicPlayer.Core.Player
 
         public static EqualizerBand GetEqualizerBand(FMOD.System system, bool isActive, float centerValue, float bandwithValue, float gainValue)
         {
-            FMOD.DSP dspParamEq = null;
+            FMOD.DSP dspParamEq = default;
 
             if (isActive)
             {
@@ -97,19 +97,17 @@ namespace SimpleMusicPlayer.Core.Player
 
         public void Release()
         {
-            if (this.dspEQ != null)
+            if (this.dspEQ.hasHandle())
             {
                 this.dspEQ.setActive(false).ERRCHECK();
 
-                FMOD.ChannelGroup masterChannelGroup = null;
+                FMOD.ChannelGroup masterChannelGroup;
                 this.fmodSystem.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
 
                 masterChannelGroup.removeDSP(this.dspEQ).ERRCHECK();
 
                 this.dspEQ.release().ERRCHECK();
-
-                this.dspEQ = null;
-                this.fmodSystem = null;
+                this.dspEQ.clearHandle();
             }
             this.IsActive = false;
         }

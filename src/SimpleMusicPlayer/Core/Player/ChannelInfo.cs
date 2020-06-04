@@ -9,9 +9,9 @@ namespace SimpleMusicPlayer.Core.Player
 {
     internal class ChannelInfo
     {
-        private FMOD.System system = null;
+        private FMOD.System system;
         private Action playNextFileAction;
-        private FMOD.CHANNEL_CALLBACK channelEndCallback;
+        private FMOD.CHANNELCONTROL_CALLBACK channelEndCallback;
 
         public ChannelInfo(Channel channel, IMediaFile file, Action playNextFileAction)
         {
@@ -19,7 +19,7 @@ namespace SimpleMusicPlayer.Core.Player
             this.Channel.getSystemObject(out system).ERRCHECK();
             this.File = file;
             this.playNextFileAction = playNextFileAction;
-            this.channelEndCallback = new FMOD.CHANNEL_CALLBACK(ChannelEndCallback);
+            this.channelEndCallback = new FMOD.CHANNELCONTROL_CALLBACK(ChannelEndCallback);
             this.Channel.setCallback(this.channelEndCallback).ERRCHECK();
             this.Volume = 0f;
         }
@@ -28,9 +28,9 @@ namespace SimpleMusicPlayer.Core.Player
 
         public IMediaFile File { get; private set; }
 
-        private RESULT ChannelEndCallback(IntPtr channelraw, CHANNELCONTROL_TYPE controltype, CHANNELCONTROL_CALLBACK_TYPE type, IntPtr commanddata1, IntPtr commanddata2)
+        private RESULT ChannelEndCallback(IntPtr channelcontrol, CHANNELCONTROL_TYPE controltype, CHANNELCONTROL_CALLBACK_TYPE callbacktype, IntPtr commanddata1, IntPtr commanddata2)
         {
-            if (type == CHANNELCONTROL_CALLBACK_TYPE.END)
+            if (callbacktype == CHANNELCONTROL_CALLBACK_TYPE.END)
             {
                 // this must be thread safe
                 var currentSynchronizationContext = TaskScheduler.FromCurrentSynchronizationContext();
@@ -47,7 +47,7 @@ namespace SimpleMusicPlayer.Core.Player
 
         public void SetCurrentPositionMs(uint newPosition)
         {
-            if (this.Channel != null)
+            if (this.Channel.hasHandle())
             {
                 bool paused;
                 this.Channel.getPaused(out paused).ERRCHECK();
@@ -84,7 +84,7 @@ namespace SimpleMusicPlayer.Core.Player
             get { return this.volume; }
             set
             {
-                if (this.Channel == null || Equals(value, this.volume))
+                if (this.Channel.hasHandle() == false || Equals(value, this.volume))
                 {
                     return;
                 }
@@ -95,7 +95,7 @@ namespace SimpleMusicPlayer.Core.Player
 
         public void Pause()
         {
-            if (this.Channel != null)
+            if (this.Channel.hasHandle())
             {
                 bool paused;
                 this.Channel.getPaused(out paused).ERRCHECK();
@@ -110,18 +110,17 @@ namespace SimpleMusicPlayer.Core.Player
 
         public void CleanUp()
         {
-            if (this.Channel != null)
+            if (this.Channel.hasHandle())
             {
                 this.Channel.setVolume(0f).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
                 this.Channel.setPaused(true).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
                 this.Channel.setCallback(null).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
-                this.Channel = null;
+                this.Channel.clearHandle();
             }
             this.channelEndCallback = null;
             this.File.State = PlayerState.Stop;
             this.File = null;
             this.playNextFileAction = null;
-            this.system = null;
         }
     }
 }

@@ -103,7 +103,6 @@ namespace SimpleMusicPlayer.Core.Player
         {
             this.DeInit(this.fmodSystem);
             this.Bands.Clear();
-            this.fmodSystem = null;
             this.playerSettings = null;
         }
 
