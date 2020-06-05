@@ -90,6 +90,7 @@ namespace SimpleMusicPlayer.Core.Player
                 }
                 this.volume = value;
                 this.Channel.setVolume(value).ERRCHECK();
+                this.system.update().ERRCHECK();
             }
         }
 

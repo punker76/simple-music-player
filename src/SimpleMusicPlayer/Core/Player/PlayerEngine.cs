@@ -250,9 +250,17 @@ namespace SimpleMusicPlayer.Core.Player
             this.sound.getLength(out lenms, FMOD.TIMEUNIT.MS).ERRCHECK();
             this.LengthMs = lenms;
 
+            ChannelGroup masterChannelGroup;
+            this.system.getMasterChannelGroup(out masterChannelGroup).ERRCHECK();
+
+            if (masterChannelGroup.hasHandle() == false)
+            {
+                return;
+            }
+
             // start paused for better results
             FMOD.Channel channel;
-            if (!this.system.playSound(this.sound, default, true, out channel).ERRCHECK())
+            if (!this.system.playSound(this.sound, masterChannelGroup, true, out channel).ERRCHECK())
             {
                 return;
             }
@@ -273,7 +281,6 @@ namespace SimpleMusicPlayer.Core.Player
             file.State = PlayerState.Play;
 
             channel.setPaused(false).ERRCHECK();
-
             this.system.update().ERRCHECK();
         }
 
