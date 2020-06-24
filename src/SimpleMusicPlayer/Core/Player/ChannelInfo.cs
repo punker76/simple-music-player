@@ -11,20 +11,67 @@ namespace SimpleMusicPlayer.Core.Player
     {
         private FMOD.System system;
         private Action playNextFileAction;
-        private FMOD.CHANNELCONTROL_CALLBACK channelEndCallback;
+        private CHANNELCONTROL_CALLBACK channelEndCallback;
 
         public ChannelInfo(Channel channel, IMediaFile file, Action playNextFileAction)
         {
-            this.Channel = channel;
-            this.Channel.getSystemObject(out system).ERRCHECK();
-            this.File = file;
+            Channel = channel;
+            File = file;
             this.playNextFileAction = playNextFileAction;
-            this.channelEndCallback = new FMOD.CHANNELCONTROL_CALLBACK(ChannelEndCallback);
-            this.Channel.setCallback(this.channelEndCallback).ERRCHECK();
-            this.Volume = 0f;
+            channelEndCallback = new CHANNELCONTROL_CALLBACK(ChannelEndCallback);
+            channel.setCallback(channelEndCallback).ERRCHECK();
+
+            Volume = 1f;
+            channel.setVolume(1f).ERRCHECK();
+
+            channel.getSystemObject(out system).ERRCHECK();
+
+            channel.getCurrentSound(out var currentSound).ERRCHECK();
+
+            currentSound.getFormat(out SOUND_TYPE type, out SOUND_FORMAT format, out int channels, out int bits)
+                .ERRCHECK();
+            system.getSoftwareFormat(out int samplerate, out SPEAKERMODE speakermode, out int numrawspeakers)
+                .ERRCHECK();
+
+            if (samplerate > 0 && bits > 0)
+            {
+                system.lockDSP().ERRCHECK();
+
+                channel.getDSPClock(out ulong dspclock, out ulong parentclock).ERRCHECK();
+
+                channel.setDelay(0, 0, false).ERRCHECK();
+
+                // milliseconds * samplerate / 1000
+                var fadeDelay = Convert.ToUInt64(Math.Round(8000 * samplerate / 1000f, MidpointRounding.AwayFromZero));
+
+                // add a fade point at 'now' with zero volume
+                channel.addFadePoint(parentclock, 0f).ERRCHECK();
+                // add a fade point 8 seconds later at 1 volume
+                channel.addFadePoint(parentclock + fadeDelay, 1f).ERRCHECK();
+
+                // PCM = PCM Samples, related to milliseconds * samplerate / 1000.
+                currentSound.getLength(out uint length, TIMEUNIT.PCM).ERRCHECK();
+
+                currentSound.getLength(out uint lengthMs, TIMEUNIT.MS).ERRCHECK();
+                var convertedLength = Convert.ToUInt64(Math.Round(lengthMs * samplerate / 1000f, MidpointRounding.AwayFromZero));
+
+                // using length or convertedLength doesn't work
+                // both are to early!
+
+                // add a start fade point 8 seconds before end with full volume
+                channel.addFadePoint(parentclock + length - fadeDelay, 1f).ERRCHECK();
+                // add a fade point at the end of the track
+                channel.addFadePoint(parentclock + length, 0f).ERRCHECK();
+                // add a delayed stop command at the end of the track ('stopchannels = true')
+                channel.setDelay(0, parentclock + length, true).ERRCHECK();
+
+                system.unlockDSP().ERRCHECK();
+            }
+
+            system.update().ERRCHECK();
         }
 
-        public FMOD.Channel Channel { get; private set; }
+        public Channel Channel { get; private set; }
 
         public IMediaFile File { get; private set; }
 
@@ -35,27 +82,27 @@ namespace SimpleMusicPlayer.Core.Player
                 // this must be thread safe
                 var currentSynchronizationContext = TaskScheduler.FromCurrentSynchronizationContext();
                 var uiTask = Task.Factory.StartNew(() => {
-                    var action = this.playNextFileAction;
+                    var action = playNextFileAction;
                     if (action != null)
                     {
                         action();
                     }
                 }, CancellationToken.None, TaskCreationOptions.None, currentSynchronizationContext);
             }
-            return FMOD.RESULT.OK;
+            return RESULT.OK;
         }
 
         public void SetCurrentPositionMs(uint newPosition)
         {
-            if (this.Channel.hasHandle())
+            if (Channel.hasHandle())
             {
                 bool paused;
-                this.Channel.getPaused(out paused).ERRCHECK();
-                this.Channel.setPaused(true).ERRCHECK();
-                this.system.update().ERRCHECK();
-                this.Channel.setPosition(newPosition, FMOD.TIMEUNIT.MS).ERRCHECK(FMOD.RESULT.ERR_INVALID_HANDLE);
-                this.Channel.setPaused(paused).ERRCHECK();
-                this.system.update().ERRCHECK();
+                Channel.getPaused(out paused).ERRCHECK();
+                Channel.setPaused(true).ERRCHECK();
+                system.update().ERRCHECK();
+                Channel.setPosition(newPosition, TIMEUNIT.MS).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
+                Channel.setPaused(paused).ERRCHECK();
+                system.update().ERRCHECK();
             }
         }
 
@@ -66,11 +113,11 @@ namespace SimpleMusicPlayer.Core.Player
                 var calcVolume = Math.Abs(((endVol - startVol) / fadeLength) * (currentTime - startPoint));
                 if (startVol < endVol)
                 {
-                    this.Volume = calcVolume + startVol;
+                    Volume = calcVolume + startVol;
                 }
                 else
                 {
-                    this.Volume = startVol - calcVolume;
+                    Volume = startVol - calcVolume;
                 }
                 return true;
             }
@@ -81,47 +128,49 @@ namespace SimpleMusicPlayer.Core.Player
 
         public float Volume
         {
-            get { return this.volume; }
+            get { return volume; }
             set
             {
-                if (this.Channel.hasHandle() == false || Equals(value, this.volume))
+                return;
+                if (Channel.hasHandle() == false || Equals(value, volume))
                 {
                     return;
                 }
-                this.volume = value;
-                this.Channel.setVolume(value).ERRCHECK();
-                this.system.update().ERRCHECK();
+                volume = value;
+                Channel.setVolume(value).ERRCHECK();
+                system.update().ERRCHECK();
             }
         }
 
         public void Pause()
         {
-            if (this.Channel.hasHandle())
+            if (Channel.hasHandle())
             {
                 bool paused;
-                this.Channel.getPaused(out paused).ERRCHECK();
+                Channel.getPaused(out paused).ERRCHECK();
 
                 var newPaused = !paused;
-                this.Channel.setPaused(newPaused).ERRCHECK();
-                this.system.update().ERRCHECK();
+                Channel.setPaused(newPaused).ERRCHECK();
+                system.update().ERRCHECK();
 
-                this.File.State = newPaused ? PlayerState.Pause : PlayerState.Play;
+                File.State = newPaused ? PlayerState.Pause : PlayerState.Play;
             }
         }
 
         public void CleanUp()
         {
-            if (this.Channel.hasHandle())
+            if (Channel.hasHandle())
             {
-                this.Channel.setVolume(0f).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
-                this.Channel.setPaused(true).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
-                this.Channel.setCallback(null).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
-                this.Channel.clearHandle();
+                Channel.setVolume(0f).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
+                Channel.setPaused(true).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
+                Channel.setCallback(null).ERRCHECK(RESULT.ERR_INVALID_HANDLE);
+                Channel.stop().ERRCHECK(RESULT.ERR_INVALID_HANDLE);
+                Channel.clearHandle();
             }
-            this.channelEndCallback = null;
-            this.File.State = PlayerState.Stop;
-            this.File = null;
-            this.playNextFileAction = null;
+            channelEndCallback = null;
+            File.State = PlayerState.Stop;
+            File = null;
+            playNextFileAction = null;
         }
     }
 }
