@@ -13,11 +13,8 @@
   <a href="https://github.com/punker76/simple-music-player/releases">
 	<img src="https://img.shields.io/github/release/punker76/simple-music-player.svg?style=flat-square">
   </a>
-  <!--<a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/master">
-	<img alt="masterstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/master.svg?style=flat-square&&label=master">
-  </a>-->
-  <a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/dev">
-	<img alt="devstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/dev.svg?style=flat-square&&label=dev">
+  <a href="https://ci.appveyor.com/project/punker76/simple-music-player/branch/develop">
+	<img alt="devstatus" src="https://img.shields.io/appveyor/ci/punker76/simple-music-player/develop.svg?style=flat-square&&label=develop">
   </a>
 
 </div>
@@ -28,7 +25,7 @@ So why another music player? When I decided to make my own player back in 2005, 
 
 In 2012 (after long time), I decided to make a new one!
 
-Attention: This is a develope playground for me. It's a newer version of my old simple music player ([SimpleMP](http://jkarger.de/simple-music-player/)).
+Attention: This is a develop playground for me. It's a newer version of my old simple music player ([SimpleMP](http://jkarger.de/simple-music-player/)).
 
 It's not perfect and many function not yet implemented.
 
