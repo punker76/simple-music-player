@@ -4,15 +4,20 @@
     <PropertyGroup>
         <AssemblyName>SimpleMusicPlayer</AssemblyName>
         <RootNamespace>SimpleMusicPlayer</RootNamespace>
-        <StartupObject>SimpleMusicPlayer.Program</StartupObject>
         <DisableFody Condition=" '$(Configuration)' == 'Debug' or $(TargetFramework.StartsWith('netcoreapp')) ">true</DisableFody>
         <DefineConstants Condition=" '$(Platform)' != 'x86' ">$(DefineConstants);WIN64</DefineConstants>
+        <!-- Workaround for https://github.com/dotnet/sourcelink/issues/91 -->
+        <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
+        <UseWindowsForms>true</UseWindowsForms>
     </PropertyGroup>
+
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
         <NoWarn>SA1652</NoWarn>
+        <ApplicationIcon>simplemp.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
+
     <ItemGroup Condition=" '$(Platform)' == 'x86' ">
         <EmbeddedResource Include="$(SolutionDir)libs\FMODStudio\x86\fmod.dll">
             <Link Condition=" '$(Configuration)' != 'Debug' ">costura32\fmod.dll</Link>
@@ -25,44 +30,44 @@
             <CopyToOutputDirectory Condition=" '$(Configuration)' == 'Debug' ">Always</CopyToOutputDirectory>
         </EmbeddedResource>
     </ItemGroup>
+
     <ItemGroup>
         <Reference Include="taglib-sharp.dll">
             <HintPath>$(SolutionDir)libs\taglib-sharp\taglib-sharp.dll</HintPath>
         </Reference>
     </ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="Fody" Version="6.*">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Costura.Fody" Version="4.*"/>
-        <PackageReference Include="Newtonsoft.Json" Version="12.*"/>
-        <PackageReference Include="NLog" Version="4.*"/>
-        <PackageReference Include="WindowsAPICodePack-Shell" Version="1.*"/>
-        <PackageReference Include="QuickIO.NET" Version="2.*"/>
-        <PackageReference Include="TinyIoC" Version="1.*"/>
-        <PackageReference Include="reactiveui" Version="7.*"/>
-        <PackageReference Include="reactiveui-events" Version="7.*"/>
-        <PackageReference Include="Splat" Version="1.*"/>
-        <PackageReference Include="MahApps.Metro" Version="2.*"/>
-        <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.0.0-alpha*"/>
-        <PackageReference Include="MahApps.Metro.IconPacks" Version="4.*"/>
-        <PackageReference Include="MaterialDesignThemes" Version="3.1.*"/>
-        <PackageReference Include="MaterialDesignColors" Version="1.2.*"/>
-        <PackageReference Include="gong-wpf-dragdrop" Version="2.*"/>
+        <PackageReference Include="Costura.Fody" Version="4.*" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.*" />
+        <PackageReference Include="NLog" Version="4.*" />
+        <PackageReference Include="WindowsAPICodePack-Shell" Version="1.*" />
+        <PackageReference Include="QuickIO.NET" Version="2.*" />
+        <PackageReference Include="TinyIoC" Version="1.*" />
+        <PackageReference Include="reactiveui" Version="7.*" />
+        <PackageReference Include="reactiveui-events" Version="7.*" />
+        <PackageReference Include="Splat" Version="1.*" />
+        <PackageReference Include="MahApps.Metro" Version="2.*" />
+        <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.0.0-alpha*" />
+        <PackageReference Include="MahApps.Metro.IconPacks" Version="4.*" />
+        <PackageReference Include="MaterialDesignThemes" Version="3.1.*" />
+        <PackageReference Include="MaterialDesignColors" Version="1.2.*" />
+        <PackageReference Include="gong-wpf-dragdrop" Version="2.*" />
     </ItemGroup>
+
     <ItemGroup>
-        <Reference Include="System.Runtime.Remoting"/>
-        <Reference Include="System.Windows.Forms"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="$(SolutionDir)libs\FMODStudio\csharp\*.cs" Link="FMODStudio\%(RecursiveDir)%(Filename)%(Extension)"/>
+        <Compile Include="$(SolutionDir)libs\FMODStudio\csharp\*.cs" Link="FMODStudio\%(RecursiveDir)%(Filename)%(Extension)" />
         <None Include="app.manifest" />
         <None Remove="App.config" />
         <AppConfigWithTargetPath Include="App.$(TargetFramework).config">
             <TargetPath>$(AssemblyName).exe.config</TargetPath>
         </AppConfigWithTargetPath>
     </ItemGroup>
+
     <ItemGroup>
         <Compile DependentUpon="%(Filename)" SubType="Code" Update="**\obj\**\*.g$(DefaultLanguageSourceExtension)" />
         <Compile DependentUpon="%(Filename)" SubType="Designer" Update="**\*.xaml$(DefaultLanguageSourceExtension)" />

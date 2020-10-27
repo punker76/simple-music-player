@@ -2,7 +2,6 @@
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
     <!-- Project properties -->
     <PropertyGroup>
-        <TargetFrameworks>net472</TargetFrameworks>
         <AssemblyName>SimpleMusicPlayer.Tests</AssemblyName>
         <RootNamespace>SimpleMusicPlayer.Tests</RootNamespace>
         <DefineConstants Condition=" '$(Platform)' != 'x86' ">$(DefineConstants);WIN64</DefineConstants>
