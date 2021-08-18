@@ -1,11 +1,17 @@
 <Project>
+    <PropertyGroup>
+        <IsBuildingWpfTempProj Condition="$(MSBuildProjectName.Contains('_wpftmp')) != 'true'">false</IsBuildingWpfTempProj>
+        <IsBuildingWpfTempProj Condition="$(MSBuildProjectName.Contains('_wpftmp')) == 'true'">true</IsBuildingWpfTempProj>
+    </PropertyGroup>
+
     <!-- Project properties -->
     <PropertyGroup>
+        <!-- <TargetFrameworks>net472;netcoreapp3.1;net5-windows</TargetFrameworks> -->
         <TargetFrameworks>net472</TargetFrameworks>
         <AppendTargetFrameworkToOutputPath>true</AppendTargetFrameworkToOutputPath>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
         <AutoGenerateBindingRedirects Condition=" $(TargetFramework.StartsWith('net4')) ">true</AutoGenerateBindingRedirects>
-        <LangVersion>8.0</LangVersion>
+        <LangVersion>latest</LangVersion>
         <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <NoWarn>$(NoWarn);CS1591</NoWarn>
@@ -13,15 +19,24 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <DefineConstants Condition=" '$(Platform)' != 'x86' ">$(DefineConstants);WIN64</DefineConstants>
+        <DefineConstants Condition="'$(TargetFramework)' == 'net5.0-windows'">$(DefineConstants);NET5_0_OR_GREATER</DefineConstants>
+    </PropertyGroup>
+
     <!-- Add the references for all projects and targets -->
     <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2020.*" PrivateAssets="All" />
-        <PackageReference Include="WpfAnalyzers" Version="2.4.*" PrivateAssets="All" />
+        <PackageReference Include="JetBrains.Annotations" Version="2021.*" PrivateAssets="All" IncludeAssets="build;compile" />
+        <PackageReference Include="WpfAnalyzers" Version="3.5.*" PrivateAssets="All" />
     </ItemGroup>
 
     <ItemGroup>
         <None Remove="**\*.png;**\*.jpg;**\*.ico;**\*.ttf" />
         <Resource Include="**\*.png;**\*.jpg;**\*.ico;**\*.ttf" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <SourceRoot Include="$(MSBuildThisFileDirectory)/" />
     </ItemGroup>
 
 </Project>

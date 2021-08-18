@@ -9,21 +9,43 @@ using SimpleMusicPlayer.Core.Player;
 using SimpleMusicPlayer.ViewModels;
 using SimpleMusicPlayer.Views;
 using TinyIoC;
+#if NETCOREAPP
+using SingleInstanceCore;
+#endif
 
 namespace SimpleMusicPlayer
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+#if NETCOREAPP
+    public partial class App : Application, ISingleInstance
+#else
     public partial class App : Application
+#endif
     {
         public App()
         {
             // check if we are the first instance
-            if (SingleInstance.IsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938", true))
+#if NETCOREAPP
+            var isFirstInstance = this.InitializeAsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938");
+#else
+            var isFirstInstance = SingleInstance.IsFirstInstance("18980929-1342-4467-bc3d-37b0d13fa938", true);
+#endif
+
+            if (!isFirstInstance)
             {
+                //If it's not the first instance, arguments are automatically passed to the first instance
+                //OnInstanceInvoked will be raised on the first instance
+                //You may shut down the current instance
+                Current.Shutdown();
+            }
+            else
+            {
+#if !NETCOREAPP
                 //we are, register our event handler for receiving the new arguments
                 SingleInstance.OnSecondInstanceStarted += NewStartupArgs;
+#endif
 
                 //place additional startup code here
                 // SplashScreen splashScreen = new SplashScreen("SplashScreen.jpg");
@@ -49,12 +71,6 @@ namespace SimpleMusicPlayer
             }
         }
 
-        private void NewStartupArgs(object sender, SecondInstanceStartedEventArgs e)
-        {
-            //handle new startup arguments and/or do anything else for second instance launch
-            ProcessCommandLineArgs(e.Args);
-        }
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -69,6 +85,24 @@ namespace SimpleMusicPlayer
 
             base.OnExit(e);
         }
+
+#if NETCOREAPP
+
+        public void OnInstanceInvoked(string[] args)
+        {
+            //What to do with the args another instance has sent
+            ProcessCommandLineArgs(args);
+        }
+
+#else
+
+        private void NewStartupArgs(object sender, SecondInstanceStartedEventArgs e)
+        {
+            //handle new startup arguments and/or do anything else for second instance launch
+            ProcessCommandLineArgs(e.Args);
+        }
+
+#endif
 
         private void ProcessCommandLineArgs(IEnumerable<string> args)
         {

@@ -2,10 +2,13 @@
 // TOOLS / ADDINS
 ///////////////////////////////////////////////////////////////////////////////
 
-#tool GitVersion.CommandLine&version=5.0.1
+#module nuget:?package=Cake.DotNetTool.Module&version=0.5.0
+#tool dotnet:?package=GitVersion.Tool&version=5.6.6
+
 #tool xunit.runner.console
-#tool vswhere
-#addin Cake.Figlet
+#tool vswhere&version=2.8.4
+
+#addin nuget:?package=Cake.Figlet&version=1.4.0
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS

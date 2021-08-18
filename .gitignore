@@ -260,7 +260,8 @@ paket-files/
 *_wpftmp.csproj
 
 # cake
-tools/
+[tT]ools/
+![tT]ools/packages.config
 
 # XamlStyler
 !XamlStyler/

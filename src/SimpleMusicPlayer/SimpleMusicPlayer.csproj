@@ -4,8 +4,7 @@
     <PropertyGroup>
         <AssemblyName>SimpleMusicPlayer</AssemblyName>
         <RootNamespace>SimpleMusicPlayer</RootNamespace>
-        <DisableFody Condition=" '$(Configuration)' == 'Debug' or $(TargetFramework.StartsWith('netcoreapp')) ">true</DisableFody>
-        <DefineConstants Condition=" '$(Platform)' != 'x86' ">$(DefineConstants);WIN64</DefineConstants>
+        <DisableFody Condition=" '$(Configuration)' == 'Debug' ">true</DisableFody>
         <!-- Workaround for https://github.com/dotnet/sourcelink/issues/91 -->
         <DeterministicSourcePaths Condition="'$(EnableSourceLink)' == ''">false</DeterministicSourcePaths>
         <UseWindowsForms>true</UseWindowsForms>
@@ -13,7 +12,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <NoWarn>SA1652</NoWarn>
+        <NoWarn>SA1652;WPF0041</NoWarn>
         <ApplicationIcon>simplemp.ico</ApplicationIcon>
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
@@ -38,12 +37,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Fody" Version="6.*">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Costura.Fody" Version="4.*" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.*" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.*" PrivateAssets="All" />
         <PackageReference Include="NLog" Version="4.*" />
         <PackageReference Include="WindowsAPICodePack-Shell" Version="1.*" />
         <PackageReference Include="QuickIO.NET" Version="2.*" />
@@ -52,18 +46,37 @@
         <PackageReference Include="reactiveui-events" Version="7.*" />
         <PackageReference Include="Splat" Version="1.*" />
         <PackageReference Include="MahApps.Metro" Version="2.*" />
-        <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.0.0-alpha*" />
-        <PackageReference Include="MahApps.Metro.IconPacks" Version="4.*" />
-        <PackageReference Include="MaterialDesignThemes" Version="3.1.*" />
-        <PackageReference Include="MaterialDesignColors" Version="1.2.*" />
+        <PackageReference Include="MahApps.Metro.SimpleChildWindow" Version="2.*" />
+        <PackageReference Include="MahApps.Metro.IconPacks.Entypo" Version="4.*" />
+        <PackageReference Include="MahApps.Metro.IconPacks.FontAwesome" Version="4.*" />
+        <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="4.*" />
+        <PackageReference Include="MahApps.Metro.IconPacks.MaterialLight" Version="4.*" />
+        <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="4.*" />
+        <PackageReference Include="MahApps.Metro.IconPacks.Octicons" Version="4.*" />
         <PackageReference Include="gong-wpf-dragdrop" Version="2.*" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
+        <PackageReference Include="MaterialDesignThemes" Version="3.0.1" />
+        <PackageReference Include="MaterialDesignColors" Version="1.2.7" />
+        <PackageReference Include="Fody" Version="6.*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Costura.Fody" Version="4.*" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == true">
+        <PackageReference Include="SingleInstanceCore" Version="2.2.0" />
+        <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
+        <PackageReference Include="MaterialDesignColors" Version="2.0.1" />
     </ItemGroup>
 
     <ItemGroup>
         <Compile Include="$(SolutionDir)libs\FMODStudio\csharp\*.cs" Link="FMODStudio\%(RecursiveDir)%(Filename)%(Extension)" />
         <None Include="app.manifest" />
         <None Remove="App.config" />
-        <AppConfigWithTargetPath Include="App.$(TargetFramework).config">
+        <AppConfigWithTargetPath Include="App.$(TargetFramework).config" Condition="$(DefineConstants.Contains(NETCOREAPP)) == false">
             <TargetPath>$(AssemblyName).exe.config</TargetPath>
         </AppConfigWithTargetPath>
     </ItemGroup>

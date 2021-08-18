@@ -1,3 +1,5 @@
+#if !NETCOREAPP
+
 using System;
 using System.ServiceModel;
 using System.Windows;
@@ -189,3 +191,5 @@ namespace SimpleMusicPlayer.Core
         }
     }
 }
+
+#endif
