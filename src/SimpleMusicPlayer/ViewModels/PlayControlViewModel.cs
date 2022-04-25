@@ -208,6 +208,26 @@ namespace SimpleMusicPlayer.ViewModels
                     break;
                 case Key.S:
                     break;
+                case Key.Right:
+                if (!this.PlayerEngine.CanSetCurrentPositionMs)
+                {
+                    if (this.PlayerEngine.CurrentPositionMs + 5000 > this.PlayerEngine.LengthMs)
+                        this.PlayerEngine.CurrentPositionMs = this.PlayerEngine.LengthMs;
+                    else
+                        this.PlayerEngine.CurrentPositionMs = (uint)(this.PlayerEngine.CurrentPositionMs + 5000);
+                    this.PlayerEngine.SetCurrentPositionMs.Execute().Subscribe();
+                }
+                break;
+            case Key.Left:
+                if (!this.PlayerEngine.CanSetCurrentPositionMs)
+                {
+                    if (this.PlayerEngine.CurrentPositionMs - 5000 < 0)
+                        this.PlayerEngine.CurrentPositionMs = 0;
+                    else
+                        this.PlayerEngine.CurrentPositionMs = (uint)(this.PlayerEngine.CurrentPositionMs - 5000);
+                    this.PlayerEngine.SetCurrentPositionMs.Execute().Subscribe();
+                }
+                break;
                 case Key.J:
                     handled = this.PlayNextCommand.CanExecute(null);
                     if (handled)
