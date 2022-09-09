@@ -187,8 +187,8 @@ namespace SimpleMusicPlayer.ViewModels
 
         public bool IsEqualizerOpen
         {
-            get { return this.isEqualizerOpen; }
-            set { this.RaiseAndSetIfChanged(ref isEqualizerOpen, value); }
+            get => this.isEqualizerOpen;
+            set => this.RaiseAndSetIfChanged(ref isEqualizerOpen, value);
         }
 
         private async Task ShowEqualizer()

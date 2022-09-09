@@ -120,16 +120,16 @@ namespace SimpleMusicPlayer.Core.Player
         /// </summary>
         public float Gain
         {
-            get { return this.gain; }
-            set { this.RaiseAndSetIfChanged(ref gain, value); }
+            get => this.gain;
+            set => this.RaiseAndSetIfChanged(ref gain, value);
         }
 
         private bool isActive;
 
         public bool IsActive
         {
-            get { return this.isActive; }
-            set { this.RaiseAndSetIfChanged(ref isActive, value); }
+            get => this.isActive;
+            set => this.RaiseAndSetIfChanged(ref isActive, value);
         }
     }
 }

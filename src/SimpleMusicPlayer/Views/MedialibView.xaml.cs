@@ -54,17 +54,17 @@ namespace SimpleMusicPlayer.Views
 
         public MedialibViewModel ViewModel
         {
-            get { return (MedialibViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (MedialibViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
 
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(MedialibViewModel), typeof(MedialibView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(MedialibViewModel), typeof(MedialibView), new PropertyMetadata(null));
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (MedialibViewModel)value; }
+            get => ViewModel;
+            set => ViewModel = (MedialibViewModel)value;
         }
     }
 }

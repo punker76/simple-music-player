@@ -117,16 +117,16 @@ namespace SimpleMusicPlayer.Core.Player
 
         public bool ShuffleMode
         {
-            get { return this.shuffleMode; }
-            set { this.RaiseAndSetIfChanged(ref shuffleMode, value); }
+            get => this.shuffleMode;
+            set => this.RaiseAndSetIfChanged(ref shuffleMode, value);
         }
 
         private bool repeatMode;
 
         public bool RepeatMode
         {
-            get { return this.repeatMode; }
-            set { this.RaiseAndSetIfChanged(ref repeatMode, value); }
+            get => this.repeatMode;
+            set => this.RaiseAndSetIfChanged(ref repeatMode, value);
         }
 
         public EqualizerSettings EqualizerSettings { get; set; }

@@ -165,40 +165,40 @@ namespace SimpleMusicPlayer.Core.Player
 
         public bool Initializied
         {
-            get { return this.initializied; }
-            set { this.RaiseAndSetIfChanged(ref initializied, value); }
+            get => this.initializied;
+            set => this.RaiseAndSetIfChanged(ref initializied, value);
         }
 
         private float volume = -1f;
 
         public float Volume
         {
-            get { return this.volume; }
-            set { this.RaiseAndSetIfChanged(ref volume, value); }
+            get => this.volume;
+            set => this.RaiseAndSetIfChanged(ref volume, value);
         }
 
         private uint lengthMs;
 
         public uint LengthMs
         {
-            get { return this.lengthMs; }
-            set { this.RaiseAndSetIfChanged(ref lengthMs, value); }
+            get => this.lengthMs;
+            set => this.RaiseAndSetIfChanged(ref lengthMs, value);
         }
 
         private bool canSetCurrentPositionMs;
 
         public bool CanSetCurrentPositionMs
         {
-            get { return this.canSetCurrentPositionMs; }
-            set { this.RaiseAndSetIfChanged(ref canSetCurrentPositionMs, value); }
+            get => this.canSetCurrentPositionMs;
+            set => this.RaiseAndSetIfChanged(ref canSetCurrentPositionMs, value);
         }
 
         private uint currentPositionMs;
 
         public uint CurrentPositionMs
         {
-            get { return this.currentPositionMs; }
-            set { this.RaiseAndSetIfChanged(ref currentPositionMs, value); }
+            get => this.currentPositionMs;
+            set => this.RaiseAndSetIfChanged(ref currentPositionMs, value);
         }
 
         public ReactiveCommand<Unit, Unit> SetCurrentPositionMs { get; private set; }
@@ -207,16 +207,16 @@ namespace SimpleMusicPlayer.Core.Player
 
         public bool IsMute
         {
-            get { return this.isMute; }
-            set { this.RaiseAndSetIfChanged(ref isMute, value); }
+            get => this.isMute;
+            set => this.RaiseAndSetIfChanged(ref isMute, value);
         }
 
         private PlayerState state;
 
         public PlayerState State
         {
-            get { return this.state; }
-            set { this.RaiseAndSetIfChanged(ref state, value); }
+            get => this.state;
+            set => this.RaiseAndSetIfChanged(ref state, value);
         }
 
         public Equalizer Equalizer { get; private set; }
@@ -225,8 +225,8 @@ namespace SimpleMusicPlayer.Core.Player
 
         public IMediaFile CurrentMediaFile
         {
-            get { return this.currentMediaFile; }
-            set { this.RaiseAndSetIfChanged(ref currentMediaFile, value); }
+            get => this.currentMediaFile;
+            set => this.RaiseAndSetIfChanged(ref currentMediaFile, value);
         }
 
         public void Play(IMediaFile file)

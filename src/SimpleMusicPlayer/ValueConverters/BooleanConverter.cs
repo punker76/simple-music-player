@@ -12,8 +12,8 @@ namespace SimpleMusicPlayer.ValueConverters
 
         public object TrueValue
         {
-            get { return (object) this.GetValue(TrueValueProperty); }
-            set { this.SetValue(TrueValueProperty, value); }
+            get => (object) this.GetValue(TrueValueProperty);
+            set => this.SetValue(TrueValueProperty, value);
         }
 
         public static readonly DependencyProperty FalseValueProperty
@@ -21,8 +21,8 @@ namespace SimpleMusicPlayer.ValueConverters
 
         public object FalseValue
         {
-            get { return (object) this.GetValue(FalseValueProperty); }
-            set { this.SetValue(FalseValueProperty, value); }
+            get => (object) this.GetValue(FalseValueProperty);
+            set => this.SetValue(FalseValueProperty, value);
         }
 
         public virtual object Convert(object value, Type targetType, object parameter, CultureInfo culture)

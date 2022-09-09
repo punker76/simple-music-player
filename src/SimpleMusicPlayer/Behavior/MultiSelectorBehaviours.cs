@@ -13,10 +13,10 @@ namespace SimpleMusicPlayer.Behavior
     public static class MultiSelectorBehaviours
     {
         public static readonly DependencyProperty SynchronizedSelectedItems = DependencyProperty.RegisterAttached(
-                                                                                                                  "SynchronizedSelectedItems", typeof(IList), typeof(MultiSelectorBehaviours), new PropertyMetadata(null, OnSynchronizedSelectedItemsChanged));
+            "SynchronizedSelectedItems", typeof(IList), typeof(MultiSelectorBehaviours), new PropertyMetadata(null, OnSynchronizedSelectedItemsChanged));
 
         private static readonly DependencyProperty SynchronizationManagerProperty = DependencyProperty.RegisterAttached(
-                                                                                                                        "SynchronizationManager", typeof(SynchronizationManager), typeof(MultiSelectorBehaviours), new PropertyMetadata(null));
+            "SynchronizationManager", typeof(SynchronizationManager), typeof(MultiSelectorBehaviours), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the synchronized selected items.

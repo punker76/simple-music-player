@@ -81,7 +81,7 @@ namespace SimpleMusicPlayer.Core.Player
 
         public float Volume
         {
-            get { return this.volume; }
+            get => this.volume;
             set
             {
                 if (this.Channel.hasHandle() == false || Equals(value, this.volume))

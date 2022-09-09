@@ -261,16 +261,13 @@ namespace SimpleMusicPlayer.Core
         [JsonIgnore]
         public PlayerState State
         {
-            get { return this.state; }
-            set { this.RaiseAndSetIfChanged(ref this.state, value); }
+            get => this.state;
+            set => this.RaiseAndSetIfChanged(ref this.state, value);
         }
 
         [Browsable(false)]
         [JsonIgnore]
-        public BitmapImage Cover
-        {
-            get { return TinyIoCContainer.Current.Resolve<CoverManager>()?.GetImageFromFile(this.FullFileName); }
-        }
+        public BitmapImage Cover => TinyIoCContainer.Current.Resolve<CoverManager>()?.GetImageFromFile(this.FullFileName);
 
         private int playListIndex;
 
@@ -278,8 +275,8 @@ namespace SimpleMusicPlayer.Core
         [JsonIgnore]
         public int PlayListIndex
         {
-            get { return this.playListIndex; }
-            set { this.RaiseAndSetIfChanged(ref this.playListIndex, value); }
+            get => this.playListIndex;
+            set => this.RaiseAndSetIfChanged(ref this.playListIndex, value);
         }
 
         public override string ToString()

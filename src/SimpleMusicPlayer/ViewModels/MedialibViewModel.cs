@@ -62,56 +62,56 @@ namespace SimpleMusicPlayer.ViewModels
 
         public IEnumerable MediaFiles
         {
-            get { return this.mediaFiles; }
-            set { this.RaiseAndSetIfChanged(ref mediaFiles, value); }
+            get => this.mediaFiles;
+            set => this.RaiseAndSetIfChanged(ref mediaFiles, value);
         }
 
         private IEnumerable genreList;
 
         public IEnumerable GenreList
         {
-            get { return this.genreList; }
-            set { this.RaiseAndSetIfChanged(ref genreList, value); }
+            get => this.genreList;
+            set => this.RaiseAndSetIfChanged(ref genreList, value);
         }
 
         private string selectedGenre;
 
         public string SelectedGenre
         {
-            get { return this.selectedGenre; }
-            set { this.RaiseAndSetIfChanged(ref selectedGenre, value); }
+            get => this.selectedGenre;
+            set => this.RaiseAndSetIfChanged(ref selectedGenre, value);
         }
 
         private IEnumerable artistList;
 
         public IEnumerable ArtistList
         {
-            get { return this.artistList; }
-            set { this.RaiseAndSetIfChanged(ref artistList, value); }
+            get => this.artistList;
+            set => this.RaiseAndSetIfChanged(ref artistList, value);
         }
 
         private string selectedArtist;
 
         public string SelectedArtist
         {
-            get { return this.selectedArtist; }
-            set { this.RaiseAndSetIfChanged(ref selectedArtist, value); }
+            get => this.selectedArtist;
+            set => this.RaiseAndSetIfChanged(ref selectedArtist, value);
         }
 
         private IEnumerable albumList;
 
         public IEnumerable AlbumList
         {
-            get { return this.albumList; }
-            set { this.RaiseAndSetIfChanged(ref albumList, value); }
+            get => this.albumList;
+            set => this.RaiseAndSetIfChanged(ref albumList, value);
         }
 
         private string selectedAlbum;
 
         public string SelectedAlbum
         {
-            get { return this.selectedAlbum; }
-            set { this.RaiseAndSetIfChanged(ref selectedAlbum, value); }
+            get => this.selectedAlbum;
+            set => this.RaiseAndSetIfChanged(ref selectedAlbum, value);
         }
 
         public ReactiveCommand<Unit, Unit> AddDirectoryCommand { get; protected set; }

@@ -52,8 +52,8 @@ namespace SimpleMusicPlayer.ViewModels
 
         public ReactiveList<string> CommandLineArgs
         {
-            get { return this.commandLineArgs; }
-            set { this.RaiseAndSetIfChanged(ref commandLineArgs, value); }
+            get => this.commandLineArgs;
+            set => this.RaiseAndSetIfChanged(ref commandLineArgs, value);
         }
 
         public FileSearchWorker FileSearchWorker { get; private set; }
@@ -62,40 +62,40 @@ namespace SimpleMusicPlayer.ViewModels
 
         public IEnumerable FirstSimplePlaylistFiles
         {
-            get { return this.firstSimplePlaylistFiles; }
-            set { this.RaiseAndSetIfChanged(ref firstSimplePlaylistFiles, value); }
+            get => this.firstSimplePlaylistFiles;
+            set => this.RaiseAndSetIfChanged(ref firstSimplePlaylistFiles, value);
         }
 
         private IMediaFile selectedPlayListFile;
 
         public IMediaFile SelectedPlayListFile
         {
-            get { return this.selectedPlayListFile; }
-            set { this.RaiseAndSetIfChanged(ref selectedPlayListFile, value); }
+            get => this.selectedPlayListFile;
+            set => this.RaiseAndSetIfChanged(ref selectedPlayListFile, value);
         }
 
         private IEnumerable<IMediaFile> selectedPlayListFiles;
 
         public IEnumerable<IMediaFile> SelectedPlayListFiles
         {
-            get { return this.selectedPlayListFiles; }
-            set { this.RaiseAndSetIfChanged(ref selectedPlayListFiles, value); }
+            get => this.selectedPlayListFiles;
+            set => this.RaiseAndSetIfChanged(ref selectedPlayListFiles, value);
         }
 
         private bool observeListBoxItemContainerGenerator;
 
         public bool ObserveListBoxItemContainerGenerator
         {
-            get { return this.observeListBoxItemContainerGenerator; }
-            set { this.RaiseAndSetIfChanged(ref observeListBoxItemContainerGenerator, value); }
+            get => this.observeListBoxItemContainerGenerator;
+            set => this.RaiseAndSetIfChanged(ref observeListBoxItemContainerGenerator, value);
         }
 
         private int scrollIndex;
 
         public int ScrollIndex
         {
-            get { return this.scrollIndex; }
-            set { this.RaiseAndSetIfChanged(ref scrollIndex, value); }
+            get => this.scrollIndex;
+            set => this.RaiseAndSetIfChanged(ref scrollIndex, value);
         }
 
         public ICommand DeleteCommand { get; }
@@ -124,6 +124,7 @@ namespace SimpleMusicPlayer.ViewModels
                 {
                     // mh, nothing yet, maybe the player should be stoped...
                 }
+
                 selectedIndex = Math.Min(selectedIndex, filesColl.Count - 1);
                 if (selectedIndex >= 0)
                 {
@@ -167,6 +168,7 @@ namespace SimpleMusicPlayer.ViewModels
             {
                 return fileCollView.CurrentPosition == fileCollView.SourceCollection.OfType<IMediaFile>().Count() - 1;
             }
+
             return false;
         }
 
@@ -187,8 +189,10 @@ namespace SimpleMusicPlayer.ViewModels
                         return fileCollView.CurrentItem as IMediaFile;
                     }
                 }
+
                 return currentFile as IMediaFile;
             }
+
             return null;
         }
 
@@ -223,6 +227,7 @@ namespace SimpleMusicPlayer.ViewModels
                     }
                 }
             }
+
             return null;
         }
 
@@ -243,6 +248,7 @@ namespace SimpleMusicPlayer.ViewModels
                     }
                 }
             }
+
             return null;
         }
 
@@ -258,7 +264,6 @@ namespace SimpleMusicPlayer.ViewModels
                 if (count == 1)
                 {
                     return fileCollView.CurrentItem as IMediaFile;
-
                 }
 
                 if (pos == fileCollView.CurrentPosition)
@@ -268,11 +273,13 @@ namespace SimpleMusicPlayer.ViewModels
                         pos = r.Next(0, count);
                     }
                 }
+
                 if (fileCollView.MoveCurrentToPosition(pos))
                 {
                     return fileCollView.CurrentItem as IMediaFile;
                 }
             }
+
             return null;
 
             /* new Random() already uses the current time. It is equivalent to new Random(Environment.TickCount).
@@ -299,6 +306,7 @@ namespace SimpleMusicPlayer.ViewModels
                     {
                         this.PlayCommand.Execute(null);
                     }
+
                     break;
                 case Key.Delete:
                     handled = this.DeleteCommand.CanExecute(null);
@@ -306,9 +314,16 @@ namespace SimpleMusicPlayer.ViewModels
                     {
                         this.DeleteCommand.Execute(null);
                     }
+
                     break;
             }
+
             return handled;
+        }
+
+        public void DragEnter(IDropInfo dropInfo)
+        {
+            // nothing here
         }
 
         public void DragOver(IDropInfo dropInfo)
@@ -325,6 +340,11 @@ namespace SimpleMusicPlayer.ViewModels
             {
                 dropInfo.Effects = DragDropEffects.Move;
             }
+        }
+
+        public void DragLeave(IDropInfo dropInfo)
+        {
+            // nothing here
         }
 
         public void Drop(IDropInfo dropInfo)
@@ -356,10 +376,10 @@ namespace SimpleMusicPlayer.ViewModels
             if (!this.FileSearchWorker.IsWorking)
             {
                 var files = await this.FileSearchWorker.StartSearchAsync(fileOrDirDropList)
-                                      .ContinueWith(task => task.Result.OrderBy(f => f.FirstPerformer)
-                                                                .ThenBy(f => f.Album)
-                                                                .ThenBy(f => f.Disc)
-                                                                .ThenBy(f => f.Track));
+                    .ContinueWith(task => task.Result.OrderBy(f => f.FirstPerformer)
+                        .ThenBy(f => f.Album)
+                        .ThenBy(f => f.Disc)
+                        .ThenBy(f => f.Track));
 
                 var currentFilesCollView = this.FirstSimplePlaylistFiles as ICollectionView;
 
@@ -436,6 +456,7 @@ namespace SimpleMusicPlayer.ViewModels
                 this.FirstSimplePlaylistFiles = filesCollView;
                 ((ICollectionView)this.FirstSimplePlaylistFiles).MoveCurrentTo(null);
             }
+
             var args = await Task.Run(() => Environment.GetCommandLineArgs().Skip(1).ToList());
             if (args.Any())
             {
@@ -451,6 +472,7 @@ namespace SimpleMusicPlayer.ViewModels
                 var pl = new PlayList { Files = currentFilesCollView.SourceCollection.OfType<MediaFile>().ToList() };
                 return PlayList.Save(pl);
             }
+
             return false;
         }
     }

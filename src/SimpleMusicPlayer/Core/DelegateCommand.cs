@@ -84,7 +84,7 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public bool IsAutomaticRequeryDisabled
         {
-            get { return this.isAutomaticRequeryDisabled; }
+            get => this.isAutomaticRequeryDisabled;
             set
             {
                 if (this.isAutomaticRequeryDisabled != value)
@@ -185,7 +185,7 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public bool IsAutomaticRequeryDisabled
         {
-            get { return this.isAutomaticRequeryDisabled; }
+            get => this.isAutomaticRequeryDisabled;
             set
             {
                 if (this.isAutomaticRequeryDisabled != value)

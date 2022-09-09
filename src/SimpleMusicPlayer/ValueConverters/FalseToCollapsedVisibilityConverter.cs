@@ -29,9 +29,6 @@ namespace SimpleMusicPlayer.ValueConverters
         {
         }
 
-        public static FalseToCollapsedVisibilityConverter Instance
-        {
-            get { return instance ?? (instance = new FalseToCollapsedVisibilityConverter()); }
-        }
+        public static FalseToCollapsedVisibilityConverter Instance => instance ?? (instance = new FalseToCollapsedVisibilityConverter());
     }
 }

@@ -127,16 +127,16 @@ namespace SimpleMusicPlayer.Core.Player
 
         public bool Initializied
         {
-            get { return this.initializied; }
-            set { this.RaiseAndSetIfChanged(ref initializied, value); }
+            get => this.initializied;
+            set => this.RaiseAndSetIfChanged(ref initializied, value);
         }
 
         private bool isEnabled = true;
 
         public bool IsEnabled
         {
-            get { return this.isEnabled; }
-            set { this.RaiseAndSetIfChanged(ref isEnabled, value); }
+            get => this.isEnabled;
+            set => this.RaiseAndSetIfChanged(ref isEnabled, value);
         }
 
         public string Name { get; private set; }

@@ -77,17 +77,17 @@ namespace SimpleMusicPlayer.Views
 
         public MainViewModel ViewModel
         {
-            get { return (MainViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (MainViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
 
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(MainViewModel), typeof(MainWindow), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(MainViewModel), typeof(MainWindow), new PropertyMetadata(null));
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (MainViewModel)value; }
+            get => ViewModel;
+            set => ViewModel = (MainViewModel)value;
         }
     }
 }

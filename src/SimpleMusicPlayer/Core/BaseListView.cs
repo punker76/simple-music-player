@@ -17,52 +17,53 @@ namespace SimpleMusicPlayer.Core
     public class BaseListView : ListView, IEnableLogger
     {
         public static readonly DependencyProperty ScrollViewerProperty = DependencyProperty.Register(
-            "ScrollViewer", typeof(ScrollViewer), typeof(BaseListView), new PropertyMetadata(default(ScrollViewer)));
+            nameof(ScrollViewer), typeof(ScrollViewer), typeof(BaseListView), new PropertyMetadata(default(ScrollViewer)));
 
         public ScrollViewer ScrollViewer
         {
-            get { return (ScrollViewer)GetValue(ScrollViewerProperty); }
-            set { SetValue(ScrollViewerProperty, value); }
+            get => (ScrollViewer)GetValue(ScrollViewerProperty);
+            set => SetValue(ScrollViewerProperty, value);
         }
 
         public static readonly DependencyProperty VerticalScrollBarWidthProperty = DependencyProperty.Register(
-            "VerticalScrollBarWidth", typeof(double), typeof(BaseListView), new PropertyMetadata(0d));
+            nameof(VerticalScrollBarWidth), typeof(double), typeof(BaseListView), new PropertyMetadata(0d));
 
         public double VerticalScrollBarWidth
         {
-            get { return (double)GetValue(VerticalScrollBarWidthProperty); }
-            set { SetValue(VerticalScrollBarWidthProperty, value); }
+            get => (double)GetValue(VerticalScrollBarWidthProperty);
+            set => SetValue(VerticalScrollBarWidthProperty, value);
         }
 
         public static readonly DependencyProperty ObserveItemContainerGeneratorProperty
-            = DependencyProperty.Register("ObserveItemContainerGenerator",
-                                          typeof(bool),
-                                          typeof(BaseListView),
-                                          new PropertyMetadata(default(bool)));
+            = DependencyProperty.Register(nameof(ObserveItemContainerGenerator),
+                typeof(bool),
+                typeof(BaseListView),
+                new PropertyMetadata(default(bool)));
 
         public bool ObserveItemContainerGenerator
         {
-            get { return (bool)this.GetValue(ObserveItemContainerGeneratorProperty); }
-            set { this.SetValue(ObserveItemContainerGeneratorProperty, value); }
+            get => (bool)this.GetValue(ObserveItemContainerGeneratorProperty);
+            set => this.SetValue(ObserveItemContainerGeneratorProperty, value);
         }
 
         public static readonly DependencyProperty ScrollIndexProperty
-            = DependencyProperty.Register("ScrollIndex",
-                                          typeof(int),
-                                          typeof(BaseListView),
-                                          new PropertyMetadata(-1));
+            = DependencyProperty.Register(nameof(ScrollIndex),
+                typeof(int),
+                typeof(BaseListView),
+                new PropertyMetadata(-1));
 
         public int ScrollIndex
         {
-            get { return (int)this.GetValue(ScrollIndexProperty); }
-            set { this.SetValue(ScrollIndexProperty, value); }
+            get => (int)this.GetValue(ScrollIndexProperty);
+            set => this.SetValue(ScrollIndexProperty, value);
         }
 
         public BaseListView()
         {
             this.WhenAnyValue(x => x.Items)
                 .CombineLatest(this.WhenAnyValue(x => x.ScrollIndex), (items, index) => items != null && items.Count > index && index >= 0)
-                .Subscribe(canScroll => {
+                .Subscribe(canScroll =>
+                {
                     if (canScroll)
                     {
                         var scrollIndex = this.ScrollIndex;
@@ -76,13 +77,14 @@ namespace SimpleMusicPlayer.Core
                     }
                 });
 
-            this.Events().Loaded.Subscribe(e => {
+            this.Events().Loaded.Subscribe(e =>
+            {
                 var observeItemContGenerator = this.ObservableForProperty(x => x.ObserveItemContainerGenerator)
-                                                   .Where(x => x.Value == true)
-                                                   .Select(_ => Unit.Default);
+                    .Where(x => x.Value == true)
+                    .Select(_ => Unit.Default);
                 var itemContGeneratorStatusChanged = this.ItemContainerGenerator.Events().StatusChanged
-                                                         .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
-                                                         .Select(_ => Unit.Default);
+                    .Throttle(TimeSpan.FromMilliseconds(150), RxApp.MainThreadScheduler)
+                    .Select(_ => Unit.Default);
                 Observable.Zip(observeItemContGenerator, itemContGeneratorStatusChanged).Subscribe(_ => this.FocusSelectedItem());
             });
         }
@@ -94,7 +96,8 @@ namespace SimpleMusicPlayer.Core
             if (this.Items.Count == 0) return;
             var index = this.SelectedIndex;
             if (index < 0) return;
-            Action focusAction = () => {
+            Action focusAction = () =>
+            {
                 this.ObserveItemContainerGenerator = false;
                 if (this.Items.Count == 0) return;
                 index = this.SelectedIndex;

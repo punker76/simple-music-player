@@ -39,22 +39,22 @@ namespace SimpleMusicPlayer.Core
         private Task<IEnumerable<IMediaFile>> mainTask;
         public Task<IEnumerable<IMediaFile>> MainTask
         {
-            get { return this.mainTask; }
-            private set { this.RaiseAndSetIfChanged(ref mainTask, value); }
+            get => this.mainTask;
+            private set => this.RaiseAndSetIfChanged(ref mainTask, value);
         }
 
         private bool isWorking;
         public bool IsWorking
         {
-            get { return this.isWorking; }
-            private set { this.RaiseAndSetIfChanged(ref isWorking, value); }
+            get => this.isWorking;
+            private set => this.RaiseAndSetIfChanged(ref isWorking, value);
         }
 
         private CancellationTokenSource cancelToken;
         public CancellationTokenSource CancelToken
         {
-            get { return this.cancelToken; }
-            private set { this.RaiseAndSetIfChanged(ref cancelToken, value); }
+            get => this.cancelToken;
+            private set => this.RaiseAndSetIfChanged(ref cancelToken, value);
         }
 
         public ReactiveCommand<Unit, Unit> StopSearchCmd { get; private set; }

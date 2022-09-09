@@ -38,7 +38,9 @@ namespace SimpleMusicPlayer.Core
         private const double MINIMUM_PEN_WIDTH = 2;
         private const double DEFAULT_START_ANGLE = 270;
         private const double INNER_RADIUS_FACTOR = 0.175;
+
         private const double OUTER_RADIUS_FACTOR = 0.3125;
+
         // The Lower limit of the Alpha value (The spokes will be shown in 
         // alpha values ranging from 255 to m_AlphaLowerLimit)
         private const Int32 ALPHA_UPPER_LIMIT = 250;
@@ -46,6 +48,7 @@ namespace SimpleMusicPlayer.Core
         private const double ALPHA_TICK_PERCENTAGE_LOWER_LIMIT = 10;
         private const double DEFAULT_PROGRESS_ALPHA = 10;
         private const double DEFAULT_PROGRESS = 0.0;
+
         #endregion
 
         #region Enums
@@ -101,9 +104,9 @@ namespace SimpleMusicPlayer.Core
         /// Interval Dependency Property
         /// </summary>
         public static readonly DependencyProperty IntervalProperty =
-            DependencyProperty.Register("Interval", typeof(double), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(Interval), typeof(double), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(DEFAULT_INTERVAL,
-                                              new PropertyChangedCallback(OnIntervalChanged)));
+                    OnIntervalChanged));
 
         /// <summary>
         /// Gets or sets the Interval property. This dependency property 
@@ -111,8 +114,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public double Interval
         {
-            get { return (double)this.GetValue(IntervalProperty); }
-            set { this.SetValue(IntervalProperty, value); }
+            get => (double)this.GetValue(IntervalProperty);
+            set => this.SetValue(IntervalProperty, value);
         }
 
         /// <summary>
@@ -122,9 +125,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnIntervalChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            double oldInterval = (double)e.OldValue;
-            double newInterval = sprocket.Interval;
+            var sprocket = (SprocketControl)d;
+            var oldInterval = (double)e.OldValue;
+            var newInterval = sprocket.Interval;
             sprocket.OnIntervalChanged(oldInterval, newInterval);
         }
 
@@ -137,7 +140,7 @@ namespace SimpleMusicPlayer.Core
         {
             if (this.renderTimer != null)
             {
-                bool isEnabled = this.renderTimer.Enabled;
+                var isEnabled = this.renderTimer.Enabled;
                 this.renderTimer.Enabled = false;
                 this.renderTimer.Interval = newInterval;
                 this.renderTimer.Enabled = isEnabled;
@@ -152,9 +155,9 @@ namespace SimpleMusicPlayer.Core
         /// IsIndeterminate Dependency Property
         /// </summary>
         public static readonly DependencyProperty IsIndeterminateProperty =
-            DependencyProperty.Register("IsIndeterminate", typeof(bool), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(IsIndeterminate), typeof(bool), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(true,
-                                              (new PropertyChangedCallback(OnIsIndeterminateChanged))));
+                    (OnIsIndeterminateChanged)));
 
         /// <summary>
         /// Gets or sets the IsIndeterminate property. This dependency property 
@@ -162,8 +165,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public bool IsIndeterminate
         {
-            get { return (bool)this.GetValue(IsIndeterminateProperty); }
-            set { this.SetValue(IsIndeterminateProperty, value); }
+            get => (bool)this.GetValue(IsIndeterminateProperty);
+            set => this.SetValue(IsIndeterminateProperty, value);
         }
 
         /// <summary>
@@ -173,9 +176,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnIsIndeterminateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl target = (SprocketControl)d;
-            bool oldIsIndeterminate = (bool)e.OldValue;
-            bool newIsIndeterminate = target.IsIndeterminate;
+            var target = (SprocketControl)d;
+            var oldIsIndeterminate = (bool)e.OldValue;
+            var newIsIndeterminate = target.IsIndeterminate;
             target.OnIsIndeterminateChanged(oldIsIndeterminate, newIsIndeterminate);
         }
 
@@ -210,10 +213,10 @@ namespace SimpleMusicPlayer.Core
         /// Progress Dependency Property
         /// </summary>
         public static readonly DependencyProperty ProgressProperty =
-            DependencyProperty.Register("Progress", typeof(double), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(Progress), typeof(double), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(DEFAULT_PROGRESS,
-                                              new PropertyChangedCallback(OnProgressChanged),
-                                              new CoerceValueCallback(CoerceProgress)));
+                    OnProgressChanged,
+                    CoerceProgress));
 
         /// <summary>
         /// Gets or sets the Progress property. This dependency property 
@@ -221,8 +224,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public double Progress
         {
-            get { return (double)this.GetValue(ProgressProperty); }
-            set { this.SetValue(ProgressProperty, value); }
+            get => (double)this.GetValue(ProgressProperty);
+            set => this.SetValue(ProgressProperty, value);
         }
 
         /// <summary>
@@ -233,7 +236,7 @@ namespace SimpleMusicPlayer.Core
         /// <returns>Coerced Value</returns>
         private static object CoerceProgress(DependencyObject d, object value)
         {
-            double progress = (double)value;
+            var progress = (double)value;
 
             if (progress < 0.0)
             {
@@ -254,9 +257,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnProgressChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            double oldProgress = (double)e.OldValue;
-            double newProgress = sprocket.Progress;
+            var sprocket = (SprocketControl)d;
+            var oldProgress = (double)e.OldValue;
+            var newProgress = sprocket.Progress;
             sprocket.OnProgressChanged(oldProgress, newProgress);
         }
 
@@ -278,9 +281,9 @@ namespace SimpleMusicPlayer.Core
         /// Rotation Dependency Property
         /// </summary>
         public static readonly DependencyProperty RotationProperty =
-            DependencyProperty.Register("Rotation", typeof(Direction), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(Rotation), typeof(Direction), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(Direction.CLOCKWISE,
-                                              new PropertyChangedCallback(OnRotationChanged)));
+                    OnRotationChanged));
 
         /// <summary>
         /// Gets or sets the Rotation property. This dependency property 
@@ -288,8 +291,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public Direction Rotation
         {
-            get { return (Direction)this.GetValue(RotationProperty); }
-            set { this.SetValue(RotationProperty, value); }
+            get => (Direction)this.GetValue(RotationProperty);
+            set => this.SetValue(RotationProperty, value);
         }
 
         /// <summary>
@@ -299,9 +302,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnRotationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            Direction oldRotation = (Direction)e.OldValue;
-            Direction newRotation = sprocket.Rotation;
+            var sprocket = (SprocketControl)d;
+            var oldRotation = (Direction)e.OldValue;
+            var newRotation = sprocket.Rotation;
             sprocket.OnRotationChanged(oldRotation, newRotation);
         }
 
@@ -324,9 +327,9 @@ namespace SimpleMusicPlayer.Core
         /// StartAngle Dependency Property
         /// </summary>
         public static readonly DependencyProperty StartAngleProperty =
-            DependencyProperty.Register("StartAngle", typeof(double), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(StartAngle), typeof(double), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(DEFAULT_START_ANGLE,
-                                              new PropertyChangedCallback(OnStartAngleChanged)));
+                    OnStartAngleChanged));
 
         /// <summary>
         /// Gets or sets the StartAngle property. This dependency property 
@@ -334,8 +337,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public double StartAngle
         {
-            get { return (double)this.GetValue(StartAngleProperty); }
-            set { this.SetValue(StartAngleProperty, value); }
+            get => (double)this.GetValue(StartAngleProperty);
+            set => this.SetValue(StartAngleProperty, value);
         }
 
         /// <summary>
@@ -345,9 +348,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnStartAngleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            double oldStartAngle = (double)e.OldValue;
-            double newStartAngle = sprocket.StartAngle;
+            var sprocket = (SprocketControl)d;
+            var oldStartAngle = (double)e.OldValue;
+            var newStartAngle = sprocket.StartAngle;
             sprocket.OnStartAngleChanged(oldStartAngle, newStartAngle);
         }
 
@@ -370,9 +373,9 @@ namespace SimpleMusicPlayer.Core
         /// TickColor Dependency Property
         /// </summary>
         public static readonly DependencyProperty TickColorProperty =
-            DependencyProperty.Register("TickColor", typeof(Color), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(TickColor), typeof(Color), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(DEFAULT_TICK_COLOR,
-                                              new PropertyChangedCallback(OnTickColorChanged)));
+                    OnTickColorChanged));
 
         /// <summary>
         /// Gets or sets the TickColor property. This dependency property 
@@ -380,8 +383,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public Color TickColor
         {
-            get { return (Color)this.GetValue(TickColorProperty); }
-            set { this.SetValue(TickColorProperty, value); }
+            get => (Color)this.GetValue(TickColorProperty);
+            set => this.SetValue(TickColorProperty, value);
         }
 
         /// <summary>
@@ -391,9 +394,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnTickColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            Color oldTickColor = (Color)e.OldValue;
-            Color newTickColor = sprocket.TickColor;
+            var sprocket = (SprocketControl)d;
+            var oldTickColor = (Color)e.OldValue;
+            var newTickColor = sprocket.TickColor;
             sprocket.OnTickColorChanged(oldTickColor, newTickColor);
         }
 
@@ -415,10 +418,10 @@ namespace SimpleMusicPlayer.Core
         /// TickCount Dependency Property
         /// </summary>
         public static readonly DependencyProperty TickCountProperty =
-            DependencyProperty.Register("TickCount", typeof(int), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(TickCount), typeof(int), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(DEFAULT_TICK_COUNT,
-                                              new PropertyChangedCallback(OnTickCountChanged),
-                                              new CoerceValueCallback(CoerceTickCount)));
+                    OnTickCountChanged,
+                    CoerceTickCount));
 
         /// <summary>
         /// Gets or sets the TickCount property. This dependency property 
@@ -426,8 +429,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public int TickCount
         {
-            get { return (int)this.GetValue(TickCountProperty); }
-            set { this.SetValue(TickCountProperty, value); }
+            get => (int)this.GetValue(TickCountProperty);
+            set => this.SetValue(TickCountProperty, value);
         }
 
         /// <summary>
@@ -438,7 +441,7 @@ namespace SimpleMusicPlayer.Core
         /// <returns>Coerced Value</returns>
         private static object CoerceTickCount(DependencyObject d, object value)
         {
-            int count = (int)value;
+            var count = (int)value;
 
             if (count <= 0)
             {
@@ -455,9 +458,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnTickCountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            int oldTickCount = (int)e.OldValue;
-            int newTickCount = sprocket.TickCount;
+            var sprocket = (SprocketControl)d;
+            var oldTickCount = (int)e.OldValue;
+            var newTickCount = sprocket.TickCount;
             sprocket.OnTickCountChanged(oldTickCount, newTickCount);
         }
 
@@ -480,8 +483,8 @@ namespace SimpleMusicPlayer.Core
         /// TickStyle Dependency Property
         /// </summary>
         public static readonly DependencyProperty TickStyleProperty =
-            DependencyProperty.Register("TickStyle", typeof(PenLineCap), typeof(SprocketControl),
-                new FrameworkPropertyMetadata(PenLineCap.Round, (new PropertyChangedCallback(OnTickStyleChanged))));
+            DependencyProperty.Register(nameof(TickStyle), typeof(PenLineCap), typeof(SprocketControl),
+                new FrameworkPropertyMetadata(PenLineCap.Round, (OnTickStyleChanged)));
 
         /// <summary>
         /// Gets or sets the TickStyle property. This dependency property 
@@ -489,8 +492,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public PenLineCap TickStyle
         {
-            get { return (PenLineCap)this.GetValue(TickStyleProperty); }
-            set { this.SetValue(TickStyleProperty, value); }
+            get => (PenLineCap)this.GetValue(TickStyleProperty);
+            set => this.SetValue(TickStyleProperty, value);
         }
 
         /// <summary>
@@ -500,9 +503,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnTickStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            PenLineCap oldTickStyle = (PenLineCap)e.OldValue;
-            PenLineCap newTickStyle = sprocket.TickStyle;
+            var sprocket = (SprocketControl)d;
+            var oldTickStyle = (PenLineCap)e.OldValue;
+            var newTickStyle = sprocket.TickStyle;
             sprocket.OnTickStyleChanged(oldTickStyle, newTickStyle);
         }
 
@@ -524,10 +527,10 @@ namespace SimpleMusicPlayer.Core
         /// TickWidth Dependency Property
         /// </summary>
         public static readonly DependencyProperty TickWidthProperty =
-            DependencyProperty.Register("TickWidth", typeof(double), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(TickWidth), typeof(double), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(DEFAULT_TICK_WIDTH,
-                                              new PropertyChangedCallback(OnTickWidthChanged),
-                                              new CoerceValueCallback(CoerceTickWidth)));
+                    OnTickWidthChanged,
+                    CoerceTickWidth));
 
         /// <summary>
         /// Gets or sets the TickWidth property. This dependency property 
@@ -535,8 +538,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public double TickWidth
         {
-            get { return (double)this.GetValue(TickWidthProperty); }
-            set { this.SetValue(TickWidthProperty, value); }
+            get => (double)this.GetValue(TickWidthProperty);
+            set => this.SetValue(TickWidthProperty, value);
         }
 
         /// <summary>
@@ -547,7 +550,7 @@ namespace SimpleMusicPlayer.Core
         /// <returns>Coerced Value</returns>
         private static object CoerceTickWidth(DependencyObject d, object value)
         {
-            double progress = (double)value;
+            var progress = (double)value;
 
             if (progress < 0.0)
             {
@@ -556,6 +559,7 @@ namespace SimpleMusicPlayer.Core
 
             return value;
         }
+
         /// <summary>
         /// Handles changes to the TickWidth property.
         /// </summary>
@@ -563,9 +567,9 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">DependencyProperty changed event arguments</param>
         private static void OnTickWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl target = (SprocketControl)d;
-            double oldTickWidth = (double)e.OldValue;
-            double newTickWidth = target.TickWidth;
+            var target = (SprocketControl)d;
+            var oldTickWidth = (double)e.OldValue;
+            var newTickWidth = target.TickWidth;
             target.OnTickWidthChanged(oldTickWidth, newTickWidth);
         }
 
@@ -587,10 +591,10 @@ namespace SimpleMusicPlayer.Core
         /// LowestAlpha Dependency Property
         /// </summary>
         public static readonly DependencyProperty LowestAlphaProperty =
-            DependencyProperty.Register("LowestAlpha", typeof(Int32), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(LowestAlpha), typeof(Int32), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(ALPHA_LOWER_LIMIT,
-                    new PropertyChangedCallback(OnLowestAlphaChanged),
-                    new CoerceValueCallback(CoerceLowestAlpha)));
+                    OnLowestAlphaChanged,
+                    CoerceLowestAlpha));
 
         /// <summary>
         /// Gets or sets the LowestAlpha property. This dependency property 
@@ -598,8 +602,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public Int32 LowestAlpha
         {
-            get { return (Int32)this.GetValue(LowestAlphaProperty); }
-            set { this.SetValue(LowestAlphaProperty, value); }
+            get => (Int32)this.GetValue(LowestAlphaProperty);
+            set => this.SetValue(LowestAlphaProperty, value);
         }
 
         /// <summary>
@@ -607,9 +611,9 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         private static void OnLowestAlphaChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            Int32 oldLowestAlpha = (Int32)e.OldValue;
-            Int32 newLowestAlpha = sprocket.LowestAlpha;
+            var sprocket = (SprocketControl)d;
+            var oldLowestAlpha = (Int32)e.OldValue;
+            var newLowestAlpha = sprocket.LowestAlpha;
             sprocket.OnLowestAlphaChanged(oldLowestAlpha, newLowestAlpha);
         }
 
@@ -625,13 +629,17 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         private static object CoerceLowestAlpha(DependencyObject d, object value)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            Int32 desiredLowestAlpha = (Int32)value;
+            var sprocket = (SprocketControl)d;
+            var desiredLowestAlpha = (Int32)value;
 
             if (desiredLowestAlpha < ALPHA_LOWER_LIMIT)
+            {
                 return ALPHA_LOWER_LIMIT;
+            }
             else if (desiredLowestAlpha > ALPHA_UPPER_LIMIT)
+            {
                 return ALPHA_UPPER_LIMIT;
+            }
 
             return desiredLowestAlpha;
         }
@@ -644,10 +652,10 @@ namespace SimpleMusicPlayer.Core
         /// AlphaTicksPercentage Dependency Property
         /// </summary>
         public static readonly DependencyProperty AlphaTicksPercentageProperty =
-            DependencyProperty.Register("AlphaTicksPercentage", typeof(double), typeof(SprocketControl),
+            DependencyProperty.Register(nameof(AlphaTicksPercentage), typeof(double), typeof(SprocketControl),
                 new FrameworkPropertyMetadata(100.0,
-                    new PropertyChangedCallback(OnAlphaTicksPercentageChanged),
-                    new CoerceValueCallback(CoerceAlphaTicksPercentage)));
+                    OnAlphaTicksPercentageChanged,
+                    CoerceAlphaTicksPercentage));
 
         /// <summary>
         /// Gets or sets the AlphaTicksPercentage property. This dependency property 
@@ -656,8 +664,8 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         public double AlphaTicksPercentage
         {
-            get { return (double)this.GetValue(AlphaTicksPercentageProperty); }
-            set { this.SetValue(AlphaTicksPercentageProperty, value); }
+            get => (double)this.GetValue(AlphaTicksPercentageProperty);
+            set => this.SetValue(AlphaTicksPercentageProperty, value);
         }
 
         /// <summary>
@@ -665,9 +673,9 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         private static void OnAlphaTicksPercentageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SprocketControl sprocket = (SprocketControl)d;
-            double oldAlphaTicksPercentage = (double)e.OldValue;
-            double newAlphaTicksPercentage = sprocket.AlphaTicksPercentage;
+            var sprocket = (SprocketControl)d;
+            var oldAlphaTicksPercentage = (double)e.OldValue;
+            var newAlphaTicksPercentage = sprocket.AlphaTicksPercentage;
             sprocket.OnAlphaTicksPercentageChanged(oldAlphaTicksPercentage, newAlphaTicksPercentage);
         }
 
@@ -683,13 +691,18 @@ namespace SimpleMusicPlayer.Core
         /// </summary>
         private static object CoerceAlphaTicksPercentage(DependencyObject d, object value)
         {
-            SprocketControl target = (SprocketControl)d;
-            double desiredAlphaTicksPercentage = (double)value;
+            var target = (SprocketControl)d;
+            var desiredAlphaTicksPercentage = (double)value;
 
             if (desiredAlphaTicksPercentage > 100.0)
+            {
                 return 100.0;
+            }
+
             if (desiredAlphaTicksPercentage < ALPHA_TICK_PERCENTAGE_LOWER_LIMIT)
+            {
                 return ALPHA_TICK_PERCENTAGE_LOWER_LIMIT;
+            }
 
             return desiredAlphaTicksPercentage;
         }
@@ -706,7 +719,7 @@ namespace SimpleMusicPlayer.Core
         public SprocketControl()
         {
             this.renderTimer = new System.Timers.Timer(this.Interval);
-            this.renderTimer.Elapsed += new ElapsedEventHandler(this.OnRenderTimerElapsed);
+            this.renderTimer.Elapsed += this.OnRenderTimerElapsed;
 
             // Set the minimum size of the SprocketControl
             this.MinWidth = this.MINIMUM_CONTROL_SIZE.Width;
@@ -716,18 +729,22 @@ namespace SimpleMusicPlayer.Core
             this.CalculateSpokesPoints();
 
             RoutedEventHandler handler = null;
-            handler = delegate {
-                                this.Loaded -= handler;
-                                this.Dispatcher.BeginInvoke(new Action(() => {
-                                    if ((this.IsIndeterminate) && (this.IsVisible))
-                                        this.Start();
-                                }));
-                            };
+            handler = delegate
+            {
+                this.Loaded -= handler;
+                this.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if ((this.IsIndeterminate) && (this.IsVisible))
+                    {
+                        this.Start();
+                    }
+                }));
+            };
 
             this.Loaded += handler;
 
             // Event handler added to stop the timer if the control is no longer visible
-            this.IsVisibleChanged += new DependencyPropertyChangedEventHandler(this.OnVisibilityChanged);
+            this.IsVisibleChanged += this.OnVisibilityChanged;
         }
 
         #endregion
@@ -783,26 +800,31 @@ namespace SimpleMusicPlayer.Core
             this.renderStartAngle = this.StartAngle;
 
             // Calculate the location around which the spokes will be drawn
-            double width = (this.Width < this.Height) ? this.Width : this.Height;
+            var width = (this.Width < this.Height) ? this.Width : this.Height;
             this.centerPoint = new Point(this.Width / 2, this.Height / 2);
             // Calculate the inner and outer radii of the control. The radii should not be less than the
             // Minimum values
             this.innerRadius = (int)(width * INNER_RADIUS_FACTOR);
             if (this.innerRadius < MINIMUM_INNER_RADIUS)
+            {
                 this.innerRadius = MINIMUM_INNER_RADIUS;
+            }
+
             this.outerRadius = (int)(width * OUTER_RADIUS_FACTOR);
             if (this.outerRadius < MINIMUM_OUTER_RADIUS)
+            {
                 this.outerRadius = MINIMUM_OUTER_RADIUS;
+            }
 
             double angle = 0;
 
-            for (int i = 0; i < this.TickCount; i++)
+            for (var i = 0; i < this.TickCount; i++)
             {
-                Point pt1 = new Point(this.innerRadius * (float)Math.Cos(this.ConvertDegreesToRadians(angle)), this.innerRadius * (float)Math.Sin(this.ConvertDegreesToRadians(angle)));
-                Point pt2 = new Point(this.outerRadius * (float)Math.Cos(this.ConvertDegreesToRadians(angle)), this.outerRadius * (float)Math.Sin(this.ConvertDegreesToRadians(angle)));
+                var pt1 = new Point(this.innerRadius * (float)Math.Cos(this.ConvertDegreesToRadians(angle)), this.innerRadius * (float)Math.Sin(this.ConvertDegreesToRadians(angle)));
+                var pt2 = new Point(this.outerRadius * (float)Math.Cos(this.ConvertDegreesToRadians(angle)), this.outerRadius * (float)Math.Sin(this.ConvertDegreesToRadians(angle)));
 
                 // Create a spoke based on the points generated
-                Spoke spoke = new Spoke(pt1, pt2);
+                var spoke = new Spoke(pt1, pt2);
                 // Add the spoke to the List
                 this.spokes.Add(spoke);
 
@@ -841,30 +863,36 @@ namespace SimpleMusicPlayer.Core
         protected override void OnRender(DrawingContext dc)
         {
             if (this.spokes == null)
+            {
                 return;
+            }
 
-            TranslateTransform translate = new TranslateTransform(this.centerPoint.X, this.centerPoint.Y);
+            var translate = new TranslateTransform(this.centerPoint.X, this.centerPoint.Y);
             dc.PushTransform(translate);
-            RotateTransform rotate = new RotateTransform(this.renderStartAngle);
+            var rotate = new RotateTransform(this.renderStartAngle);
             dc.PushTransform(rotate);
 
-            byte alpha = (byte)255;
+            var alpha = (byte)255;
 
             // Get the number of spokes that can be drawn with zero transparency
-            int progressSpokes = (int)Math.Floor((this.Progress * this.TickCount) / 100.0);
+            var progressSpokes = (int)Math.Floor((this.Progress * this.TickCount) / 100.0);
 
             // Render the spokes
-            for (int i = 0; i < this.TickCount; i++)
+            for (var i = 0; i < this.TickCount; i++)
             {
                 if (!this.IsIndeterminate)
                 {
                     if (progressSpokes > 0)
+                    {
                         alpha = (byte)(i < progressSpokes ? 255 : DEFAULT_PROGRESS_ALPHA);
+                    }
                     else
+                    {
                         alpha = (byte)DEFAULT_PROGRESS_ALPHA;
+                    }
                 }
 
-                Pen p = new Pen(new SolidColorBrush(Color.FromArgb(alpha, this.TickColor.R, this.TickColor.G, this.TickColor.B)), this.TickWidth);
+                var p = new Pen(new SolidColorBrush(Color.FromArgb(alpha, this.TickColor.R, this.TickColor.G, this.TickColor.B)), this.TickWidth);
                 p.StartLineCap = p.EndLineCap = this.TickStyle;
                 dc.DrawLine(p, this.spokes[i].StartPoint, this.spokes[i].EndPoint);
 
@@ -872,7 +900,9 @@ namespace SimpleMusicPlayer.Core
                 {
                     alpha -= (byte)this.alphaChange;
                     if (alpha < this.LowestAlpha)
+                    {
                         alpha = (byte)this.LowestAlpha;
+                    }
                 }
             }
 
@@ -892,20 +922,25 @@ namespace SimpleMusicPlayer.Core
         /// <param name="e">EventArgs</param>
         void OnRenderTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() => {
+            this.Dispatcher.BeginInvoke(new Action(() =>
+            {
                 if (this.Rotation == Direction.CLOCKWISE)
                 {
                     this.renderStartAngle += this.angleIncrement;
 
                     if (this.renderStartAngle >= 360)
+                    {
                         this.renderStartAngle -= 360;
+                    }
                 }
                 else if (this.Rotation == Direction.ANTICLOCKWISE)
                 {
                     this.renderStartAngle -= this.angleIncrement;
 
                     if (this.renderStartAngle <= -360)
+                    {
                         this.renderStartAngle += 360;
+                    }
                 }
 
                 // Force re-rendering of control
@@ -978,6 +1013,7 @@ namespace SimpleMusicPlayer.Core
                     this.renderTimer.Elapsed -= this.OnRenderTimerElapsed;
                     this.renderTimer.Dispose();
                 }
+
                 this.IsVisibleChanged -= this.OnVisibilityChanged;
             }
 

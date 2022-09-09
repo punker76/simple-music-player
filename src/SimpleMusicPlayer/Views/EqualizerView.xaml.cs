@@ -24,17 +24,17 @@ namespace SimpleMusicPlayer.Views
 
         public EqualizerViewModel ViewModel
         {
-            get { return (EqualizerViewModel)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (EqualizerViewModel)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
 
         public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(EqualizerViewModel), typeof(EqualizerView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ViewModel), typeof(EqualizerViewModel), typeof(EqualizerView), new PropertyMetadata(null));
 
         object IViewFor.ViewModel
         {
-            get { return ViewModel; }
-            set { ViewModel = (EqualizerViewModel)value; }
+            get => ViewModel;
+            set => ViewModel = (EqualizerViewModel)value;
         }
     }
 }
