@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
     <!-- Project properties -->
     <PropertyGroup>
@@ -37,6 +37,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="System.ServiceModel.Primitives" Version="4.10.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="NLog" Version="5.0.4" />
         <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
@@ -70,7 +71,6 @@
     </ItemGroup>
 
     <ItemGroup Condition="$(DefineConstants.Contains(NETCOREAPP)) == true">
-        <PackageReference Include="SingleInstanceCore" Version="2.2.0" />
         <PackageReference Include="MaterialDesignThemes" Version="4.1.0" />
         <PackageReference Include="MaterialDesignColors" Version="2.0.1" />
     </ItemGroup>
