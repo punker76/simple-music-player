@@ -4,6 +4,6 @@ namespace SimpleMusicPlayer.Core.Interfaces
 {
     public interface IKeyHandler
     {
-        bool HandleKeyDown(Key key);
+        bool HandleKeyDown(KeyEventArgs args);
     }
 }

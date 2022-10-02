@@ -54,9 +54,9 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayListsViewModel.SavePlayList();
         }
 
-        public bool HandleKeyDown(Key key)
+        public bool HandleKeyDown(KeyEventArgs args)
         {
-            if (this.PlayControlInfoViewModel.PlayControlViewModel.HandleKeyDown(key))
+            if (this.PlayControlInfoViewModel.PlayControlViewModel.HandleKeyDown(args))
             {
                 return true;
             }

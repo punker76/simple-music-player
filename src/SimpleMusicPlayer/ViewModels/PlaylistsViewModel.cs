@@ -295,10 +295,10 @@ namespace SimpleMusicPlayer.ViewModels
              */
         }
 
-        public bool HandleKeyDown(Key key)
+        public bool HandleKeyDown(KeyEventArgs args)
         {
             var handled = false;
-            switch (key)
+            switch (args.Key)
             {
                 case Key.Enter:
                     handled = this.PlayCommand.CanExecute(null);

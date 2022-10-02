@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 using System.Windows;
@@ -202,10 +203,10 @@ namespace SimpleMusicPlayer.ViewModels
             await ((MetroWindow)Application.Current.MainWindow).ShowChildWindowAsync(view);
         }
 
-        public bool HandleKeyDown(Key key)
+        public bool HandleKeyDown(KeyEventArgs args)
         {
             var handled = false;
-            switch (key)
+            switch (args.Key)
             {
                 case Key.R:
                     break;
@@ -217,6 +218,22 @@ namespace SimpleMusicPlayer.ViewModels
                 case Key.Left:
                     var newPos = (long)this.PlayerEngine.CurrentPositionMs - 5000;
                     this.PlayerEngine.SetCurrentPosition((uint)(newPos < 0 ? 0 : newPos));
+                    break;
+                case Key.Up:
+                    if (Keyboard.Modifiers == ModifierKeys.Control)
+                    {
+                        this.PlayerEngine.Volume = Math.Min(100, this.PlayerEngine.Volume + 5);
+                        handled = true;
+                    }
+
+                    break;
+                case Key.Down:
+                    if (Keyboard.Modifiers == ModifierKeys.Control)
+                    {
+                        this.PlayerEngine.Volume = Math.Max(0, this.PlayerEngine.Volume - 5);
+                        handled = true;
+                    }
+
                     break;
                 case Key.J:
                     handled = this.PlayNextCommand.CanExecute(null);
