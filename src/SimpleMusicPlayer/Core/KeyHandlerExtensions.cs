@@ -16,7 +16,7 @@ namespace SimpleMusicPlayer.Core
             }
             else if (keyHandler != null)
             {
-                var handled = keyHandler.HandleKeyDown(e.Key);
+                var handled = keyHandler.HandleKeyDown(e);
                 e.Handled = handled;
             }
         }
