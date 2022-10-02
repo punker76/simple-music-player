@@ -25,7 +25,8 @@ namespace SimpleMusicPlayer.ViewModels
             this.PlayerEngine = container.Resolve<PlayerEngine>();
             this.PlayerSettings = container.Resolve<PlayerSettings>();
 
-            this.PlayerEngine.PlayNextFileAction = () => {
+            this.PlayerEngine.PlayNextFileAction = () =>
+            {
                 var playerMustBeStoped = !this.CanPlayNext();
                 if (!playerMustBeStoped)
                 {
@@ -37,6 +38,7 @@ namespace SimpleMusicPlayer.ViewModels
                         this.PlayNext();
                     }
                 }
+
                 if (playerMustBeStoped)
                 {
                     this.Stop();
@@ -100,6 +102,7 @@ namespace SimpleMusicPlayer.ViewModels
             {
                 return false;
             }
+
             var canPlay = (this.PlayerEngine.CurrentMediaFile != null && this.PlayerEngine.State != PlayerState.Play)
                           || (this.playListsViewModel.FirstSimplePlaylistFiles != null && this.playListsViewModel.FirstSimplePlaylistFiles.OfType<IMediaFile>().Any());
             var canPause = this.PlayerEngine.CurrentMediaFile != null && this.PlayerEngine.State == PlayerState.Play;
@@ -208,12 +211,20 @@ namespace SimpleMusicPlayer.ViewModels
                     break;
                 case Key.S:
                     break;
+                case Key.Right:
+                    this.PlayerEngine.SetCurrentPosition(this.PlayerEngine.CurrentPositionMs + 5000);
+                    break;
+                case Key.Left:
+                    var newPos = (long)this.PlayerEngine.CurrentPositionMs - 5000;
+                    this.PlayerEngine.SetCurrentPosition((uint)(newPos < 0 ? 0 : newPos));
+                    break;
                 case Key.J:
                     handled = this.PlayNextCommand.CanExecute(null);
                     if (handled)
                     {
                         this.PlayNextCommand.Execute(null);
                     }
+
                     break;
                 case Key.K:
                     handled = this.PlayPrevCommand.CanExecute(null);
@@ -221,6 +232,7 @@ namespace SimpleMusicPlayer.ViewModels
                     {
                         this.PlayPrevCommand.Execute(null);
                     }
+
                     break;
                 case Key.M:
                     break;
@@ -230,10 +242,12 @@ namespace SimpleMusicPlayer.ViewModels
                     {
                         this.PlayOrPauseCommand.Execute(null);
                     }
+
                     break;
                 case Key.E:
                     break;
             }
+
             return handled;
         }
     }

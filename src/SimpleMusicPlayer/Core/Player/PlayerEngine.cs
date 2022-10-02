@@ -18,6 +18,7 @@ namespace SimpleMusicPlayer.Core.Player
             {
                 playerEngine.ConfigureInternal();
             }
+
             return playerEngine;
         }
     }
@@ -73,7 +74,8 @@ namespace SimpleMusicPlayer.Core.Player
                 this.LengthMs = 0;
 
                 this.WhenAnyValue(x => x.Volume)
-                    .Subscribe(newVolume => {
+                    .Subscribe(newVolume =>
+                    {
                         this.playerSettings.PlayerEngine.Volume = newVolume;
 
                         ChannelGroup masterChannelGroup;
@@ -83,7 +85,8 @@ namespace SimpleMusicPlayer.Core.Player
                     });
 
                 this.WhenAnyValue(x => x.IsMute)
-                    .Subscribe(mute => {
+                    .Subscribe(mute =>
+                    {
                         this.playerSettings.PlayerEngine.Mute = mute;
 
                         ChannelGroup masterChannelGroup;
@@ -99,8 +102,7 @@ namespace SimpleMusicPlayer.Core.Player
                 this.SetCurrentPositionMs = ReactiveCommand.Create(
                     () =>
                     {
-                        var newPos = this.CurrentPositionMs >= this.LengthMs ? this.LengthMs - 1 : this.CurrentPositionMs;
-                        this.channelInfo?.SetCurrentPositionMs(newPos);
+                        this.SetCurrentPosition(this.CurrentPositionMs);
                         this.CanSetCurrentPositionMs = false;
                     },
                     canSetCurrentPosition);
@@ -108,9 +110,9 @@ namespace SimpleMusicPlayer.Core.Player
                 this.SetCurrentPositionMs.ThrownExceptions.Subscribe(ex => this.Log().ErrorException("Something went wrong", ex));
 
                 this.timer = new DispatcherTimer(TimeSpan.FromMilliseconds(10),
-                                                 DispatcherPriority.Normal,
-                                                 this.PlayTimerCallback,
-                                                 Application.Current.Dispatcher);
+                    DispatcherPriority.Normal,
+                    this.PlayTimerCallback,
+                    Application.Current.Dispatcher);
                 this.timer.Stop();
 
                 this.Initializied = true;
@@ -122,6 +124,13 @@ namespace SimpleMusicPlayer.Core.Player
                 this.Log().FatalException("Something went wrong", exception);
                 return false;
             }
+        }
+
+        public void SetCurrentPosition(uint newPos)
+        {
+            var pos = newPos >= this.LengthMs ? this.LengthMs - 1 : newPos;
+            this.Log().Debug($"Set new position to {pos}");
+            this.channelInfo?.SetCurrentPositionMs(pos);
         }
 
         private void PlayTimerCallback(object sender, EventArgs e)
